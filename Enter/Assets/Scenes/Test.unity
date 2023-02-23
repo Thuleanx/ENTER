@@ -454,6 +454,8 @@ MonoBehaviour:
   _jumpSpeed: 12
   _gravity: -35
   _maxFall: -10
+  _jumpPeakMultiplier: 0.5
+  _jumpPeakThreshold: 2
   _lowJumpMultiplier: 2.5
   _coyoteTime: 0.1
 --- !u!50 &880820190

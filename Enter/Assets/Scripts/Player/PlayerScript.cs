@@ -25,6 +25,14 @@ public class PlayerScript : MonoBehaviour
   [SerializeField, Tooltip("Maximum speed when falling due to gravity.")]
   private float _maxFall = -10;
 
+  [Header("Adjustments")]
+
+  [SerializeField, Tooltip("Gravity multiplier for when absolute vertical velocity is less than threshold.")]
+  private float _jumpPeakMultiplier = .5f;
+
+  [SerializeField, Tooltip("Threshold for the above.")]
+  private float _jumpPeakThreshold = 2f;
+
   [SerializeField, Tooltip("Gravity multiplier for when the jump input is not held down.")]
   private float _lowJumpMultiplier = 2.5f;
 
@@ -93,7 +101,10 @@ public class PlayerScript : MonoBehaviour
     float multiplier = 1;
 
     // Implement "low jumps"
-    if (_rb.velocity.y > 0 && !_in.Jump) multiplier = _lowJumpMultiplier;
+    if (_rb.velocity.y > 0 && !_in.Jump) multiplier *= _lowJumpMultiplier;
+
+    // Implement "lower gravity at peak of jump"
+    if (Mathf.Abs(_rb.velocity.y) < _jumpPeakThreshold) multiplier *= _jumpPeakMultiplier;
 
     // Fall, but cap falling velocity
     _rb.velocity = new Vector2(
