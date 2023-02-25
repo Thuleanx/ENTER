@@ -46,7 +46,7 @@ namespace Enter {
 					rootObjectOfCurrentScene = obj?.GetComponent<Transform>();
 			if (rootObjectOfCurrentScene == null) Debug.Log("Root object not found");
 
-			rootObjectOfCurrentScene.transform.position = exitAnchor.transform.position - entranceAnchor.transform.position;
+			rootObjectOfCurrentScene.transform.position += exitAnchor.transform.position - entranceAnchor.transform.position;
 
 			foreach (Camera cam in FindObjectsOfType<Camera>())
 				if (cam.gameObject.scene == previousScene) 
