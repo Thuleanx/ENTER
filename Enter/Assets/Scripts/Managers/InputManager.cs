@@ -25,7 +25,10 @@ public class InputManager : MonoBehaviour
     Instance = this;
   }
 
-  public void OnMove      (InputAction.CallbackContext c) => Data.Move = c.ReadValue<Vector2>();
+  public void OnMove      (InputAction.CallbackContext c) {
+    Debug.Log("HI");
+    Data.Move = c.ReadValue<Vector2>();
+  }
   public void OnJump      (InputAction.CallbackContext c) => Data.Jump  = (c.started || c.canceled) ? c.started : Data.Jump;
   public void OnMouse     (InputAction.CallbackContext c) => Data.Mouse = c.ReadValue<Vector2>();
 	public void OnLeftClick (InputAction.CallbackContext c) => Data.LDown = (c.started || c.canceled) ? c.started : Data.LDown;
