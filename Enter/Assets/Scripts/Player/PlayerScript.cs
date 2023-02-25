@@ -6,6 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerColliderScript))]
 public class PlayerScript : MonoBehaviour
 {
+	static PlayerScript Instance = null;
   private Rigidbody2D          _rb;
   private PlayerColliderScript _co;
 
@@ -41,6 +42,15 @@ public class PlayerScript : MonoBehaviour
   private float _lastGroundedTime = -Mathf.Infinity;
 
   // ================== Methods
+
+  private void Awake() {
+	if (Instance) Destroy(gameObject);
+	else {
+		transform.SetParent(null);
+		Instance = this;
+		DontDestroyOnLoad(gameObject);
+	}
+  }
 
   void Start()
 	{
