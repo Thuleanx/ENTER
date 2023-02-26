@@ -14,7 +14,7 @@ namespace Enter
 
     public static bool IsTransitioning = false;
 
-    // ================== Methods
+    #region ================== Methods
 
     void Awake()
     {
@@ -28,7 +28,9 @@ namespace Enter
       return true;
     }
 
-    // ================== Helpers
+    #endregion
+
+    #region ================== Helpers
 
     private IEnumerator _transitionTo(SceneReference nextScene)
     {
@@ -82,5 +84,7 @@ namespace Enter
 
       SceneManager.UnloadSceneAsync(previousScene);
     }
+
+    #endregion
   }
 }

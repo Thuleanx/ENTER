@@ -7,7 +7,8 @@ using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Enter.Utils {
+namespace Enter.Utils 
+{
   /// <summary>
   /// Class used to serialize a reference to a scene asset that can be used
   /// at runtime in a build, when the asset can no longer be directly

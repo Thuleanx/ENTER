@@ -13,7 +13,8 @@ using UnityEngine;
 /// solutions when the scene is not valid.
 /// </summary>
 [CustomPropertyDrawer(typeof(SceneReference))]
-public class SceneReferenceEditor : PropertyDrawer {
+public class SceneReferenceEditor : PropertyDrawer
+{
   #region -- Constants --------------------------------------------------
   private const string TOOLTIP_SCENE_MISSING =
     "Scene is not in build settings.";
