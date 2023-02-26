@@ -25,17 +25,17 @@ public class PlayerColliderScript : MonoBehaviour
 
   // ================== Accessors
 
-  [field: SerializeField] public bool OnGround    { get; private set; }
-  [field: SerializeField] public bool OnRightWall { get; private set; }
-  [field: SerializeField] public bool OnLeftWall  { get; private set; }
+  [field:SerializeField] public bool OnGround    { get; private set; }
+  [field:SerializeField] public bool OnRightWall { get; private set; }
+  [field:SerializeField] public bool OnLeftWall  { get; private set; }
 
-  [field: SerializeField] public bool TopLeftmost  { get; private set; }
-  [field: SerializeField] public bool TopLeft      { get; private set; }
-  [field: SerializeField] public bool TopRight     { get; private set; }
-  [field: SerializeField] public bool TopRightmost { get; private set; }
+  [field:SerializeField] public bool TopLeftmost  { get; private set; }
+  [field:SerializeField] public bool TopLeft      { get; private set; }
+  [field:SerializeField] public bool TopRight     { get; private set; }
+  [field:SerializeField] public bool TopRightmost { get; private set; }
 
-  [property: SerializeField] public Vector2 ToRightNudge => _topLeftOffset  - _topLeftmostOffset;
-  [property: SerializeField] public Vector2 ToLeftNudge  => _topRightOffset - _topRightmostOffset;
+  [property:SerializeField] public Vector2 ToRightNudge => _topLeftOffset  - _topLeftmostOffset;
+  [property:SerializeField] public Vector2 ToLeftNudge  => _topRightOffset - _topRightmostOffset;
 
   // ================== Methods
 
