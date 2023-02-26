@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerColliderScript))]
 public class PlayerScript : MonoBehaviour
 {
-	static PlayerScript Instance = null;
+  static PlayerScript Instance = null;
   private Rigidbody2D          _rb;
   private PlayerColliderScript _co;
 
@@ -26,7 +26,7 @@ public class PlayerScript : MonoBehaviour
   [SerializeField, Tooltip("Maximum speed when falling due to gravity.")]
   private float _maxFall = -10;
 
-  [Header("Adjustments")]
+  [Header("Movement Tweaks")]
 
   [SerializeField, Tooltip("Gravity multiplier for when absolute vertical velocity is less than threshold.")]
   private float _jumpPeakMultiplier = .5f;
@@ -35,26 +35,35 @@ public class PlayerScript : MonoBehaviour
   private float _jumpPeakThreshold = 2f;
 
   [SerializeField, Tooltip("Gravity multiplier for when the jump input is not held down.")]
-  private float _lowJumpMultiplier = 2.5f;
+  private float _lowJumpMultiplier = 3f;
 
   [SerializeField, Tooltip("Time after becoming ungrounded by any means other than jumping, during which jumping is permitted.")]
-  private float _coyoteTime = 0.1f;
+  private float _coyoteTime = 0.15f;
   private float _lastGroundedTime = -Mathf.Infinity;
+
+  // Other
+
+  private bool _alreadyNudged;
 
   // ================== Methods
 
-  private void Awake() {
-	if (Instance) Destroy(gameObject);
-	else {
-		transform.SetParent(null);
-		Instance = this;
-		DontDestroyOnLoad(gameObject);
-	}
+  private void Awake()
+  {
+    if (Instance) 
+    {
+      Destroy(gameObject);
+    }
+    else
+    {
+      transform.SetParent(null);
+      Instance = this;
+      DontDestroyOnLoad(gameObject);
+    }
   }
 
   void Start()
-	{
-		_rb = GetComponent<Rigidbody2D>();
+  {
+    _rb = GetComponent<Rigidbody2D>();
     _co = GetComponent<PlayerColliderScript>();
     _in = InputManager.Instance.Data;
   }
@@ -64,7 +73,7 @@ public class PlayerScript : MonoBehaviour
     handleMovement();
   }
 
-	// ================== Helpers
+  // ================== Helpers
 
   private void handleMovement()
   {
@@ -95,15 +104,25 @@ public class PlayerScript : MonoBehaviour
 
   private void handleMidairNudge()
   {
-    // Do not nudge if grounded or falling
-    if (_co.OnGround || _rb.velocity.y < Mathf.Epsilon) return;
+    // Do not nudge if falling
+    if (_rb.velocity.y < 0.001f) 
+    {
+      _alreadyNudged = false;
+      return;
+    }
+
+    // Do not nudge if already nudged
+    if (_alreadyNudged) return;
 
     // Do not nudge if center two raycasts are obstructed
     if (_co.TopLeft || _co.TopRight) return;
 
-    // Nudge
-    if (_co.TopLeftmost && !_co.TopRightmost) _rb.position += _co.ToRightNudge;
-    if (!_co.TopLeftmost && _co.TopRightmost) _rb.position += _co.ToLeftNudge;
+    // Nudge if one, but not both, side raycasts are obstructed
+    if (_co.TopLeftmost ^ _co.TopRightmost) 
+    {
+      _alreadyNudged = true;
+      _rb.position += _co.Nudge;
+    }
   }
 
   private void handleGravity()
