@@ -43,8 +43,11 @@ namespace Enter
     private float _lowJumpMultiplier = 3f;
 
     [SerializeField, Tooltip("Time after becoming ungrounded by any means other than jumping, during which jumping is permitted.")]
-    private float _coyoteTime = 0.15f;
+    private float _coyoteTime = 0.05f;
     private float _lastGroundedTime = -Mathf.Infinity;
+
+    [SerializeField, Tooltip("Additional coyote time after falling off an RCBox while stationary.")]
+    private float _additionalRCBoxCoyoteTime = 0.1f;
 
     private bool _alreadyNudged;
 
@@ -101,6 +104,9 @@ namespace Enter
 
     private void handleMovement()
     {
+      // Reset velocity to zero to preemptively avoid weird, small things
+      if (_rb.velocity.sqrMagnitude < 0.01f) _rb.velocity = Vector2.zero;
+
       handleWalk();
       handleJump();
       handleMidairNudge();
@@ -118,6 +124,9 @@ namespace Enter
       // Store last grounded time for coyote-time purposes
       if (_co.OnGround) _lastGroundedTime = Time.time;
 
+      // Implements additional coyote time for falling off an RCBox while stationary
+      if (_co.OnRCBox && Mathf.Abs(_rb.velocity.x) < 0.01f) _lastGroundedTime = Time.time + _additionalRCBoxCoyoteTime;
+
       // Jump if grounded or within coyote-time interval
       if (_in.Jump && (_co.OnGround || Time.time - _coyoteTime < _lastGroundedTime))
       {
@@ -129,7 +138,7 @@ namespace Enter
     private void handleMidairNudge()
     {
       // Do not nudge if falling
-      if (_rb.velocity.y < 0.001f) 
+      if (_rb.velocity.y < 0.01f) 
       {
         _alreadyNudged = false;
         return;
@@ -184,6 +193,7 @@ namespace Enter
       _isDead = false;
       _rb.position = _temporaryDeathSpawnPosition;
     }
+
     #endregion
   }
 }

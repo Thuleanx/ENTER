@@ -643,7 +643,8 @@ MonoBehaviour:
   _jumpPeakMultiplier: 0.5
   _jumpPeakThreshold: 2
   _lowJumpMultiplier: 3
-  _coyoteTime: 0.15
+  _coyoteTime: 0.05
+  _additionalRCBoxCoyoteTime: 0.1
   _temporaryDeathSpawnPosition: {x: -7.5, y: -1.5, z: 0}
   _deathRespawnDelay: 0.5
 --- !u!50 &880820190
@@ -705,16 +706,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f0ab77725b644f18bdf32cddd235775, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _envLayer:
+  _solidLayers:
     serializedVersion: 2
     m_Bits: 6144
+  _rcBoxLayer:
+    serializedVersion: 2
+    m_Bits: 2048
   _halfH: 0.25
   _halfW: 0.25
-  _collisionRadius: 0.1
+  _offset: 0.02
   _rayDistance: 0.5
-  _outerFrac: 1.01
+  _outerFrac: 1.02
   _innerFrac: 0.25
   <OnGround>k__BackingField: 0
+  <OnRCBox>k__BackingField: 0
   <TopLeftmost>k__BackingField: 0
   <TopLeft>k__BackingField: 0
   <TopRight>k__BackingField: 0
@@ -1414,8 +1419,8 @@ Transform:
   - {fileID: 1301012865}
   - {fileID: 117185857}
   - {fileID: 921583801}
-  - {fileID: 1837537297}
   - {fileID: 1522763094}
+  - {fileID: 1837537297}
   - {fileID: 1735817484}
   m_Father: {fileID: 1465454382}
   m_RootOrder: 2

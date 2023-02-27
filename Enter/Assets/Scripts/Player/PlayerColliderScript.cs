@@ -27,6 +27,7 @@ namespace Enter
     #region ================== Accessors
 
     [field:SerializeField] public bool OnGround { get; private set; }
+    [field:SerializeField] public bool OnRCBox  { get; private set; }
 
     [field:SerializeField] public bool TopLeftmost  { get; private set; }
     [field:SerializeField] public bool TopLeft      { get; private set; }
@@ -46,6 +47,11 @@ namespace Enter
         getOffsetPosition(-_halfW, -_halfH - _offset),
         getOffsetPosition(+_halfW, -_halfH - _offset),
         _solidLayers);
+
+      OnRCBox = Physics2D.Linecast(
+        getOffsetPosition(-_halfW, -_halfH - _offset),
+        getOffsetPosition(+_halfW, -_halfH - _offset),
+        _rcBoxLayer);
 
       TopLeftmost  = Physics2D.Raycast(getOffsetPosition(-_halfW * _outerFrac, _halfH), Vector2.up, _rayDistance, _solidLayers).collider != null;
       TopLeft      = Physics2D.Raycast(getOffsetPosition(-_halfW * _innerFrac, _halfH), Vector2.up, _rayDistance, _solidLayers).collider != null;
