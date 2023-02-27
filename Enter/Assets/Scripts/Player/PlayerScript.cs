@@ -4,11 +4,13 @@ using UnityEngine;
 
 namespace Enter
 {
+  [DisallowMultipleComponent]
   [RequireComponent(typeof(Rigidbody2D))]
   [RequireComponent(typeof(PlayerColliderScript))]
   public class PlayerScript : MonoBehaviour
   {
-    static PlayerScript Instance = null;
+    public static PlayerScript Instance = null;
+
     private Rigidbody2D          _rb;
     private PlayerColliderScript _co;
     private InputData            _in;
@@ -46,13 +48,23 @@ namespace Enter
 
     private bool _alreadyNudged;
 
+    [Header("Death")]
+
+    [SerializeField, Tooltip("Temporary. This should be obtained from the level.")]
+    private Vector3 _temporaryDeathSpawnPosition = new Vector3(-7.5f, -1.5f, 0);
+
+    [SerializeField, Tooltip("Amount of time between the player dying and respawning.")]
+    private float _deathRespawnDelay = 0.5f;
+
+    private bool _isDead;
+
     #endregion
 
     #region ================== Methods
 
     private void Awake()
     {
-      if (Instance) 
+      if (Instance)
       {
         Destroy(gameObject);
       }
@@ -73,7 +85,14 @@ namespace Enter
 
     void FixedUpdate()
     {
+      if (_isDead) return;
+
       handleMovement();
+    }
+
+    public void Die()
+    {
+      StartCoroutine("die");
     }
 
     #endregion
@@ -153,6 +172,18 @@ namespace Enter
       return Mathf.Max(start + c, stop);
     }
 
+    private IEnumerator die()
+    {
+      _isDead = true;
+      _rb.velocity = Vector2.zero;
+
+      Debug.Log("Oops, you died");
+
+      yield return new WaitForSeconds(_deathRespawnDelay);
+
+      _isDead = false;
+      _rb.position = _temporaryDeathSpawnPosition;
+    }
     #endregion
   }
 }
