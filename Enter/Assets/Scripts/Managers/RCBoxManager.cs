@@ -1,83 +1,96 @@
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.InputSystem;
-using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
-[DisallowMultipleComponent]
-public class RCBoxManager : MonoBehaviour
+namespace Enter
 {
-  public static RCBoxManager Instance;
-
-  private InputData  _in;
-
-  [SerializeField] private GameObject _rc;
-
-  private float _lastRCTime = -Mathf.Infinity;
-
-  [SerializeField] private float _minRCInterval = 1;
-  [SerializeField] private float _rcBoxFadeoutTime = 0;
-
-  // ================== Methods
-
-  void Awake()
+  [DisallowMultipleComponent]
+  public class RCBoxManager : MonoBehaviour
   {
-    Instance = this;
+    public static RCBoxManager Instance;
 
-    Assert.IsNotNull(_rc, "RCBoxManager must have a reference to GameObject RCBox.");
-  }
+    private InputData _in;
 
-  void Start()
-  {
-    _in = InputManager.Instance.Data;
-  }
+    [SerializeField] private GameObject _rc;
 
-  void FixedUpdate()
-  {
-    if (_in.LDown && _rc.activeSelf)
+    [SerializeField] private float _lastRCTime = -Mathf.Infinity;
+    [SerializeField] private float _minRCInterval = 1;
+    [SerializeField] private float _rcBoxFadeoutTime = 0;
+
+    #region ================== Methods
+
+    void Awake()
     {
-      _in.LDown = false;
-      StartCoroutine("disappearRC");
+      Instance = this;
+      Assert.IsNotNull(_rc, "RCBoxManager must have a reference to GameObject RCBox.");
     }
 
-    if (_in.RDown && Time.time - _minRCInterval > _lastRCTime)
+    void Start()
     {
-      _in.RDown = false;
-      StartCoroutine("appearRC");
+      _in = InputManager.Instance.Data;
     }
-  }
 
-  // ================== Helpers
+    void FixedUpdate()
+    {
+      // RCBox disappears on left click
+      if (_in.LDown && _rc.activeSelf)
+      {
+        _in.LDown = false;
+        StartCoroutine("disappearRC");
+      }
 
-  private IEnumerator disappearRC()
-  {
-    yield return fadeout();
+      // RCBox appears on right click
+      if (_in.RDown && Time.time - _minRCInterval > _lastRCTime)
+      {
+        _in.RDown = false;
+        StartCoroutine("appearRC");
+      }
+    }
 
-    _rc.SetActive(false);
-  }
+    #endregion
 
-  private IEnumerator fadeout()
-  {
-    // Todo: actually fade it out
-    
-    yield return new WaitForSeconds(_rcBoxFadeoutTime);
-  }
+    #region ================== Helpers
 
-  private IEnumerator appearRC()
-  {
-    if (_rc.activeSelf) yield return fadeout();
+    private IEnumerator disappearRC()
+    {
+      // Make the RCBox disappear
+      yield return fadeout();
+    }
 
-    _rc.transform.position = getRCBoxPosition();
-    _rc.SetActive(true);
-  }
+    private IEnumerator appearRC()
+    {
+      // If the RCBox is already present, make it disappear
+      if (_rc.activeSelf) yield return fadeout();
 
-  private Vector3 getRCBoxPosition()
-  {
-    // Todo: account for RCBox's own size via an offset
+      // Spawn in at this location
+      _rc.transform.position = getRCBoxPosition();
+      _rc.SetActive(true);
+    }
 
-    return Camera.main.ScreenToWorldPoint(new Vector3(
-      _in.Mouse.x,
-      _in.Mouse.y,
-      Camera.main.nearClipPlane));
+    private IEnumerator fadeout()
+    {
+      // Optional:
+      // we can use this to implement a delay to the 
+      // RCBox disappearing, or for other effects
+      
+      yield return new WaitForSeconds(_rcBoxFadeoutTime);
+      _rc.SetActive(false);
+    }
+
+    private Vector3 getRCBoxPosition()
+    {
+      // Todo:
+      // account for RCBox's own size via an offset,
+      // either here or in its parent-child transforms
+
+      return Camera.main.ScreenToWorldPoint(new Vector3(
+        _in.Mouse.x,
+        _in.Mouse.y,
+        Camera.main.nearClipPlane));
+    }
+
+    #endregion
   }
 }
