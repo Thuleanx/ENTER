@@ -15,14 +15,15 @@ namespace Enter
     [SerializeField] private float _halfW  = 0.25f;
 
     [Header("Ground Linecast Position Tweaks")]
-    [SerializeField] private float _offset = 0.02f;
+    [SerializeField] private float _groundRayDistance = 0.02f;
 
     [Header("Overhead Raycast Position Tweaks")]
-    [SerializeField] private float _rayDistance = 0.5f;
+    [SerializeField] private float _overheadRayDistance = 0.5f;
     [SerializeField] private float _outerFrac = 1.02f;
     [SerializeField] private float _innerFrac = 0.25f;
 
-    private Vector2 _lineOffset => new Vector2(0, _rayDistance);
+    private Vector2 _groundRayOffset   => new Vector2(0, -_groundRayDistance);
+    private Vector2 _overheadRayOffset => new Vector2(0, +_overheadRayDistance);
 
     #region ================== Accessors
 
@@ -43,20 +44,13 @@ namespace Enter
 
     void FixedUpdate()
     {
-      OnGround = Physics2D.Linecast(
-        getOffsetPosition(-_halfW, -_halfH - _offset),
-        getOffsetPosition(+_halfW, -_halfH - _offset),
-        _solidLayers);
+      OnGround = groundCheckHelper(_solidLayers);
+      OnRCBox  = groundCheckHelper(_rcBoxLayer);
 
-      OnRCBox = Physics2D.Linecast(
-        getOffsetPosition(-_halfW, -_halfH - _offset),
-        getOffsetPosition(+_halfW, -_halfH - _offset),
-        _rcBoxLayer);
-
-      TopLeftmost  = Physics2D.Raycast(getOffsetPosition(-_halfW * _outerFrac, _halfH), Vector2.up, _rayDistance, _solidLayers).collider != null;
-      TopLeft      = Physics2D.Raycast(getOffsetPosition(-_halfW * _innerFrac, _halfH), Vector2.up, _rayDistance, _solidLayers).collider != null;
-      TopRight     = Physics2D.Raycast(getOffsetPosition(+_halfW * _innerFrac, _halfH), Vector2.up, _rayDistance, _solidLayers).collider != null;
-      TopRightmost = Physics2D.Raycast(getOffsetPosition(+_halfW * _outerFrac, _halfH), Vector2.up, _rayDistance, _solidLayers).collider != null;
+      TopLeftmost  = raycastHelper(-_halfW * _outerFrac, _halfH, Vector2.up, _overheadRayDistance, _solidLayers);
+      TopLeft      = raycastHelper(-_halfW * _innerFrac, _halfH, Vector2.up, _overheadRayDistance, _solidLayers);
+      TopRight     = raycastHelper(+_halfW * _innerFrac, _halfH, Vector2.up, _overheadRayDistance, _solidLayers);
+      TopRightmost = raycastHelper(+_halfW * _outerFrac, _halfH, Vector2.up, _overheadRayDistance, _solidLayers);
 
       if (TopLeftmost ^ TopRightmost) 
       {
@@ -68,14 +62,13 @@ namespace Enter
     {
       Gizmos.color = Color.red;
 
-      Gizmos.DrawLine(
-        getOffsetPosition(-_halfW, -_halfH - _offset),
-        getOffsetPosition(+_halfW, -_halfH - _offset));
+      drawLineHelper(-_halfW, -_halfH, _groundRayOffset);
+      drawLineHelper(+_halfW, -_halfH, _groundRayOffset);
 
-      Gizmos.DrawLine(getOffsetPosition(-_halfW * _outerFrac, _halfH), getOffsetPosition(-_halfW * _outerFrac, _halfH) + _lineOffset);
-      Gizmos.DrawLine(getOffsetPosition(-_halfW * _innerFrac, _halfH), getOffsetPosition(-_halfW * _innerFrac, _halfH) + _lineOffset);
-      Gizmos.DrawLine(getOffsetPosition(+_halfW * _innerFrac, _halfH), getOffsetPosition(+_halfW * _innerFrac, _halfH) + _lineOffset);
-      Gizmos.DrawLine(getOffsetPosition(+_halfW * _outerFrac, _halfH), getOffsetPosition(+_halfW * _outerFrac, _halfH) + _lineOffset);
+      drawLineHelper(-_halfW * _outerFrac, +_halfH, _overheadRayOffset);
+      drawLineHelper(-_halfW * _innerFrac, +_halfH, _overheadRayOffset);
+      drawLineHelper(+_halfW * _innerFrac, +_halfH, _overheadRayOffset);
+      drawLineHelper(+_halfW * _outerFrac, +_halfH, _overheadRayOffset);
     }
 
     #endregion
@@ -85,6 +78,25 @@ namespace Enter
     private Vector2 getOffsetPosition(float v1, float v2)
     {
       return (Vector2)transform.position + new Vector2(v1, v2);
+    }
+
+    private bool raycastHelper(float localX, float localY, Vector2 direction, float distance, LayerMask layers)
+    {
+      return Physics2D.Raycast(getOffsetPosition(localX, localY), direction, distance, layers).collider != null;
+    }
+
+    private bool groundCheckHelper(LayerMask layers)
+    {
+      bool a = raycastHelper(-_halfW, -_halfH, -Vector2.up, _groundRayDistance, layers);
+      bool b = raycastHelper(+_halfW, -_halfH, -Vector2.up, _groundRayDistance, layers);
+      
+      return a || b;
+    }
+
+    private void drawLineHelper(float localX, float localY, Vector2 offset)
+    {
+      Vector2 start = getOffsetPosition(localX, localY);
+      Gizmos.DrawLine(start, start + offset);
     }
 
     #endregion
