@@ -15,6 +15,8 @@ namespace Enter
     private PlayerColliderScript _co;
     private InputData            _in;
 
+    private float _eps = 0.01f;
+
     #region ================== Variables
 
     [Header("Movement")]
@@ -125,7 +127,7 @@ namespace Enter
       if (_co.OnGround) _lastGroundedTime = Time.time;
 
       // Implements additional coyote time for falling off an RCBox while stationary
-      if (_co.OnRCBox && Mathf.Abs(_rb.velocity.x) < 0.01f) _lastGroundedTime = Time.time + _additionalRCBoxCoyoteTime;
+      if (_co.OnRCBox && Mathf.Abs(_rb.velocity.x) < _eps) _lastGroundedTime = Time.time + _additionalRCBoxCoyoteTime;
 
       // Jump if grounded or within coyote-time interval
       if (_in.Jump && (_co.OnGround || Time.time - _coyoteTime < _lastGroundedTime))
@@ -137,13 +139,16 @@ namespace Enter
 
     private void handleMidairNudge()
     {
-      // Do not nudge if falling
-      if (_rb.velocity.y < 0.01f) 
+      // Do not nudge if falling; also reset the _alreadyNudged boolean
+      if (_rb.velocity.y < _eps) 
       {
         _alreadyNudged = false;
         return;
       }
 
+      // Do not nudge if there's any significant horizontal velocity
+      if (Mathf.Abs(_rb.velocity.x) >= _eps) return;
+      
       // Do not nudge if already nudged
       if (_alreadyNudged) return;
 
@@ -151,7 +156,7 @@ namespace Enter
       if (_co.TopLeft || _co.TopRight) return;
 
       // Nudge if one, but not both, side raycasts are obstructed
-      if (_co.TopLeftmost ^ _co.TopRightmost) 
+      if (_co.TopLeftmost ^ _co.TopRightmost)
       {
         _alreadyNudged = true;
         _rb.position += _co.Nudge;

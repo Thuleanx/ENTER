@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4938257899265588617}
   - component: {fileID: 4184579959207269086}
   - component: {fileID: 6301297823316576814}
-  m_Layer: 12
+  m_Layer: 13
   m_Name: Deathbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,6 +124,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b755a429d48af43978d101a4ca8c77bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onInteract:
+  onInteractFunctions:
     m_PersistentCalls:
       m_Calls: []
