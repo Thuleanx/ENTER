@@ -7,7 +7,7 @@ namespace Enter
     protected override void OnInteract()
     {
       base.OnInteract();
-      PlayerScript.Instance.Die();
+      PlayerManager.Instance.PlayerScript.Die();
     }
   }
 }

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Enter
 {
-  public class EntryPassage : MonoBehaviour
+  public class SpawnPoint : MonoBehaviour
   {
     
   }

@@ -15,7 +15,7 @@ namespace Enter
     private PlayerColliderScript _co;
     private InputData            _in;
 
-    private float _eps = 0.01f;
+    private const float _eps = 0.001f;
 
     #region ================== Variables
 
@@ -55,9 +55,6 @@ namespace Enter
 
     [Header("Death")]
 
-    [SerializeField, Tooltip("Temporary. This should be obtained from the level.")]
-    private Vector3 _temporaryDeathSpawnPosition = new Vector3(-7.5f, -1.5f, 0);
-
     [SerializeField, Tooltip("Amount of time between the player dying and respawning.")]
     private float _deathRespawnDelay = 0.5f;
 
@@ -67,20 +64,11 @@ namespace Enter
 
     #region ================== Methods
 
-    private void Awake()
+    void Awake()
     {
-      if (Instance)
-      {
-        Destroy(gameObject);
-      }
-      else
-      {
-        transform.SetParent(null);
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-      }
+      Instance = this;
     }
-
+    
     void Start()
     {
       _rb = GetComponent<Rigidbody2D>();
@@ -196,7 +184,7 @@ namespace Enter
       yield return new WaitForSeconds(_deathRespawnDelay);
 
       _isDead = false;
-      _rb.position = _temporaryDeathSpawnPosition;
+      _rb.position = SceneTransitioner.Instance.SpawnPosition;
     }
 
     #endregion
