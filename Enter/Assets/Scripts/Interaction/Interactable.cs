@@ -5,13 +5,15 @@ namespace Enter
 {
   public class Interactable : MonoBehaviour
   {
-    [SerializeField] protected UnityEvent onInteract;
+    [SerializeField] protected UnityEvent onInteractFunctions;
 
-    protected virtual void OnInteract() { onInteract?.Invoke(); }
+    protected virtual void OnInteract()
+    { 
+      onInteractFunctions?.Invoke();
+    }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-      // Debug.Log(other);
       if (other.tag == "Player") OnInteract();
     }
   }

@@ -1,6 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 
 using Enter.Utils;
@@ -14,6 +15,8 @@ namespace Enter
 
     public static bool IsTransitioning = false;
 
+    private const float _eps = 0.001f;
+
     #region ================== Methods
 
     void Awake()
@@ -21,10 +24,10 @@ namespace Enter
       Instance = this;
     }
 
-    public bool TransitionTo(SceneReference nextScene)
+    public bool TransitionTo(ExitPassage exitPassage, SceneReference nextSceneReference)
     {
-      Debug.Log(nextScene);
-      StartCoroutine(_transitionTo(nextScene));
+      Debug.Log(nextSceneReference);
+      StartCoroutine(_transitionTo(exitPassage, nextSceneReference));
       return true;
     }
 
@@ -32,57 +35,75 @@ namespace Enter
 
     #region ================== Helpers
 
-    private IEnumerator _transitionTo(SceneReference nextScene)
+    private IEnumerator _transitionTo(ExitPassage exitPassage, SceneReference nextSceneReference)
     {
-      Scene previousScene = SceneManager.GetActiveScene();
+      Assert.IsNotNull(exitPassage, "Current scene's exitPassage must be provided.");
 
-      PassageAnchor exitAnchor = null;
-      foreach (PassageAnchor anchor in FindObjectsOfType<PassageAnchor>()) 
-        if (anchor.IsExit)
-          exitAnchor = anchor;
+      Scene prevScene = SceneManager.GetActiveScene();
 
-      if (!exitAnchor) Debug.Log("Exit anchor not found");
+      // Load nextScene (must wait one frame for additive scene load)
+      nextSceneReference.LoadScene(LoadSceneMode.Additive);
+      yield return null;
 
-      nextScene.LoadScene(LoadSceneMode.Additive);
+      // Get nextScene's entry passage
+      EntryPassage entryPassage = null;
+      foreach (EntryPassage x in FindObjectsOfType<EntryPassage>())
+      {
+        if (x.gameObject.scene != prevScene) entryPassage = x;
+      }
+      Assert.IsNotNull(entryPassage, "New scene's entryPassage not found.");
+
+      // Get nextScene's root transform
+      Transform rootTransform = entryPassage.transform.root;
+      Assert.IsNotNull(rootTransform, "New scene's root not found.");
+
+      // Get nextScene
+      Scene nextScene = entryPassage.gameObject.scene;
+
+      // Align nextScene
+      rootTransform.position += exitPassage.transform.position - entryPassage.transform.position;
+
+      // Allow camera movement time
+      yield return cameraTransition(prevScene, nextScene);
+
+      // Unload prevScene
+      SceneManager.UnloadSceneAsync(prevScene);
+    }
+
+    private IEnumerator cameraTransition(Scene prevScene, Scene nextScene)
+    {
+      // Disable prevScene's camera, so that nextScene's camera becomes the one in use
+      foreach (Camera x in FindObjectsOfType<Camera>())
+        if (x.gameObject.scene == prevScene) x.gameObject.SetActive(false);
+
+      // Get nextScene's camera (the only remaining one)
+      Camera camera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
+
+      // Max priority of prevScene's virtual camera, so that the camera snaps there
+      CinemachineVirtualCamera prevSceneVC = findHighestPriorityVC(prevScene);
+      Assert.IsNotNull(prevSceneVC, "Previous scene's virtual camera not found");
+      prevSceneVC.Priority = int.MaxValue;
 
       yield return null;
 
-      PassageAnchor entranceAnchor = null;
-      foreach (PassageAnchor anchor in FindObjectsOfType<PassageAnchor>()) 
-        if (!anchor.IsExit && anchor.gameObject.scene != previousScene)
-          entranceAnchor = anchor;
-      if (!entranceAnchor) Debug.Log("Entrance anchor not found");
-
-      Transform rootObjectOfCurrentScene = null;
-      foreach (GameObject obj in GameObject.FindGameObjectsWithTag("SceneRoot")) 
-        if (obj.scene != previousScene)
-          rootObjectOfCurrentScene = obj?.GetComponent<Transform>();
-      if (rootObjectOfCurrentScene == null) Debug.Log("Root object not found");
-
-      rootObjectOfCurrentScene.transform.position += exitAnchor.transform.position - entranceAnchor.transform.position;
-
-      foreach (Camera cam in FindObjectsOfType<Camera>())
-        if (cam.gameObject.scene == previousScene) 
-          cam.gameObject.SetActive(false);
-
-      yield return null;
-
-      foreach (CinemachineVirtualCamera cam in FindObjectsOfType<CinemachineVirtualCamera>()) 
-        if (cam.gameObject.scene == previousScene) 
-          cam.Priority = 0;
-
-      Camera camera = GameObject.FindWithTag("MainCamera")?.GetComponent<Camera>();
-      CinemachineVirtualCamera virtualCamera = null;
-      foreach (CinemachineVirtualCamera candidate in FindObjectsOfType<CinemachineVirtualCamera>())
-        if (candidate.gameObject.scene != previousScene)
-          if (virtualCamera == null || virtualCamera.Priority < candidate.Priority)
-            virtualCamera = candidate;
-          
-      float eps = 0.001f;
-      while (Vector3.Distance(camera.transform.position, virtualCamera.transform.position) > eps) 
+      // Min priority of prevScene's virtual camera
+      prevSceneVC.Priority = 0;
+      
+      // Wait until camera has moved to the highest-priority virtual camera in nextScene
+      CinemachineVirtualCamera nextSceneVC = findHighestPriorityVC(nextScene);
+      while (Vector3.Distance(camera.transform.position, nextSceneVC.transform.position) > _eps)
         yield return null;
+    }
 
-      SceneManager.UnloadSceneAsync(previousScene);
+    private CinemachineVirtualCamera findHighestPriorityVC(Scene scene)
+    {
+      CinemachineVirtualCamera highestPriorityVC = null;
+
+      foreach (CinemachineVirtualCamera x in FindObjectsOfType<CinemachineVirtualCamera>())
+        if (x.gameObject.scene == scene && (highestPriorityVC == null || highestPriorityVC.Priority < x.Priority))
+          highestPriorityVC = x;
+
+      return highestPriorityVC;
     }
 
     #endregion
