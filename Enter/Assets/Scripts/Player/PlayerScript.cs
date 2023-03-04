@@ -95,8 +95,6 @@ namespace Enter {
 			// Reset velocity to zero to preemptively avoid weird, small things
 			if (_rb.velocity.sqrMagnitude < 0.01f) _rb.velocity = Vector2.zero;
 
-			Debug.Log("Start frame: " + _rb.velocity);
-
 			handleWalk();
 			handleJump();
 			handleMidairNudge();
@@ -155,15 +153,10 @@ namespace Enter {
 			// Implement "lower gravity at peak of jump"
 			if (Mathf.Abs(_rb.velocity.y) < _jumpPeakThreshold) multiplier *= _jumpPeakMultiplier;
 
-			// If ground not reached since trasition, nudge player upwards if velocity is low
-			if (!_groundedAfterTransition && _rb.velocity.y > 0 && _rb.velocity.y <= 3 && !_co.HasGroundBelow) {
-				_rb.velocity = new Vector2(_rb.velocity.x, 3);
-			} else {
-				// Fall, but cap falling velocity
-				_rb.velocity = new Vector2(
-				_rb.velocity.x,
-				approach(_rb.velocity.y, _maxFall, _gravity * multiplier * Time.deltaTime));
-			}
+			// Fall, but cap falling velocity
+			_rb.velocity = new Vector2(
+			_rb.velocity.x,
+			approach(_rb.velocity.y, _maxFall, _gravity * multiplier * Time.deltaTime));
 		}
 
 		private float approach(float start, float stop, float c) {
