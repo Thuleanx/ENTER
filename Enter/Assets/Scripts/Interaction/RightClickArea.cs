@@ -7,28 +7,39 @@ namespace Enter
   public class RightClickArea: MonoBehaviour
   {
     private InputData _in;
+    [SerializeField] private LayerMask _rcAreaLayer;
+    private Collider2D col;
+
 
     void Start()
     {
       _in = InputManager.Instance.Data;
+      col = this.gameObject.GetComponent<Collider2D>();
     }
 
     void Update(){
         if (_in.RDown){
-            RaycastHit hit;
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(_in.Mouse), out hit)){
-                if (hit.collider == GetComponent<Collider>()){
+            if (col.OverlapPoint(_in.Mouse)){
                     Debug.Log("Clicked, bapey...");
                 }
-                else{
-                    Debug.Log(Physics.Raycast(Camera.main.ScreenPointToRay(_in.Mouse)));
-                }
-            }
+                
             else{
-                Debug.Log(Physics.Raycast(Camera.main.ScreenPointToRay(_in.Mouse)));
-                Debug.Log("Not hit");
+                Debug.Log(ClosestPoint(col, _in.Mouse));
             }
         }
     } 
+
+    float ClosestPoint(Collider2D col, Vector2 point)
+	{
+		GameObject go = new GameObject("tempCollider");
+		go.transform.position = point;
+		CircleCollider2D c = go.AddComponent<CircleCollider2D>();
+		c.radius = 0.1f;
+		ColliderDistance2D dist = col.Distance(c);
+		Object.Destroy(go);
+		return dist.distance;
+	}
   }
 }
+
+

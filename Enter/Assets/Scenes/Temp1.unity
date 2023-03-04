@@ -472,6 +472,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef2243bafbb19014db61b5b329802d77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rcAreaLayer:
+    serializedVersion: 2
+    m_Bits: 16384
 --- !u!212 &1026665255
 SpriteRenderer:
   m_ObjectHideFlags: 0
