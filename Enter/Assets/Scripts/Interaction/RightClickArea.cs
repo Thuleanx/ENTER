@@ -7,38 +7,37 @@ namespace Enter
   public class RightClickArea: MonoBehaviour
   {
     private InputData _in;
+
     [SerializeField] private LayerMask _rcAreaLayer;
-    private Collider2D col;
+    private Collider2D _col;
 
 
     void Start()
     {
       _in = InputManager.Instance.Data;
-      col = this.gameObject.GetComponent<Collider2D>();
+      _col = this.gameObject.GetComponent<Collider2D>();
     }
 
     void Update(){
-        if (_in.RDown){
-            if (col.OverlapPoint(_in.Mouse)){
-                    Debug.Log("Clicked, bapey...");
-                }
-                
-            else{
-                Debug.Log(ClosestPoint(col, _in.Mouse));
-            }
-        }
+        if (!_in.RDown) return;
+
+        bool yes = _col.OverlapPoint((Vector2) getMouseWorldPosition());
+
+        if (yes) Debug.Log("Clicked, bapey...");
+      
     } 
 
-    float ClosestPoint(Collider2D col, Vector2 point)
-	{
-		GameObject go = new GameObject("tempCollider");
-		go.transform.position = point;
-		CircleCollider2D c = go.AddComponent<CircleCollider2D>();
-		c.radius = 0.1f;
-		ColliderDistance2D dist = col.Distance(c);
-		Object.Destroy(go);
-		return dist.distance;
-	}
+    private Vector3 getMouseWorldPosition()
+    {
+      // Todo:
+      // account for RCBox's own size via an offset,
+      // either here or in its parent-child transforms
+
+      return Camera.main.ScreenToWorldPoint(new Vector3(
+        _in.Mouse.x,
+        _in.Mouse.y,
+        Camera.main.nearClipPlane));
+    }
   }
 }
 
