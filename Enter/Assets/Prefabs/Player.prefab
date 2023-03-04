@@ -96,15 +96,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 5
-  _jumpSpeed: 12
-  _gravity: -35
+  _jumpHeight: 3
+  _timeToMaxHeight: 0.5
   _maxFall: -10
   _jumpPeakMultiplier: 0.5
   _jumpPeakThreshold: 2
   _lowJumpMultiplier: 3
   _coyoteTime: 0.05
   _additionalRCBoxCoyoteTime: 0.1
-  _temporaryDeathSpawnPosition: {x: -7.5, y: -1.5, z: 0}
   _deathRespawnDelay: 0.5
 --- !u!114 &3675825429863194642
 MonoBehaviour:
@@ -126,8 +125,8 @@ MonoBehaviour:
     m_Bits: 2048
   _halfH: 0.25
   _halfW: 0.25
-  _offset: 0.02
-  _rayDistance: 0.5
+  _groundRayDistance: 0.02
+  _overheadRayDistance: 0.5
   _outerFrac: 1.02
   _innerFrac: 0.25
   <OnGround>k__BackingField: 0
