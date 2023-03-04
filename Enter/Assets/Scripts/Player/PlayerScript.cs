@@ -24,11 +24,19 @@ namespace Enter
     [SerializeField, Tooltip("Maximum horizontal speed.")]
     private float _speed = 5;
 
-    [SerializeField, Tooltip("Maximum initial upward velocity when a jump is started.")]
-    private float _jumpSpeed = 12;
+    [SerializeField, Tooltip("Maximum height for a jump.")]
+    private float _jumpHeight = 3;
 
-    [SerializeField, Tooltip("Acceleration due to gravity.")]
-    private float _gravity = -35;
+    [SerializeField, Tooltip("Maximum time before the maximum jump height of the player is reached.")]
+    private float _timeToMaxHeight = .5f;
+
+    // [SerializeField, Tooltip("Maximum initial upward velocity when a jump is started.")]
+    private float _jumpSpeed/* = 12*/;
+    // private float _jumpSpeed = 4.66666667f;
+
+    // [SerializeField, Tooltip("Acceleration due to gravity.")]
+    private float _gravity/* = -35*/;
+    // private float _gravity = -4.44444444444f;
 
     [SerializeField, Tooltip("Maximum speed when falling due to gravity.")]
     private float _maxFall = -10;
@@ -67,6 +75,7 @@ namespace Enter
     void Awake()
     {
       Instance = this;
+      calculateJumpConstants();
     }
     
     void Start()
@@ -102,6 +111,13 @@ namespace Enter
       handleMidairNudge();
       handleGravity();
     }
+    
+    private void calculateJumpConstants() {
+      _gravity = -((2 * _jumpHeight) - _jumpPeakThreshold + (2 * _timeToMaxHeight * _jumpPeakThreshold)) / Mathf.Pow(_timeToMaxHeight, 2);
+      _jumpSpeed = _jumpPeakThreshold + (-_gravity * _timeToMaxHeight) - (2 * _jumpPeakThreshold);
+      Debug.Log("Jump Speed " + _jumpSpeed);
+      Debug.Log("Gravity " + _gravity);
+    }
 
     private void handleWalk()
     {
@@ -111,6 +127,7 @@ namespace Enter
 
     private void handleJump()
     {
+      calculateJumpConstants();
       // Store last grounded time for coyote-time purposes
       if (_co.OnGround) _lastGroundedTime = Time.time;
 
@@ -160,6 +177,8 @@ namespace Enter
 
       // Implement "lower gravity at peak of jump"
       if (Mathf.Abs(_rb.velocity.y) < _jumpPeakThreshold) multiplier *= _jumpPeakMultiplier;
+      // if (Mathf.Abs(_rb.velocity.y) < _jumpPeakThreshold) { multiplier *= _jumpPeakMultiplier; Debug.Log(multiplier + " IS MULTIPLIER"); }
+      // Debug.Log("APPROACHING VEL: " + _gravity * multiplier * Time.deltaTime);
 
       // Fall, but cap falling velocity
       _rb.velocity = new Vector2(
