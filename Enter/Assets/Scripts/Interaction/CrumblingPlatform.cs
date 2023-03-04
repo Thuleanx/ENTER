@@ -24,7 +24,10 @@ public class CrumblingPlatform : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        StartCoroutine(this.Crumble());
+        if (other.gameObject.tag == "Player")
+        {
+            StartCoroutine(this.Crumble());
+        }
     }
 
     IEnumerator Crumble()
