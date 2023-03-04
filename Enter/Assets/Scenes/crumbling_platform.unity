@@ -2199,7 +2199,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2309567756344072612, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2309567756344072615, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
       propertyPath: m_RootOrder
@@ -2249,8 +2249,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: CrumblingPlatform
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 2309567756344072612, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
 --- !u!1001 &4659983936036536943
 PrefabInstance:
