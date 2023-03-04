@@ -43,6 +43,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7087370806217842554}
   - component: {fileID: 7087370806217842555}
+  - component: {fileID: 7076470109065171652}
   m_Layer: 0
   m_Name: Cinemachine Virtual Camera
   m_TagString: MainCinemachineCamera
@@ -88,7 +89,7 @@ MonoBehaviour:
   m_Follow: {fileID: 0}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 5
+    OrthographicSize: 8
     NearClipPlane: 5
     FarClipPlane: 15
     Dutch: 0
@@ -104,6 +105,18 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 7087370806971220812}
+--- !u!114 &7076470109065171652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7087370806217842552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a8a05de0ac134f4f9d01bef6b9da077, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7087370806279255377
 GameObject:
   m_ObjectHideFlags: 0
@@ -116,6 +129,7 @@ GameObject:
   - component: {fileID: 7087370806279255378}
   - component: {fileID: 7087370806279255376}
   - component: {fileID: 7087370806279255468}
+  - component: {fileID: 2966801670199408017}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -165,7 +179,7 @@ Camera:
   far clip plane: 15
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 8
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -223,6 +237,26 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2966801670199408017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7087370806279255377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a160d838ff8b4b4693ac20007e008c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AssetsPPU: 16
+  m_RefResolutionX: 768
+  m_RefResolutionY: 432
+  m_UpscaleRT: 1
+  m_PixelSnapping: 0
+  m_CropFrameX: 1
+  m_CropFrameY: 1
+  m_StretchFill: 1
 --- !u!1 &7087370806971220813
 GameObject:
   m_ObjectHideFlags: 0

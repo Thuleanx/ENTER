@@ -176,8 +176,6 @@ namespace Enter {
 			_isDead = true;
 			_rb.velocity = Vector2.zero;
 
-			Debug.Log("Oops, you died");
-
 			yield return new WaitForSeconds(_deathRespawnDelay);
 
 			_isDead = false;
@@ -185,7 +183,6 @@ namespace Enter {
 		}
 
 		void _OnSceneLoad(Scene prev, Scene nxt) {
-			Debug.Log("YO");
 			_groundedAfterTransition = false;
 		}
 

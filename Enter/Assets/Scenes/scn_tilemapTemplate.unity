@@ -2278,13 +2278,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7087370806217842555, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
-      propertyPath: m_Lens.OrthographicSize
-      value: 8
+    - target: {fileID: 7087370806279255378, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
+      propertyPath: m_ForceIntoRT
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7087370806279255378, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
       propertyPath: orthographic size
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7087370806279255378, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
+      propertyPath: m_NormalizedViewPortRect.height
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
