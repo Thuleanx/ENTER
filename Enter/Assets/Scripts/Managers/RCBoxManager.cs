@@ -15,6 +15,9 @@ namespace Enter
 
     [SerializeField] private GameObject _rc;
 
+    [SerializeField] private LayerMask _rcBoxLayer;
+
+
     [SerializeField] private float _lastRCTime = -Mathf.Infinity;
     [SerializeField] private float _minRCInterval = 1;
     [SerializeField] private float _rcBoxFadeoutTime = 0;
@@ -45,7 +48,12 @@ namespace Enter
       if (_in.RDown && Time.time - _minRCInterval > _lastRCTime)
       {
         _in.RDown = false;
-        StartCoroutine("appearRC");
+
+        bool yes = Physics2D.OverlapPoint((Vector2) getRCBoxPosition(), _rcBoxLayer);
+
+        if (yes) {
+          StartCoroutine("appearRC");
+        }
       }
     }
 
