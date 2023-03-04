@@ -9,11 +9,14 @@ public class CrumblingPlatform : MonoBehaviour
     float crumblingDuration = 3.0f;
     Color originalColor = Color.white;
     Color crumblingColor = Color.red;
+    // [SerializedField] private EdgeCollider2D edgeCollider;
+    EdgeCollider2D edgeCollider;
 
     // Start is called before the first frame update
     void Start()
     {
         this.renderer = GetComponent<Renderer>();
+        this.edgeCollider = GetComponent<EdgeCollider2D>();
     }
 
     // Update is called once per frame
@@ -24,7 +27,7 @@ public class CrumblingPlatform : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player" && this.edgeCollider.IsTouching(other.gameObject.GetComponent<Collider2D>()))
         {
             StartCoroutine(this.Crumble());
         }
@@ -35,11 +38,11 @@ public class CrumblingPlatform : MonoBehaviour
         // for now changing the object color into red
         yield return new WaitForSeconds(this.preCrumblingDuration);
         this.renderer.material.color = crumblingColor;
-        GetComponent<BoxCollider2D>().enabled = false;
+        GetComponent<EdgeCollider2D>().enabled = false;
         yield return new WaitForSeconds(this.crumblingDuration);
 
         this.renderer.material.color = originalColor;
-        GetComponent<BoxCollider2D>().enabled = true;
+        GetComponent<EdgeCollider2D>().enabled = true;
         yield return null;
     }
 }

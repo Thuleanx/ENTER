@@ -123,6 +123,34 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &212629639 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2309567756344072619, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
+  m_PrefabInstance: {fileID: 2309567756405170476}
+  m_PrefabAsset: {fileID: 0}
+--- !u!68 &212629645
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 212629639}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.5}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -0.5, y: 0}
+  - {x: -0.010969201, y: 0.00000006687881}
+  - {x: 0.5, y: 0}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
 --- !u!4 &392430163 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8654797006753239847, guid: f2022af163a5d474094071b939412d23, type: 3}
@@ -2169,6 +2197,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2309567756344072612, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2309567756344072615, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -2217,7 +2249,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: CrumblingPlatform
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2309567756344072612, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
 --- !u!1001 &4659983936036536943
 PrefabInstance:
