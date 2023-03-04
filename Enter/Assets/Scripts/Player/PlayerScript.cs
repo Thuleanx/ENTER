@@ -1,192 +1,194 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Collections;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
-namespace Enter
-{
-  [DisallowMultipleComponent]
-  [RequireComponent(typeof(Rigidbody2D))]
-  [RequireComponent(typeof(PlayerColliderScript))]
-  public class PlayerScript : MonoBehaviour
-  {
-    public static PlayerScript Instance = null;
+namespace Enter {
+	[DisallowMultipleComponent]
+	[RequireComponent(typeof(Rigidbody2D))]
+	[RequireComponent(typeof(PlayerColliderScript))]
+	public class PlayerScript : MonoBehaviour {
+		public static PlayerScript Instance = null;
 
-    private Rigidbody2D          _rb;
-    private PlayerColliderScript _co;
-    private InputData            _in;
+		private Rigidbody2D _rb;
+		private PlayerColliderScript _co;
+		private InputData _in;
 
-    private const float _eps = 0.001f;
+		private const float _eps = 0.001f;
 
-    #region ================== Variables
+		#region ================== Variables
 
-    [Header("Movement")]
+		[Header("Movement")]
 
-    [SerializeField, Tooltip("Maximum horizontal speed.")]
-    private float _speed = 5;
+		[SerializeField, Tooltip("Maximum horizontal speed.")]
+		private float _speed = 5;
 
-    [SerializeField, Tooltip("Maximum initial upward velocity when a jump is started.")]
-    private float _jumpSpeed = 12;
+		[SerializeField, Tooltip("Maximum initial upward velocity when a jump is started.")]
+		private float _jumpSpeed = 12;
 
-    [SerializeField, Tooltip("Acceleration due to gravity.")]
-    private float _gravity = -35;
+		[SerializeField, Tooltip("Acceleration due to gravity.")]
+		private float _gravity = -35;
 
-    [SerializeField, Tooltip("Maximum speed when falling due to gravity.")]
-    private float _maxFall = -10;
+		[SerializeField, Tooltip("Maximum speed when falling due to gravity.")]
+		private float _maxFall = -10;
 
-    [Header("Movement Tweaks")]
+		[Header("Movement Tweaks")]
 
-    [SerializeField, Tooltip("Gravity multiplier for when absolute vertical velocity is less than threshold.")]
-    private float _jumpPeakMultiplier = .5f;
+		[SerializeField, Tooltip("Gravity multiplier for when absolute vertical velocity is less than threshold.")]
+		private float _jumpPeakMultiplier = .5f;
 
-    [SerializeField, Tooltip("Threshold for the above.")]
-    private float _jumpPeakThreshold = 2f;
+		[SerializeField, Tooltip("Threshold for the above.")]
+		private float _jumpPeakThreshold = 2f;
 
-    [SerializeField, Tooltip("Gravity multiplier for when the jump input is not held down.")]
-    private float _lowJumpMultiplier = 3f;
+		[SerializeField, Tooltip("Gravity multiplier for when the jump input is not held down.")]
+		private float _lowJumpMultiplier = 3f;
 
-    [SerializeField, Tooltip("Time after becoming ungrounded by any means other than jumping, during which jumping is permitted.")]
-    private float _coyoteTime = 0.05f;
-    private float _lastGroundedTime = -Mathf.Infinity;
+		[SerializeField, Tooltip("Time after becoming ungrounded by any means other than jumping, during which jumping is permitted.")]
+		private float _coyoteTime = 0.05f;
+		private float _lastGroundedTime = -Mathf.Infinity;
 
-    [SerializeField, Tooltip("Additional coyote time after falling off an RCBox while stationary.")]
-    private float _additionalRCBoxCoyoteTime = 0.1f;
+		[SerializeField, Tooltip("Additional coyote time after falling off an RCBox while stationary.")]
+		private float _additionalRCBoxCoyoteTime = 0.1f;
 
-    private bool _alreadyNudged;
+		private bool _alreadyNudged;
 
-    [Header("Death")]
+		[Header("Death")]
 
-    [SerializeField, Tooltip("Amount of time between the player dying and respawning.")]
-    private float _deathRespawnDelay = 0.5f;
+		[SerializeField, Tooltip("Amount of time between the player dying and respawning.")]
+		private float _deathRespawnDelay = 0.5f;
 
-    private bool _isDead;
+		private bool _isDead;
+		bool _groundedAfterTransition;
 
-    #endregion
+		#endregion
 
-    #region ================== Methods
+		#region ================== Methods
 
-    void Awake()
-    {
-      Instance = this;
-    }
-    
-    void Start()
-    {
-      _rb = GetComponent<Rigidbody2D>();
-      _co = GetComponent<PlayerColliderScript>();
-      _in = InputManager.Instance.Data;
-    }
+		void Awake() {
+			Instance = this;
+		}
 
-    void FixedUpdate()
-    {
-      if (_isDead) return;
+		void Start() {
+			_rb = GetComponent<Rigidbody2D>();
+			_co = GetComponent<PlayerColliderScript>();
+			_in = InputManager.Instance.Data;
 
-      handleMovement();
-    }
+			SceneTransitioner.Instance.OnSceneLoad.AddListener(_OnSceneLoad);
+		}
 
-    public void Die()
-    {
-      StartCoroutine("die");
-    }
 
-    #endregion
+		void FixedUpdate() {
+			if (_isDead) return;
 
-    #region ================== Helpers
+			handleMovement();
+		}
 
-    private void handleMovement()
-    {
-      // Reset velocity to zero to preemptively avoid weird, small things
-      if (_rb.velocity.sqrMagnitude < 0.01f) _rb.velocity = Vector2.zero;
+		public void Die() {
+			StartCoroutine("die");
+		}
 
-      handleWalk();
-      handleJump();
-      handleMidairNudge();
-      handleGravity();
-    }
+		#endregion
 
-    private void handleWalk()
-    {
-      // Handles horizontal motion
-      _rb.velocity = new Vector2(_in.Move.x * _speed, _rb.velocity.y);
-    }
+		#region ================== Helpers
 
-    private void handleJump()
-    {
-      // Store last grounded time for coyote-time purposes
-      if (_co.OnGround) _lastGroundedTime = Time.time;
+		private void handleMovement() {
+			// Reset velocity to zero to preemptively avoid weird, small things
+			if (_rb.velocity.sqrMagnitude < 0.01f) _rb.velocity = Vector2.zero;
 
-      // Implements additional coyote time for falling off an RCBox while stationary
-      if (_co.OnRCBox && Mathf.Abs(_rb.velocity.x) < _eps) _lastGroundedTime = Time.time + _additionalRCBoxCoyoteTime;
+			Debug.Log("Start frame: " + _rb.velocity);
 
-      // Jump if grounded or within coyote-time interval
-      if (_in.Jump && (_co.OnGround || Time.time - _coyoteTime < _lastGroundedTime))
-      {
-        _rb.velocity = new Vector2(_rb.velocity.x, _jumpSpeed);
-        _lastGroundedTime = -Mathf.Infinity;
-      }
-    }
+			handleWalk();
+			handleJump();
+			handleMidairNudge();
+			handleGravity();
+		}
 
-    private void handleMidairNudge()
-    {
-      // Do not nudge if falling; also reset the _alreadyNudged boolean
-      if (_rb.velocity.y < _eps) 
-      {
-        _alreadyNudged = false;
-        return;
-      }
+		private void handleWalk() {
+			// Handles horizontal motion
+			_rb.velocity = new Vector2(_in.Move.x * _speed, _rb.velocity.y);
+		}
 
-      // Do not nudge if there's any significant horizontal velocity
-      if (Mathf.Abs(_rb.velocity.x) >= _eps) return;
-      
-      // Do not nudge if already nudged
-      if (_alreadyNudged) return;
+		private void handleJump() {
+			// Store last grounded time for coyote-time purposes
+			if (_co.OnGround) _lastGroundedTime = Time.time;
 
-      // Do not nudge if center two raycasts are obstructed
-      if (_co.TopLeft || _co.TopRight) return;
+			// Implements additional coyote time for falling off an RCBox while stationary
+			if (_co.OnRCBox && Mathf.Abs(_rb.velocity.x) < _eps) _lastGroundedTime = Time.time + _additionalRCBoxCoyoteTime;
 
-      // Nudge if one, but not both, side raycasts are obstructed
-      if (_co.TopLeftmost ^ _co.TopRightmost)
-      {
-        _alreadyNudged = true;
-        _rb.position += _co.Nudge;
-      }
-    }
+			// Jump if grounded or within coyote-time interval
+			if (_in.Jump && (_co.OnGround || Time.time - _coyoteTime < _lastGroundedTime)) {
+				_rb.velocity = new Vector2(_rb.velocity.x, _jumpSpeed);
+				_lastGroundedTime = -Mathf.Infinity;
+			}
+		}
 
-    private void handleGravity()
-    {
-      float multiplier = 1;
+		private void handleMidairNudge() {
+			// Do not nudge if falling; also reset the _alreadyNudged boolean
+			if (_rb.velocity.y < _eps) {
+				_alreadyNudged = false;
+				return;
+			}
 
-      // Implement "low jumps"
-      if (_rb.velocity.y > 0 && !_in.Jump) multiplier *= _lowJumpMultiplier;
+			// Do not nudge if there's any significant horizontal velocity
+			if (Mathf.Abs(_rb.velocity.x) >= _eps) return;
 
-      // Implement "lower gravity at peak of jump"
-      if (Mathf.Abs(_rb.velocity.y) < _jumpPeakThreshold) multiplier *= _jumpPeakMultiplier;
+			// Do not nudge if already nudged
+			if (_alreadyNudged) return;
 
-      // Fall, but cap falling velocity
-      _rb.velocity = new Vector2(
-        _rb.velocity.x,
-        approach(_rb.velocity.y, _maxFall, _gravity * multiplier * Time.deltaTime));
-    }
+			// Do not nudge if center two raycasts are obstructed
+			if (_co.TopLeft || _co.TopRight) return;
 
-    private float approach(float start, float stop, float c)
-    {
-      if (start < stop) return Mathf.Min(start + c, stop);
-      
-      return Mathf.Max(start + c, stop);
-    }
+			// Nudge if one, but not both, side raycasts are obstructed
+			if (_co.TopLeftmost ^ _co.TopRightmost) {
+				_alreadyNudged = true;
+				_rb.position += _co.Nudge;
+			}
+		}
 
-    private IEnumerator die()
-    {
-      _isDead = true;
-      _rb.velocity = Vector2.zero;
+		private void handleGravity() {
+			float multiplier = 1;
+			_groundedAfterTransition |= _co.OnGround;
 
-      Debug.Log("Oops, you died");
+			// Implement "low jumps"
+			if (_rb.velocity.y > 0 && !_in.Jump) multiplier *= _lowJumpMultiplier;
 
-      yield return new WaitForSeconds(_deathRespawnDelay);
+			// Implement "lower gravity at peak of jump"
+			if (Mathf.Abs(_rb.velocity.y) < _jumpPeakThreshold) multiplier *= _jumpPeakMultiplier;
 
-      _isDead = false;
-      _rb.position = SceneTransitioner.Instance.SpawnPosition;
-    }
+			// If ground not reached since trasition, nudge player upwards if velocity is low
+			if (!_groundedAfterTransition && _rb.velocity.y > 0 && _rb.velocity.y <= 3 && !_co.HasGroundBelow) {
+				_rb.velocity = new Vector2(_rb.velocity.x, 3);
+			} else {
+				// Fall, but cap falling velocity
+				_rb.velocity = new Vector2(
+				_rb.velocity.x,
+				approach(_rb.velocity.y, _maxFall, _gravity * multiplier * Time.deltaTime));
+			}
+		}
 
-    #endregion
-  }
+		private float approach(float start, float stop, float c) {
+			if (start < stop) return Mathf.Min(start + c, stop);
+
+			return Mathf.Max(start + c, stop);
+		}
+
+		private IEnumerator die() {
+			_isDead = true;
+			_rb.velocity = Vector2.zero;
+
+			Debug.Log("Oops, you died");
+
+			yield return new WaitForSeconds(_deathRespawnDelay);
+
+			_isDead = false;
+			_rb.position = SceneTransitioner.Instance.SpawnPosition;
+		}
+
+		void _OnSceneLoad(Scene prev, Scene nxt) {
+			Debug.Log("YO");
+			_groundedAfterTransition = false;
+		}
+
+		#endregion
+	}
 }

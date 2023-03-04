@@ -29,6 +29,7 @@ namespace Enter
 
     [field:SerializeField] public bool OnGround { get; private set; }
     [field:SerializeField] public bool OnRCBox  { get; private set; }
+    [field:SerializeField] public bool HasGroundBelow { get; private set; }
 
     [field:SerializeField] public bool TopLeftmost  { get; private set; }
     [field:SerializeField] public bool TopLeft      { get; private set; }
@@ -46,6 +47,7 @@ namespace Enter
     {
       OnGround = groundCheckHelper(_solidLayers);
       OnRCBox  = groundCheckHelper(_rcBoxLayer);
+	  HasGroundBelow = raycastHelper(0, -_halfH, Vector2.down, transform.position.y, _solidLayers);
 
       TopLeftmost  = raycastHelper(-_halfW * _outerFrac, _halfH, Vector2.up, _overheadRayDistance, _solidLayers);
       TopLeft      = raycastHelper(-_halfW * _innerFrac, _halfH, Vector2.up, _overheadRayDistance, _solidLayers);

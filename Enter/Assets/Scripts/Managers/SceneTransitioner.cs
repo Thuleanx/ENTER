@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 using Enter.Utils;
 
@@ -12,6 +13,7 @@ namespace Enter
   public class SceneTransitioner : MonoBehaviour
   {
     public static SceneTransitioner Instance;
+	public UnityEvent<Scene, Scene> OnSceneLoad;
 
     private const float _eps = 0.001f;
 
@@ -59,9 +61,11 @@ namespace Enter
       yield return loadAndAlignNextScene(exitPassage);
 
       Assert.AreNotEqual(_prevScene, _currScene, "At this moment, both scenes should be different.");
+	  OnSceneLoad?.Invoke(_prevScene, _currScene);
 
       // Allow camera movement time
       yield return cameraTransition(_prevScene, _currScene);
+
 
       // Unload _prevScene
       SceneManager.UnloadSceneAsync(_prevScene);
