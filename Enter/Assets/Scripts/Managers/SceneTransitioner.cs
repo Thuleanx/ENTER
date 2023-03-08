@@ -61,7 +61,7 @@ namespace Enter
       yield return loadAndAlignNextScene(exitPassage);
 
       Assert.AreNotEqual(_prevScene, _currScene, "At this moment, both scenes should be different.");
-	  OnSceneLoad?.Invoke(_prevScene, _currScene);
+      OnSceneLoad?.Invoke(_prevScene, _currScene);
 
       // Allow camera movement time
       yield return cameraTransition(_prevScene, _currScene);
@@ -121,7 +121,7 @@ namespace Enter
       
       // Wait until camera has moved to the highest-priority virtual camera in _currScene
       CinemachineVirtualCamera _currSceneVC = findHighestPriorityVC(_currScene);
-      while (Vector3.Distance(camera.transform.position, _currSceneVC.State.CorrectedPosition) > _eps)
+      while (Vector2.Distance(camera.transform.position, _currSceneVC.State.CorrectedPosition) > _eps)
         yield return null;
     }
 
