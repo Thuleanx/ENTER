@@ -20,11 +20,11 @@ namespace Enter
     private Scene _prevScene;
     private Scene _currScene;
 
-    private GameObject _spawnPoint;
+    private GameObject _currSpawnPoint;
 
     #region ================== Accessors
 
-    public Vector3 SpawnPosition => _spawnPoint.transform.position;
+    public Vector3 SpawnPosition => _currSpawnPoint.transform.position;
 
     #endregion
 
@@ -34,7 +34,7 @@ namespace Enter
     {
       Instance = this;
       _currScene = SceneManager.GetActiveScene();
-      _spawnPoint = findSpawnPointAny();
+      _currSpawnPoint = findSpawnPointAny();
     }
 
 
@@ -95,9 +95,9 @@ namespace Enter
       // Set _currScene
       _currScene = entryPassage.gameObject.scene;
 
-      // Set _spawnPoint
-      _spawnPoint = findSpawnPoint(_currScene);
-      Assert.IsNotNull(_spawnPoint, "Next scene's spawnPoint not found.");
+      // Set _currSpawnPoint
+      _currSpawnPoint = findSpawnPoint(_currScene);
+      Assert.IsNotNull(_currSpawnPoint, "Next scene's spawnPoint not found.");
     }
 
     private IEnumerator cameraTransition(Scene _prevScene, Scene _currScene)
