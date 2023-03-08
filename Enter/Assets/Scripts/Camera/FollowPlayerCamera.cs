@@ -9,7 +9,7 @@ namespace Enter {
 			cam = GetComponent<CinemachineVirtualCamera>();
 		}
 		void Update() {
-			// this should only run once per frame
+			// this should only run once per scene
 			if (!cam.Follow) cam.Follow = PlayerScript.Instance.transform;
 		}
 	}
