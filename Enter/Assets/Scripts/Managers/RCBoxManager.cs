@@ -15,8 +15,7 @@ namespace Enter
 
     [SerializeField] private GameObject _rc;
 
-    [SerializeField] private LayerMask _rcBoxLayer;
-
+    [SerializeField] private LayerMask _rcAreaLayer;
 
     [SerializeField] private float _lastRCTime = -Mathf.Infinity;
     [SerializeField] private float _minRCInterval = 1;
@@ -41,18 +40,19 @@ namespace Enter
       if (_in.LDown && _rc.activeSelf)
       {
         _in.LDown = false;
-        StartCoroutine("disappearRC");
+        StartCoroutine(leftClick());
       }
 
       // RCBox appears on right click
       if (_in.RDown && Time.time - _minRCInterval > _lastRCTime)
       {
-        _in.RDown = false;
+        // Check that RCBox is appearing in valid area
+        bool yes = Physics2D.OverlapPoint((Vector2) getRCBoxPosition(), _rcAreaLayer);
 
-        bool yes = Physics2D.OverlapPoint((Vector2) getRCBoxPosition(), _rcBoxLayer);
-
-        if (yes) {
-          StartCoroutine("appearRC");
+        if (yes)
+        {
+          _in.RDown = false;
+          StartCoroutine(rightClick());
         }
       }
     }
@@ -61,13 +61,13 @@ namespace Enter
 
     #region ================== Helpers
 
-    private IEnumerator disappearRC()
+    private IEnumerator leftClick()
     {
       // Make the RCBox disappear
       yield return fadeout();
     }
 
-    private IEnumerator appearRC()
+    private IEnumerator rightClick()
     {
       // If the RCBox is already present, make it disappear
       if (_rc.activeSelf) yield return fadeout();
@@ -93,10 +93,7 @@ namespace Enter
       // account for RCBox's own size via an offset,
       // either here or in its parent-child transforms
 
-      return Camera.main.ScreenToWorldPoint(new Vector3(
-        _in.Mouse.x,
-        _in.Mouse.y,
-        Camera.main.nearClipPlane));
+      return _in.MouseWorld;
     }
 
     #endregion
