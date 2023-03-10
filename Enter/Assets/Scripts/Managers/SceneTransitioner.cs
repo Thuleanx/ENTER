@@ -19,6 +19,9 @@ namespace Enter
 
     private Scene _prevScene;
     private Scene _currScene;
+	private ExitPassage _exitPassage;
+	private bool _repositionOnSceneTransition;
+	private bool _transitioning;
 
     private GameObject _currSpawnPoint;
 
@@ -37,13 +40,26 @@ namespace Enter
       _currSpawnPoint = findSpawnPointAny();
     }
 
+	void OnEnable() {
+		_repositionOnSceneTransition = false;
+		SceneManager.sceneLoaded += onSceneLoad;
+	}
+
+	void OnDisable() {
+		SceneManager.sceneLoaded -= onSceneLoad;
+	}
 
     public void Transition(ExitPassage exitPassage)
     {
       Assert.IsNotNull(exitPassage, "Current scene's exitPassage must be provided.");
       Assert.IsNotNull(exitPassage.NextSceneReference, "ExitPassage must have a NextSceneReference.");
 
-      StartCoroutine(transitionTo(exitPassage));
+	  if (!_transitioning) {
+		_transitioning = true;
+      	StartCoroutine(transitionTo(exitPassage));
+	  } else {
+		Debug.LogError("Attempt to scene transition while another scene transition is happening.");
+	  }
     }
 
     #endregion
@@ -61,43 +77,24 @@ namespace Enter
       yield return loadAndAlignNextScene(exitPassage);
 
       Assert.AreNotEqual(_prevScene, _currScene, "At this moment, both scenes should be different.");
-      OnSceneLoad?.Invoke(_prevScene, _currScene);
 
       // Allow camera movement time
       yield return cameraTransition(_prevScene, _currScene);
 
 
       // Unload _prevScene
-      SceneManager.UnloadSceneAsync(_prevScene);
+      yield return SceneManager.UnloadSceneAsync(_prevScene);
+	 _transitioning = false;
     }
 
     private IEnumerator loadAndAlignNextScene(ExitPassage exitPassage)
     { 
+	  _exitPassage = exitPassage;
       // Load next scene (must wait one frame for additive scene load)
       exitPassage.NextSceneReference.LoadScene(LoadSceneMode.Additive);
-      yield return null;
-
-      // Get next scene's entry passage
-      EntryPassage entryPassage = null;
-      foreach (EntryPassage x in FindObjectsOfType<EntryPassage>())
-        if (x.gameObject.scene != _prevScene) entryPassage = x;
-
-      Assert.IsNotNull(entryPassage, "Next scene's entryPassage not found.");
-
-      // Get next scene's root transform
-      Transform rootTransform = entryPassage.transform.root;
-
-      Assert.IsNotNull(rootTransform, "Next scene's root not found.");
-
-      // Align next scene
-      rootTransform.position += exitPassage.transform.position - entryPassage.transform.position;
-      
-      // Set _currScene
-      _currScene = entryPassage.gameObject.scene;
-
-      // Set _currSpawnPoint
-      _currSpawnPoint = findSpawnPoint(_currScene);
-      Assert.IsNotNull(_currSpawnPoint, "Next scene's spawnPoint not found.");
+	  _repositionOnSceneTransition = true;
+	  while (_repositionOnSceneTransition)
+      	yield return null; // alignment should happen in between here. This should only run once
     }
 
     private IEnumerator cameraTransition(Scene _prevScene, Scene _currScene)
@@ -151,6 +148,37 @@ namespace Enter
 
       return highestPriorityVC;
     }
+
+	private void onSceneLoad(Scene scene, LoadSceneMode mode) {
+		// hopefully no physics frame happen in between scene load and this function. Else Unity documentation lied.
+		if (_repositionOnSceneTransition) {
+			// we align the new scene.
+			// Get next scene's entry passage
+			EntryPassage entryPassage = null;
+			foreach (EntryPassage x in FindObjectsOfType<EntryPassage>())
+				if (x.gameObject.scene != _prevScene) entryPassage = x;
+
+			Assert.IsNotNull(entryPassage, "Next scene's entryPassage not found.");
+
+			// Get next scene's root transform
+			Transform rootTransform = entryPassage.transform.root;
+
+			Assert.IsNotNull(rootTransform, "Next scene's root not found.");
+
+			// Align next scene
+			rootTransform.position += _exitPassage.transform.position - entryPassage.transform.position;
+			
+			// Set _currScene
+			_currScene = entryPassage.gameObject.scene;
+
+			// Set _currSpawnPoint
+			_currSpawnPoint = findSpawnPoint(_currScene);
+			Assert.IsNotNull(_currSpawnPoint, "Next scene's spawnPoint not found.");
+			_repositionOnSceneTransition = false;
+
+      		OnSceneLoad?.Invoke(_prevScene, _currScene);
+		}
+	}
 
     #endregion
   }

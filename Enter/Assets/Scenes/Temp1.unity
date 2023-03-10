@@ -472,9 +472,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef2243bafbb19014db61b5b329802d77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rcAreaLayer:
-    serializedVersion: 2
-    m_Bits: 16384
 --- !u!212 &1026665255
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1143,14 +1140,14 @@ PrefabInstance:
     - target: {fileID: 8654797006753239841, guid: f2022af163a5d474094071b939412d23, type: 3}
       propertyPath: <NextSceneReference>k__BackingField.Scene
       value: 
-      objectReference: {fileID: 102900000, guid: 23a4a3138c6a3054dbd477b72b47ba5d, type: 3}
+      objectReference: {fileID: 102900000, guid: 958908beb6a2d4e02ad2a2988811a8b5, type: 3}
     - target: {fileID: 8654797006753239841, guid: f2022af163a5d474094071b939412d23, type: 3}
       propertyPath: <NextSceneReference>k__BackingField.SceneName
-      value: Temp2
+      value: Temp2 1
       objectReference: {fileID: 0}
     - target: {fileID: 8654797006753239841, guid: f2022af163a5d474094071b939412d23, type: 3}
       propertyPath: <NextSceneReference>k__BackingField.sceneIndex
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8654797006753239841, guid: f2022af163a5d474094071b939412d23, type: 3}
       propertyPath: <NextSceneReference>k__BackingField.sceneEnabled

@@ -52,8 +52,8 @@ namespace Enter
 
     void FixedUpdate()
     {
-      OnGround = groundCheckHelper(_solidLayers);
-      OnRCBox  = groundCheckHelper(_rcBoxLayer);
+      OnGround = GroundCheckHelper(_solidLayers);
+      OnRCBox  = GroundCheckHelper(_rcBoxLayer);
 
       Bounds bound = Collider.bounds;
 
@@ -111,7 +111,7 @@ namespace Enter
       return (Vector2) bound.center + Vector2.up * bound.size.y / 2 + Vector2.right * offsetFromCenterTop * bound.size.x / 2;
     }
 
-    private bool groundCheckHelper(LayerMask layers)
+    private bool GroundCheckHelper(LayerMask layers)
     {
       bool collidingWithGround = false;
 
@@ -127,11 +127,6 @@ namespace Enter
       }
 
       return collidingWithGround;
-    }
-
-    private void drawLineHelper(Vector2 start, Vector2 offset)
-    {
-      Gizmos.DrawLine(start, start + offset);
     }
 
     #endregion

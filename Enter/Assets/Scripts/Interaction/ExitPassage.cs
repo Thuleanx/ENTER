@@ -12,6 +12,7 @@ namespace Enter
     protected override void OnInteract()
     {
       base.OnInteract();
+	  Debug.Log("HI");
 
       SceneTransitioner.Instance.Transition(this);
       gameObject.SetActive(false);
