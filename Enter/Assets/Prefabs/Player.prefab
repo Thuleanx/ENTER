@@ -97,10 +97,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e064cd1f8b3524e52a0c86aa2c8bbf85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 10
+  _speed: 8
   _jumpHeight: 5
-  _timeToMaxHeight: 0.5
-  _maxFall: -10
+  _timeToMaxHeight: 0.45
+  _maxFall: -12.5
   _jumpPeakMultiplier: 0.5
   _jumpPeakThreshold: 3
   _lowJumpMultiplier: 3
@@ -148,11 +148,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb15a6ae246f34c36bbf272a0aca2ec7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _jumpVerticalStretch: {x: 0.9, y: 2, z: 0.9}
+  _maxJumpScale: {x: 1, y: 1.5, z: 1}
+  _maxJumpSpeed: 1
   _landStretch: {x: 1.5, y: 0.7, z: 1}
-  _postJumpDelay: 5
-  _defaultTransitionSpeed: 20
-  _jumpingTransitionSpeed: 20
+  _transitionSpeed: 50
 --- !u!1 &3675825430629627474
 GameObject:
   m_ObjectHideFlags: 0
