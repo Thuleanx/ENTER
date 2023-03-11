@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 5
-  _jumpHeight: 3
+  _jumpHeight: 4.5
   _timeToMaxHeight: 0.5
   _maxFall: -10
   _jumpPeakMultiplier: 0.5
@@ -123,8 +123,6 @@ MonoBehaviour:
   _rcBoxLayer:
     serializedVersion: 2
     m_Bits: 2048
-  _halfH: 0.25
-  _halfW: 0.25
   _groundRayDistance: 0.02
   _overheadRayDistance: 0.5
   _outerFrac: 1.02
