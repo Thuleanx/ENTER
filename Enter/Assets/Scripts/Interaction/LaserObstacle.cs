@@ -24,8 +24,9 @@ namespace Enter
         private LineRenderer lineRenderer;
         public ParticleSystem particleSystem;
 
-		[SerializeField] LayerMask groundMask; 
 		const float maxRaycastDistance = 100;
+		[SerializeField] LayerMask groundMask; 
+		[SerializeField] LayerMask playerMask;
 
         // Start is called before the first frame update
         void Start()
@@ -41,7 +42,11 @@ namespace Enter
 
 		float shootRaycast(Vector2 pos, LayerMask layerMask) {
             RaycastHit2D hit = Physics2D.Raycast(pos, -transform.up, maxRaycastDistance, layerMask);
-			if (hit) return hit.distance;
+			if (hit) {
+				if (hit.collider.gameObject.tag == "Player")
+					hit.collider.GetComponent<PlayerScript>()?.Die();
+				return hit.distance;
+			}
 			return Mathf.Infinity;
 		}
 
@@ -61,7 +66,10 @@ namespace Enter
 				{
 					float offset = -transform.localScale.x / 2;
 					offset += ((float)i/numRaycasters) * transform.localScale.x;
-					float newHitDist = shootRaycast(transform.position + Vector3.right * offset, groundMask);
+
+					Vector2 src = transform.position + transform.right * offset;
+					float newHitDist = shootRaycast(src, groundMask);
+					shootRaycast(src, playerMask); // for killing the player
 					if (newHitDist < nearestHitDist)
 						nearestHitDist = newHitDist;
 				}
