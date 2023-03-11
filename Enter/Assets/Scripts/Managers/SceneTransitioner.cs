@@ -73,6 +73,7 @@ namespace Enter
 
       Assert.AreEqual(_prevScene, _currScene, "At this moment, both scenes should be the same.");
 		
+	  PlayerScript.Instance.ToggleTimeSensitiveComponents(enabled: false, affectSelf: true);
 
       // Load and align next scene (will update _currScene and SpawnPosition)
       yield return loadAndAlignNextScene(exitPassage);
@@ -80,15 +81,15 @@ namespace Enter
 
       Assert.AreNotEqual(_prevScene, _currScene, "At this moment, both scenes should be different.");
 
-	  PlayerScript.Instance.ToggleTimeSensitiveComponents(enabled: false, affectSelf: true);
       // Allow camera movement time
       yield return cameraTransition(_prevScene, _currScene);
 
       // Unload _prevScene
       yield return SceneManager.UnloadSceneAsync(_prevScene);
 
-	  PlayerScript.Instance.enabled = true;
 	  PlayerScript.Instance.ToggleTimeSensitiveComponents(enabled: true, affectSelf: false);
+	  // TODO: Detect if player needs help landing on a ledge. If so, help them.
+	  PlayerScript.Instance.enabled = true;
 
 	 _transitioning = false;
     }
@@ -158,6 +159,7 @@ namespace Enter
 	private void onSceneLoad(Scene nextScene, LoadSceneMode mode) {
 		// hopefully no physics frame happen in between scene load and this function. Else Unity documentation lied.
 		if (_repositionOnSceneTransition) {
+			Debug.Log("SCENE LOADED");
 			// we align the new scene.
 			// Get next scene's entry passage
 			EntryPassage entryPassage = null;

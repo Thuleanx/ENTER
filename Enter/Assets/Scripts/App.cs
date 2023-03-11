@@ -15,6 +15,7 @@ namespace Enter
     public void Awake()
     {
       Instance = this;
+	  Application.targetFrameRate = 60;
     }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
