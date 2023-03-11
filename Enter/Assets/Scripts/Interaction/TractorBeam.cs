@@ -12,6 +12,7 @@ namespace Enter {
 
 		[SerializeField, Min(0)] float _dampingConstant = 0.1f; // might introduce oscillations if this is higher than 1
 		[SerializeField] float _tractorAcceleration = 5;
+		[SerializeField] float _tractorMaxSpeed = 30;
 		[SerializeField] Direction direction = Direction.RIGHT;
 
 		void Awake() {
@@ -32,7 +33,10 @@ namespace Enter {
 			float currentDesiredVelocity = Math.Damp(orthoVelocity, 0, _dampingConstant, Time.fixedDeltaTime);
 
 			rigidBody.AddForce((currentDesiredVelocity - orthoVelocity) * orthoDirection * rigidBody.mass, ForceMode2D.Impulse);
-			rigidBody.AddForce(forceDirection * _tractorAcceleration * rigidBody.mass * Time.fixedDeltaTime, ForceMode2D.Impulse);
+
+			float currentVelocityAlongTractor = Vector2.Dot(rigidBody.velocity, forceDirection);
+			if (currentVelocityAlongTractor < _tractorMaxSpeed)
+				rigidBody.AddForce(forceDirection * _tractorAcceleration * rigidBody.mass * Time.fixedDeltaTime, ForceMode2D.Impulse);
 		}
 	}
 }
