@@ -18,12 +18,14 @@ namespace Enter
         private float offTimer;
         private float laserLowest;
         private float floorHeight;
-        Vector2 furthestHitPoint;
 
         private SpriteRenderer spriteRenderer;
         private BoxCollider2D boxCollider;
-        public ParticleSystem particleSystem;
         private LineRenderer lineRenderer;
+        public ParticleSystem particleSystem;
+
+		[SerializeField] LayerMask groundMask; 
+		const float maxRaycastDistance = 100;
 
         // Start is called before the first frame update
         void Start()
@@ -35,79 +37,36 @@ namespace Enter
             lineRenderer = GetComponent<LineRenderer>();
             particleSystem.Clear();
             particleSystem.Stop();
-
-            // Determine how high the floor is
-            RaycastHit2D hit = Physics2D.Raycast(transform.position - Vector3.up*transform.localScale.y, -transform.up);
-            if (hit.collider != null) 
-            {
-                floorHeight = hit.point.y;
-                furthestHitPoint = hit.point;
-            }
-
         }
 
-        Vector2 shootRaycast(Vector3 pos, out bool playerHit) 
-        {
-            playerHit = false;
-
-            RaycastHit2D hit = Physics2D.Raycast(pos - Vector3.up*transform.localScale.y, -transform.up);
-            if (hit.collider != null) 
-            {
-                // Check if laser hit the player
-                if (on && hit.collider.gameObject.CompareTag("Player")) {
-                    playerHit = true;
-                }
-                return hit.point;
-            }
-            else {
-                return furthestHitPoint;
-            }
-        }
+		float shootRaycast(Vector2 pos, LayerMask layerMask) {
+            RaycastHit2D hit = Physics2D.Raycast(pos, -transform.up, maxRaycastDistance, layerMask);
+			if (hit) return hit.distance;
+			return Mathf.Infinity;
+		}
 
         // Update is called once per frame
         void Update()
         {
             lineRenderer.SetPosition(0, new Vector2(0,0));
-            float highestHit = -1000;
-            float nearestHitDist = 1000;
-            Vector2 nearestHitPoint = furthestHitPoint;
-            bool detectedPlayerHit = false;
-            float playerHitHeight = 0;
-            float playerHitDist = 0;
+			float nearestHitDist = 100;
 
-            // Perform raycasts to determine the nearest object hit
-            for (int i = 0; i < numRaycasters + 1; i++) 
-            {
-                float offset = -transform.localScale.x / 2;
-                offset += ((float)i/numRaycasters) * transform.localScale.x;
-                bool playerHit = false;
-                Vector2 newHitPoint = shootRaycast(transform.position + Vector3.right * offset, out playerHit);
-                float newHitDist = Vector2.Distance(transform.position, newHitPoint);
-                if (newHitDist < nearestHitDist) {
-                    nearestHitDist = newHitDist;
-                    nearestHitPoint = newHitPoint;
-                }
-                
-                if (playerHit) {
-                    playerHitDist = newHitDist;
-                    detectedPlayerHit = true;
-                } 
-            }
-
-            Debug.Log(nearestHitDist);
-            nearestHitPoint = -transform.up * nearestHitDist + transform.position;
-
-            lineRenderer.SetPosition(1, nearestHitPoint - new Vector2(transform.position.x, transform.position.y));
-            // If the player is the first object hit, it has been hit by the laser, and make the laser go through the player
-            if (detectedPlayerHit && nearestHitDist == playerHitDist) 
-            {
-                lineRenderer.SetPosition(1, furthestHitPoint - new Vector2(transform.position.x, transform.position.y));
-                PlayerManager.Instance.PlayerScript.Die();
-            }
 
             if (on) 
             {
                 onTimer -= Time.deltaTime;
+
+				// Perform raycasts to determine the nearest object hit
+				for (int i = 0; i < numRaycasters + 1; i++) 
+				{
+					float offset = -transform.localScale.x / 2;
+					offset += ((float)i/numRaycasters) * transform.localScale.x;
+					float newHitDist = shootRaycast(transform.position + Vector3.right * offset, groundMask);
+					if (newHitDist < nearestHitDist)
+						nearestHitDist = newHitDist;
+				}
+
+				Debug.Log(nearestHitDist);
                 // Turn the laser off when on time ends
                 if (onTimer <= 0) 
                 {
@@ -116,6 +75,8 @@ namespace Enter
                     lineRenderer.enabled = false;
                     particleSystem.Play();
                 }
+
+            	lineRenderer.SetPosition(1, nearestHitDist* Vector2.down);
             }
 
             else 
