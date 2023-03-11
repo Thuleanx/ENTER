@@ -100,6 +100,24 @@ namespace Enter
             StartCoroutine("die");
         }
 
+		// Allows for freezing this component (in place and in animation). By default also disable the current component.
+		public void ToggleTimeSensitiveComponents(bool enabled, bool affectSelf = true) {
+			List<Behaviour> behaviours = new List<Behaviour>();
+
+			// anything where disabling would effectively freeze time for the player appears here
+			behaviours.Add(GetComponent<Animator>());
+			behaviours.Add(GetComponent<PlayerColliderScript>());
+			if (affectSelf) behaviours.Add(this);
+
+			// rigidbody have to be treated a little differently, since it is a Component but not a Behaviour
+			Rigidbody2D rigidbody = GetComponent<Rigidbody2D>();
+			// this should disable the rigidbody
+			rigidbody.simulated = enabled;
+
+			foreach (Behaviour behaviour in behaviours)
+				if (behaviour) behaviour.enabled = enabled; // null check not neccessary, since List<T> prevents adding null into it iirc.
+		}
+
         #endregion
 
         #region ================== Helpers

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
+using System.Collections.Generic;
 
 using Enter.Utils;
 
@@ -17,7 +18,6 @@ namespace Enter
 
     private const float _eps = 0.001f;
 
-    private Scene _prevScene;
     private Scene _currScene;
 	private ExitPassage _exitPassage;
 	private bool _repositionOnSceneTransition;
@@ -69,21 +69,27 @@ namespace Enter
     private IEnumerator transitionTo(ExitPassage exitPassage)
     {
       // Set _prevScene
-      _prevScene = SceneManager.GetActiveScene();
+      Scene _prevScene = SceneManager.GetActiveScene();
 
       Assert.AreEqual(_prevScene, _currScene, "At this moment, both scenes should be the same.");
+		
 
       // Load and align next scene (will update _currScene and SpawnPosition)
       yield return loadAndAlignNextScene(exitPassage);
+      OnSceneLoad?.Invoke(_prevScene, _currScene);
 
       Assert.AreNotEqual(_prevScene, _currScene, "At this moment, both scenes should be different.");
 
+	  PlayerScript.Instance.ToggleTimeSensitiveComponents(enabled: false, affectSelf: true);
       // Allow camera movement time
       yield return cameraTransition(_prevScene, _currScene);
 
-
       // Unload _prevScene
       yield return SceneManager.UnloadSceneAsync(_prevScene);
+
+	  PlayerScript.Instance.enabled = true;
+	  PlayerScript.Instance.ToggleTimeSensitiveComponents(enabled: true, affectSelf: false);
+
 	 _transitioning = false;
     }
 
@@ -149,14 +155,14 @@ namespace Enter
       return highestPriorityVC;
     }
 
-	private void onSceneLoad(Scene scene, LoadSceneMode mode) {
+	private void onSceneLoad(Scene nextScene, LoadSceneMode mode) {
 		// hopefully no physics frame happen in between scene load and this function. Else Unity documentation lied.
 		if (_repositionOnSceneTransition) {
 			// we align the new scene.
 			// Get next scene's entry passage
 			EntryPassage entryPassage = null;
 			foreach (EntryPassage x in FindObjectsOfType<EntryPassage>())
-				if (x.gameObject.scene != _prevScene) entryPassage = x;
+				if (x.gameObject.scene == nextScene) entryPassage = x;
 
 			Assert.IsNotNull(entryPassage, "Next scene's entryPassage not found.");
 
@@ -176,7 +182,6 @@ namespace Enter
 			Assert.IsNotNull(_currSpawnPoint, "Next scene's spawnPoint not found.");
 			_repositionOnSceneTransition = false;
 
-      		OnSceneLoad?.Invoke(_prevScene, _currScene);
 		}
 	}
 

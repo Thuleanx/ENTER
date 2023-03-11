@@ -1063,6 +1063,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7344667600691865038, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
+      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[0].x
+      value: 11.022041
+      objectReference: {fileID: 0}
+    - target: {fileID: 7344667600691865038, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
+      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[0].y
+      value: 6.2358737
+      objectReference: {fileID: 0}
+    - target: {fileID: 7344667600691865038, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
+      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[1].x
+      value: -10.861666
+      objectReference: {fileID: 0}
+    - target: {fileID: 7344667600691865038, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
+      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[1].y
+      value: 6.1289573
+      objectReference: {fileID: 0}
+    - target: {fileID: 7344667600691865038, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
+      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[2].x
+      value: -10.968582
+      objectReference: {fileID: 0}
+    - target: {fileID: 7344667600691865038, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
+      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[2].y
+      value: -6.2358747
+      objectReference: {fileID: 0}
+    - target: {fileID: 7344667600691865038, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
+      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[3].x
+      value: 11.02204
+      objectReference: {fileID: 0}
+    - target: {fileID: 7344667600691865038, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
+      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[3].y
+      value: -6.289333
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
 --- !u!1001 &7142682188630846141
