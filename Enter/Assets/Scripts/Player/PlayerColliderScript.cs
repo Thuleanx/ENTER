@@ -1,18 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace Enter
 {
+  [RequireComponent(typeof(BoxCollider2D))]
   public class PlayerColliderScript : MonoBehaviour
   {
+    #region ================== Components
+    public BoxCollider2D Collider { get; private set; }
+    #endregion
+
+    const int NUM_GROUND_RAY_CAST = 2; // don't go beneath 2, otherwise you get NANs
+
     [Header("Layers")]
     [SerializeField] private LayerMask _solidLayers;
     [SerializeField] private LayerMask _rcBoxLayer;
-
-    [Header("Collider Bounds")]
-    [SerializeField] private float _halfH = 0.25f;
-    [SerializeField] private float _halfW  = 0.25f;
 
     [Header("Ground Linecast Position Tweaks")]
     [SerializeField] private float _groundRayDistance = 0.02f;
@@ -42,61 +46,87 @@ namespace Enter
 
     #region ================== Methods
 
+    void Awake() {
+        Collider = GetComponent<BoxCollider2D>();
+    }
+
     void FixedUpdate()
     {
-      OnGround = groundCheckHelper(_solidLayers);
-      OnRCBox  = groundCheckHelper(_rcBoxLayer);
+      OnGround = GroundCheckHelper(_solidLayers);
+      OnRCBox  = GroundCheckHelper(_rcBoxLayer);
 
-      TopLeftmost  = raycastHelper(-_halfW * _outerFrac, _halfH, Vector2.up, _overheadRayDistance, _solidLayers);
-      TopLeft      = raycastHelper(-_halfW * _innerFrac, _halfH, Vector2.up, _overheadRayDistance, _solidLayers);
-      TopRight     = raycastHelper(+_halfW * _innerFrac, _halfH, Vector2.up, _overheadRayDistance, _solidLayers);
-      TopRightmost = raycastHelper(+_halfW * _outerFrac, _halfH, Vector2.up, _overheadRayDistance, _solidLayers);
+      Bounds bound = Collider.bounds;
+
+      Vector2 topCenter = (Vector2) bound.center + Vector2.up * bound.size.y / 2;
+
+      Func<Vector2, bool> overheadCast = (src) => {
+        return Physics2D.Raycast(src, Vector2.up, _overheadRayDistance, _solidLayers);
+      };
+
+      TopLeftmost = overheadCast(GetOverheadPoint(-_outerFrac, bound));
+      TopLeft = overheadCast(GetOverheadPoint(-_innerFrac, bound));
+      TopRight = overheadCast(GetOverheadPoint(_innerFrac, bound));
+      TopRightmost = overheadCast(GetOverheadPoint(_outerFrac, bound));
 
       if (TopLeftmost ^ TopRightmost) 
       {
-        _nudge.x = (_outerFrac - _innerFrac) * _halfW * (TopLeftmost ? 1 : -1);
+        _nudge.x = (_outerFrac - _innerFrac) * bound.size.x / 2 * (TopLeftmost ? 1 : -1);
       }
     }
 
     void OnDrawGizmos()
     {
-      Gizmos.color = Color.red;
+      if (Collider) {
+        Bounds bound = Collider.bounds;
 
-      drawLineHelper(-_halfW, -_halfH, _groundRayOffset);
-      drawLineHelper(+_halfW, -_halfH, _groundRayOffset);
+        Action<Vector2, bool> overheadGizmoDraw = (src, isHitting) => {
+          Gizmos.color = isHitting ? Color.green : Color.red; // red if not hitting, green otherwise
+          Gizmos.DrawLine(src, src + Vector2.up*_overheadRayOffset);
+        };
 
-      drawLineHelper(-_halfW * _outerFrac, +_halfH, _overheadRayOffset);
-      drawLineHelper(-_halfW * _innerFrac, +_halfH, _overheadRayOffset);
-      drawLineHelper(+_halfW * _innerFrac, +_halfH, _overheadRayOffset);
-      drawLineHelper(+_halfW * _outerFrac, +_halfH, _overheadRayOffset);
+        overheadGizmoDraw(GetOverheadPoint(-_outerFrac, bound), TopLeftmost);
+        overheadGizmoDraw(GetOverheadPoint(-_innerFrac, bound), TopLeft);
+        overheadGizmoDraw(GetOverheadPoint(_innerFrac, bound), TopRight);
+        overheadGizmoDraw(GetOverheadPoint(_outerFrac, bound), TopRightmost);
+
+        Gizmos.color = OnGround || OnRCBox ? Color.green : Color.red;
+        Action<Vector2> groundGizmoDraw = (src) => {
+          Gizmos.DrawLine(src, src + Vector2.down * _groundRayDistance);
+        };
+
+        Vector2 bottomLeft = (Vector2) bound.min;
+        for (int i = 0; i < NUM_GROUND_RAY_CAST; i++) {
+          float t = i / (NUM_GROUND_RAY_CAST - 1);
+          Vector2 src = bottomLeft + t * bound.size.x * Vector2.right; // usually you want to add a skin width up if the engine doesn't 
+          groundGizmoDraw(src);
+        }
+      }
     }
 
     #endregion
 
     #region ================== Helpers
 
-    private Vector2 getOffsetPosition(float v1, float v2)
-    {
-      return (Vector2)transform.position + new Vector2(v1, v2);
+    private Vector2 GetOverheadPoint(float offsetFromCenterTop, Bounds bound) {
+      return (Vector2) bound.center + Vector2.up * bound.size.y / 2 + Vector2.right * offsetFromCenterTop * bound.size.x / 2;
     }
 
-    private bool raycastHelper(float localX, float localY, Vector2 direction, float distance, LayerMask layers)
+    private bool GroundCheckHelper(LayerMask layers)
     {
-      return Physics2D.Raycast(getOffsetPosition(localX, localY), direction, distance, layers).collider != null;
-    }
+      bool collidingWithGround = false;
 
-    private bool groundCheckHelper(LayerMask layers)
-    {
-      bool a = raycastHelper(-_halfW, -_halfH, -Vector2.up, _groundRayDistance, layers);
-      bool b = raycastHelper(+_halfW, -_halfH, -Vector2.up, _groundRayDistance, layers);
-      
-      return a || b;
-    }
+      Bounds bound = Collider.bounds;
 
-    private void drawLineHelper(float localX, float localY, Vector2 offset)
-    {
-      Vector2 start = getOffsetPosition(localX, localY);
-      Gizmos.DrawLine(start, start + offset);
+      Vector2 bottomLeft = (Vector2) bound.min;
+
+      for (int i = 0; i < NUM_GROUND_RAY_CAST; i++) {
+        float t = i / (NUM_GROUND_RAY_CAST - 1);
+        Vector2 src = bottomLeft + t * bound.size.x * Vector2.right; // usually you want to add a skin width up if the engine doesn't 
+        collidingWithGround |= Physics2D.Raycast(src, Vector2.down, _groundRayDistance, layers);
+        if (collidingWithGround) break;
+      }
+
+      return collidingWithGround;
     }
 
     #endregion

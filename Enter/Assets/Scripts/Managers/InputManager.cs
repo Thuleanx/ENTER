@@ -10,6 +10,8 @@ namespace Enter
     public Vector2 Mouse;
     public bool    LDown;
     public bool    RDown;
+    
+    public Vector3 MouseWorld => Camera.main.ScreenToWorldPoint(new Vector3(Mouse.x, Mouse.y, Camera.main.nearClipPlane));
   }
 
   [DisallowMultipleComponent]

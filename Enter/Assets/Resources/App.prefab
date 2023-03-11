@@ -200,6 +200,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rc: {fileID: 972218654827469861}
+  _rcAreaLayer:
+    serializedVersion: 2
+    m_Bits: 16384
   _lastRCTime: -Infinity
   _minRCInterval: 1
   _rcBoxFadeoutTime: 0
@@ -471,3 +474,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7154730a84fcf13488e756b6ead51da2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnSceneLoad:
+    m_PersistentCalls:
+      m_Calls: []

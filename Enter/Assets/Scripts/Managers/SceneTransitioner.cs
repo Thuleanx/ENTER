@@ -3,6 +3,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
+using System.Collections.Generic;
 
 using Enter.Utils;
 
@@ -12,17 +14,20 @@ namespace Enter
   public class SceneTransitioner : MonoBehaviour
   {
     public static SceneTransitioner Instance;
+	public UnityEvent<Scene, Scene> OnSceneLoad;
 
     private const float _eps = 0.001f;
 
-    private Scene _prevScene;
     private Scene _currScene;
+	private ExitPassage _exitPassage;
+	private bool _repositionOnSceneTransition;
+	private bool _transitioning;
 
-    private GameObject _spawnPoint;
+    private GameObject _currSpawnPoint;
 
     #region ================== Accessors
 
-    public Vector3 SpawnPosition => _spawnPoint.transform.position;
+    public Vector3 SpawnPosition => _currSpawnPoint.transform.position;
 
     #endregion
 
@@ -32,16 +37,29 @@ namespace Enter
     {
       Instance = this;
       _currScene = SceneManager.GetActiveScene();
-      _spawnPoint = findSpawnPointAny();
+      _currSpawnPoint = findSpawnPointAny();
     }
 
+	void OnEnable() {
+		_repositionOnSceneTransition = false;
+		SceneManager.sceneLoaded += onSceneLoad;
+	}
+
+	void OnDisable() {
+		SceneManager.sceneLoaded -= onSceneLoad;
+	}
 
     public void Transition(ExitPassage exitPassage)
     {
       Assert.IsNotNull(exitPassage, "Current scene's exitPassage must be provided.");
       Assert.IsNotNull(exitPassage.NextSceneReference, "ExitPassage must have a NextSceneReference.");
 
-      StartCoroutine(transitionTo(exitPassage));
+	  if (!_transitioning) {
+		_transitioning = true;
+      	StartCoroutine(transitionTo(exitPassage));
+	  } else {
+		Debug.LogError("Attempt to scene transition while another scene transition is happening.");
+	  }
     }
 
     #endregion
@@ -51,12 +69,15 @@ namespace Enter
     private IEnumerator transitionTo(ExitPassage exitPassage)
     {
       // Set _prevScene
-      _prevScene = SceneManager.GetActiveScene();
+      Scene _prevScene = SceneManager.GetActiveScene();
 
       Assert.AreEqual(_prevScene, _currScene, "At this moment, both scenes should be the same.");
+		
+	  PlayerScript.Instance.ToggleTimeSensitiveComponents(enabled: false, affectSelf: true);
 
       // Load and align next scene (will update _currScene and SpawnPosition)
       yield return loadAndAlignNextScene(exitPassage);
+      OnSceneLoad?.Invoke(_prevScene, _currScene);
 
       Assert.AreNotEqual(_prevScene, _currScene, "At this moment, both scenes should be different.");
 
@@ -64,36 +85,23 @@ namespace Enter
       yield return cameraTransition(_prevScene, _currScene);
 
       // Unload _prevScene
-      SceneManager.UnloadSceneAsync(_prevScene);
+      yield return SceneManager.UnloadSceneAsync(_prevScene);
+
+	  PlayerScript.Instance.ToggleTimeSensitiveComponents(enabled: true, affectSelf: false);
+	  // TODO: Detect if player needs help landing on a ledge. If so, help them.
+	  PlayerScript.Instance.enabled = true;
+
+	 _transitioning = false;
     }
 
     private IEnumerator loadAndAlignNextScene(ExitPassage exitPassage)
     { 
+	  _exitPassage = exitPassage;
       // Load next scene (must wait one frame for additive scene load)
       exitPassage.NextSceneReference.LoadScene(LoadSceneMode.Additive);
-      yield return null;
-
-      // Get next scene's entry passage
-      EntryPassage entryPassage = null;
-      foreach (EntryPassage x in FindObjectsOfType<EntryPassage>())
-        if (x.gameObject.scene != _prevScene) entryPassage = x;
-
-      Assert.IsNotNull(entryPassage, "Next scene's entryPassage not found.");
-
-      // Get next scene's root transform
-      Transform rootTransform = entryPassage.transform.root;
-
-      Assert.IsNotNull(rootTransform, "Next scene's root not found.");
-
-      // Align next scene
-      rootTransform.position += exitPassage.transform.position - entryPassage.transform.position;
-      
-      // Set _currScene
-      _currScene = entryPassage.gameObject.scene;
-
-      // Set _spawnPoint
-      _spawnPoint = findSpawnPoint(_currScene);
-      Assert.IsNotNull(_spawnPoint, "Next scene's spawnPoint not found.");
+	  _repositionOnSceneTransition = true;
+	  while (_repositionOnSceneTransition)
+      	yield return null; // alignment should happen in between here. This should only run once
     }
 
     private IEnumerator cameraTransition(Scene _prevScene, Scene _currScene)
@@ -117,7 +125,7 @@ namespace Enter
       
       // Wait until camera has moved to the highest-priority virtual camera in _currScene
       CinemachineVirtualCamera _currSceneVC = findHighestPriorityVC(_currScene);
-      while (Vector3.Distance(camera.transform.position, _currSceneVC.transform.position) > _eps)
+      while (Vector2.Distance(camera.transform.position, _currSceneVC.State.CorrectedPosition) > _eps)
         yield return null;
     }
 
@@ -147,6 +155,37 @@ namespace Enter
 
       return highestPriorityVC;
     }
+
+	private void onSceneLoad(Scene nextScene, LoadSceneMode mode) {
+		// hopefully no physics frame happen in between scene load and this function. Else Unity documentation lied.
+		if (_repositionOnSceneTransition) {
+			Debug.Log("SCENE LOADED");
+			// we align the new scene.
+			// Get next scene's entry passage
+			EntryPassage entryPassage = null;
+			foreach (EntryPassage x in FindObjectsOfType<EntryPassage>())
+				if (x.gameObject.scene == nextScene) entryPassage = x;
+
+			Assert.IsNotNull(entryPassage, "Next scene's entryPassage not found.");
+
+			// Get next scene's root transform
+			Transform rootTransform = entryPassage.transform.root;
+
+			Assert.IsNotNull(rootTransform, "Next scene's root not found.");
+
+			// Align next scene
+			rootTransform.position += _exitPassage.transform.position - entryPassage.transform.position;
+			
+			// Set _currScene
+			_currScene = entryPassage.gameObject.scene;
+
+			// Set _currSpawnPoint
+			_currSpawnPoint = findSpawnPoint(_currScene);
+			Assert.IsNotNull(_currSpawnPoint, "Next scene's spawnPoint not found.");
+			_repositionOnSceneTransition = false;
+
+		}
+	}
 
     #endregion
   }
