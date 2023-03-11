@@ -1,93 +1,63 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Enter.Utils;
 
-public class PlayerAnimator : MonoBehaviour
+namespace Enter
 {
-    private GameObject _charSprite;
-
+  public class PlayerAnimator : MonoBehaviour
+  {
     [SerializeField, Tooltip("How much the sprite scales when jumping")]
-    private Vector3 _jumpVerticalStretch = new Vector3(1, 1.5f, 1);
+    private Vector3 _maxJumpScale = new Vector3(1, 1.5f, 1);
+
+    [SerializeField, Tooltip("Vertical speed at which the max jump scale is attained")]
+    private float _maxJumpSpeed = 1;
 
     [SerializeField, Tooltip("How much the sprite scales when landing")]
     private Vector3 _landStretch = new Vector3(1.5f, 0.7f, 1);
-    private Vector3 _defaultStretch = new Vector3(1f, 1f, 1f);
 
-    [SerializeField, Tooltip("The time that it takes after jumping to bounce back to original scale.")]
-    private float _postJumpDelay = 0.5f;
+    [SerializeField, Tooltip("The transition speed to lerp between current and target scales.")]
+    private float _transitionSpeed = 50f;
 
-    private Vector3 _targetScale = new Vector3(1, 1, 1);
-    private float _transitionSpeed;
+    private Vector3 _initialScale;
+    private Vector3 _targetScale;
+    private Vector3 _currentScale { 
+      get { return PlayerManager.Instance.Player.transform.localScale; }
+      set { PlayerManager.Instance.Player.transform.localScale = value; }
+    }
 
-    [SerializeField, Tooltip("The default transition speed to lerp between scales.")]
-    private float _defaultTransitionSpeed = 10f;
-
-    [SerializeField, Tooltip("The transition speed to lerp between scales when jumping.")]
-    private float _jumpingTransitionSpeed = 20f;
-
-    private float _maxJumpSpeed = 1f;
     // How close to being on 
     private float _progressToFullJumpStretch = 0;
 
     private float _landSpeed;
+
+    #region ================== Methods
+
     void Start()
     {
-        _charSprite = this.gameObject.transform.GetChild(0).gameObject;
-        _targetScale = _defaultStretch;
-        _transitionSpeed = _defaultTransitionSpeed;
+      _initialScale = _currentScale;
+      _targetScale  = _currentScale;
     }
 
     // Update is called once per frame
     void LateUpdate()
     {
-        _charSprite.gameObject.transform.localScale = Math.Damp(
-            _charSprite.gameObject.transform.localScale,
-            _targetScale, _transitionSpeed, Time.deltaTime
-        );
+      _currentScale = Math.Damp(
+        _currentScale,
+        _targetScale,
+        _transitionSpeed,
+        Time.deltaTime
+      );
     }
 
-    public void snapToDef()
-    {
-        _charSprite.gameObject.transform.localScale = _defaultStretch;
-        _targetScale = _defaultStretch;
-        _transitionSpeed = _defaultTransitionSpeed;
-    }
-
-// CURRENTLY, we are just interpolating based on y velocity
-    // public void jump()
-    // {
-    //     // _charSprite.gameObject.transform.localScale = _jumpVerticalStretch;
-    //     StartCoroutine(jumpStretch());
-    // }
-
-    // private IEnumerator jumpStretch()
-    // {
-    //     _targetScale = _jumpVerticalStretch;
-    //     _transitionSpeed = _defaultTransitionSpeed;
-
-    //     yield return new WaitForSeconds(_postJumpDelay);
-
-    //     _targetScale = _defaultStretch;
-    //     _transitionSpeed = _jumpingTransitionSpeed;
-    // }
-
-    // Set the max jump velocity so that we can scale the jump progress
-    // accordingly
     public void setMaxJumpVelocity(float max)
     {
-        _maxJumpSpeed = max;
+      _maxJumpSpeed = max;
     }
 
     public void setJumpProgressFromYVelocity(Vector3 velocity)
     {
-        _progressToFullJumpStretch = velocityToStretchConstant(velocity.y);
-        _targetScale = Vector3.Lerp(_defaultStretch, _jumpVerticalStretch, _progressToFullJumpStretch);
-    }
-
-    float velocityToStretchConstant(float vel)
-    {
-        return vel / _maxJumpSpeed;
+      _progressToFullJumpStretch = velocityToStretchConstant(velocity.y);
+      _targetScale = Vector3.Lerp(_initialScale, _maxJumpScale, _progressToFullJumpStretch);
     }
 
     public void land()
@@ -95,13 +65,24 @@ public class PlayerAnimator : MonoBehaviour
         StartCoroutine(landStretch());
     }
 
+    #endregion
+
+    #region ================== Helpers
+
+    float velocityToStretchConstant(float vel)
+    {
+        return vel / _maxJumpSpeed;
+    }
+
     private IEnumerator landStretch()
     {
         _targetScale = _landStretch;
-        _charSprite.gameObject.transform.localScale = _landStretch;
 
         yield return new WaitForSeconds(_landSpeed);
 
-        _targetScale = _defaultStretch;
+        _targetScale = _initialScale;
     }
+
+    #endregion
+  }
 }
