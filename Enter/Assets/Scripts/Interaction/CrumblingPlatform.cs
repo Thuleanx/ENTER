@@ -25,9 +25,10 @@ public class CrumblingPlatform : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Player" && this.edgeCollider.IsTouching(other.gameObject.GetComponent<Collider2D>()))
+        // If player touches edge collider trigger
+        if (other.gameObject.tag == "Player")
         {
             StartCoroutine(this.Crumble());
         }
