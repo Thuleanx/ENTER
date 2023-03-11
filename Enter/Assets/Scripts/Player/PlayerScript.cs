@@ -12,10 +12,10 @@ namespace Enter
     {
         public static PlayerScript Instance = null;
 
-        private Rigidbody2D _rb;
+        private Rigidbody2D          _rb;
         private PlayerColliderScript _co;
-        private PlayerAnimator _pa;
-        private InputData _in;
+        private PlayerAnimator       _pa;
+        private InputData            _in;
 
         private const float _eps = 0.001f;
 
@@ -108,7 +108,8 @@ namespace Enter
         }
 
 		// Allows for freezing this component (in place and in animation). By default also disable the current component.
-		public void ToggleTimeSensitiveComponents(bool enabled, bool affectSelf = true) {
+		public void ToggleTimeSensitiveComponents(bool enabled, bool affectSelf = true)
+    {
 			List<Behaviour> behaviours = new List<Behaviour>();
 
 			// anything where disabling would effectively freeze time for the player appears here
