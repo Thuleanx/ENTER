@@ -771,21 +771,17 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7087370806217842555, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
-      propertyPath: m_Lens.OrthographicSize
-      value: 12
-      objectReference: {fileID: 0}
     - target: {fileID: 7087370806279255378, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
       propertyPath: orthographic size
-      value: 12
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7087370806279255469, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.9111948
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7087370806279255469, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.46923998
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7344667600691865038, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[0].x

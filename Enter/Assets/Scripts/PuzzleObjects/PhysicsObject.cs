@@ -23,5 +23,8 @@ namespace Enter {
 				if (--_numTractorsColliding == 0)
 					Body.gravityScale = _initialGravity;
 		}
+
+		void OnCollisionEnter2D(Collision2D other) {
+		}
 	}
 }
