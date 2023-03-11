@@ -10,6 +10,11 @@ namespace Enter.Utils {
 			return source * t + target * (1 - t);
 		}
 
+		public static Vector3 Damp(Vector3 source, Vector3 target, float smoothing, float dt) {
+			float t = Mathf.Exp(-smoothing * dt); 
+			return source * t + target * (1 - t);
+		}
+
 		public static float Damp(float source, float target, float smoothing, float dt) {
 			float t = Mathf.Exp(-smoothing * dt); 
 			return source * t + target * (1 - t);

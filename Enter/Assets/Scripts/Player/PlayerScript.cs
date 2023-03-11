@@ -14,6 +14,7 @@ namespace Enter
 
         private Rigidbody2D _rb;
         private PlayerColliderScript _co;
+        private PlayerAnimator _pa;
         private InputData _in;
 
         private const float _eps = 0.001f;
@@ -66,6 +67,9 @@ namespace Enter
         private float _deathRespawnDelay = 0.5f;
 
         private bool _isDead;
+        
+        // Separate from player collider on ground so that we can see when it hit the ground
+        private bool _isGrounded;
         bool _groundedAfterTransition;
 
         #endregion
@@ -75,13 +79,16 @@ namespace Enter
         void Awake()
         {
             Instance = this;
-            calculateJumpConstants();
         }
 
         void Start()
         {
+            calculateJumpConstants();
+
             _rb = GetComponent<Rigidbody2D>();
             _co = GetComponent<PlayerColliderScript>();
+            _pa = GetComponent<PlayerAnimator>();
+            _pa.setMaxJumpVelocity(_jumpSpeed);
             _in = InputManager.Instance.Data;
 
             SceneTransitioner.Instance.OnSceneLoad.AddListener(_OnSceneLoad);
@@ -145,7 +152,11 @@ namespace Enter
         private void handleJump()
         {
             // Store last grounded time for coyote-time purposes
-            if (_co.OnGround) _lastGroundedTime = Time.time;
+            if (_co.OnGround) {
+                _lastGroundedTime = Time.time;
+            }
+
+            _pa.setJumpProgressFromYVelocity(_rb.velocity);
 
             // Implements additional coyote time for falling off an RCBox while stationary
             if (_co.OnRCBox && Mathf.Abs(_rb.velocity.x) < _eps) _lastGroundedTime = Time.time + _additionalRCBoxCoyoteTime;
@@ -154,8 +165,17 @@ namespace Enter
             if (_in.Jump && (_co.OnGround || Time.time - _coyoteTime < _lastGroundedTime))
             {
                 _rb.velocity = new Vector2(_rb.velocity.x, _jumpSpeed);
+                // _pa.jump();
+                // _isGrounded = false; // TODO: Bad?
                 _lastGroundedTime = -Mathf.Infinity;
             }
+        }
+
+        private void landOnGround() {
+            Debug.Log("Landed on ground");
+            _isGrounded = _co.OnGround;
+            _pa.land();
+            //TODO: Add particles
         }
 
         private void handleMidairNudge()
@@ -188,6 +208,15 @@ namespace Enter
         {
             float multiplier = 1;
             _groundedAfterTransition |= _co.OnGround;
+
+
+            // if(!_isGrounded && _co.OnGround) {
+            //     landOnGround();
+            // } 
+            // else if (_isGrounded && _co.OnGround) {
+            //     Debug.Log("Leaving ground");
+            //     _isGrounded = false;
+            // }
 
             // Implement "low jumps"
             if (_rb.velocity.y > 0 && !_in.Jump) multiplier *= _lowJumpMultiplier;
