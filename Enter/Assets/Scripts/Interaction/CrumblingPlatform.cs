@@ -7,22 +7,15 @@ public class CrumblingPlatform : MonoBehaviour
     Renderer renderer;
     float preCrumblingDuration = 0.5f;
     float crumblingDuration = 3.0f;
+    float postCrumblingDuration = 1f;
     Color originalColor = Color.white;
     Color crumblingColor = Color.red;
-    // [SerializedField] private EdgeCollider2D edgeCollider;
     EdgeCollider2D edgeCollider;
 
-    // Start is called before the first frame update
     void Start()
     {
         this.renderer = GetComponent<Renderer>();
         this.edgeCollider = GetComponent<EdgeCollider2D>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -41,9 +34,16 @@ public class CrumblingPlatform : MonoBehaviour
         this.renderer.material.color = crumblingColor;
         GetComponent<EdgeCollider2D>().enabled = false;
         yield return new WaitForSeconds(this.crumblingDuration);
-
+        GetComponent<BoxCollider2D>().enabled = false;
+        GetComponent<SpriteRenderer>().enabled = false;
+        Debug.Log("Platform dies.");
+        yield return new WaitForSeconds(this.postCrumblingDuration);
+        Debug.Log("Platform returns.");
         this.renderer.material.color = originalColor;
-        GetComponent<EdgeCollider2D>().enabled = true;
+        GetComponent<BoxCollider2D>().enabled = true;
+        GetComponent<SpriteRenderer>().enabled = true;
+        GetComponent<EdgeCollider2D>().enabled = true; //what if platform regenerates before then?
+        Debug.Log("Fixed.");
         yield return null;
     }
 }
