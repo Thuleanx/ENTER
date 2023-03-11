@@ -64,8 +64,11 @@ namespace Enter {
 			colorBuffer = renderingData.cameraData.renderer.cameraColorTarget; // where we'll write to
 			RenderTextureDescriptor descriptor = renderingData.cameraData.cameraTargetDescriptor;
 
-			pixelScreenDimension.x = settings.screenHeight;
-			pixelScreenDimension.y = (int) (pixelScreenDimension.x * renderingData.cameraData.camera.aspect + 0.5f); // round up so you won't get black edge
+			// pixelScreenDimension.x = renderingData.cameraData.camera.pixelWidth;
+			// pixelScreenDimension.y = renderingData.cameraData.camera.pixelHeight;
+
+			pixelScreenDimension.y = settings.screenHeight;
+			pixelScreenDimension.x = (int) (pixelScreenDimension.y * renderingData.cameraData.camera.aspect + 0.5f); // round up so you won't get black edge
 
 			// provide material with what it needs
 			if (material) {
