@@ -10,6 +10,7 @@ namespace Enter
   {
     #region ================== Components
     public BoxCollider2D Collider { get; private set; }
+    public ParticleSystem dust;
     #endregion
 
     const int NUM_GROUND_RAY_CAST = 2; // don't go beneath 2, otherwise you get NANs
@@ -42,18 +43,28 @@ namespace Enter
     private Vector2 _nudge = Vector2.zero;
     [property:SerializeField] public Vector2 Nudge { get { return _nudge; } }
 
+    private float _lastGroundedTime;
+
     #endregion
 
     #region ================== Methods
 
     void Awake() {
         Collider = GetComponent<BoxCollider2D>();
+        _lastGroundedTime = Time.time;
     }
 
     void FixedUpdate()
     {
       OnGround = GroundCheckHelper(_solidLayers);
       OnRCBox  = GroundCheckHelper(_rcBoxLayer);
+
+      if(OnGround){
+        if(Time.time-_lastGroundedTime > 0.65){
+          dust.Play();
+        }
+        _lastGroundedTime = Time.time;
+      }
 
       Bounds bound = Collider.bounds;
 
