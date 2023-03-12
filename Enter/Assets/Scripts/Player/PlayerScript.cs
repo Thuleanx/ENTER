@@ -91,7 +91,6 @@ namespace Enter
       _in = InputManager.Instance.Data;
     }
 
-
     void FixedUpdate()
     {
       if (_isDead) return;

@@ -200,8 +200,6 @@ namespace Enter
       _currSpawnPoint = findSpawnPoint(_currScene);
       Assert.IsNotNull(_currSpawnPoint, "Next scene's spawnPoint not found.");
       _repositionOnSceneTransition = false;
-
-
     }
 
     #endregion

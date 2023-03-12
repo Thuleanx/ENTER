@@ -9,5 +9,3 @@ namespace Enter
     // Nothing
   }
 }
-
-
