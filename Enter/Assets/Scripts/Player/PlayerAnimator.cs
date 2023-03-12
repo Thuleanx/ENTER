@@ -20,9 +20,10 @@ namespace Enter
 
     private Vector3 _initialScale;
     private Vector3 _targetScale;
-    private Vector3 _currentScale { 
-      get { return PlayerManager.Instance.Player.transform.localScale; }
-      set { PlayerManager.Instance.Player.transform.localScale = value; }
+    private Vector3 _currentScale
+    {
+      get { return PlayerManager.Player.transform.localScale; }
+      set { PlayerManager.Player.transform.localScale = value; }
     }
 
     // How close to being on 
@@ -35,7 +36,7 @@ namespace Enter
     void Start()
     {
       _initialScale = _currentScale;
-      _targetScale  = _currentScale;
+      _targetScale = _currentScale;
     }
 
     // Update is called once per frame
@@ -62,7 +63,7 @@ namespace Enter
 
     public void land()
     {
-        StartCoroutine(landStretch());
+      StartCoroutine(landStretch());
     }
 
     #endregion
@@ -71,16 +72,16 @@ namespace Enter
 
     float velocityToStretchConstant(float vel)
     {
-        return vel / _maxJumpSpeed;
+      return vel / _maxJumpSpeed;
     }
 
     private IEnumerator landStretch()
     {
-        _targetScale = _landStretch;
+      _targetScale = _landStretch;
 
-        yield return new WaitForSeconds(_landSpeed);
+      yield return new WaitForSeconds(_landSpeed);
 
-        _targetScale = _initialScale;
+      _targetScale = _initialScale;
     }
 
     #endregion

@@ -4,6 +4,6 @@ namespace Enter
 {
   public class SpawnPoint : MonoBehaviour
   {
-    
+    // Nothing
   }
 }
