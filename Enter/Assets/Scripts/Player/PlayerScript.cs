@@ -12,10 +12,10 @@ namespace Enter
   {
     public static PlayerScript Instance = null;
 
-    private Rigidbody2D _rb;
+    private Rigidbody2D          _rb;
     private PlayerColliderScript _co;
-    private PlayerAnimator _pa;
-    private InputData _in;
+    private PlayerAnimator       _pa;
+    private InputData            _in;
 
     private const float _eps = 0.001f;
 
@@ -100,7 +100,7 @@ namespace Enter
 
     public void Die()
     {
-      StartCoroutine("die");
+      StartCoroutine(die());
     }
 
     // Allows for freezing this component (in place and in animation). By default also disable the current component.
@@ -228,6 +228,8 @@ namespace Enter
 
     private IEnumerator die()
     {
+      if (_isDead) yield break;
+      
       _isDead = true;
       _rb.velocity = Vector2.zero;
 

@@ -4825,7 +4825,7 @@ GameObject:
   - component: {fileID: 3542656023733496962}
   - component: {fileID: 3542656023733496961}
   m_Layer: 12
-  m_Name: 'Laser '
+  m_Name: Laser
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4914,15 +4914,15 @@ MonoBehaviour:
   onInteractFunctions:
     m_PersistentCalls:
       m_Calls: []
-  onDuration: 2
-  offDuration: 2
-  on: 0
-  numRaycasters: 4
-  particleSystem: {fileID: 3542656022684808436}
-  groundMask:
+  _onDuration: 2
+  _offDuration: 2
+  _on: 0
+  _numRaycasts: 4
+  _particleSystem: {fileID: 3542656022684808436}
+  _groundMask:
     serializedVersion: 2
     m_Bits: 6144
-  playerMask:
+  _playerMask:
     serializedVersion: 2
     m_Bits: 7168
 --- !u!120 &3542656023733496961

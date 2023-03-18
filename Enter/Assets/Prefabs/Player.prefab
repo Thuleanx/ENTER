@@ -100,7 +100,7 @@ MonoBehaviour:
   _speed: 8
   _jumpHeight: 5
   _timeToMaxHeight: 0.45
-  _maxFall: -12.5
+  _maxFall: -15
   _jumpPeakMultiplier: 0.5
   _jumpPeakThreshold: 3
   _lowJumpMultiplier: 3
@@ -120,6 +120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dust: {fileID: 8770105178878157972}
+  _collider: {fileID: 3675825429863194671}
   _solidLayers:
     serializedVersion: 2
     m_Bits: 6144
@@ -127,6 +128,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2048
   _groundRayDistance: 0.02
+  _numGroundRays: 2
   _overheadRayDistance: 0.5
   _outerFrac: 1.02
   _innerFrac: 0.25
