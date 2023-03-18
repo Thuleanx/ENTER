@@ -5,17 +5,44 @@ using UnityEngine;
 public class CrumblingPlatform : MonoBehaviour
 {
   Renderer _renderer;
-  float preCrumblingDuration = 0.5f;
-  float crumblingDuration = 3.0f;
-  float postCrumblingDuration = 1f;
+  
   Color originalColor = Color.white;
   Color crumblingColor = Color.red;
-  EdgeCollider2D edgeCollider;
+
+  [SerializeField] private float preCrumblingDuration = 0.5f;
+  [SerializeField] private float postCrumblingDuration = 1f;
+  [SerializeField] private float crumblingDuration = 3.0f;
+  [SerializeField] private float edgeColliderYOffset = 0.05f;
+
+  private Vector2 _topLeft_local        => Vector2.zero + Vector2.up / 2.0f + Vector2.left / 2.0f;
+  private Vector2 _topRight_local       => Vector2.zero + Vector2.up / 2.0f + Vector2.right / 2.0f;
+  private Vector2 _topLeft_global       => transform.TransformPoint(_topLeft_local);
+  private Vector2 _topRight_global      => transform.TransformPoint(_topRight_local);
+
+
 
   void Start()
   {
     this._renderer = GetComponent<Renderer>();
-    this.edgeCollider = GetComponent<EdgeCollider2D>();
+    this.setupEdgeColliderPoints();
+  }
+
+  void setupEdgeColliderPoints()
+  {
+    // setup the edge collider at a fixed offset based on edgeColliderYOffset
+    EdgeCollider2D edgeCollider = GetComponent<EdgeCollider2D>();
+    
+    Vector2 edgeCollliderTopLeft_global   = _topLeft_global;
+    Vector2 edgeCollliderTopRight_global  = _topRight_global;
+
+    edgeCollliderTopLeft_global.y += edgeColliderYOffset;
+    edgeCollliderTopRight_global.y += edgeColliderYOffset;
+
+    List<Vector2> edgeColliderPoints = new List<Vector2>();
+    edgeColliderPoints.Add(transform.InverseTransformPoint(edgeCollliderTopLeft_global));
+    edgeColliderPoints.Add(transform.InverseTransformPoint(edgeCollliderTopRight_global));
+
+    edgeCollider.points = edgeColliderPoints.ToArray();
   }
 
   private void OnTriggerEnter2D(Collider2D other)

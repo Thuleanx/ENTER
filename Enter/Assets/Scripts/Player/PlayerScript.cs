@@ -24,40 +24,34 @@ namespace Enter
     [Header("Movement")]
 
     [SerializeField, Tooltip("Maximum horizontal speed.")]
-    private float _speed = 5;
+    private float _speed;
 
     [SerializeField, Tooltip("Maximum height for a jump.")]
-    private float _jumpHeight = 3;
+    private float _jumpHeight;
 
     [SerializeField, Tooltip("Maximum time before the maximum jump height of the player is reached.")]
-    private float _timeToMaxHeight = .5f;
-
-    // Maximum initial upward velocity when a jump is started.
-    private float _jumpSpeed;
-
-    // Acceleration due to gravity.
-    private float _gravity;
+    private float _timeToMaxHeight;
 
     [SerializeField, Tooltip("Maximum speed when falling due to gravity.")]
-    private float _maxFall = -10;
+    private float _maxFall;
 
     [Header("Movement Tweaks")]
 
     [SerializeField, Tooltip("Gravity multiplier for when absolute vertical velocity is less than threshold.")]
-    private float _jumpPeakMultiplier = .5f;
+    private float _jumpPeakMultiplier;
 
     [SerializeField, Tooltip("Threshold for the above.")]
-    private float _jumpPeakThreshold = 2f;
+    private float _jumpPeakThreshold;
 
     [SerializeField, Tooltip("Gravity multiplier for when the jump input is not held down.")]
-    private float _lowJumpMultiplier = 3f;
+    private float _lowJumpMultiplier;
 
     [SerializeField, Tooltip("Time after becoming ungrounded by any means other than jumping, during which jumping is permitted.")]
-    private float _coyoteTime = 0.05f;
+    private float _coyoteTime;
     private float _lastGroundedTime = -Mathf.Infinity;
 
     [SerializeField, Tooltip("Additional coyote time after falling off an RCBox while stationary.")]
-    private float _additionalRCBoxCoyoteTime = 0.1f;
+    private float _additionalRCBoxCoyoteTime;
 
     private bool _alreadyNudged;
 
@@ -73,6 +67,22 @@ namespace Enter
 
     #endregion
 
+    #region ================== Math For Jump
+
+    private float v0 => _jumpSpeed;
+    private float vc => _jumpPeakThreshold;
+    private float tm => _timeToMaxHeight;
+    private float h  => _jumpHeight;
+    private float g  => _gravity;
+    
+    // Maximum initial upward velocity when a jump is started.
+    private float _jumpSpeed => (h + Mathf.Sqrt(Mathf.Pow(h, 2) + 2 * h * tm * vc - Mathf.Pow(tm, 2) * Mathf.Pow(vc, 2))) / tm;
+
+    // Acceleration due to gravity.
+    private float _gravity => -(v0 + vc) / tm;
+
+    #endregion
+
     #region ================== Methods
 
     void Awake()
@@ -82,8 +92,6 @@ namespace Enter
 
     void Start()
     {
-      calculateJumpConstants();
-
       _rb = GetComponent<Rigidbody2D>();
       _co = GetComponent<PlayerColliderScript>();
       _pa = GetComponent<PlayerAnimator>();
@@ -134,12 +142,6 @@ namespace Enter
       handleGravity();
     }
 
-    private void calculateJumpConstants()
-    {
-      _gravity = -((2 * _jumpHeight) - _jumpPeakThreshold + (2 * _timeToMaxHeight * _jumpPeakThreshold)) / Mathf.Pow(_timeToMaxHeight, 2);
-      _jumpSpeed = _jumpPeakThreshold + (-_gravity * _timeToMaxHeight) - (2 * _jumpPeakThreshold);
-    }
-
     private void handleWalk()
     {
       // Handles horizontal motion
@@ -163,8 +165,12 @@ namespace Enter
       if (_in.Jump && (_co.OnGround || Time.time - _coyoteTime < _lastGroundedTime))
       {
         _rb.velocity = new Vector2(_rb.velocity.x, _jumpSpeed);
+        Debug.Log(_rb.velocity);
+        Debug.Log(_gravity);
+
         // _pa.jump();
         // _isGrounded = false; // TODO: Bad?
+
         _lastGroundedTime = -Mathf.Infinity;
       }
     }
@@ -229,7 +235,7 @@ namespace Enter
     private IEnumerator die()
     {
       if (_isDead) yield break;
-      
+
       _isDead = true;
       _rb.velocity = Vector2.zero;
 
