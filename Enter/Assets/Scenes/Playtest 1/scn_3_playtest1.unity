@@ -136,7 +136,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2309567756344072615, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
       propertyPath: m_LocalScale.x
-      value: 4
+      value: 3.9504
       objectReference: {fileID: 0}
     - target: {fileID: 2309567756344072615, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
       propertyPath: m_LocalScale.y
@@ -144,7 +144,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2309567756344072615, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2
+      value: -2.0249
       objectReference: {fileID: 0}
     - target: {fileID: 2309567756344072615, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -184,37 +184,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2309567756344072619, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
       propertyPath: m_Name
-      value: CrumblingPlatform (1)
+      value: CrumblingPlatform 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
---- !u!1 &38477312 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2309567756344072619, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
-  m_PrefabInstance: {fileID: 38477311}
-  m_PrefabAsset: {fileID: 0}
---- !u!68 &38477313
-EdgeCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 38477312}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_EdgeRadius: 0
-  m_Points:
-  - {x: -0.5, y: 0.55}
-  - {x: 0.5, y: 0.55}
-  m_AdjacentStartPoint: {x: 0, y: 0}
-  m_AdjacentEndPoint: {x: 0, y: 0}
-  m_UseAdjacentStartPoint: 0
-  m_UseAdjacentEndPoint: 0
 --- !u!1001 &398250819
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -284,33 +257,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d158457129f0547fe9f242f4bb6069c0, type: 3}
---- !u!1 &423311651 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2309567756344072619, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
-  m_PrefabInstance: {fileID: 1493469782}
-  m_PrefabAsset: {fileID: 0}
---- !u!68 &423311657
-EdgeCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 423311651}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_EdgeRadius: 0
-  m_Points:
-  - {x: -0.5, y: 0.55}
-  - {x: 0.5, y: 0.55}
-  m_AdjacentStartPoint: {x: 0, y: 0}
-  m_AdjacentEndPoint: {x: 0, y: 0}
-  m_UseAdjacentStartPoint: 0
-  m_UseAdjacentEndPoint: 0
 --- !u!1001 &487904335
 PrefabInstance:
   m_ObjectHideFlags: 0
