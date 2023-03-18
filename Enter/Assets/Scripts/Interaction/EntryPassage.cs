@@ -4,6 +4,6 @@ namespace Enter
 {
   public class EntryPassage : MonoBehaviour
   {
-    
+    // Nothing
   }
 }

@@ -1,8 +1,4 @@
 using UnityEngine;
-using UnityEngine.Assertions;
-using UnityEngine.InputSystem;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace Enter
 {
@@ -15,11 +11,11 @@ namespace Enter
 
     #region ================== Accessors
 
-    public GameObject   Player       => PlayerScript.Instance.gameObject;
-    public PlayerScript PlayerScript => PlayerScript.Instance;
+    public static GameObject Player => PlayerScript.Instance.gameObject;
+    public static PlayerScript PlayerScript => PlayerScript.Instance;
 
     #endregion
-    
+
     #region ================== Methods
 
     void Awake()
@@ -33,8 +29,8 @@ namespace Enter
       {
         Instantiate(_playerPrefab, SceneTransitioner.Instance.SpawnPosition, Quaternion.identity);
       }
-      
-      PlayerScript.transform.SetParent(null);
+
+      Player.transform.SetParent(null);
       DontDestroyOnLoad(Player);
     }
 

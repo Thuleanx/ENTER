@@ -1,53 +1,52 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
 
 namespace Enter
 {
-  [RequireComponent(typeof(BoxCollider2D))]
   public class PlayerColliderScript : MonoBehaviour
   {
-    #region ================== Components
-    public BoxCollider2D Collider { get; private set; }
-    #endregion
+    [SerializeField] private ParticleSystem dust;
 
-    const int NUM_GROUND_RAY_CAST = 2; // don't go beneath 2, otherwise you get NANs
+    [SerializeField] private BoxCollider2D _collider;
 
     [Header("Layers")]
     [SerializeField] private LayerMask _solidLayers;
     [SerializeField] private LayerMask _rcBoxLayer;
 
-    [Header("Ground Linecast Position Tweaks")]
+    [Header("Ground Raycast Position Tweaks")]
     [SerializeField] private float _groundRayDistance = 0.02f;
+    [SerializeField, Min(2)] private int _numGroundRays = 2;
 
     [Header("Overhead Raycast Position Tweaks")]
     [SerializeField] private float _overheadRayDistance = 0.5f;
     [SerializeField] private float _outerFrac = 1.02f;
     [SerializeField] private float _innerFrac = 0.25f;
 
-    private Vector2 _groundRayOffset   => new Vector2(0, -_groundRayDistance);
+    private Vector2 _groundRayOffset => new Vector2(0, -_groundRayDistance);
     private Vector2 _overheadRayOffset => new Vector2(0, +_overheadRayDistance);
 
     #region ================== Accessors
 
-    [field:SerializeField] public bool OnGround { get; private set; }
-    [field:SerializeField] public bool OnRCBox  { get; private set; }
+    [field: SerializeField] public bool OnGround { get; private set; }
+    [field: SerializeField] public bool OnRCBox { get; private set; }
 
-    [field:SerializeField] public bool TopLeftmost  { get; private set; }
-    [field:SerializeField] public bool TopLeft      { get; private set; }
-    [field:SerializeField] public bool TopRight     { get; private set; }
-    [field:SerializeField] public bool TopRightmost { get; private set; }
+    [field: SerializeField] public bool TopLeftmost { get; private set; }
+    [field: SerializeField] public bool TopLeft { get; private set; }
+    [field: SerializeField] public bool TopRight { get; private set; }
+    [field: SerializeField] public bool TopRightmost { get; private set; }
 
     private Vector2 _nudge = Vector2.zero;
-    [property:SerializeField] public Vector2 Nudge { get { return _nudge; } }
+    [property: SerializeField] public Vector2 Nudge { get { return _nudge; } }
+
+    private float _lastGroundedTime;
 
     #endregion
 
     #region ================== Methods
 
-    void Awake() {
-        Collider = GetComponent<BoxCollider2D>();
+    void Awake()
+    {
+      _lastGroundedTime = Time.time;
     }
 
     void FixedUpdate()
@@ -55,51 +54,59 @@ namespace Enter
       OnGround = GroundCheckHelper(_solidLayers);
       OnRCBox  = GroundCheckHelper(_rcBoxLayer);
 
-      Bounds bound = Collider.bounds;
+      if (OnGround)
+      {
+        if (Time.time - _lastGroundedTime > 0.65) dust.Play();
 
-      Vector2 topCenter = (Vector2) bound.center + Vector2.up * bound.size.y / 2;
+        _lastGroundedTime = Time.time;
+      }
 
-      Func<Vector2, bool> overheadCast = (src) => {
-        return Physics2D.Raycast(src, Vector2.up, _overheadRayDistance, _solidLayers);
+      Bounds bounds = _collider.bounds;
+
+      Vector2 topCenter = (Vector2)bounds.center + Vector2.up * bounds.size.y / 2;
+
+      Func<Vector2, bool> overheadCast = (origin) =>
+      {
+        return Physics2D.Raycast(origin, Vector2.up, _overheadRayDistance, _solidLayers);
       };
 
-      TopLeftmost = overheadCast(GetOverheadPoint(-_outerFrac, bound));
-      TopLeft = overheadCast(GetOverheadPoint(-_innerFrac, bound));
-      TopRight = overheadCast(GetOverheadPoint(_innerFrac, bound));
-      TopRightmost = overheadCast(GetOverheadPoint(_outerFrac, bound));
+      TopLeftmost  = overheadCast(getOverheadPoint(-_outerFrac));
+      TopLeft      = overheadCast(getOverheadPoint(-_innerFrac));
+      TopRight     = overheadCast(getOverheadPoint(_innerFrac));
+      TopRightmost = overheadCast(getOverheadPoint(_outerFrac));
 
-      if (TopLeftmost ^ TopRightmost) 
+      if (TopLeftmost ^ TopRightmost)
       {
-        _nudge.x = (_outerFrac - _innerFrac) * bound.size.x / 2 * (TopLeftmost ? 1 : -1);
+        _nudge.x = (_outerFrac - _innerFrac) * bounds.size.x / 2 * (TopLeftmost ? 1 : -1);
       }
     }
 
     void OnDrawGizmos()
     {
-      if (Collider) {
-        Bounds bound = Collider.bounds;
+      // Draw overhead gizmos
+      
+      Action<Vector2, bool> overheadGizmoDraw = (src, isHitting) =>
+      {
+        Gizmos.color = isHitting ? Color.green : Color.red; // red if not hitting, green otherwise
+        Gizmos.DrawLine(src, src + Vector2.up * _overheadRayOffset);
+      };
 
-        Action<Vector2, bool> overheadGizmoDraw = (src, isHitting) => {
-          Gizmos.color = isHitting ? Color.green : Color.red; // red if not hitting, green otherwise
-          Gizmos.DrawLine(src, src + Vector2.up*_overheadRayOffset);
-        };
+      overheadGizmoDraw(getOverheadPoint(-_outerFrac), TopLeftmost);
+      overheadGizmoDraw(getOverheadPoint(-_innerFrac), TopLeft);
+      overheadGizmoDraw(getOverheadPoint(_innerFrac),  TopRight);
+      overheadGizmoDraw(getOverheadPoint(_outerFrac),  TopRightmost);
 
-        overheadGizmoDraw(GetOverheadPoint(-_outerFrac, bound), TopLeftmost);
-        overheadGizmoDraw(GetOverheadPoint(-_innerFrac, bound), TopLeft);
-        overheadGizmoDraw(GetOverheadPoint(_innerFrac, bound), TopRight);
-        overheadGizmoDraw(GetOverheadPoint(_outerFrac, bound), TopRightmost);
+      // Draw ground gizmos
 
-        Gizmos.color = OnGround || OnRCBox ? Color.green : Color.red;
-        Action<Vector2> groundGizmoDraw = (src) => {
-          Gizmos.DrawLine(src, src + Vector2.down * _groundRayDistance);
-        };
+      Gizmos.color = OnGround || OnRCBox ? Color.green : Color.red;
+      Action<Vector2> groundGizmoDraw = (src) =>
+      {
+        Gizmos.DrawLine(src, src + Vector2.down * _groundRayDistance);
+      };
 
-        Vector2 bottomLeft = (Vector2) bound.min;
-        for (int i = 0; i < NUM_GROUND_RAY_CAST; i++) {
-          float t = i / (NUM_GROUND_RAY_CAST - 1);
-          Vector2 src = bottomLeft + t * bound.size.x * Vector2.right; // usually you want to add a skin width up if the engine doesn't 
-          groundGizmoDraw(src);
-        }
+      for (int i = 0; i < _numGroundRays; i++)
+      {         
+        groundGizmoDraw(getGroundPoint(i));
       }
     }
 
@@ -107,26 +114,36 @@ namespace Enter
 
     #region ================== Helpers
 
-    private Vector2 GetOverheadPoint(float offsetFromCenterTop, Bounds bound) {
-      return (Vector2) bound.center + Vector2.up * bound.size.y / 2 + Vector2.right * offsetFromCenterTop * bound.size.x / 2;
+    private Vector2 getOverheadPoint(float offsetFromCenterTop)
+    {
+      return (Vector2)_collider.bounds.center +
+        Vector2.up * _collider.bounds.size.y / 2 +
+        Vector2.right * offsetFromCenterTop * _collider.bounds.size.x / 2;
+    }
+
+    private Vector2 getGroundPoint(int i)
+    {
+      float t = (float) i / (_numGroundRays - 1);
+
+      // Todo? Usually you want to add a skin width up, if the engine doesn't
+      return (Vector2)_collider.bounds.min +
+        t * _collider.bounds.size.x * Vector2.right;
     }
 
     private bool GroundCheckHelper(LayerMask layers)
     {
-      bool collidingWithGround = false;
+      Bounds bound = _collider.bounds;
+      Vector2 bottomLeft = (Vector2)bound.min;
 
-      Bounds bound = Collider.bounds;
-
-      Vector2 bottomLeft = (Vector2) bound.min;
-
-      for (int i = 0; i < NUM_GROUND_RAY_CAST; i++) {
-        float t = i / (NUM_GROUND_RAY_CAST - 1);
-        Vector2 src = bottomLeft + t * bound.size.x * Vector2.right; // usually you want to add a skin width up if the engine doesn't 
-        collidingWithGround |= Physics2D.Raycast(src, Vector2.down, _groundRayDistance, layers);
-        if (collidingWithGround) break;
+      for (int i = 0; i < _numGroundRays; i++)
+      {         
+        if (Physics2D.Raycast(getGroundPoint(i), Vector2.down, _groundRayDistance, layers))
+        {
+          return true;
+        };
       }
 
-      return collidingWithGround;
+      return false;
     }
 
     #endregion
