@@ -16,8 +16,7 @@ MonoBehaviour:
     debugReplacementPS: {fileID: 4800000, guid: cf852408f2e174538bcd9b7fda1c5ae7, type: 3}
   m_RendererFeatures:
   - {fileID: 157364991721811653}
-  - {fileID: 6300830103020411957}
-  m_RendererFeatureMap: c52ea94fa0122f02359c9e70980b7157
+  m_RendererFeatureMap: c52ea94fa0122f02
   m_UseNativeRenderPass: 0
   m_TransparencySortMode: 0
   m_TransparencySortAxis: {x: 0, y: 1, z: 0}
@@ -72,25 +71,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 130121142c574eb46b78289bb6cfd59c, type: 3}
   m_Name: ShockwaveFeature
   m_EditorClassIdentifier: 
-  m_Active: 0
+  m_Active: 1
   settings:
     renderPassEvent: 550
     screenHeight: 144
     material: {fileID: 2100000, guid: 0242bd14ea8d59144b66995760cc6f55, type: 2}
---- !u!114 &6300830103020411957
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abda9dc2793108140b85f309a2d610f4, type: 3}
-  m_Name: PixelizeFeature
-  m_EditorClassIdentifier: 
-  m_Active: 1
-  settings:
-    renderPassEvent: 550
-    pixelPerUnit: 16
-    material: {fileID: 2100000, guid: 0c06be77c3b058b4b9a270b4cafa202d, type: 2}

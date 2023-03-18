@@ -165,8 +165,6 @@ namespace Enter
       if (_in.Jump && (_co.OnGround || Time.time - _coyoteTime < _lastGroundedTime))
       {
         _rb.velocity = new Vector2(_rb.velocity.x, _jumpSpeed);
-        Debug.Log(_rb.velocity);
-        Debug.Log(_gravity);
 
         // _pa.jump();
         // _isGrounded = false; // TODO: Bad?

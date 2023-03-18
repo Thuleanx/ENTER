@@ -60,7 +60,6 @@ namespace Enter
         // no idea what this is doing
         using (new ProfilingScope(cmd, new ProfilingSampler("Pixelize Pass")))
         {
-			Debug.Log("HI");
           // blit just applies this buffer on the screen, pretty sure
           Blit(cmd, colorBuffer, pixelBuffer, material);
           Blit(cmd, pixelBuffer, colorBuffer);
@@ -81,21 +80,22 @@ namespace Enter
 
       pixelScreenDimension.x = (int) width; // round up so you won't get black edge
       pixelScreenDimension.y = (int) height;
+	  Vector2 screenSize = renderingData.cameraData.camera.ViewportToScreenPoint(Vector2.one);
+	  float scaleFactor = (float) pixelScreenDimension.y / screenSize.y;
     //   pixelScreenDimension.x = (int) 256; // round up so you won't get black edge
     //   pixelScreenDimension.y = (int) 144;
+	Debug.Log(scaleFactor);
 
       // provide material with what it needs
       if (material)
       {
-        material.SetVector("_PixelCnt", (Vector2)pixelScreenDimension);
-        material.SetVector("_PixelSz", new Vector2(1.0f / pixelScreenDimension.x, 1.0f / pixelScreenDimension.y));
-        material.SetVector("_HalfPixelSz", new Vector2(0.5f / pixelScreenDimension.x, 0.5f / pixelScreenDimension.y));
+        material.SetFloat("_ScaleFactor", scaleFactor);
+        material.SetVector("_PixelSz", new Vector4(pixelScreenDimension.x, pixelScreenDimension.y, 1.0f / pixelScreenDimension.x, 1.0f / pixelScreenDimension.y));
+        material.SetVector("_ScreenSz", new Vector4(screenSize.x, screenSize.y, 1/screenSize.x, 1/screenSize.y));
       }
 
       descriptor.width = pixelScreenDimension.x;
       descriptor.height = pixelScreenDimension.y;
-
-	  Debug.Log(descriptor.width + " " + descriptor.height);
 
       // create new (or get old) render texture
       cmd.GetTemporaryRT(pixelBufferID, descriptor, FilterMode.Point);
