@@ -72,7 +72,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 130121142c574eb46b78289bb6cfd59c, type: 3}
   m_Name: ShockwaveFeature
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   settings:
     renderPassEvent: 550
     screenHeight: 144
@@ -92,5 +92,5 @@ MonoBehaviour:
   m_Active: 1
   settings:
     renderPassEvent: 550
-    pixelPerUnit: 1
+    pixelPerUnit: 16
     material: {fileID: 2100000, guid: 0c06be77c3b058b4b9a270b4cafa202d, type: 2}
