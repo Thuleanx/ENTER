@@ -5,7 +5,7 @@ using UnityEngine.Rendering.Universal;
 namespace Enter {
 	// from https://www.youtube.com/watch?v=-8xlPP4qgVo
 	// this is also a good video on urp render feature: https://www.youtube.com/watch?v=MLl4yzaYMBY&t=185s
-	public class PixelizeFeature : ScriptableRendererFeature {
+	public class ShockwaveFeature : ScriptableRendererFeature {
 
 		[System.Serializable]
 		public class CustomPassSettings {
@@ -16,7 +16,7 @@ namespace Enter {
 		}
 
 		[SerializeField] CustomPassSettings settings;
-		public PixelizePass customPass;
+		public ShockwavePass customPass;
 
 		public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData) {
 		#if UNITY_EDITOR
@@ -26,19 +26,19 @@ namespace Enter {
 		}
 
 		public override void Create() {
-			customPass = new PixelizePass(settings);
+			customPass = new ShockwavePass(settings);
 		}
 	}
 
-	public class PixelizePass : ScriptableRenderPass {
-		PixelizeFeature.CustomPassSettings settings;
+	public class ShockwavePass : ScriptableRenderPass {
+		ShockwaveFeature.CustomPassSettings settings;
 		RenderTargetIdentifier colorBuffer, pixelBuffer;
 		int pixelBufferID = Shader.PropertyToID("_PixelBuffer");
 
 		Material material;
 		Vector2Int pixelScreenDimension;
 
-		public PixelizePass(PixelizeFeature.CustomPassSettings settings) {
+		public ShockwavePass(ShockwaveFeature.CustomPassSettings settings) {
 			this.settings = settings;
 			this.renderPassEvent = settings.renderPassEvent;
 			this.material = settings.material;
@@ -49,7 +49,7 @@ namespace Enter {
 			CommandBuffer cmd = CommandBufferPool.Get(); // issuing GPU commands go through the command buffer i think
 			if (material) {
 				// no idea what this is doing
-				using (new ProfilingScope(cmd, new ProfilingSampler("Pixelize Pass"))) {
+				using (new ProfilingScope(cmd, new ProfilingSampler("Shockwave Pass"))) {
 					// blit just applies this buffer on the screen, pretty sure
 					Blit(cmd, colorBuffer, pixelBuffer, material);
 					Blit(cmd, pixelBuffer, colorBuffer);
