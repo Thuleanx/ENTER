@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2309567756344072613}
   - component: {fileID: 2309567756344072612}
   - component: {fileID: 2309567756344072608}
+  - component: {fileID: 6165051622281665099}
   m_Layer: 12
   m_Name: CrumblingPlatform
   m_TagString: Untagged
@@ -28,8 +29,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2309567756344072619}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.22, y: -3.11, z: 0}
-  m_LocalScale: {x: 4.6508, y: 0.5902, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -146,3 +147,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09239c941c32247f7bf5bfc0e71a04ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!68 &6165051622281665099
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2309567756344072619}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -0.5, y: 0.5}
+  - {x: 0.5, y: 0.5}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
