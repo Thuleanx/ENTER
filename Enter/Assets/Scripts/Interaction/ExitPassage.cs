@@ -4,14 +4,14 @@ using Enter.Utils;
 
 namespace Enter
 {
-  public class ExitPassage : Interactable
+  public class ExitPassage : MonoBehaviour
   {
     [field:SerializeField, Tooltip("Reference to scene to load, after interacting with this object.")]
     public SceneReference NextSceneReference { get; private set; }
 
-    protected override void OnInteract()
+    void OnTriggerEnter2D(Collider2D other)
     {
-      base.OnInteract();
+      if (other.tag != "Player") return;
 
       SceneTransitioner.Instance.Transition(this);
       gameObject.SetActive(false);

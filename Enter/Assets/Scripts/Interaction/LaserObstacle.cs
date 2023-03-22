@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Enter
 {
   [RequireComponent(typeof(LineRenderer))]
-  public class LaserObstacle : Interactable
+  public class LaserObstacle : MonoBehaviour
   {
     [SerializeField] private float _onDuration;
     [SerializeField] private float _offDuration;
@@ -140,9 +140,7 @@ namespace Enter
 
       return hit.distance;
     }
-
-
-
+    
     #endregion
   }
 }

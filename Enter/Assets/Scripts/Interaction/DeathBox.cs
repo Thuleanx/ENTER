@@ -2,12 +2,14 @@ using UnityEngine;
 
 namespace Enter
 {
-  public class DeathBox : Interactable
+  public class DeathBox : MonoBehaviour
   {
-    protected override void OnInteract()
+    void OnTriggerEnter2D(Collider2D other)
     {
-      base.OnInteract();
+      if (other.tag != "Player") return;
+
       PlayerManager.PlayerScript.Die();
     }
+
   }
 }
