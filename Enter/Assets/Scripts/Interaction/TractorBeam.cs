@@ -39,9 +39,13 @@ namespace Enter
 
       float orthoVelocity = Vector2.Dot(rigidBody.velocity, orthoDirection);
       // damps (by an exponential decay function) the velocity to 0 in the orthogonal direction. 
-      float currentDesiredVelocity = Math.Damp(orthoVelocity, 0, _dampingConstant, Time.fixedDeltaTime);
+      float currentDesiredVelocity = Math.Damp(orthoVelocity, 0, _dampingConstant * Mathf.Abs(orthoVelocity), Time.fixedDeltaTime);
 
-      rigidBody.AddForce((currentDesiredVelocity - orthoVelocity) * orthoDirection * rigidBody.mass, ForceMode2D.Impulse);
+	  if (Mathf.Abs(orthoVelocity) < 0.5) {
+		rigidBody.velocity -= orthoDirection * orthoVelocity;
+	  } else {
+      	rigidBody.AddForce((currentDesiredVelocity - orthoVelocity) * orthoDirection * rigidBody.mass, ForceMode2D.Impulse);
+	  }
 
       float currentVelocityAlongTractor = Vector2.Dot(rigidBody.velocity, forceDirection);
       if (currentVelocityAlongTractor < _tractorMaxSpeed)

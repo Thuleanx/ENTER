@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3577356942520278786}
   - component: {fileID: 3577356942520278784}
   - component: {fileID: 3577356942520278799}
-  - component: {fileID: 3577356942520278798}
+  - component: {fileID: 2349211749380333922}
   m_Layer: 12
   m_Name: PhysicsBox
   m_TagString: Untagged
@@ -134,7 +134,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &3577356942520278798
+--- !u!114 &2349211749380333922
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3577356942520278787}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 583fd1aae5308ce4fbfcbec8faefe3af, type: 3}
+  m_Script: {fileID: 11500000, guid: 34cd1aa6843e61c408ebe6f342cd7e69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _tractorBeamLayer:

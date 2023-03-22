@@ -1010,7 +1010,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70178b491a5370941a039e0729c91c6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dampingConstant: 32
+  _dampingConstant: 4
   _tractorAcceleration: 5
   _tractorMaxSpeed: 30
   direction: 1
@@ -2047,9 +2047,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b755a429d48af43978d101a4ca8c77bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onInteractFunctions:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &1325898815
 GameObject:
   m_ObjectHideFlags: 0
@@ -2250,7 +2247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 831213f3545e4b847b39fd252780dcac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blocksPerMinute: 30
+  _blocksPerMinute: 0
   physicsObjectPrefab: {fileID: 3577356942520278787, guid: 0d414b72f01ad5e48a8ffc5ddedf2900, type: 3}
 --- !u!1 &1584613720
 GameObject:
@@ -2391,7 +2388,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: PhysicsBox
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3577356942520278798, guid: 0d414b72f01ad5e48a8ffc5ddedf2900, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 0d414b72f01ad5e48a8ffc5ddedf2900, type: 3}
 --- !u!1001 &4659983936036536943
 PrefabInstance:
@@ -2461,6 +2459,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1465454382}
     m_Modifications:
+    - target: {fileID: 481763871577776351, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7087370805827828716, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
       propertyPath: m_Name
       value: Cameras
@@ -2515,7 +2517,39 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7087370806279255378, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
       propertyPath: orthographic size
-      value: 8
+      value: 11.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7087370806279255378, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
+      propertyPath: m_NormalizedViewPortRect.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7087370806279255378, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
+      propertyPath: m_NormalizedViewPortRect.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7087370806279255378, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
+      propertyPath: m_NormalizedViewPortRect.width
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7087370806279255378, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
+      propertyPath: m_NormalizedViewPortRect.height
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9024290908628452285, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
+      propertyPath: m_CropFrame
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9024290908628452285, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
+      propertyPath: m_GridSnapping
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9024290908628452285, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
+      propertyPath: m_RefResolutionX
+      value: 640
+      objectReference: {fileID: 0}
+    - target: {fileID: 9024290908628452285, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
+      propertyPath: m_RefResolutionY
+      value: 360
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
