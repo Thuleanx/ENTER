@@ -130,6 +130,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 785022900}
     m_Modifications:
+    - target: {fileID: 951561069768992741, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
+      propertyPath: m_CropFrame
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 951561069768992741, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
+      propertyPath: m_RefResolutionX
+      value: 640
+      objectReference: {fileID: 0}
+    - target: {fileID: 951561069768992741, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
+      propertyPath: m_RefResolutionY
+      value: 360
+      objectReference: {fileID: 0}
     - target: {fileID: 1320470816334978996, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
       propertyPath: m_Name
       value: StaticCamera
@@ -196,7 +208,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1320470816948900106, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
       propertyPath: m_NormalizedViewPortRect.height
-      value: 0.9995961
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3090605769669559882, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6960175249686556354, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
