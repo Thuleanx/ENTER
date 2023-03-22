@@ -14,7 +14,7 @@ namespace Enter
 
     private Rigidbody2D          _rb;
     private PlayerColliderScript _co;
-    private PlayerAnimator       _pa;
+    private PlayerStretcher      _ps;
     private InputData            _in;
 
     private const float _eps = 0.001f;
@@ -83,10 +83,18 @@ namespace Enter
 
     #endregion
 
+    #region ================== Accessors
+
+    public Rigidbody2D Rigidbody2D { get { return _rb; } }
+
+    #endregion
+
     #region ================== Methods
 
     void Awake()
     {
+      if (Instance) Destroy(this);
+
       Instance = this;
     }
 
@@ -94,8 +102,8 @@ namespace Enter
     {
       _rb = GetComponent<Rigidbody2D>();
       _co = GetComponent<PlayerColliderScript>();
-      _pa = GetComponent<PlayerAnimator>();
-      _pa.setMaxJumpVelocity(_jumpSpeed);
+      _ps = GetComponent<PlayerStretcher>();
+      _ps.MaxJumpSpeed = _jumpSpeed;
       _in = InputManager.Instance.Data;
     }
 
@@ -156,8 +164,6 @@ namespace Enter
         _lastGroundedTime = Time.time;
       }
 
-      _pa.setJumpProgressFromYVelocity(_rb.velocity);
-
       // Implements additional coyote time for falling off an RCBox while stationary
       if (_co.OnRCBox && Mathf.Abs(_rb.velocity.x) < _eps) _lastGroundedTime = Time.time + _additionalRCBoxCoyoteTime;
 
@@ -166,19 +172,8 @@ namespace Enter
       {
         _rb.velocity = new Vector2(_rb.velocity.x, _jumpSpeed);
 
-        // _pa.jump();
-        // _isGrounded = false; // TODO: Bad?
-
         _lastGroundedTime = -Mathf.Infinity;
       }
-    }
-
-    private void landOnGround()
-    {
-      Debug.Log("Landed on ground");
-      _isGrounded = _co.OnGround;
-      _pa.land();
-      //TODO: Add particles
     }
 
     private void handleMidairNudge()

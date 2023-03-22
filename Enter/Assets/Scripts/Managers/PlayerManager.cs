@@ -11,8 +11,9 @@ namespace Enter
 
     #region ================== Accessors
 
-    public static GameObject Player => PlayerScript.Instance.gameObject;
+    public static GameObject   Player => PlayerScript.Instance.gameObject;
     public static PlayerScript PlayerScript => PlayerScript.Instance;
+    public static Rigidbody2D  PlayerRigidbody => PlayerScript.Instance.Rigidbody2D;
 
     #endregion
 
