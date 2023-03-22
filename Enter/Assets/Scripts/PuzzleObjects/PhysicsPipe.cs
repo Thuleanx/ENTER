@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using NaughtyAttributes;
 
 namespace Enter
@@ -7,16 +8,18 @@ namespace Enter
   {
     [SerializeField] private float _blocksPerMinute;
     [ShowAssetPreview, SerializeField] GameObject physicsObjectPrefab;
-    float timeSinceLastSpawn = -1;
+	[SerializeField] UnityEvent OnSpawn;
+    float timeLastSpawn = -1;
 
     #region ================== Methods
 
     void Update()
     {
-      if (timeSinceLastSpawn + 60f / _blocksPerMinute < Time.time)
+      if (timeLastSpawn + 60f / _blocksPerMinute < Time.time)
       {
         CreatePhysicsObject();
-        timeSinceLastSpawn = Time.time;
+		OnSpawn?.Invoke();
+        timeLastSpawn = Time.time;
       }
     }
 

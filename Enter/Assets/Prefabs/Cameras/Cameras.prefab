@@ -108,6 +108,7 @@ GameObject:
   - component: {fileID: 6551662780751061522}
   - component: {fileID: 1197858028552293018}
   - component: {fileID: 9179568796351708846}
+  - component: {fileID: 4022097833522216639}
   m_Layer: 0
   m_Name: Cinemachine Virtual Camera
   m_TagString: MainCinemachineCamera
@@ -208,6 +209,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a8a05de0ac134f4f9d01bef6b9da077, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4022097833522216639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7087370806217842552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ApplyAfter: 2
+  m_ChannelMask: 1
+  m_Gain: 1
+  m_Use2DDistance: 1
+  m_UseCameraSpace: 1
+  m_ReactionSettings:
+    m_SecondaryNoise: {fileID: 0}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_Duration: 1
+    m_NoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &7087370806279255377
 GameObject:
   m_ObjectHideFlags: 0
@@ -263,15 +287,15 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
-    y: 0.47777778
-    width: 0.29921874
-    height: 0.29921874
+    x: -0.05078125
+    y: 0.3513889
+    width: 0.5
+    height: 0.5
   near clip plane: 5
   far clip plane: 15
   field of view: 60
   orthographic: 1
-  orthographic size: 8
+  orthographic size: 11.25
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
