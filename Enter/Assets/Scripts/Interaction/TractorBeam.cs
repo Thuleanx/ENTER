@@ -14,8 +14,8 @@ namespace Enter
     };
 
     [SerializeField, Min(0)] private float _dampingConstant = 0.1f; // might introduce oscillations if this is higher than 1
-    [SerializeField] private float _tractorAcceleration = 5;
-    [SerializeField] private float _tractorMaxSpeed = 30;
+    [SerializeField, Min(0.1f)] private float _timeToMaxVelocity = 0.2f;
+    [SerializeField] private float _maxSpeed = 30;
     [SerializeField] private Direction direction = Direction.RIGHT;
 
     void Awake()
@@ -41,15 +41,15 @@ namespace Enter
       // damps (by an exponential decay function) the velocity to 0 in the orthogonal direction. 
       float currentDesiredVelocity = Math.Damp(orthoVelocity, 0, _dampingConstant * Mathf.Abs(orthoVelocity), Time.fixedDeltaTime);
 
-	  if (Mathf.Abs(orthoVelocity) < 0.5) {
-		rigidBody.velocity -= orthoDirection * orthoVelocity;
-	  } else {
+	//   if (Mathf.Abs(orthoVelocity) < 0.5) {
+	// 	rigidBody.velocity -= orthoDirection * orthoVelocity;
+	//   } else {
       	rigidBody.AddForce((currentDesiredVelocity - orthoVelocity) * orthoDirection * rigidBody.mass, ForceMode2D.Impulse);
-	  }
+	//   }
 
       float currentVelocityAlongTractor = Vector2.Dot(rigidBody.velocity, forceDirection);
-      if (currentVelocityAlongTractor < _tractorMaxSpeed)
-        rigidBody.AddForce(forceDirection * _tractorAcceleration * rigidBody.mass * Time.fixedDeltaTime, ForceMode2D.Impulse);
+      if (currentVelocityAlongTractor < _maxSpeed)
+        rigidBody.AddForce(forceDirection * (_maxSpeed / _timeToMaxVelocity) * rigidBody.mass * Time.fixedDeltaTime, ForceMode2D.Impulse);
     }
   }
 }
