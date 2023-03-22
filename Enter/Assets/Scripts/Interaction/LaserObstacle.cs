@@ -43,7 +43,7 @@ namespace Enter
 
     void OnDrawGizmos()
     {
-      float minHitDist_global = multiRaycastHelper();
+      float minHitDist_global = multiRaycastHelper(_maxRaycastDistance, _groundMask);
 
       Gizmos.color = Color.red;
       Action<Vector2> laserGizmoDraw = (laserStart_global) =>
@@ -101,7 +101,8 @@ namespace Enter
     {
       // For firing the laser
 
-      float minHitDist_global = multiRaycastHelper();
+      float minHitDist_global = multiRaycastHelper(_maxRaycastDistance, _groundMask);
+	  multiRaycastHelper(minHitDist_global, _playerMask); // for killing the player :>
 
       // For rendering the laser
 
@@ -112,29 +113,26 @@ namespace Enter
       _lineRenderer.SetPosition(1, lineEnd_local);
     }
 
-    private float multiRaycastHelper()
+    private float multiRaycastHelper(float maxRaycastDistance, LayerMask mask)
     {
-      float minHitDist_global = _maxRaycastDistance;
+      float minHitDist_global = maxRaycastDistance;
 
       for (int i = 0; i < _numRaycasts; i++)
       {
         Vector2 laserStart_global = getLaserStartPoint(i);
 
-        float thisHitDist_global = raycastHelper(laserStart_global, _laserDirection_global, _groundMask);
+        float thisHitDist_global = raycastHelper(laserStart_global, _laserDirection_global, mask, minHitDist_global);
         minHitDist_global = Mathf.Min(minHitDist_global, thisHitDist_global);
-
-        // This kills the player if hit
-        raycastHelper(laserStart_global, _laserDirection_global, _playerMask);
       }
 
       return minHitDist_global;
     }
 
-    private float raycastHelper(Vector2 origin, Vector2 direction, LayerMask layers)
+    private float raycastHelper(Vector2 origin, Vector2 direction, LayerMask layers, float maxDistance = _maxRaycastDistance)
     {
-      RaycastHit2D hit = Physics2D.Raycast(origin, direction, _maxRaycastDistance, layers);
+      RaycastHit2D hit = Physics2D.Raycast(origin, direction, maxDistance, layers);
 
-      if (!hit) return _maxRaycastDistance;
+      if (!hit) return float.MaxValue;
 
       if (hit.collider.gameObject.tag == "Player") PlayerManager.PlayerScript.Die();
 
