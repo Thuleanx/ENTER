@@ -1,12 +1,12 @@
 using UnityEngine;
 using System;
+using NaughtyAttributes;
 
 namespace Enter
 {
   public class PlayerColliderScript : MonoBehaviour
   {
     [SerializeField] private ParticleSystem dust;
-
     [SerializeField] private BoxCollider2D _collider;
 
     [Header("Layers")]
@@ -35,6 +35,9 @@ namespace Enter
     [field: SerializeField] public bool TopRight { get; private set; }
     [field: SerializeField] public bool TopRightmost { get; private set; }
 
+    [field: SerializeField, ReadOnly] public Collider2D Carrying {get; private set; }
+    [field: SerializeField, ReadOnly] public Rigidbody2D CarryingRigidBody {get; private set; }
+
     private Vector2 _nudge = Vector2.zero;
     [property: SerializeField] public Vector2 Nudge { get { return _nudge; } }
 
@@ -51,8 +54,22 @@ namespace Enter
 
     void FixedUpdate()
     {
-      OnGround = GroundCheckHelper(_solidLayers);
-      OnRCBox  = GroundCheckHelper(_rcBoxLayer);
+      RaycastHit2D groundHit = GroundCheckHelper(_solidLayers);
+      RaycastHit2D rcBoxHit = GroundCheckHelper(_rcBoxLayer);
+      OnGround = groundHit;
+      OnRCBox  = rcBoxHit;
+
+    // determine which hit correspond to object that would carry this collider
+      RaycastHit2D carryingHit = groundHit;
+      if (!carryingHit || (rcBoxHit && rcBoxHit.distance < groundHit.distance))
+        carryingHit = rcBoxHit;
+
+      Carrying = null;
+      CarryingRigidBody = null;
+      if (carryingHit) {
+          Carrying = carryingHit.collider;
+          CarryingRigidBody = Carrying.GetComponent<Rigidbody2D>();
+      }
 
       if (OnGround)
       {
@@ -130,7 +147,7 @@ namespace Enter
         t * _collider.bounds.size.x * Vector2.right;
     }
 
-    private bool GroundCheckHelper(LayerMask layers)
+    private RaycastHit2D GroundCheckHelper(LayerMask layers)
     {
       Bounds bound = _collider.bounds;
       Vector2 bottomLeft = (Vector2)bound.min;
@@ -139,11 +156,11 @@ namespace Enter
       {         
         if (Physics2D.Raycast(getGroundPoint(i), Vector2.down, _groundRayDistance, layers))
         {
-          return true;
+          return Physics2D.Raycast(getGroundPoint(i), Vector2.down, _groundRayDistance, layers);
         };
       }
 
-      return false;
+      return new RaycastHit2D();
     }
 
     #endregion

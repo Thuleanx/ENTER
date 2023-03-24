@@ -87,6 +87,19 @@ namespace Enter
 
     public Rigidbody2D Rigidbody2D { get { return _rb; } }
 
+    public Vector2 velocityOfGround {
+        get { 
+            if (_co.Carrying && _co.CarryingRigidBody)
+                return _co.CarryingRigidBody.velocity;
+            return Vector2.zero;
+        }
+    }
+
+    public Vector2 velocityOnGround {
+        get => _rb.velocity - velocityOfGround;
+        set => _rb.velocity = value + velocityOfGround;
+    }
+
     #endregion
 
     #region ================== Methods
@@ -153,7 +166,8 @@ namespace Enter
     private void handleWalk()
     {
       // Handles horizontal motion
-      _rb.velocity = new Vector2(_in.Move.x * _speed, _rb.velocity.y);
+      velocityOnGround = new Vector2(_in.Move.x * _speed, velocityOnGround.y);
+      // _rb.velocity = new Vector2(_in.Move.x * _speed, _rb.velocity.y);
     }
 
     private void handleJump()
