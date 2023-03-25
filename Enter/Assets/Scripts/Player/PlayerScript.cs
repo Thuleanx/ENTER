@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using Enter.Utils;
 
 namespace Enter
 {
@@ -25,6 +26,15 @@ namespace Enter
 
     [SerializeField, Tooltip("Maximum horizontal speed.")]
     private float _speed;
+
+    [SerializeField, Tooltip("Maximum horizontal acceleration. This does not have to be too high."), Range(0.01f,1)]
+    private float _accelerationSecondsToMaxSpeed;
+
+    [SerializeField, Tooltip("Maximum horizontal acceleration. This needs to be high to feel responsive."), Range(0.01f, 1)]
+    private float _decellerationSecondsToZeroSpeed;
+
+    [SerializeField, Tooltip("Multiplier to horizontal acceleration when in the air."), Range(0,1)]
+    private float _airMult;
 
     [SerializeField, Tooltip("Maximum height for a jump.")]
     private float _jumpHeight;
@@ -80,6 +90,9 @@ namespace Enter
 
     // Acceleration due to gravity.
     private float _gravity => -(v0 + vc) / tm;
+
+    float _accelerationGrounded => _speed / _accelerationSecondsToMaxSpeed;
+    float _deccelerationGrounded => _speed / _decellerationSecondsToZeroSpeed;
 
     #endregion
 
@@ -166,7 +179,19 @@ namespace Enter
     private void handleWalk()
     {
       // Handles horizontal motion
-      velocityOnGround = new Vector2(_in.Move.x * _speed, velocityOnGround.y);
+      float currentVelocityX = velocityOnGround.x;
+      float desiredVelocityX = _in.Move.x * _speed; 
+
+      // allows turnaround to be free / happens instantaneously
+      if (Mathf.Sign(desiredVelocityX) != 0 && Mathf.Sign(desiredVelocityX) != Mathf.Sign(currentVelocityX)) currentVelocityX *= -1;
+
+      float acceleration = Mathf.Abs(desiredVelocityX) > Mathf.Abs(currentVelocityX) ? _accelerationGrounded : _deccelerationGrounded;
+      float mult = _co.OnGround ? 1 : _airMult;
+
+      float amountAccelerated = Mathf.Sign(desiredVelocityX - currentVelocityX) * acceleration * mult * Time.fixedDeltaTime;
+      float actualVelocityX = Math.Approach(currentVelocityX, desiredVelocityX, amountAccelerated);
+
+      velocityOnGround = new Vector2(actualVelocityX, velocityOnGround.y);
       // _rb.velocity = new Vector2(_in.Move.x * _speed, _rb.velocity.y);
     }
 
@@ -228,15 +253,9 @@ namespace Enter
 
       // Fall, but cap falling velocity
       _rb.velocity = new Vector2(
-      _rb.velocity.x,
-      approach(_rb.velocity.y, _maxFall, _gravity * multiplier * Time.deltaTime));
-    }
-
-    private float approach(float start, float stop, float c)
-    {
-      if (start < stop) return Mathf.Min(start + c, stop);
-
-      return Mathf.Max(start + c, stop);
+        _rb.velocity.x,
+        Math.Approach(_rb.velocity.y, _maxFall, _gravity * multiplier * Time.deltaTime)
+      );
     }
 
     private IEnumerator die()
