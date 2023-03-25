@@ -139,8 +139,12 @@ namespace Enter
 
       // Wait until camera has moved to the highest-priority virtual camera in _currScene
       CinemachineVirtualCamera _currSceneVC = findHighestPriorityVC(_currScene);
+
+      int currSceneCameraPriority = _currSceneVC.Priority;
+      _currSceneVC.Priority = int.MaxValue;
       while (Vector2.Distance(camera.transform.position, _currSceneVC.State.CorrectedPosition) > _eps)
         yield return null;
+      _currSceneVC.Priority = currSceneCameraPriority;
     }
 
     private GameObject findSpawnPointAny()
