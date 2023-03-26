@@ -203,7 +203,7 @@ namespace Enter
       float desiredVelocityX = _in.Move.x * _speed; 
 
       // allows turnaround to be free / happens instantaneously
-      if (Mathf.Sign(desiredVelocityX) != 0 && Mathf.Sign(desiredVelocityX) != Mathf.Sign(currentVelocityX)) currentVelocityX *= -1;
+      if (!Mathf.Approximately(desiredVelocityX, 0) && Mathf.Sign(desiredVelocityX) != Mathf.Sign(currentVelocityX)) currentVelocityX *= -1;
 
       float acceleration = Mathf.Abs(desiredVelocityX) > Mathf.Abs(currentVelocityX) ? _accelerationGrounded : _deccelerationGrounded;
       float mult = _co.OnGround ? 1 : _airMult;
