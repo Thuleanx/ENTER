@@ -18,6 +18,9 @@ namespace Enter
     private PlayerStretcher      _ps;
     private InputData            _in;
 
+    [SerializeField] private SpriteRenderer _sr;
+    [SerializeField] private Animator       _an;
+
     private const float _eps = 0.001f;
 
     #region ================== Variables
@@ -101,16 +104,17 @@ namespace Enter
     public Rigidbody2D Rigidbody2D { get { return _rb; } }
 
     public Vector2 velocityOfGround {
-        get { 
-            if (_co.Carrying && _co.CarryingRigidBody)
-                return _co.CarryingRigidBody.velocity;
-            return Vector2.zero;
-        }
+      get
+      { 
+        if (_co.Carrying && _co.CarryingRigidBody) return _co.CarryingRigidBody.velocity;
+
+        return Vector2.zero;
+      }
     }
 
     public Vector2 velocityOnGround {
-        get => _rb.velocity - velocityOfGround;
-        set => _rb.velocity = value + velocityOfGround;
+      get { return _rb.velocity - velocityOfGround; }
+      set { _rb.velocity = value + velocityOfGround; }
     }
 
     #endregion
@@ -135,6 +139,9 @@ namespace Enter
 
     void FixedUpdate()
     {
+      // TEMPORARY
+      _maxFall = -_jumpSpeed;
+
       if (_isDead) return;
 
       handleMovement();
@@ -168,12 +175,25 @@ namespace Enter
 
     #region ================== Helpers
 
+    private float _vx = 0;
+    private float _vy = 0;
+
     private void handleMovement()
     {
       handleWalk();
       handleJump();
       handleMidairNudge();
       handleGravity();
+      
+      // TO FIX: currently buggy due to weird x velocity when stopping
+      float Vx = _rb.velocity.x / _speed;
+      float Vy = _rb.velocity.y / _jumpSpeed;
+      _sr.flipX = Mathf.Abs(Vx) < 0.01f ? _sr.flipX : Vx < 0;
+      Debug.Log("_vx = " + _vx + ", Vx = " + Vx + "; test = " + (Mathf.Abs(Vx) < 0.01f) + "; flip = " + _sr.flipX);
+      _an.SetFloat("Vx", Vx);
+      _an.SetFloat("Vy", Vy);
+      _vx = Vx;
+      _vy = Vy;
     }
 
     private void handleWalk()
