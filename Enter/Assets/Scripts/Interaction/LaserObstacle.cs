@@ -102,7 +102,7 @@ namespace Enter
       // For firing the laser
 
       float minHitDist_global = multiRaycastHelper(_maxRaycastDistance, _groundMask);
-	  multiRaycastHelper(minHitDist_global, _playerMask); // for killing the player :>
+	    multiRaycastHelper(minHitDist_global, _playerMask); // for killing the player :>
 
       // For rendering the laser
 

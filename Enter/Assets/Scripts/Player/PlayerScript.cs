@@ -7,37 +7,45 @@ using Enter.Utils;
 namespace Enter
 {
   [DisallowMultipleComponent]
-  [RequireComponent(typeof(Rigidbody2D))]
-  [RequireComponent(typeof(PlayerColliderScript))]
   public class PlayerScript : MonoBehaviour
   {
     public static PlayerScript Instance = null;
 
-    private Rigidbody2D          _rb;
-    private PlayerColliderScript _co;
-    private PlayerStretcher      _ps;
-    private InputData            _in;
-
+    // Responsible for providing the PlayerManager with all these things:
+    private Rigidbody2D           _rb;
+    private BoxCollider2D         _bc;
+    private PlayerColliderScript  _co;
+    private PlayerStretcherScript _ps;
     [SerializeField] private SpriteRenderer _sr;
     [SerializeField] private Animator       _an;
+
+    private InputData _in;
 
     private const float _eps = 0.001f;
 
     #region ================== Variables
 
-    [Header("Movement")]
+    #region ====== Horizontal Movement
+
+    [Header("Horizontal Movement")]
 
     [SerializeField, Tooltip("Maximum horizontal speed.")]
-    private float _speed;
+    private float _horizontalSpeed;
 
-    [SerializeField, Tooltip("Maximum horizontal acceleration. This does not have to be too high."), Range(0.01f,1)]
-    private float _accelerationSecondsToMaxSpeed;
+    [SerializeField, Tooltip("Time from idle to maximum horizontal speed.")]
+    private float _timeToMaxSpeed;
 
-    [SerializeField, Tooltip("Maximum horizontal acceleration. This needs to be high to feel responsive."), Range(0.01f, 1)]
-    private float _decellerationSecondsToZeroSpeed;
+    [SerializeField, Tooltip("Time from maximum horizontal speed to zero.")]
+    private float _timeToZeroSpeed;
 
-    [SerializeField, Tooltip("Multiplier to horizontal acceleration when in the air."), Range(0,1)]
-    private float _airMult;
+    [SerializeField, Tooltip("Multiplier to horizontal acceleration when in the air.")]
+    private float _midairHorizontalAccelerationMultiplier;
+
+    #endregion
+
+    #region ====== Vertical Movement
+
+    [Header("Vertical Movement")]
 
     [SerializeField, Tooltip("Maximum height for a jump.")]
     private float _jumpHeight;
@@ -47,6 +55,10 @@ namespace Enter
 
     [SerializeField, Tooltip("Maximum speed when falling due to gravity.")]
     private float _maxFall;
+
+    #endregion
+
+    #region ====== Movement Tweaks
 
     [Header("Movement Tweaks")]
 
@@ -63,21 +75,21 @@ namespace Enter
     private float _coyoteTime;
     private float _lastGroundedTime = -Mathf.Infinity;
 
-    [SerializeField, Tooltip("Additional coyote time after falling off an RCBox while stationary.")]
+    [SerializeField, Tooltip("Additional coyote time after falling off an RCBox while stationary. This is added to coyote time.")]
     private float _additionalRCBoxCoyoteTime;
 
-    private bool _alreadyNudged;
+    #endregion
+
+    #region ====== Death
 
     [Header("Death")]
 
     [SerializeField, Tooltip("Amount of time between the player dying and respawning.")]
     private float _deathRespawnDelay = 0.5f;
 
-    private bool _isDead;
-
     #endregion
-
-    #region ================== Math For Jump
+    
+    #region ====== Math For Jumping
 
     private float v0 => _jumpSpeed;
     private float vc => _jumpPeakThreshold;
@@ -89,30 +101,42 @@ namespace Enter
     private float _jumpSpeed => (h + Mathf.Sqrt(Mathf.Pow(h, 2) + 2 * h * tm * vc - Mathf.Pow(tm, 2) * Mathf.Pow(vc, 2))) / tm;
 
     // Acceleration due to gravity.
-    private float _gravity => -(v0 + vc) / tm;
+    private float _gravity => -(_jumpSpeed + vc) / tm;
 
-    float _accelerationGrounded => _speed / _accelerationSecondsToMaxSpeed;
-    float _deccelerationGrounded => _speed / _decellerationSecondsToZeroSpeed;
+    #endregion
+
+    #region ====== Internal
+
+    private bool _alreadyNudged;
+    private bool _isDead;
+
+    private float _accelerationGrounded => _horizontalSpeed / _timeToMaxSpeed;
+    private float _decelerationGrounded => _horizontalSpeed / _timeToZeroSpeed;
+
+    private Vector2 _velocityOfGround {
+      get { return (_co.OnGround && _co.CarryingRigidbody) ? _co.CarryingRigidbody.velocity : Vector2.zero; }
+    }
+
+    private Vector2 _velocityOnGround {
+      get { return _rb.velocity - _velocityOfGround; }
+      set { _rb.velocity = value + _velocityOfGround; }
+    }
+
+    #endregion
 
     #endregion
 
     #region ================== Accessors
 
-    public Rigidbody2D Rigidbody2D { get { return _rb; } }
+    public Rigidbody2D           Rigidbody2D           { get { return _rb; } }
+    public BoxCollider2D         BoxCollider2D         { get { return _bc; } }
+    public PlayerStretcherScript PlayerStretcherScript { get { return _ps; } }
+    public PlayerColliderScript  PlayerColliderScript  { get { return _co; } }
+    public SpriteRenderer        SpriteRenderer        { get { return _sr; } }
+    public Animator              Animator              { get { return _an; } }
 
-    public Vector2 velocityOfGround {
-      get
-      { 
-        if (_co.Carrying && _co.CarryingRigidBody) return _co.CarryingRigidBody.velocity;
-
-        return Vector2.zero;
-      }
-    }
-
-    public Vector2 velocityOnGround {
-      get { return _rb.velocity - velocityOfGround; }
-      set { _rb.velocity = value + velocityOfGround; }
-    }
+    public float MaxJumpSpeed { get { return _jumpSpeed; } }
+    public float MaxFallSpeed { get { return _maxFall; } }
 
     #endregion
 
@@ -120,24 +144,24 @@ namespace Enter
 
     void Awake()
     {
+      // This prevents multiple copies of the player from existing at once
       if (Instance) Destroy(this);
-
       Instance = this;
+
+      _rb = GetComponent<Rigidbody2D>();
+      _bc = GetComponent<BoxCollider2D>();
+      _co = GetComponent<PlayerColliderScript>();
+      _ps = GetComponent<PlayerStretcherScript>();
     }
 
     void Start()
     {
-      _rb = GetComponent<Rigidbody2D>();
-      _co = GetComponent<PlayerColliderScript>();
-      _ps = GetComponent<PlayerStretcher>();
-      _ps.MaxJumpSpeed = _jumpSpeed;
       _in = InputManager.Instance.Data;
     }
 
     void FixedUpdate()
     {
-      // TEMPORARY
-      _maxFall = -_jumpSpeed;
+      _maxFall = -_jumpSpeed; // fixme: delete
 
       if (_isDead) return;
 
@@ -183,9 +207,9 @@ namespace Enter
       handleGravity();
       
       // TO FIX: currently buggy due to weird x velocity when stopping
-      float Vx = velocityOnGround.x / _speed;
-      float Vy = velocityOnGround.y / _jumpSpeed;
-      bool idle = Mathf.Abs(Vx) < 0.01f;
+      float Vx = _velocityOnGround.x / _horizontalSpeed;
+      float Vy = _velocityOnGround.y / _jumpSpeed;
+      bool idle = Mathf.Abs(Vx) < _eps;
       _sr.flipX = idle ? _sr.flipX : Vx < 0;
       Debug.Log("_vx = " + _vx + ", Vx = " + Vx + "; idle = " + (idle) + "; grounded = " + _co.OnGround);
       _an.SetFloat("Vx", Vx);
@@ -198,20 +222,20 @@ namespace Enter
     private void handleWalk()
     {
       // Handles horizontal motion
-      float currentVelocityX = velocityOnGround.x;
-      float desiredVelocityX = _in.Move.x * _speed; 
+      float currentVelocityX = _velocityOnGround.x;
+      float desiredVelocityX = _in.Move.x * _horizontalSpeed; 
 
       // allows turnaround to be free / happens instantaneously
       if (!Mathf.Approximately(desiredVelocityX, 0) && Mathf.Sign(desiredVelocityX) != Mathf.Sign(currentVelocityX)) currentVelocityX *= -1;
 
-      float acceleration = Mathf.Abs(desiredVelocityX) > Mathf.Abs(currentVelocityX) ? _accelerationGrounded : _deccelerationGrounded;
-      float mult = _co.OnGround ? 1 : _airMult;
+      float acceleration = Mathf.Abs(desiredVelocityX) > Mathf.Abs(currentVelocityX) ? _accelerationGrounded : _decelerationGrounded;
+      float mult = _co.OnGround ? 1 : _midairHorizontalAccelerationMultiplier;
 
       float amountAccelerated = Mathf.Sign(desiredVelocityX - currentVelocityX) * acceleration * mult * Time.fixedDeltaTime;
       float actualVelocityX = Math.Approach(currentVelocityX, desiredVelocityX, amountAccelerated);
 
-      velocityOnGround = new Vector2(actualVelocityX, velocityOnGround.y);
-      // _rb.velocity = new Vector2(_in.Move.x * _speed, _rb.velocity.y);
+      _velocityOnGround = new Vector2(actualVelocityX, _velocityOnGround.y);
+      // _rb.velocity = new Vector2(_in.Move.x * _horizontalSpeed, _rb.velocity.y);
     }
 
     private void handleJump()

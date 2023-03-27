@@ -100,17 +100,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sr: {fileID: 5560789134976461472}
   _an: {fileID: 7763624382114927695}
-  _speed: 8
-  _accelerationSecondsToMaxSpeed: 0.2
-  _decellerationSecondsToZeroSpeed: 0.05
-  _airMult: 0.65
-  _jumpHeight: 5
+  _horizontalSpeed: 9
+  _timeToMaxSpeed: 0.15
+  _timeToZeroSpeed: 0.05
+  _midairHorizontalAccelerationMultiplier: 0.5
+  _jumpHeight: 4.5
   _timeToMaxHeight: 0.5
-  _maxFall: -15
+  _maxFall: -1000
   _jumpPeakMultiplier: 0.5
-  _jumpPeakThreshold: 3
+  _jumpPeakThreshold: 1
   _lowJumpMultiplier: 3
-  _coyoteTime: 0.05
+  _coyoteTime: 0.1
   _additionalRCBoxCoyoteTime: 0.1
   _deathRespawnDelay: 0.5
 --- !u!114 &3675825429863194642
@@ -126,7 +126,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dust: {fileID: 8770105178878157972}
-  _collider: {fileID: 3675825429863194671}
   _solidLayers:
     serializedVersion: 2
     m_Bits: 6144
@@ -138,14 +137,14 @@ MonoBehaviour:
   _overheadRayDistance: 0.75
   _outerFrac: 1.02
   _innerFrac: 0.25
+  _minTimeBetweenLandingEffects: 0.25
   <OnGround>k__BackingField: 0
   <OnRCBox>k__BackingField: 0
   <TopLeftmost>k__BackingField: 0
   <TopLeft>k__BackingField: 0
   <TopRight>k__BackingField: 0
   <TopRightmost>k__BackingField: 0
-  <Carrying>k__BackingField: {fileID: 0}
-  <CarryingRigidBody>k__BackingField: {fileID: 0}
+  <CarryingRigidbody>k__BackingField: {fileID: 0}
 --- !u!114 &4834589107359113974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,9 +157,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb15a6ae246f34c36bbf272a0aca2ec7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spriteTransform: {fileID: 3871054372816738151}
-  _maxJumpStretch: {x: 0.6666667, y: 1.5, z: 1}
-  _maxLandSquish: {x: 1, y: 1, z: 1}
+  _maxJumpStretch: {x: 0.8, y: 1.25, z: 1}
+  _maxLandSquash: {x: 1.25, y: 0.8, z: 1}
 --- !u!1 &3675825430629627474
 GameObject:
   m_ObjectHideFlags: 0

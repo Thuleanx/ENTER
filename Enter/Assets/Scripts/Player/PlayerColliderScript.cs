@@ -1,13 +1,17 @@
 using UnityEngine;
+using UnityEngine.Assertions;
 using System;
 using NaughtyAttributes;
 
 namespace Enter
 {
+  [DisallowMultipleComponent]
   public class PlayerColliderScript : MonoBehaviour
   {
+    private PlayerStretcherScript _stretcher;
+    private BoxCollider2D   _collider;
+
     [SerializeField] private ParticleSystem dust;
-    [SerializeField] private BoxCollider2D _collider;
 
     [Header("Layers")]
     [SerializeField] private LayerMask _solidLayers;
@@ -22,26 +26,28 @@ namespace Enter
     [SerializeField] private float _outerFrac = 1.02f;
     [SerializeField] private float _innerFrac = 0.25f;
 
-    private Vector2 _groundRayOffset => new Vector2(0, -_groundRayDistance);
+    private Vector2 _groundRayOffset   => new Vector2(0, -_groundRayDistance);
     private Vector2 _overheadRayOffset => new Vector2(0, +_overheadRayDistance);
+
+    [Header("Checking For 'Landing' Effects")]
+    [SerializeField] private float _minTimeBetweenLandingEffects = 0.25f;
+
+    private float _lastGroundedTime = -Mathf.Infinity;
 
     #region ================== Accessors
 
     [field: SerializeField] public bool OnGround { get; private set; }
-    [field: SerializeField] public bool OnRCBox { get; private set; }
+    [field: SerializeField] public bool OnRCBox  { get; private set; }
 
-    [field: SerializeField] public bool TopLeftmost { get; private set; }
-    [field: SerializeField] public bool TopLeft { get; private set; }
-    [field: SerializeField] public bool TopRight { get; private set; }
+    [field: SerializeField] public bool TopLeftmost  { get; private set; }
+    [field: SerializeField] public bool TopLeft      { get; private set; }
+    [field: SerializeField] public bool TopRight     { get; private set; }
     [field: SerializeField] public bool TopRightmost { get; private set; }
 
-    [field: SerializeField, ReadOnly] public Collider2D Carrying {get; private set; }
-    [field: SerializeField, ReadOnly] public Rigidbody2D CarryingRigidBody {get; private set; }
+    [field: SerializeField, ReadOnly] public Rigidbody2D CarryingRigidbody { get; private set; }
 
     private Vector2 _nudge = Vector2.zero;
-    [property: SerializeField] public Vector2 Nudge { get { return _nudge; } }
-
-    private float _lastGroundedTime;
+    public  Vector2 Nudge { get { return _nudge; } }
 
     #endregion
 
@@ -49,52 +55,28 @@ namespace Enter
 
     void Awake()
     {
-      _lastGroundedTime = Time.time;
+      _stretcher = PlayerManager.PlayerStretcherScript;
+      _collider  = PlayerManager.BoxCollider;
+
+      Assert.IsNotNull(_stretcher, "PlayerColliderScript must have a reference to a PlayerStretcherScript.");
+      Assert.IsNotNull(_collider,  "PlayerColliderScript must have a reference to a BoxCollider2D.");
     }
 
     void FixedUpdate()
     {
-      RaycastHit2D groundHit = GroundCheckHelper(_solidLayers);
-      RaycastHit2D rcBoxHit = GroundCheckHelper(_rcBoxLayer);
-      OnGround = groundHit;
-      OnRCBox  = rcBoxHit;
+      handleDownwardsChecks();
+      handleUpwardsChecks();
 
-    // determine which hit correspond to object that would carry this collider
-      RaycastHit2D carryingHit = groundHit;
-      if (!carryingHit || (rcBoxHit && rcBoxHit.distance < groundHit.distance))
-        carryingHit = rcBoxHit;
-
-      Carrying = null;
-      CarryingRigidBody = null;
-      if (carryingHit) {
-          Carrying = carryingHit.collider;
-          CarryingRigidBody = Carrying.GetComponent<Rigidbody2D>();
-      }
-
+      // Play particles
       if (OnGround)
       {
-        if (Time.time - _lastGroundedTime > 0.65) dust.Play();
+        if (Time.time - _lastGroundedTime > _minTimeBetweenLandingEffects)
+        {
+          dust.Play();
+          _stretcher.PlayLandingSquash();
+        }
 
         _lastGroundedTime = Time.time;
-      }
-
-      Bounds bounds = _collider.bounds;
-
-      Vector2 topCenter = (Vector2)bounds.center + Vector2.up * bounds.size.y / 2;
-
-      Func<Vector2, bool> overheadCast = (origin) =>
-      {
-        return Physics2D.Raycast(origin, Vector2.up, _overheadRayDistance, _solidLayers);
-      };
-
-      TopLeftmost  = overheadCast(getOverheadPoint(-_outerFrac));
-      TopLeft      = overheadCast(getOverheadPoint(-_innerFrac));
-      TopRight     = overheadCast(getOverheadPoint(_innerFrac));
-      TopRightmost = overheadCast(getOverheadPoint(_outerFrac));
-
-      if (TopLeftmost ^ TopRightmost)
-      {
-        _nudge.x = (_outerFrac - _innerFrac) * bounds.size.x / 2 * (TopLeftmost ? 1 : -1);
       }
     }
 
@@ -122,7 +104,7 @@ namespace Enter
       };
 
       for (int i = 0; i < _numGroundRays; i++)
-      {         
+      {
         groundGizmoDraw(getGroundPoint(i));
       }
     }
@@ -130,6 +112,51 @@ namespace Enter
     #endregion
 
     #region ================== Helpers
+
+    private void handleDownwardsChecks()
+    {
+      // Raycast downwards
+      RaycastHit2D groundHit = GroundCheckHelper(_solidLayers);
+      RaycastHit2D rcBoxHit  = GroundCheckHelper(_rcBoxLayer);
+
+      // Set variables
+      OnGround = groundHit || rcBoxHit; // This OR is redundant, but explains the logic
+      OnRCBox  = rcBoxHit;
+
+      // If grounded, obtain rigidbody of object beneath feet
+      CarryingRigidbody = null;
+      if (OnGround)
+      {
+        RaycastHit2D carryingHit = 
+          (rcBoxHit && rcBoxHit.distance < groundHit.distance) ?
+          rcBoxHit : groundHit;
+
+        CarryingRigidbody = carryingHit.collider.GetComponent<Rigidbody2D>();
+        Debug.Log(CarryingRigidbody);
+      }
+    }
+
+    private void handleUpwardsChecks()
+    {
+      Bounds bounds = _collider.bounds;
+
+      Vector2 topCenter = (Vector2)bounds.center + Vector2.up * bounds.size.y / 2;
+
+      Func<Vector2, bool> overheadCast = (origin) =>
+      {
+        return Physics2D.Raycast(origin, Vector2.up, _overheadRayDistance, _solidLayers);
+      };
+
+      TopLeftmost  = overheadCast(getOverheadPoint(-_outerFrac));
+      TopLeft      = overheadCast(getOverheadPoint(-_innerFrac));
+      TopRight     = overheadCast(getOverheadPoint(_innerFrac));
+      TopRightmost = overheadCast(getOverheadPoint(_outerFrac));
+
+      if (TopLeftmost ^ TopRightmost)
+      {
+        _nudge.x = (_outerFrac - _innerFrac) * bounds.size.x / 2 * (TopLeftmost ? 1 : -1);
+      }
+    }
 
     private Vector2 getOverheadPoint(float offsetFromCenterTop)
     {
