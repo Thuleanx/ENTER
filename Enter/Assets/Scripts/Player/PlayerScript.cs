@@ -75,9 +75,6 @@ namespace Enter
 
     private bool _isDead;
 
-    // Separate from player collider on ground so that we can see when it hit the ground
-    private bool _isGrounded;
-
     #endregion
 
     #region ================== Math For Jump
@@ -186,14 +183,16 @@ namespace Enter
       handleGravity();
       
       // TO FIX: currently buggy due to weird x velocity when stopping
-      float Vx = _rb.velocity.x / _speed;
-      float Vy = _rb.velocity.y / _jumpSpeed;
-      _sr.flipX = Mathf.Abs(Vx) < 0.01f ? _sr.flipX : Vx < 0;
-      Debug.Log("_vx = " + _vx + ", Vx = " + Vx + "; test = " + (Mathf.Abs(Vx) < 0.01f) + "; flip = " + _sr.flipX);
+      float Vx = velocityOnGround.x / _speed;
+      float Vy = velocityOnGround.y / _jumpSpeed;
+      bool idle = Mathf.Abs(Vx) < 0.01f;
+      _sr.flipX = idle ? _sr.flipX : Vx < 0;
+      Debug.Log("_vx = " + _vx + ", Vx = " + Vx + "; idle = " + (idle) + "; grounded = " + _co.OnGround);
       _an.SetFloat("Vx", Vx);
       _an.SetFloat("Vy", Vy);
       _vx = Vx;
       _vy = Vy;
+      _an.SetBool("Grounded", _co.OnGround);
     }
 
     private void handleWalk()

@@ -105,7 +105,7 @@ MonoBehaviour:
   _decellerationSecondsToZeroSpeed: 0.05
   _airMult: 0.65
   _jumpHeight: 5
-  _timeToMaxHeight: 0.45
+  _timeToMaxHeight: 0.5
   _maxFall: -15
   _jumpPeakMultiplier: 0.5
   _jumpPeakThreshold: 3
@@ -159,8 +159,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spriteTransform: {fileID: 3871054372816738151}
-  _maxJumpStretch: {x: 0.8, y: 1.25, z: 1}
-  _maxLandSquish: {x: 1.25, y: 0.8, z: 1}
+  _maxJumpStretch: {x: 0.6666667, y: 1.5, z: 1}
+  _maxLandSquish: {x: 1, y: 1, z: 1}
 --- !u!1 &3675825430629627474
 GameObject:
   m_ObjectHideFlags: 0
