@@ -108,9 +108,12 @@ namespace Enter
     }
 
     private IEnumerator _reload() {
+        _transitioning = true;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        PlayerManager.Player.GetComponent<Rigidbody2D>().position = SpawnPosition;
         yield return null;
+        _currSpawnPoint = findSpawnPoint(SceneManager.GetActiveScene());
+        PlayerManager.Player.GetComponent<Rigidbody2D>().position = SpawnPosition;
+        _transitioning = false;
     }
 
     private IEnumerator loadAndAlignNextScene(ExitPassage exitPassage)

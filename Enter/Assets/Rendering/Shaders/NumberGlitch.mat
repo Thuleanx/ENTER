@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SCB
-  m_Shader: {fileID: -6465566751694194690, guid: d6565d74f6d51e34f8c2b914304a7241, type: 3}
+  m_Name: NumberGlitch
+  m_Shader: {fileID: -6465566751694194690, guid: a55a3201dbc15e541bb9d636cb91cde5, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -21,7 +21,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 35a3340b835c797478eb139353421953, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9b92cd16a1ca148ca92a13d86bb75080, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex:
+        m_Texture: {fileID: 2800000, guid: 6f05b28c71fb95942b37023850e1eafd, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -38,7 +42,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BorderWidth: 14.2
-    - _Ripple_Width: 4.8
+    - _ChromaticAbberation: 0.0399
+    - _ChunkDisplacement: 0.0545
+    - _Density: 0.566
+    - _FrameRate: 4
+    - _HorizontalDisplacement: 0.1
+    - _PPU: 16
+    - _ScrollSpeed: 60
     m_Colors: []
   m_BuildTextureStacks: []
