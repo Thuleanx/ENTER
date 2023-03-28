@@ -68,6 +68,11 @@ namespace Enter
       }
     }
 
+    public Coroutine Reload()
+    {
+        return StartCoroutine(_reload());
+    }
+
     #endregion
 
     #region ================== Helpers
@@ -100,6 +105,12 @@ namespace Enter
       PlayerManager.PlayerScript.enabled = true;
 
       _transitioning = false;
+    }
+
+    private IEnumerator _reload() {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        PlayerManager.Player.GetComponent<Rigidbody2D>().position = SpawnPosition;
+        yield return null;
     }
 
     private IEnumerator loadAndAlignNextScene(ExitPassage exitPassage)

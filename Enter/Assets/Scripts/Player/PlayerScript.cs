@@ -320,9 +320,8 @@ namespace Enter
       _rb.velocity = Vector2.zero;
 
       yield return new WaitForSeconds(_deathRespawnDelay);
-
+      yield return SceneTransitioner.Instance.Reload();
       _isDead = false;
-      _rb.position = SceneTransitioner.Instance.SpawnPosition;
     }
 
     #endregion
