@@ -124,6 +124,9 @@ namespace Enter
 
     #endregion
 
+    float _horizontalVelocityBufferDuration = 1;
+    TimedDataBuffer<float> _horizontalVelocityBuffer;
+
     #endregion
 
     #region ================== Accessors
@@ -138,6 +141,7 @@ namespace Enter
     public float MaxJumpSpeed { get { return _jumpSpeed; } }
     public float MaxFallSpeed { get { return _maxFall; } }
 
+
     #endregion
 
     #region ================== Methods
@@ -151,6 +155,8 @@ namespace Enter
       _rb = GetComponent<Rigidbody2D>();
       _bc = GetComponent<BoxCollider2D>();
       _co = GetComponent<PlayerColliderScript>();
+
+      _horizontalVelocityBuffer = new TimedDataBuffer<float>(_horizontalVelocityBufferDuration);
       _ps = GetComponent<PlayerStretcherScript>();
     }
 
@@ -211,7 +217,7 @@ namespace Enter
       float Vy = _velocityOnGround.y / _jumpSpeed;
       bool idle = Mathf.Abs(Vx) < _eps;
       _sr.flipX = idle ? _sr.flipX : Vx < 0;
-      Debug.Log("_vx = " + _vx + ", Vx = " + Vx + "; idle = " + (idle) + "; grounded = " + _co.OnGround);
+      /* Debug.Log("_vx = " + _vx + ", Vx = " + Vx + "; idle = " + (idle) + "; grounded = " + _co.OnGround); */
       _an.SetFloat("Vx", Vx);
       _an.SetFloat("Vy", Vy);
       _vx = Vx;
@@ -221,12 +227,17 @@ namespace Enter
 
     private void handleWalk()
     {
+
+      _horizontalVelocityBuffer.Push(_velocityOnGround.x);
       // Handles horizontal motion
       float currentVelocityX = _velocityOnGround.x;
       float desiredVelocityX = _in.Move.x * _horizontalSpeed; 
 
       // allows turnaround to be free / happens instantaneously
-      if (!Mathf.Approximately(desiredVelocityX, 0) && Mathf.Sign(desiredVelocityX) != Mathf.Sign(currentVelocityX)) currentVelocityX *= -1;
+      if (!Mathf.Approximately(desiredVelocityX, 0) && Mathf.Sign(desiredVelocityX) != Mathf.Sign(currentVelocityX)) {
+          if (desiredVelocityX < 0)     currentVelocityX = _horizontalVelocityBuffer.GetMin();
+          else                          currentVelocityX = _horizontalVelocityBuffer.GetMax();
+      }
 
       float acceleration = Mathf.Abs(desiredVelocityX) > Mathf.Abs(currentVelocityX) ? _accelerationGrounded : _decelerationGrounded;
       float mult = _co.OnGround ? 1 : _midairHorizontalAccelerationMultiplier;
