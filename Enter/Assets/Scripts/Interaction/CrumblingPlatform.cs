@@ -24,6 +24,8 @@ namespace Enter {
         private Vector2 _topLeft_global       => transform.TransformPoint(_topLeft_local);
         private Vector2 _topRight_global      => transform.TransformPoint(_topRight_local);
 
+        bool crumbling;
+
         void Awake() {
             Sprite = GetComponentInChildren<SpriteRenderer>();
         }
@@ -67,8 +69,8 @@ namespace Enter {
         private void OnTriggerEnter2D(Collider2D other)
         {
             // If player touches edge collider trigger
-            if (other.gameObject.tag == "Player")
-            {
+            if (other.gameObject.tag == "Player" && !crumbling) {
+                crumbling = true;
                 StartCoroutine(this.Crumble());
             }
         }
@@ -79,18 +81,22 @@ namespace Enter {
             yield return new WaitForSeconds(this.preCrumblingDuration);
             Sprite.color = crumblingColor;
             GetComponent<EdgeCollider2D>().enabled = false;
+
             yield return new WaitForSeconds(this.crumblingDuration);
             GetComponent<BoxCollider2D>().enabled = false;
-            GetComponent<SpriteRenderer>().enabled = false;
+            Sprite.enabled = false;
+            GetComponent<EdgeCollider2D>().enabled = false; 
             Debug.Log("Platform dies.");
+
             yield return new WaitForSeconds(this.postCrumblingDuration);
             Debug.Log("Platform returns.");
             Sprite.color = originalColor;
             GetComponent<BoxCollider2D>().enabled = true;
-            GetComponent<SpriteRenderer>().enabled = true;
+            Sprite.enabled = true;
             GetComponent<EdgeCollider2D>().enabled = true; //what if platform regenerates before then?
             Debug.Log("Fixed.");
-            yield return null;
+
+            crumbling = false;
         }
     }
 }
