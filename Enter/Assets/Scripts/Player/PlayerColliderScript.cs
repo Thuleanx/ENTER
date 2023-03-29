@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Assertions;
 using System;
 using NaughtyAttributes;
@@ -10,8 +11,7 @@ namespace Enter
   {
     private PlayerStretcherScript _stretcher;
     private BoxCollider2D   _collider;
-
-    [SerializeField] private ParticleSystem dust;
+    private Rigidbody2D _rigidbody;
 
     [Header("Layers")]
     [SerializeField] private LayerMask _solidLayers;
@@ -48,6 +48,7 @@ namespace Enter
 
     private Vector2 _nudge = Vector2.zero;
     public  Vector2 Nudge { get { return _nudge; } }
+    public UnityEvent OnLand;
 
     #endregion
 
@@ -57,6 +58,7 @@ namespace Enter
     {
       _stretcher = PlayerManager.PlayerStretcherScript;
       _collider  = PlayerManager.BoxCollider;
+      _rigidbody = GetComponent<Rigidbody2D>();
 
       Assert.IsNotNull(_stretcher, "PlayerColliderScript must have a reference to a PlayerStretcherScript.");
       Assert.IsNotNull(_collider,  "PlayerColliderScript must have a reference to a BoxCollider2D.");
@@ -72,7 +74,7 @@ namespace Enter
       {
         if (Time.time - _lastGroundedTime > _minTimeBetweenLandingEffects)
         {
-          dust.Play();
+          OnLand?.Invoke();
           _stretcher.PlayLandingSquash();
         }
 
@@ -115,25 +117,27 @@ namespace Enter
 
     private void handleDownwardsChecks()
     {
-      // Raycast downwards
-      RaycastHit2D groundHit = GroundCheckHelper(_solidLayers);
-      RaycastHit2D rcBoxHit  = GroundCheckHelper(_rcBoxLayer);
+        OnGround = OnRCBox = false;
+        if (_rigidbody.velocity.y <= 0) {
+            // Raycast downwards
+            RaycastHit2D groundHit = GroundCheckHelper(_solidLayers);
+            RaycastHit2D rcBoxHit  = GroundCheckHelper(_rcBoxLayer);
 
-      // Set variables
-      OnGround = groundHit || rcBoxHit; // This OR is redundant, but explains the logic
-      OnRCBox  = rcBoxHit;
+            // Set variables
+            OnGround = groundHit || rcBoxHit; // This OR is redundant, but explains the logic
+            OnRCBox  = rcBoxHit;
 
-      // If grounded, obtain rigidbody of object beneath feet
-      CarryingRigidbody = null;
-      if (OnGround)
-      {
-        RaycastHit2D carryingHit = 
-          (rcBoxHit && rcBoxHit.distance < groundHit.distance) ?
-          rcBoxHit : groundHit;
+            // If grounded, obtain rigidbody of object beneath feet
+            CarryingRigidbody = null;
+            if (OnGround)
+            {
+                RaycastHit2D carryingHit = 
+                    (rcBoxHit && rcBoxHit.distance < groundHit.distance) ?
+                    rcBoxHit : groundHit;
 
-        CarryingRigidbody = carryingHit.collider.GetComponent<Rigidbody2D>();
-        Debug.Log(CarryingRigidbody);
-      }
+                CarryingRigidbody = carryingHit.collider.GetComponent<Rigidbody2D>();
+            }
+        }
     }
 
     private void handleUpwardsChecks()

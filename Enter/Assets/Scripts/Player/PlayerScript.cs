@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.Events;
 using Enter.Utils;
 
 namespace Enter
@@ -141,6 +142,10 @@ namespace Enter
     public float MaxJumpSpeed { get { return _jumpSpeed; } }
     public float MaxFallSpeed { get { return _maxFall; } }
 
+    public UnityEvent OnJump;
+    [Header("Checking For 'Landing' Effects")]
+    [SerializeField] private float _minTimeBetweenLandingEffects = 0.25f;
+
 
     #endregion
 
@@ -234,7 +239,7 @@ namespace Enter
       float desiredVelocityX = _in.Move.x * _horizontalSpeed; 
 
       // allows turnaround to be free / happens instantaneously
-      if (!Mathf.Approximately(desiredVelocityX, 0) && Mathf.Sign(desiredVelocityX) != Mathf.Sign(currentVelocityX)) {
+      if (!Mathf.Approximately(desiredVelocityX, 0) && Mathf.Approximately(Mathf.Sign(desiredVelocityX) * Mathf.Sign(currentVelocityX), -1)) {
           if (desiredVelocityX < 0)     currentVelocityX = _horizontalVelocityBuffer.GetMin();
           else                          currentVelocityX = _horizontalVelocityBuffer.GetMax();
       }
@@ -264,6 +269,7 @@ namespace Enter
       if (_in.Jump && (_co.OnGround || Time.time - _coyoteTime < _lastGroundedTime))
       {
         _rb.velocity = new Vector2(_rb.velocity.x, _jumpSpeed);
+        OnJump?.Invoke();
 
         _lastGroundedTime = -Mathf.Infinity;
       }

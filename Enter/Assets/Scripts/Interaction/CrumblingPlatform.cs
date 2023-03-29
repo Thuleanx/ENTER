@@ -23,7 +23,7 @@ public class CrumblingPlatform : MonoBehaviour
 
   void Start()
   {
-    this._renderer = GetComponent<Renderer>();
+    this._renderer = GetComponentInChildren<Renderer>();
     this.setupEdgeColliderPoints();
   }
 
