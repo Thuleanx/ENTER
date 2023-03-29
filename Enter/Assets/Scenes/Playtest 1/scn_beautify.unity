@@ -25830,6 +25830,18 @@ PrefabInstance:
       propertyPath: m_Points.Array.data[1].y
       value: 0.54999995
       objectReference: {fileID: 0}
+    - target: {fileID: 2309567756344072608, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
+      propertyPath: crumblingDuration
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2309567756344072608, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
+      propertyPath: preCrumblingDuration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2309567756344072608, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
+      propertyPath: postCrumblingDuration
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2309567756344072615, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
       propertyPath: m_RootOrder
       value: 2
