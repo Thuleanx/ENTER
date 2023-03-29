@@ -23,8 +23,8 @@ namespace Enter {
         private float postCrumblingDuration = 1f;
         [SerializeField] private float edgeColliderYOffset = 0.05f;
 
-        private Vector2 _topLeft_local        => Vector2.zero + Vector2.up / 2.0f + Vector2.left / 2.0f;
-        private Vector2 _topRight_local       => Vector2.zero + Vector2.up / 2.0f + Vector2.right / 2.0f;
+        private Vector2 _topLeft_local        => Vector2.zero + Vector2.up / 2.0f + Vector2.left * .45f;
+        private Vector2 _topRight_local       => Vector2.zero + Vector2.up / 2.0f + Vector2.right * .45f;
         private Vector2 _topLeft_global       => transform.TransformPoint(_topLeft_local);
         private Vector2 _topRight_global      => transform.TransformPoint(_topRight_local);
 

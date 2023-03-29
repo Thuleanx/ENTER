@@ -113,7 +113,7 @@ Transform:
   m_GameObject: {fileID: 2309567756344072619}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 5, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1010988799}
@@ -180,9 +180,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Sprite>k__BackingField: {fileID: 1010988800}
-  preCrumblingDuration: 0.5
-  postCrumblingDuration: 1
-  crumblingDuration: 3
+  preCrumblingDuration: 1
+  crumblingDuration: 0.5
+  postCrumblingDuration: 2
   edgeColliderYOffset: 0.05
 --- !u!68 &1304073375
 EdgeCollider2D:
@@ -200,8 +200,8 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -0.5, y: 0.54999995}
-  - {x: 0.5, y: 0.54999995}
+  - {x: -0.45000002, y: 0.54999995}
+  - {x: 0.45000002, y: 0.54999995}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0

@@ -25802,53 +25802,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1278032678}
     m_Modifications:
-    - target: {fileID: 1010988799, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1010988799, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1010988800, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
-      propertyPath: m_Size.x
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1304073375, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
-      propertyPath: m_Points.Array.data[0].x
-      value: -0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1304073375, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
-      propertyPath: m_Points.Array.data[0].y
-      value: 0.54999995
-      objectReference: {fileID: 0}
-    - target: {fileID: 1304073375, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
-      propertyPath: m_Points.Array.data[1].x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1304073375, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
-      propertyPath: m_Points.Array.data[1].y
-      value: 0.54999995
-      objectReference: {fileID: 0}
-    - target: {fileID: 2309567756344072608, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
-      propertyPath: crumblingDuration
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2309567756344072608, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
-      propertyPath: preCrumblingDuration
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2309567756344072608, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
-      propertyPath: postCrumblingDuration
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 2309567756344072615, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
       propertyPath: m_RootOrder
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2309567756344072615, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2309567756344072615, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
       propertyPath: m_LocalPosition.x
