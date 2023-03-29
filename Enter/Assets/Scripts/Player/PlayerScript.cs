@@ -269,9 +269,8 @@ namespace Enter
       if (_in.Jump && (_co.OnGround || Time.time - _coyoteTime < _lastGroundedTime))
       {
         _rb.velocity = new Vector2(_rb.velocity.x, _jumpSpeed);
-        OnJump?.Invoke();
-
         _lastGroundedTime = -Mathf.Infinity;
+        OnJump?.Invoke();
       }
     }
 

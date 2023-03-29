@@ -118,6 +118,7 @@ namespace Enter
     private void handleDownwardsChecks()
     {
         OnGround = OnRCBox = false;
+        CarryingRigidbody = null;
         if (_rigidbody.velocity.y <= 0) {
             // Raycast downwards
             RaycastHit2D groundHit = GroundCheckHelper(_solidLayers);
@@ -128,7 +129,6 @@ namespace Enter
             OnRCBox  = rcBoxHit;
 
             // If grounded, obtain rigidbody of object beneath feet
-            CarryingRigidbody = null;
             if (OnGround)
             {
                 RaycastHit2D carryingHit = 
@@ -138,6 +138,7 @@ namespace Enter
                 CarryingRigidbody = carryingHit.collider.GetComponent<Rigidbody2D>();
             }
         }
+        Debug.Log("groundded: " + OnGround);
     }
 
     private void handleUpwardsChecks()
