@@ -32,7 +32,7 @@ namespace Enter
     {
 		Debug.Log(physicsObjectPrefab + " " + BubbleManager.Instance);
 		Debug.Log(BubbleManager.Instance == null);
-        BubbleManager.Instance.Borrow(physicsObjectPrefab, transform.position, Quaternion.identity);
+        BubbleManager.Instance.Borrow(gameObject.scene, physicsObjectPrefab, transform.position, Quaternion.identity);
     }
 
     #endregion

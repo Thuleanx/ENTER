@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 namespace Enter {
     public class BubbleManager : MonoBehaviour {
@@ -25,11 +26,16 @@ namespace Enter {
         void Start() {
             // when reloading, we find all bubbles belonging to that scene, and
             // calls collect on them
-            Debug.Log(SceneTransitioner.Instance.OnReload);
             SceneTransitioner.Instance?.OnReload.AddListener((scene) => {
                 foreach (Bubble bubble in FindObjectsOfType<Bubble>()) {
-                    bubble.gameObject.SetActive(false);
+                    if (bubble.gameObject.scene == scene)
+                        bubble.gameObject.SetActive(false);
                 }
+            });
+            SceneTransitioner.Instance?.OnTransition.AddListener((current, next) => {
+                foreach (Bubble bubble in FindObjectsOfType<Bubble>()) 
+                    if (bubble.gameObject.scene == current)
+                        bubble.gameObject.SetActive(false);
             });
         }
 
@@ -52,13 +58,17 @@ namespace Enter {
         }
 
         /**
-         * <summary> Borrow an instance of a prefab from its pool. </summary>
+         * <summary> 
+         * Borrow an instance of a prefab from its pool. 
+         * We also tie it to a scene, so that it automatically returns to the pool
+         * when the scene is unloaded
+         * </summary>
          *
          * <param name="prefab"> the prefab you want an instance of </param>
          * <param name="positionNullable"> an optional position for the instance </param>
          * <param name="rotationNullable"> an optional rotation for the instance </param>
          */
-        public GameObject Borrow(GameObject prefab, Vector3? positionNullable = null, Quaternion? rotationNullable = null) {
+        public GameObject Borrow(Scene scene, GameObject prefab, Vector3? positionNullable = null, Quaternion? rotationNullable = null) {
             int id = prefab.GetInstanceID();
 
             // we first see if the pool exists, if not we create it
@@ -85,6 +95,7 @@ namespace Enter {
             // set its transform and rotation. 
 			bubble.gameObject.transform.SetPositionAndRotation(position, rotation);
 			bubble.gameObject.SetActive(true);
+			SceneManager.MoveGameObjectToScene(bubble.gameObject, scene);
             // tells the bubble to run Collect on Disabled
 			bubble.OnDisposal = Collect; 
 
@@ -103,8 +114,8 @@ namespace Enter {
          * <param name="positionNullable"> an optional position for the instance </param>
          * <param name="rotationNullable"> an optional rotation for the instance </param>
          */
-        public (T, GameObject) BorrowTyped<T>(GameObject prefab, Vector3? positionNullable = null, Quaternion? rotationNullable = null) {
-            GameObject gameObject = Borrow(prefab, positionNullable, rotationNullable);
+        public (T, GameObject) BorrowTyped<T>(Scene scene, GameObject prefab, Vector3? positionNullable = null, Quaternion? rotationNullable = null) {
+            GameObject gameObject = Borrow(scene, prefab, positionNullable, rotationNullable);
             return (gameObject.GetComponent<T>(), gameObject);
         }
 

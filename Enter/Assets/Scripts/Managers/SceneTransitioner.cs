@@ -29,6 +29,7 @@ namespace Enter
     public Vector3 SpawnPosition => _currSpawnPoint.transform.position;
     [field:SerializeField]
     public UnityEvent<Scene> OnReload {get; private set; }
+    public UnityEvent<Scene, Scene> OnTransition {get; private set; }
 
     #endregion
 
@@ -195,8 +196,10 @@ namespace Enter
     {
       Debug.Log("SCENE LOADED");
 
+
       // Hopefully no physics frame happen in between scene load and this function. Else Unity documentation lied.
       if (!_repositionOnSceneTransition) return;
+      OnTransition?.Invoke(_currScene, nextScene);
 
       // we align the new scene.
       // Get next scene's entry passage
