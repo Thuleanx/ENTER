@@ -17,6 +17,7 @@ namespace Enter.Utils {
         }
 
         public T Last() { 
+            InternalUpdate();
             if (data.Count == 0) {
                 Debug.LogWarning("NULL RETURNED because timed data buffer does not hold any data");
                 return default(T);
@@ -25,6 +26,7 @@ namespace Enter.Utils {
         }
 
         public T GetMin() {
+            InternalUpdate();
             if (minQueue.Count == 0) {
                 Debug.LogWarning("NULL RETURNED because timed data buffer does not hold any data");
                 return default(T);
@@ -33,6 +35,7 @@ namespace Enter.Utils {
         }
 
         public T GetMax() {
+            InternalUpdate();
             if (maxQueue.Count == 0) {
                 Debug.LogWarning("NULL RETURNED because timed data buffer does not hold any data");
                 return default(T);

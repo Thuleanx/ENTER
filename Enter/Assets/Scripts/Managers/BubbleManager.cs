@@ -41,8 +41,6 @@ namespace Enter
 
       private Coroutine _currentCoroutine;
       
-      [HideInInspector] public UnityAction<Bubble> OnDisposal = null;
-
       void OnEnable()
       {
         // If enabled mid-collection somehow, stop collecting it
