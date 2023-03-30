@@ -108,6 +108,7 @@ MonoBehaviour:
   _timeToMaxSpeed: 0.15
   _timeToZeroSpeed: 0.05
   _midairHorizontalAccelerationMultiplier: 0.5
+  _horizontalVelocityBufferDuration: 1
   _jumpHeight: 4.5
   _timeToMaxHeight: 0.5
   _maxFall: -1000
@@ -486,12 +487,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 847883213, guid: 7f59401411bad4b919e8ae28120467b6, type: 3}
+  m_Sprite: {fileID: -1748461605, guid: b8222ac1a98774377a0a8bc2978a1f78, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1.375}
+  m_Size: {x: 3, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

@@ -14,16 +14,14 @@ namespace Enter
     public static PlayerScript PlayerScript => PlayerScript.Instance;
     public static GameObject   Player       => PlayerScript.Instance.gameObject;
 
-    public static Rigidbody2D    Rigidbody      => PlayerScript.Instance.Rigidbody2D;
-    public static BoxCollider2D  BoxCollider    => PlayerScript.Instance.BoxCollider2D;
-    public static SpriteRenderer SpriteRenderer => PlayerScript.Instance.SpriteRenderer;
-    public static Animator       Animator       => PlayerScript.Instance.Animator;
-
+    public static Rigidbody2D           Rigidbody             => PlayerScript.Instance.Rigidbody2D;
+    public static BoxCollider2D         BoxCollider           => PlayerScript.Instance.BoxCollider2D;
     public static PlayerStretcherScript PlayerStretcherScript => PlayerScript.Instance.PlayerStretcherScript;
     public static PlayerColliderScript  PlayerColliderScript  => PlayerScript.Instance.PlayerColliderScript;
-
-    public static float MaxJumpSpeed  => PlayerScript.Instance.MaxJumpSpeed;
-    public static float MaxFallSpeed  => PlayerScript.Instance.MaxFallSpeed;
+    public static SpriteRenderer        SpriteRenderer        => PlayerScript.Instance.SpriteRenderer;
+    public static Animator              Animator              => PlayerScript.Instance.Animator;
+    public static float                 MaxJumpSpeed          => PlayerScript.Instance.MaxJumpSpeed;
+    public static float                 MaxFallSpeed          => PlayerScript.Instance.MaxFallSpeed;
 
     #endregion
 

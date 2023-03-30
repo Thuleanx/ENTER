@@ -42,6 +42,10 @@ namespace Enter
     [SerializeField, Tooltip("Multiplier to horizontal acceleration when in the air.")]
     private float _midairHorizontalAccelerationMultiplier;
 
+    [SerializeField, Tooltip("Time window in which highest grounded horizontal velocity is stored.")]
+    private float _horizontalVelocityBufferDuration = 0.25f;
+    private TimedDataBuffer<float> _horizontalVelocityBuffer;
+
     #endregion
 
     #region ====== Vertical Movement
@@ -125,27 +129,23 @@ namespace Enter
 
     #endregion
 
-    float _horizontalVelocityBufferDuration = 1;
-    TimedDataBuffer<float> _horizontalVelocityBuffer;
-
     #endregion
 
     #region ================== Accessors
 
-    public Rigidbody2D           Rigidbody2D           { get { return _rb; } }
-    public BoxCollider2D         BoxCollider2D         { get { return _bc; } }
-    public PlayerStretcherScript PlayerStretcherScript { get { return _ps; } }
-    public PlayerColliderScript  PlayerColliderScript  { get { return _co; } }
-    public SpriteRenderer        SpriteRenderer        { get { return _sr; } }
-    public Animator              Animator              { get { return _an; } }
-
-    public float MaxJumpSpeed { get { return _jumpSpeed; } }
-    public float MaxFallSpeed { get { return _maxFall; } }
+    public Rigidbody2D           Rigidbody2D           => _rb;
+    public BoxCollider2D         BoxCollider2D         => _bc;
+    public PlayerStretcherScript PlayerStretcherScript => _ps;
+    public PlayerColliderScript  PlayerColliderScript  => _co;
+    public SpriteRenderer        SpriteRenderer        => _sr;
+    public Animator              Animator              => _an;
+    public float                 MaxJumpSpeed          => _jumpSpeed;
+    public float                 MaxFallSpeed          => _maxFall;
 
     public UnityEvent OnJump;
+    
     [Header("Checking For 'Landing' Effects")]
     [SerializeField] private float _minTimeBetweenLandingEffects = 0.25f;
-
 
     #endregion
 
