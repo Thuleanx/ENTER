@@ -30,7 +30,9 @@ namespace Enter
     // sadguh no object pool
     private void CreatePhysicsObject()
     {
-      Instantiate(physicsObjectPrefab, transform.position, Quaternion.identity);
+		Debug.Log(physicsObjectPrefab + " " + BubbleManager.Instance);
+		Debug.Log(BubbleManager.Instance == null);
+        BubbleManager.Instance.Borrow(physicsObjectPrefab, transform.position, Quaternion.identity);
     }
 
     #endregion

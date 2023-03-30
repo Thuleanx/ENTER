@@ -27,6 +27,8 @@ namespace Enter
     #region ================== Accessors
 
     public Vector3 SpawnPosition => _currSpawnPoint.transform.position;
+    [field:SerializeField]
+    public UnityEvent<Scene> OnReload {get; private set; }
 
     #endregion
 
@@ -108,6 +110,7 @@ namespace Enter
     }
 
     private IEnumerator _reload() {
+        OnReload?.Invoke(SceneManager.GetActiveScene());
         _transitioning = true;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         yield return null;
