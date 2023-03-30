@@ -119,7 +119,8 @@ namespace Enter
     {
         OnGround = OnRCBox = false;
         CarryingRigidbody = null;
-        if (_rigidbody.velocity.y <= 0) {
+        float eps = 1e-5f;
+        if (_rigidbody.velocity.y <= eps) {
             // Raycast downwards
             RaycastHit2D groundHit = GroundCheckHelper(_solidLayers);
             RaycastHit2D rcBoxHit  = GroundCheckHelper(_rcBoxLayer);
