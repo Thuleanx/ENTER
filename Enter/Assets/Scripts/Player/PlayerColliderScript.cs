@@ -54,7 +54,7 @@ namespace Enter
 
     #region ================== Methods
 
-    void Awake()
+    void Start()
     {
       _stretcher = PlayerManager.PlayerStretcherScript;
       _collider  = PlayerManager.BoxCollider;
