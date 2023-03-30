@@ -17,19 +17,22 @@ namespace Enter
 
     private const float _eps = 0.001f;
 
-    private Scene _currScene;
+    private Scene       _currScene;
     private ExitPassage _exitPassage;
-    private bool _repositionOnSceneTransition;
-    private bool _transitioning;
+    private bool        _repositionOnSceneTransition;
+    private bool        _transitioning;
 
     private GameObject _currSpawnPoint;
 
     #region ================== Accessors
 
     public Vector3 SpawnPosition => _currSpawnPoint.transform.position;
+    
     [field:SerializeField]
-    public UnityEvent<Scene> OnReload {get; private set; }
-    public UnityEvent<Scene, Scene> OnTransition {get; private set; }
+    public UnityEvent<Scene>        OnReload     { get; private set; }
+
+    [field:SerializeField]
+    public UnityEvent<Scene, Scene> OnTransition { get; private set; }
 
     #endregion
 
