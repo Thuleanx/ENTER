@@ -43,7 +43,14 @@ namespace Enter
       Instance = this;
       _currScene = SceneManager.GetActiveScene();
       _currSpawnPoint = findSpawnPointAny();
+	  Debug.Log(_currScene.name);
     }
+
+	void Start() {
+		// why is this here? At awake of transitioner, it's not guaranteed that the scene has been loaded
+      _currScene = SceneManager.GetActiveScene();
+      _currSpawnPoint = findSpawnPointAny();
+	}
 
     void OnEnable()
     {
@@ -76,7 +83,8 @@ namespace Enter
 
     public Coroutine Reload()
     {
-        return StartCoroutine(_reload());
+		if (!_transitioning) return StartCoroutine(_reload());
+		return null;
     }
 
     #endregion
@@ -114,13 +122,22 @@ namespace Enter
     }
 
     private IEnumerator _reload() {
-        OnReload?.Invoke(SceneManager.GetActiveScene());
+		// invoke reload event
         _transitioning = true;
+        OnReload?.Invoke(SceneManager.GetActiveScene());
+
+		// load the current scene
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+		// wait for a frame so that the scene is fully loaded
         yield return null;
+		// retrieve new spawn point. TODO: move this into onsceneload 
         _currSpawnPoint = findSpawnPoint(SceneManager.GetActiveScene());
         PlayerManager.Player.GetComponent<Rigidbody2D>().position = SpawnPosition;
         _transitioning = false;
+
+		// we retrieve the current active scene again. Somehow unity recognize this as a different object than
+		// the _currScene we have previously
+		_currScene = SceneManager.GetActiveScene();
     }
 
     private IEnumerator loadAndAlignNextScene(ExitPassage exitPassage)
