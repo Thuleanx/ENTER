@@ -139,7 +139,6 @@ namespace Enter
                 CarryingRigidbody = carryingHit.collider.GetComponent<Rigidbody2D>();
             }
         }
-        Debug.Log("groundded: " + OnGround);
     }
 
     private void handleUpwardsChecks()
