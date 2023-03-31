@@ -105,15 +105,16 @@ MonoBehaviour:
   _sr: {fileID: 5560789134976461472}
   _an: {fileID: 7763624382114927695}
   _horizontalSpeed: 9
-  _timeToMaxSpeed: 0.15
-  _timeToZeroSpeed: 0.05
-  _midairHorizontalAccelerationMultiplier: 0.5
-  _horizontalVelocityBufferDuration: 1
+  _timeToMaxSpeed: 0.05
+  _timeToZeroSpeed: 0.025
+  _midairHorizontalAccelerationMultiplier: 0.4
+  _horizontalSpeedBufferDuration: 0.2
   _jumpHeight: 4.5
-  _timeToMaxHeight: 0.5
-  _maxFall: -1000
+  _timeToMaxHeight: 0.44444445
+  _maxFallMultiple: -1.05
+  _maxFall: -696969
   _jumpPeakMultiplier: 0.5
-  _jumpPeakThreshold: 1
+  _jumpPeakThreshold: 2
   _lowJumpMultiplier: 3
   _coyoteTime: 0.1
   _additionalRCBoxCoyoteTime: 0.1

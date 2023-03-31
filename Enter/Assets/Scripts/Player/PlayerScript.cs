@@ -42,9 +42,9 @@ namespace Enter
     [SerializeField, Tooltip("Multiplier to horizontal acceleration when in the air.")]
     private float _midairHorizontalAccelerationMultiplier;
 
-    [SerializeField, Tooltip("Time window in which highest grounded horizontal velocity is stored.")]
-    private float _horizontalVelocityBufferDuration = 0.25f;
-    private TimedDataBuffer<float> _horizontalVelocityBuffer;
+    [SerializeField, Tooltip("Time window in which highest grounded horizontal speed is stored.")]
+    private float _horizontalSpeedBufferDuration;
+    // private TimedDataBuffer<float> _horizontalSpeedBuffer;
 
     #endregion
 
@@ -57,6 +57,9 @@ namespace Enter
 
     [SerializeField, Tooltip("Maximum time before the maximum jump height of the player is reached.")]
     private float _timeToMaxHeight;
+
+    [SerializeField, Tooltip("Max fall as a multiple of jump speed.")]
+    private float _maxFallMultiple;
 
     [SerializeField, Tooltip("Maximum speed when falling due to gravity.")]
     private float _maxFall;
@@ -161,7 +164,7 @@ namespace Enter
       _bc = GetComponent<BoxCollider2D>();
       _co = GetComponent<PlayerColliderScript>();
 
-      _horizontalVelocityBuffer = new TimedDataBuffer<float>(_horizontalVelocityBufferDuration);
+      // _horizontalSpeedBuffer = new TimedDataBuffer<float>(_horizontalSpeedBufferDuration);
       _ps = GetComponent<PlayerStretcherScript>();
     }
 
@@ -172,7 +175,7 @@ namespace Enter
 
     void FixedUpdate()
     {
-      _maxFall = -_jumpSpeed; // fixme: delete
+      _maxFall = _maxFallMultiple * _jumpSpeed; // fixme: delete
 
       if (_isDead) return;
 
@@ -207,9 +210,6 @@ namespace Enter
 
     #region ================== Helpers
 
-    private float _vx = 0;
-    private float _vy = 0;
-
     private void handleMovement()
     {
       handleWalk();
@@ -217,41 +217,56 @@ namespace Enter
       handleMidairNudge();
       handleGravity();
       
-      // TO FIX: currently buggy due to weird x velocity when stopping
-      float Vx = _velocityOnGround.x / _horizontalSpeed;
-      float Vy = _velocityOnGround.y / _jumpSpeed;
-      bool idle = Mathf.Abs(Vx) < _eps;
-      _sr.flipX = idle ? _sr.flipX : Vx < 0;
-      /* Debug.Log("_vx = " + _vx + ", Vx = " + Vx + "; idle = " + (idle) + "; grounded = " + _co.OnGround); */
-      _an.SetFloat("Vx", Vx);
-      _an.SetFloat("Vy", Vy);
-      _vx = Vx;
-      _vy = Vy;
-      _an.SetBool("Grounded", _co.OnGround);
+      handleMovementAnimation();
     }
 
+    private float _tempVx = 0;
+    private float _tempTime  = -Mathf.Infinity;
     private void handleWalk()
     {
-
-      _horizontalVelocityBuffer.Push(_velocityOnGround.x);
       // Handles horizontal motion
-      float currentVelocityX = _velocityOnGround.x;
-      float desiredVelocityX = _in.Move.x * _horizontalSpeed; 
 
-      // allows turnaround to be free / happens instantaneously
-      if (!Mathf.Approximately(desiredVelocityX, 0) && Mathf.Approximately(Mathf.Sign(desiredVelocityX) * Mathf.Sign(currentVelocityX), -1)) {
-          if (desiredVelocityX < 0)     currentVelocityX = _horizontalVelocityBuffer.GetMin();
-          else                          currentVelocityX = _horizontalVelocityBuffer.GetMax();
+      // _horizontalSpeedBuffer.Push(Mathf.Abs(_velocityOnGround.x));
+      
+      float currentVx = _velocityOnGround.x;
+      float desiredVx = _in.Move.x * _horizontalSpeed;
+
+      // Updates / Applies stored values needed to turn instantly while on the ground
+      if (!Mathf.Approximately(0, desiredVx))
+      {
+        float timeoutTime = _tempTime + _horizontalSpeedBufferDuration;
+
+        // Compare desired direction to stored direction
+        bool sameDirection = Mathf.Approximately(1, Mathf.Sign(desiredVx) * Mathf.Sign(_tempVx));
+
+        if (sameDirection) 
+        {
+          // Update stored values if traveling in same direction faster or
+          // if stored values has timed out (e.g. after being ungrounded for awhile)
+          if (Mathf.Abs(_tempVx) < Mathf.Abs(currentVx) ||
+              timeoutTime < Time.time)
+          {
+            _tempVx   = currentVx;
+            _tempTime = Time.time;
+          }
+        }
+        else
+        {
+          // Apply stored values if traveling in opposite direction, within some time, and on ground
+          if (Time.time < timeoutTime && _co.OnGround) currentVx = -_tempVx;
+
+          // Update stored values if traveling in opposite direction
+          _tempVx   = currentVx;
+          _tempTime = Time.time;
+        }
       }
 
-      float acceleration = Mathf.Abs(desiredVelocityX) > Mathf.Abs(currentVelocityX) ? _accelerationGrounded : _decelerationGrounded;
+      // Do acceleration
+      float acceleration = Mathf.Abs(desiredVx) > Mathf.Abs(currentVx) ? _accelerationGrounded : _decelerationGrounded;
       float mult = _co.OnGround ? 1 : _midairHorizontalAccelerationMultiplier;
-
-      float amountAccelerated = Mathf.Sign(desiredVelocityX - currentVelocityX) * acceleration * mult * Time.fixedDeltaTime;
-      float actualVelocityX = Math.Approach(currentVelocityX, desiredVelocityX, amountAccelerated);
-
+      float amountAccelerated = Mathf.Sign(desiredVx - currentVx) * acceleration * mult * Time.fixedDeltaTime;
+      float actualVelocityX = Math.Approach(currentVx, desiredVx, amountAccelerated);
       _velocityOnGround = new Vector2(actualVelocityX, _velocityOnGround.y);
-      // _rb.velocity = new Vector2(_in.Move.x * _horizontalSpeed, _rb.velocity.y);
     }
 
     private void handleJump()
@@ -268,7 +283,12 @@ namespace Enter
       // Jump if grounded or within coyote-time interval
       if (_in.Jump && (_co.OnGround || Time.time - _coyoteTime < _lastGroundedTime))
       {
-        _rb.velocity = new Vector2(_rb.velocity.x, _jumpSpeed);
+        // Instant diagonal jumping
+        float jumpVx = _rb.velocity.x;
+        float desiredVx = _in.Move.x * _horizontalSpeed;
+        if (Mathf.Abs(jumpVx) < Mathf.Abs(desiredVx)) jumpVx = desiredVx;
+
+        _rb.velocity = new Vector2(jumpVx, _jumpSpeed);
         _lastGroundedTime = -Mathf.Infinity;
         OnJump?.Invoke();
       }
@@ -315,6 +335,19 @@ namespace Enter
         _rb.velocity.x,
         Math.Approach(_rb.velocity.y, _maxFall, _gravity * multiplier * Time.deltaTime)
       );
+    }
+
+    private void handleMovementAnimation()
+    {
+      float Vx = _velocityOnGround.x / _horizontalSpeed;
+      float Vy = _velocityOnGround.y / _jumpSpeed;
+      bool idle = Mathf.Abs(_velocityOnGround.x) < _eps;
+
+      _sr.flipX = idle ? _sr.flipX : Vx < 0;
+
+      _an.SetFloat("Vx", Vx);
+      _an.SetFloat("Vy", Vy);
+      _an.SetBool("Grounded", _co.OnGround);
     }
 
     private IEnumerator die()
