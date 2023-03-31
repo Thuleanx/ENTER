@@ -43,14 +43,14 @@ namespace Enter
       Instance = this;
       _currScene = SceneManager.GetActiveScene();
       _currSpawnPoint = findSpawnPointAny();
-	  Debug.Log(_currScene.name);
     }
 
-	void Start() {
-		// why is this here? At awake of transitioner, it's not guaranteed that the scene has been loaded
+    void Start()
+    {
+      // why is this here? At awake of transitioner, it's not guaranteed that the scene has been loaded
       _currScene = SceneManager.GetActiveScene();
       _currSpawnPoint = findSpawnPointAny();
-	}
+    }
 
     void OnEnable()
     {
@@ -83,8 +83,8 @@ namespace Enter
 
     public Coroutine Reload()
     {
-		if (!_transitioning) return StartCoroutine(_reload());
-		return null;
+      if (!_transitioning) return StartCoroutine(_reload());
+      return null;
     }
 
     #endregion
@@ -121,28 +121,34 @@ namespace Enter
       _transitioning = false;
     }
 
-    private IEnumerator _reload() {
-		// invoke reload event
-        _transitioning = true;
-        OnReload?.Invoke(SceneManager.GetActiveScene());
+    private IEnumerator _reload()
+    {
+		  // invoke reload event
+      _transitioning = true;
+      OnReload?.Invoke(SceneManager.GetActiveScene());
 
-		// load the current scene
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-		// wait for a frame so that the scene is fully loaded
-        yield return null;
-		// retrieve new spawn point. TODO: move this into onsceneload 
-        _currSpawnPoint = findSpawnPoint(SceneManager.GetActiveScene());
-        PlayerManager.Player.GetComponent<Rigidbody2D>().position = SpawnPosition;
-        _transitioning = false;
+		  // load the current scene
+      SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+		  
+      // wait for a frame so that the scene is fully loaded
+      yield return null;
 
-		// we retrieve the current active scene again. Somehow unity recognize this as a different object than
-		// the _currScene we have previously
-		_currScene = SceneManager.GetActiveScene();
+		  // retrieve new spawn point. TODO: move this into onsceneload 
+      _currSpawnPoint = findSpawnPoint(SceneManager.GetActiveScene());
+      PlayerManager.Player.GetComponent<Rigidbody2D>().position = SpawnPosition;
+      _transitioning = false;
+
+      // we retrieve the current active scene again. Somehow unity recognize this as a different object than
+      // the _currScene we have previously
+      _currScene = SceneManager.GetActiveScene();
     }
 
     private IEnumerator loadAndAlignNextScene(ExitPassage exitPassage)
     {
       _exitPassage = exitPassage;
+
+      Debug.Log("loadAndAlignNextScene");
+      Debug.Log(exitPassage.NextSceneReference.SceneName);
 
       // Load next scene (must wait one frame for additive scene load)
       exitPassage.NextSceneReference.LoadScene(LoadSceneMode.Additive);
@@ -214,14 +220,10 @@ namespace Enter
 
     private void onSceneLoad(Scene nextScene, LoadSceneMode mode)
     {
-      Debug.Log("SCENE LOADED");
-
-
       // Hopefully no physics frame happen in between scene load and this function. Else Unity documentation lied.
       if (!_repositionOnSceneTransition) return;
       OnTransition?.Invoke(_currScene, nextScene);
 
-      // we align the new scene.
       // Get next scene's entry passage
       EntryPassage entryPassage = null;
       foreach (EntryPassage x in FindObjectsOfType<EntryPassage>())
