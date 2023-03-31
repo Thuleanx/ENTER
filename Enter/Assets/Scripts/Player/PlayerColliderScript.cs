@@ -10,8 +10,12 @@ namespace Enter
   public class PlayerColliderScript : MonoBehaviour
   {
     private PlayerStretcherScript _stretcher;
-    private BoxCollider2D   _collider;
-    private Rigidbody2D _rigidbody;
+    private BoxCollider2D         _collider;
+    private Rigidbody2D           _rigidbody;
+
+    private const float _skinWidth = 0.001f;
+
+    #region ================== Variables
 
     [Header("Layers")]
     [SerializeField] private LayerMask _solidLayers;
@@ -34,6 +38,8 @@ namespace Enter
 
     private float _lastGroundedTime = -Mathf.Infinity;
 
+    #endregion
+
     #region ================== Accessors
 
     [field: SerializeField] public bool OnGround { get; private set; }
@@ -47,7 +53,8 @@ namespace Enter
     [field: SerializeField, ReadOnly] public Rigidbody2D CarryingRigidbody { get; private set; }
 
     private Vector2 _nudge = Vector2.zero;
-    public  Vector2 Nudge { get { return _nudge; } }
+    public Vector2 Nudge { get { return _nudge; } }
+
     public UnityEvent OnLand;
 
     #endregion
@@ -117,28 +124,27 @@ namespace Enter
 
     private void handleDownwardsChecks()
     {
-        OnGround = OnRCBox = false;
-        CarryingRigidbody = null;
-        float eps = 1e-5f;
-        if (_rigidbody.velocity.y <= eps) {
-            // Raycast downwards
-            RaycastHit2D groundHit = GroundCheckHelper(_solidLayers);
-            RaycastHit2D rcBoxHit  = GroundCheckHelper(_rcBoxLayer);
+      OnGround = false;
+      OnRCBox  = false;
+      CarryingRigidbody = null;
 
-            // Set variables
-            OnGround = groundHit || rcBoxHit; // This OR is redundant, but explains the logic
-            OnRCBox  = rcBoxHit;
+      // Raycast downwards
+      RaycastHit2D groundHit = GroundCheckHelper(_solidLayers);
+      RaycastHit2D rcBoxHit  = GroundCheckHelper(_rcBoxLayer);
 
-            // If grounded, obtain rigidbody of object beneath feet
-            if (OnGround)
-            {
-                RaycastHit2D carryingHit = 
-                    (rcBoxHit && rcBoxHit.distance < groundHit.distance) ?
-                    rcBoxHit : groundHit;
+      // Set variables
+      OnGround = groundHit || rcBoxHit; // This OR is redundant, but explains the logic
+      OnRCBox  = rcBoxHit;
 
-                CarryingRigidbody = carryingHit.collider.GetComponent<Rigidbody2D>();
-            }
-        }
+      // If grounded, obtain rigidbody of object beneath feet
+      if (OnGround)
+      {
+        RaycastHit2D carryingHit = 
+          (rcBoxHit && rcBoxHit.distance < groundHit.distance) ?
+          rcBoxHit : groundHit;
+
+        CarryingRigidbody = carryingHit.collider.GetComponent<Rigidbody2D>();
+      }
     }
 
     private void handleUpwardsChecks()
@@ -165,31 +171,29 @@ namespace Enter
 
     private Vector2 getOverheadPoint(float offsetFromCenterTop)
     {
-      return (Vector2)_collider.bounds.center +
-        Vector2.up * _collider.bounds.size.y / 2 +
-        Vector2.right * offsetFromCenterTop * _collider.bounds.size.x / 2;
+      Vector2 topCenter = (Vector2)_collider.bounds.center + Vector2.up * _collider.bounds.size.y / 2;
+      return topCenter +
+        Vector2.right * offsetFromCenterTop * _collider.bounds.size.x / 2 +
+        Vector2.down * _skinWidth;
     }
 
     private Vector2 getGroundPoint(int i)
     {
+      Vector2 bottomLeft = (Vector2)_collider.bounds.min;
       float t = (float) i / (_numGroundRays - 1);
 
-      // Todo? Usually you want to add a skin width up, if the engine doesn't
-      return (Vector2)_collider.bounds.min +
-        t * _collider.bounds.size.x * Vector2.right;
+      return bottomLeft +
+        Vector2.right * t * _collider.bounds.size.x +
+        Vector2.up * _skinWidth;
     }
 
     private RaycastHit2D GroundCheckHelper(LayerMask layers)
     {
-      Bounds bound = _collider.bounds;
-      Vector2 bottomLeft = (Vector2)bound.min;
 
       for (int i = 0; i < _numGroundRays; i++)
-      {         
-        if (Physics2D.Raycast(getGroundPoint(i), Vector2.down, _groundRayDistance, layers))
-        {
-          return Physics2D.Raycast(getGroundPoint(i), Vector2.down, _groundRayDistance, layers);
-        };
+      {    
+        RaycastHit2D hit = Physics2D.Raycast(getGroundPoint(i), Vector2.down, _groundRayDistance, layers);  
+        if (hit) return hit;
       }
 
       return new RaycastHit2D();
