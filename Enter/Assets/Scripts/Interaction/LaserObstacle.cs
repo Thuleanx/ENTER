@@ -13,6 +13,8 @@ namespace Enter
     [SerializeField] private bool  _on;
     [SerializeField] private int   _numRaycasts;
 
+    private const float _skinWidth = 0.001f;
+
     private float _onTimer;
     private float _offTimer;
 
@@ -73,7 +75,9 @@ namespace Enter
     {
       float t = (float) i / (_numRaycasts - 1);
 
-      Vector2 laserStart_global = transform.TransformPoint(new Vector2(-0.5f + t, -0.5f -Mathf.Epsilon));
+      Vector2 laserStart_local = new Vector2((t - 0.5f) * (1 - _skinWidth * 2), -0.5f - _skinWidth);
+
+      Vector2 laserStart_global = transform.TransformPoint(laserStart_local);
 
       return laserStart_global;
     }

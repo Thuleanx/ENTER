@@ -172,6 +172,7 @@ namespace Enter
     private Vector2 getOverheadPoint(float offsetFromCenterTop)
     {
       Vector2 topCenter = (Vector2)_collider.bounds.center + Vector2.up * _collider.bounds.size.y / 2;
+      
       return topCenter +
         Vector2.right * offsetFromCenterTop * _collider.bounds.size.x / 2 +
         Vector2.down * _skinWidth;
