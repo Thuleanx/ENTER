@@ -41,15 +41,15 @@ namespace Enter
       // damps (by an exponential decay function) the velocity to 0 in the orthogonal direction. 
       float currentDesiredVelocity = Math.Damp(orthoVelocity, 0, _dampingConstant * Mathf.Abs(orthoVelocity), Time.fixedDeltaTime);
 
-	//   if (Mathf.Abs(orthoVelocity) < 0.5) {
-	// 	rigidBody.velocity -= orthoDirection * orthoVelocity;
-	//   } else {
       	rigidBody.AddForce((currentDesiredVelocity - orthoVelocity) * orthoDirection * rigidBody.mass, ForceMode2D.Impulse);
-	//   }
 
       float currentVelocityAlongTractor = Vector2.Dot(rigidBody.velocity, forceDirection);
-      if (currentVelocityAlongTractor < _maxSpeed)
-        rigidBody.AddForce(forceDirection * (_maxSpeed / _timeToMaxVelocity) * rigidBody.mass * Time.fixedDeltaTime, ForceMode2D.Impulse);
+      if (currentVelocityAlongTractor < _maxSpeed) {
+		Vector3 force = forceDirection * (_maxSpeed / _timeToMaxVelocity);
+        force = Vector3.ClampMagnitude(force, _maxSpeed - currentVelocityAlongTractor);
+        force *= rigidBody.mass;
+        rigidBody.AddForce(force * Time.fixedDeltaTime, ForceMode2D.Impulse);
+	  }
     }
   }
 }
