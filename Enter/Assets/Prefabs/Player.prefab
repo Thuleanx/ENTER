@@ -157,13 +157,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f0ab77725b644f18bdf32cddd235775, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _solidLayers:
+  _staticLayer:
     serializedVersion: 2
-    m_Bits: 71680
+    m_Bits: 4096
+  _movingLayer:
+    serializedVersion: 2
+    m_Bits: 65536
   _rcBoxLayer:
     serializedVersion: 2
     m_Bits: 2048
-  _groundRayDistance: 0.03125
+  _groundRayDistance: 0.0625
   _numGroundRays: 2
   _overheadRayDistance: 0.75
   _outerFrac: 1.02

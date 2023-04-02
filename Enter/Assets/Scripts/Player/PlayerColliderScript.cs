@@ -18,8 +18,11 @@ namespace Enter
     #region ================== Variables
 
     [Header("Layers")]
-    [SerializeField] private LayerMask _solidLayers;
+    [SerializeField] private LayerMask _staticLayer;
+    [SerializeField] private LayerMask _movingLayer;
     [SerializeField] private LayerMask _rcBoxLayer;
+
+    private LayerMask _allGroundLayers => _staticLayer | _movingLayer | _rcBoxLayer;
 
     [Header("Ground Raycast Position Tweaks")]
     [SerializeField] private float _groundRayDistance = 0.02f;
@@ -124,25 +127,36 @@ namespace Enter
 
     private void handleDownwardsChecks()
     {
-      CarryingRigidbody = null;
+      // This prevents moving boxes "in-line" with the ground from moving you:
+      // If all raycasts hit static ground or RC box, use the first non-moving collider found's rigidbody (prefer RC box)
+      // If the above is not true,                    use the first     moving collider found's rigidbody, if any
+      // 
+      // This sets variables required by PlayerScript:
+      // If any raycast hits static ground, moving ground, or RC box, we are grounded
+      // If any raycast hits RC box,                                  we are on RC box
 
-      // Raycast downwards
-      RaycastHit2D groundHit = GroundCheckHelper(_solidLayers);
-      RaycastHit2D rcBoxHit  = GroundCheckHelper(_rcBoxLayer);
+      Rigidbody2D nonMovingRb = null;
+      Rigidbody2D movingRb    = null;
+      bool allGroundOrRC = true; // Starts true due to "and" logic
+      bool anyHit        = false;
+      bool anyRCHit      = false;
 
-      // Set variables
-      OnGround = groundHit || rcBoxHit; // This OR is redundant, but explains the logic
-      OnRCBox  = rcBoxHit;
+      for (int i = 0; i < _numGroundRays; i++)
+      {    
+        RaycastHit2D staticHit = Physics2D.Raycast(getGroundPoint(i), Vector2.down, _groundRayDistance, _staticLayer);
+        RaycastHit2D movingHit = Physics2D.Raycast(getGroundPoint(i), Vector2.down, _groundRayDistance, _movingLayer);
+        RaycastHit2D rcBoxHit  = Physics2D.Raycast(getGroundPoint(i), Vector2.down, _groundRayDistance, _rcBoxLayer);
 
-      // If grounded, obtain rigidbody of object beneath feet
-      if (OnGround)
-      {
-        RaycastHit2D carryingHit = 
-          (rcBoxHit && rcBoxHit.distance < groundHit.distance) ?
-          rcBoxHit : groundHit;
-
-        CarryingRigidbody = carryingHit.collider.GetComponent<Rigidbody2D>();
+        if (!nonMovingRb) nonMovingRb = rcBoxHit.collider?.GetComponent<Rigidbody2D>() ?? staticHit.collider?.GetComponent<Rigidbody2D>();
+        if (!movingRb)    movingRb    = movingHit.collider?.GetComponent<Rigidbody2D>();
+        allGroundOrRC = allGroundOrRC && (staticHit || rcBoxHit);
+        anyHit   = anyHit || staticHit || movingHit || rcBoxHit;
+        anyRCHit = anyRCHit || rcBoxHit;
       }
+
+      OnGround = anyHit;
+      OnRCBox  = anyRCHit;
+      CarryingRigidbody = allGroundOrRC ? nonMovingRb : movingRb;
     }
 
     private void handleUpwardsChecks()
@@ -153,7 +167,7 @@ namespace Enter
 
       Func<Vector2, bool> overheadCast = (origin) =>
       {
-        return Physics2D.Raycast(origin, Vector2.up, _overheadRayDistance, _solidLayers);
+        return Physics2D.Raycast(origin, Vector2.up, _overheadRayDistance, _allGroundLayers);
       };
 
       TopLeftmost  = overheadCast(getOverheadPoint(-_outerFrac));
@@ -184,18 +198,6 @@ namespace Enter
       return bottomLeft +
         Vector2.right * t * _collider.bounds.size.x +
         Vector2.up * _skinWidth;
-    }
-
-    private RaycastHit2D GroundCheckHelper(LayerMask layers)
-    {
-
-      for (int i = 0; i < _numGroundRays; i++)
-      {    
-        RaycastHit2D hit = Physics2D.Raycast(getGroundPoint(i), Vector2.down, _groundRayDistance, layers);  
-        if (hit) return hit;
-      }
-
-      return new RaycastHit2D();
     }
 
     #endregion
