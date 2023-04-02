@@ -11,6 +11,8 @@ namespace Enter
   {
     public static BubbleManager Instance;
 
+    #region Pool
+
     // A pool of bubbles. Possible todo: change datastructure
     private class Pool
     {
@@ -18,10 +20,7 @@ namespace Enter
 
       public bool Empty => _bubbles.Count == 0;
 
-      public void BubblePush(Bubble bubble)
-      {
-        _bubbles.Add(bubble);
-      }
+      public void BubblePush(Bubble bubble) { _bubbles.Add(bubble); }
 
       public Bubble BubblePop()
       {
@@ -32,6 +31,10 @@ namespace Enter
         return bubble;
       }
     };
+
+    #endregion
+
+    #region Bubble
 
     // A monobehaviour which must be attached to any game object (created
     // from a prefab) which is to be put into an object pool
@@ -85,6 +88,8 @@ namespace Enter
       }
     }
 
+    #endregion
+
     #region BubbleManager
 
     [SerializeField, Min(1)] private int _poolDefaultSize   = 5;
@@ -94,33 +99,9 @@ namespace Enter
 
     void Awake() { Instance = this; }
 
-    void Start()
-    {
-      Debug.Log(SceneTransitioner.Instance.OnTransition);
-
-      // Add listener to scene reload, to find all bubbles belonging to that
-      // scene and Collect() them back by disabling them
-      SceneTransitioner.Instance.OnReload.AddListener((scene) => {
-        foreach (Bubble bubble in FindObjectsOfType<Bubble>())
-          if (bubble.gameObject.scene == scene)
-            bubble.gameObject.SetActive(false);
-      });
-
-      // Add listener to scene transition, to find all bubbles belonging to
-      // the older scene and Collect() them back by disabling them
-      SceneTransitioner.Instance.OnTransition.AddListener((current, next) => {
-        Debug.Log(current);
-        Debug.Log(next);
-        foreach (Bubble bubble in FindObjectsOfType<Bubble>()) 
-          if (bubble.gameObject.scene == current)
-            bubble.gameObject.SetActive(false);
-      });
-    }
-
-    // Collects a bubble by bringing it back into its pool
     void Collect(Bubble bubble)
     {
-      int id = bubble.id;
+      // Collects a bubble by bringing it back into its pool
 
       // If the parent isn't null, give up on collecting this bubble
       if (bubble.transform.parent != null) return;
@@ -128,17 +109,15 @@ namespace Enter
       bubble.gameObject.SetActive(false);
       DontDestroyOnLoad(bubble.gameObject);
 
-      pools[id].BubblePush(bubble);
+      pools[bubble.id].BubblePush(bubble);
     }
 
-    // Borrow an instance of a prefab from its pool. 
-    // We also tie it to a scene, so that it automatically returns to the pool
-    // when the scene is unloaded
-    public GameObject Borrow(Scene       scene,
-                             GameObject  prefab,
-                             Vector3?    positionNullable = null,
-                             Quaternion? rotationNullable = null)
+    public GameObject Borrow(Scene scene, GameObject prefab, Vector3? positionNullable = null, Quaternion? rotationNullable = null)
     {
+      // Borrow an instance of a prefab from its pool. 
+      // We also tie it to a scene, so that it automatically 
+      // returns to the pool when the scene is unloaded
+
       int id = prefab.GetInstanceID();
 
       Vector3    position = positionNullable ?? Vector3.zero;
@@ -155,7 +134,6 @@ namespace Enter
         ExpandPool(prefab, _poolExpansionSize);
       }
 
-
       // Get a bubble from the pool
       Bubble bubble = pools[id].BubblePop();
 
@@ -167,10 +145,9 @@ namespace Enter
       return bubble.gameObject;
     }
 
-    // Expand a particular pool of prefab instances by some amount
     void ExpandPool(GameObject prefab, int amount)
     {
-      int id = prefab.GetInstanceID();
+      // Expand a particular pool of prefab instances by some amount
 
       // Do this "amount" times
       while (amount-- > 0)
@@ -192,11 +169,18 @@ namespace Enter
         // Assign ID to the bubble
         // Important: otherwise, there'd be no way to know which
         //            prefab was used to spawn the object
-        bubble.id = id;
+        bubble.id = prefab.GetInstanceID();
 
         // Add object to pool
-        pools[id].BubblePush(bubble);
+        pools[bubble.id].BubblePush(bubble);
       }
+    }
+
+    public void CollectAllBubblesInScene(Scene scene)
+    {
+      foreach (Bubble bubble in FindObjectsOfType<Bubble>())
+        if (bubble.gameObject.scene == scene)
+          bubble.gameObject.SetActive(false);
     }
 
     // Possible todo: if a pool goes cold for too long, we should start 

@@ -54,14 +54,12 @@ namespace Enter
           _in.RDown = false;
           StartCoroutine(rightClick());
         }
-        else
-        {
-          Debug.Log("No");
-          Debug.Log(_in.MouseWorld);
-          Debug.Log(_rcAreaLayer);
-          Debug.Log(Physics2D.OverlapPoint((Vector2) _in.MouseWorld, _rcAreaLayer));
-        }
       }
+    }
+
+    public void DespawnRCBox()
+    {
+      StartCoroutine(fadeout());
     }
 
     #endregion

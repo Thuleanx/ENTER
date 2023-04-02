@@ -10,6 +10,12 @@ using Enter.Utils;
 
 namespace Enter
 {
+  enum STState {
+    Idle = 0,
+    Transitioning,
+    Reloading
+  }
+
   [DisallowMultipleComponent]
   public class SceneTransitioner : MonoBehaviour
   {
@@ -19,8 +25,7 @@ namespace Enter
 
     private Scene       _currScene;
     private ExitPassage _exitPassage;
-    private bool        _repositionOnSceneTransition;
-    private bool        _transitioning;
+    private STState     _stState = STState.Idle;
 
     private GameObject _currSpawnPoint;
 
@@ -28,11 +33,10 @@ namespace Enter
 
     public Vector3 SpawnPosition => _currSpawnPoint.transform.position;
     
-    [field:SerializeField]
-    public UnityEvent<Scene>        OnReload     { get; private set; }
-
-    [field:SerializeField]
-    public UnityEvent<Scene, Scene> OnTransition { get; private set; }
+    [field:SerializeField] public UnityEvent<Scene>        OnReloadBefore     { get; private set; }
+    [field:SerializeField] public UnityEvent<Scene, Scene> OnReloadAfter      { get; private set; }
+    [field:SerializeField] public UnityEvent<Scene>        OnTransitionBefore { get; private set; }
+    [field:SerializeField] public UnityEvent<Scene, Scene> OnTransitionAfter  { get; private set; }
 
     #endregion
 
@@ -45,17 +49,8 @@ namespace Enter
       _currSpawnPoint = findSpawnPointAny();
     }
 
-    void Start()
-    {
-      // why is this here? At awake of transitioner, it's not guaranteed that the scene has been loaded
-      _currScene = SceneManager.GetActiveScene();
-      _currSpawnPoint = findSpawnPointAny();
-    }
-
     void OnEnable()
     {
-      _repositionOnSceneTransition = false;
-
       // Add to functions that should be called on scene-load
       SceneManager.sceneLoaded += onSceneLoad;
     }
@@ -71,99 +66,96 @@ namespace Enter
       Assert.IsNotNull(exitPassage, "Current scene's exitPassage must be provided.");
       Assert.IsNotNull(exitPassage.NextSceneReference, "ExitPassage must have a NextSceneReference.");
 
-      if (!_transitioning)
+      // This shouldn't happen; only one scene transition/reload should be happening at a time
+      if (_stState != STState.Idle)
       {
-        StartCoroutine(transitionTo(exitPassage));
+        Debug.LogError("Attempting to transition scenes while another transition/reload is happening.");
+        return;
       }
-      else
-      {
-        Debug.LogError("Attempting to scene transition while another scene transition is happening.");
-      }
+
+      StartCoroutine(transitionHelper(exitPassage));
     }
 
     public Coroutine Reload()
     {
-      if (!_transitioning) return StartCoroutine(_reload());
-      return null;
+      // This shouldn't happen; only one scene transition/reload should be happening at a time
+      if (_stState != STState.Idle) 
+      {
+        Debug.LogError("Attempting to reload scene while another transition/reload is happening.");
+        return null;
+      }
+
+      return StartCoroutine(reloadHelper());
     }
 
     #endregion
 
     #region ================== Helpers
 
-    private IEnumerator transitionTo(ExitPassage exitPassage)
+    private IEnumerator transitionHelper(ExitPassage exitPassage)
     {
-      _transitioning = true;
-
-      // Set _prevScene
-      Scene _prevScene = SceneManager.GetActiveScene();
-
-      Assert.AreEqual(_prevScene, _currScene, "At this moment, both scenes should be the same.");
-
-      // Effectively freeze time for the player
+      _stState = STState.Transitioning;
+      
+      // Freeze time
       float temp = Time.timeScale;
       Time.timeScale = 0;
-      // PlayerManager.PlayerScript.ToggleTimeSensitiveComponents(enabled: false, affectSelf: true);
 
-      // Load and align next scene (will update _currScene and SpawnPosition)
-      yield return loadAndAlignNextScene(exitPassage);
+      {
+        // Set _prevScene
+        Scene _prevScene = SceneManager.GetActiveScene();
+        Assert.AreEqual(_prevScene, _currScene, "At this moment, both scenes should be equal.");
 
-      Assert.AreNotEqual(_prevScene, _currScene, "At this moment, both scenes should be different.");
+        // Do pre-transition actions
+        OnTransitionBefore?.Invoke(_prevScene);
 
-      // Allow camera movement time
-      yield return cameraTransition(_prevScene, _currScene);
+        // Load next scene (additively!).
+        // This causes SceneManager to call onSceneLoad(), which will set _currScene
+        // and _currSpawnPoint; this should be done in exactly one frame.
+        _exitPassage = exitPassage;
+        exitPassage.NextSceneReference.LoadScene(LoadSceneMode.Additive);
+        yield return null;
+        Assert.AreNotEqual(_prevScene, _currScene, "At this moment, both scenes should be different.");
 
-      // Unload _prevScene
-      yield return SceneManager.UnloadSceneAsync(_prevScene);
+        // Wait for camera to move smoothly
+        yield return cameraTransition(_prevScene, _currScene);
 
+        // Do post-transition actions
+        OnTransitionAfter?.Invoke(_prevScene, _currScene);
+        
+        // Unload _prevScene
+        yield return SceneManager.UnloadSceneAsync(_prevScene);
+      }
+
+      // Unfreeze time
       Time.timeScale = temp;
-      // PlayerManager.PlayerScript.ToggleTimeSensitiveComponents(enabled: true, affectSelf: false);
 
-      // TODO: Detect if player needs help landing on a ledge. If so, help them.
-      PlayerManager.PlayerScript.enabled = true;
-
-      _transitioning = false;
+      _stState = STState.Idle;
     }
 
-    private IEnumerator _reload()
+    private IEnumerator reloadHelper()
     {
-		  // invoke reload event
-      _transitioning = true;
-      OnReload?.Invoke(SceneManager.GetActiveScene());
+      _stState = STState.Reloading;
 
-		  // load the current scene
-      SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-		  
-      // wait for a frame so that the scene is fully loaded
-      yield return null;
+      {
+        // Set _prevScene
+        Scene _prevScene = SceneManager.GetActiveScene();
+        Assert.AreEqual(_prevScene, _currScene, "At this moment, both scenes should be equal.");
 
-		  // retrieve new spawn point. TODO: move this into onsceneload 
-      _currSpawnPoint = findSpawnPoint(SceneManager.GetActiveScene());
-      PlayerManager.Player.GetComponent<Rigidbody2D>().position = SpawnPosition;
-      _transitioning = false;
+        // Do pre-reload actions
+        OnReloadBefore?.Invoke(_prevScene);
 
-      // we retrieve the current active scene again. Somehow unity recognize this as a different object than
-      // the _currScene we have previously
-      _currScene = SceneManager.GetActiveScene();
-    }
+        // Load current scene (non-additively, i.e. replaces this scene).
+        // This causes SceneManager to call onSceneLoad(), which will set _currScene
+        // and _currSpawnPoint; this should be done in exactly one frame.
+        SceneManager.LoadScene(_currScene.name);
+        yield return null;
+        Assert.AreNotEqual(_prevScene, _currScene, "At this moment, both scenes should be different.");
 
-    private IEnumerator loadAndAlignNextScene(ExitPassage exitPassage)
-    {
-      _exitPassage = exitPassage;
+        // Do post-reload actions
+        OnReloadAfter?.Invoke(_prevScene, _currScene);
+      }
 
-      Debug.Log("loadAndAlignNextScene");
-      Debug.Log(exitPassage.NextSceneReference.SceneName);
-
-      // Load next scene (must wait one frame for additive scene load)
-      exitPassage.NextSceneReference.LoadScene(LoadSceneMode.Additive);
-
-      // Allow scene to be repositioned on load
-      _repositionOnSceneTransition = true;
-
-      // Alignment should happen in between here. This should only run once
-      while (_repositionOnSceneTransition) yield return null;
-
-      _repositionOnSceneTransition = false;
+      _stState = STState.Idle;
     }
 
     private IEnumerator cameraTransition(Scene _prevScene, Scene _currScene)
@@ -176,23 +168,22 @@ namespace Enter
       Camera camera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
 
       // Max priority of _prevScene's virtual camera, so that the camera snaps there
+      // Important: you can't just set the camera's position, or the virtual camera will slap you
       CinemachineVirtualCamera _prevSceneVC = findHighestPriorityVC(_prevScene);
       Assert.IsNotNull(_prevSceneVC, "Previous scene's virtual camera not found");
       _prevSceneVC.Priority = int.MaxValue;
-
-      yield return null;
+      yield return null; // Must wait one frame
 
       // Min priority of _prevScene's virtual camera
       _prevSceneVC.Priority = 0;
 
       // Wait until camera has moved to the highest-priority virtual camera in _currScene
       CinemachineVirtualCamera _currSceneVC = findHighestPriorityVC(_currScene);
-
-      int currSceneCameraPriority = _currSceneVC.Priority;
+      int temp = _currSceneVC.Priority;
       _currSceneVC.Priority = int.MaxValue;
-      while (Vector2.Distance(camera.transform.position, _currSceneVC.State.CorrectedPosition) > _eps)
+      while (Vector2.Distance(camera.transform.position, _currSceneVC.transform.position) > _eps)
         yield return null;
-      _currSceneVC.Priority = currSceneCameraPriority;
+      _currSceneVC.Priority = temp;
     }
 
     private GameObject findSpawnPointAny()
@@ -202,13 +193,12 @@ namespace Enter
 
     private GameObject findSpawnPoint(Scene scene)
     {
-      GameObject temp = null;
-
+      // Assumes only one spawn point per scene
       foreach (SpawnPoint x in FindObjectsOfType<SpawnPoint>())
         if (x.gameObject.scene == scene)
-          temp = x.gameObject;
+          return x.gameObject;
 
-      return temp;
+      return null;
     }
 
     private CinemachineVirtualCamera findHighestPriorityVC(Scene scene)
@@ -222,34 +212,30 @@ namespace Enter
       return highestPriorityVC;
     }
 
-    private void onSceneLoad(Scene nextScene, LoadSceneMode mode)
+    private void onSceneLoad(Scene newScene, LoadSceneMode mode)
     {
-      // Hopefully no physics frame happen in between scene load and this function. Else Unity documentation lied.
-      if (!_repositionOnSceneTransition) return;
-      OnTransition?.Invoke(_currScene, nextScene);
+      // Hopefully no physics frame happens between scene load and this function. Else Unity documentation lied.
 
-      // Get next scene's entry passage
-      EntryPassage entryPassage = null;
-      foreach (EntryPassage x in FindObjectsOfType<EntryPassage>())
-        if (x.gameObject.scene == nextScene) entryPassage = x;
+      if (_stState == STState.Transitioning)
+      {
+        // Get next scene's entry passage
+        EntryPassage entryPassage = null;
+        foreach (EntryPassage x in FindObjectsOfType<EntryPassage>())
+          if (x.gameObject.scene == newScene) entryPassage = x;
+        Assert.IsNotNull(entryPassage, "New scene's entryPassage not found.");
 
-      Assert.IsNotNull(entryPassage, "Next scene's entryPassage not found.");
+        // Get next scene's root transform
+        Transform rootTransform = entryPassage.transform.root;
+        Assert.IsNotNull(rootTransform, "New scene's root not found.");
 
-      // Get next scene's root transform
-      Transform rootTransform = entryPassage.transform.root;
+        // Align next scene
+        rootTransform.position += _exitPassage.transform.position - entryPassage.transform.position;
+      }
 
-      Assert.IsNotNull(rootTransform, "Next scene's root not found.");
-
-      // Align next scene
-      rootTransform.position += _exitPassage.transform.position - entryPassage.transform.position;
-
-      // Set _currScene
-      _currScene = entryPassage.gameObject.scene;
-
-      // Set _currSpawnPoint
-      _currSpawnPoint = findSpawnPoint(_currScene);
-      Assert.IsNotNull(_currSpawnPoint, "Next scene's spawnPoint not found.");
-      _repositionOnSceneTransition = false;
+      // Set _currScene and _currSpawnPoint
+      _currScene = newScene;
+      _currSpawnPoint = findSpawnPoint(newScene);
+      Assert.IsNotNull(_currSpawnPoint, "New scene's spawnPoint not found.");
     }
 
     #endregion

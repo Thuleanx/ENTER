@@ -96,7 +96,6 @@ namespace Enter {
             shakeSprite.SetEase(Ease.Unset).Play();
             yield return new WaitForSeconds(this.preCrumblingDuration);
             // platform turns uninteratable
-            Debug.Log("Platform dies.");
 
             // disable collision and set the sprite to fall and fade
             Sprite.color = crumblingColor;
@@ -116,7 +115,6 @@ namespace Enter {
             // here is where the platform is no longer visible and interactible
 
             yield return new WaitForSeconds(this.postCrumblingDuration);
-            Debug.Log("Platform returns.");
 
             // remember to reset colors (and also alpha) as well as Y position
             Sprite.color = originalColor;
@@ -129,7 +127,6 @@ namespace Enter {
             // make interactivity return
             GetComponent<BoxCollider2D>().enabled = true;
             GetComponent<EdgeCollider2D>().enabled = true; //what if platform regenerates before then?
-            // Debug.Log("Fixed.");
 
             crumbling = false;
         }
