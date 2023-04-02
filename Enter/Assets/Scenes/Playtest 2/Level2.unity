@@ -140,7 +140,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1304073375, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
       propertyPath: m_Points.Array.data[0].x
-      value: -0.4499998
+      value: -0.45000005
       objectReference: {fileID: 0}
     - target: {fileID: 1304073375, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
       propertyPath: m_Points.Array.data[0].y
@@ -148,7 +148,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1304073375, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
       propertyPath: m_Points.Array.data[1].x
-      value: 0.4499998
+      value: 0.45
       objectReference: {fileID: 0}
     - target: {fileID: 1304073375, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
       propertyPath: m_Points.Array.data[1].y
@@ -225,7 +225,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1304073375, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
       propertyPath: m_Points.Array.data[0].x
-      value: -0.4499998
+      value: -0.45000005
       objectReference: {fileID: 0}
     - target: {fileID: 1304073375, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
       propertyPath: m_Points.Array.data[0].y
@@ -233,7 +233,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1304073375, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
       propertyPath: m_Points.Array.data[1].x
-      value: 0.4499998
+      value: 0.45
       objectReference: {fileID: 0}
     - target: {fileID: 1304073375, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
       propertyPath: m_Points.Array.data[1].y
@@ -346,7 +346,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1304073375, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
       propertyPath: m_Points.Array.data[0].x
-      value: -0.4499998
+      value: -0.45
       objectReference: {fileID: 0}
     - target: {fileID: 1304073375, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
       propertyPath: m_Points.Array.data[0].y
@@ -354,7 +354,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1304073375, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
       propertyPath: m_Points.Array.data[1].x
-      value: 0.4499998
+      value: 0.45000005
       objectReference: {fileID: 0}
     - target: {fileID: 1304073375, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
       propertyPath: m_Points.Array.data[1].y
@@ -493,7 +493,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1304073375, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
       propertyPath: m_Points.Array.data[0].x
-      value: -0.4499998
+      value: -0.45
       objectReference: {fileID: 0}
     - target: {fileID: 1304073375, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
       propertyPath: m_Points.Array.data[0].y
@@ -501,7 +501,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1304073375, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
       propertyPath: m_Points.Array.data[1].x
-      value: 0.4499998
+      value: 0.45000005
       objectReference: {fileID: 0}
     - target: {fileID: 1304073375, guid: aedd8743939ba457dbdc21c2aaf61d5a, type: 3}
       propertyPath: m_Points.Array.data[1].y
@@ -577,10 +577,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: StaticCamera
       objectReference: {fileID: 0}
-    - target: {fileID: 1320470816334978996, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1320470816334978999, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -627,19 +623,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1320470816948900106, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
       propertyPath: m_NormalizedViewPortRect.x
-      value: 0.09512195
+      value: 0.09390863
       objectReference: {fileID: 0}
     - target: {fileID: 1320470816948900106, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
       propertyPath: m_NormalizedViewPortRect.y
-      value: 0.8481562
-      objectReference: {fileID: 0}
-    - target: {fileID: 1320470816948900106, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
-      propertyPath: m_NormalizedViewPortRect.width
-      value: 0.7804878
-      objectReference: {fileID: 0}
-    - target: {fileID: 1320470816948900106, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
-      propertyPath: m_NormalizedViewPortRect.height
-      value: 0.7809111
+      value: 0.09255079
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}

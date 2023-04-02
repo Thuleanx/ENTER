@@ -47,12 +47,19 @@ namespace Enter
       if (_in.RDown && Time.time - _minRCInterval > _lastRCTime)
       {
         // Check that RCBox is appearing in valid area
-        bool yes = Physics2D.OverlapPoint((Vector2) getRCBoxPosition(), _rcAreaLayer);
+        bool yes = Physics2D.OverlapPoint((Vector2) _in.MouseWorld, _rcAreaLayer);
 
         if (yes)
         {
           _in.RDown = false;
           StartCoroutine(rightClick());
+        }
+        else
+        {
+          Debug.Log("No");
+          Debug.Log(_in.MouseWorld);
+          Debug.Log(_rcAreaLayer);
+          Debug.Log(Physics2D.OverlapPoint((Vector2) _in.MouseWorld, _rcAreaLayer));
         }
       }
     }

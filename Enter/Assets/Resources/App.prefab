@@ -298,7 +298,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.5, y: -0.5}
+  m_Offset: {x: 0, y: -0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -373,7 +373,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 972218655062192124}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5, y: -0.5, z: 0}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -521,3 +521,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7154730a84fcf13488e756b6ead51da2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <OnReload>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
+  <OnTransition>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []

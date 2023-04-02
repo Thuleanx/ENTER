@@ -7,16 +7,9 @@ namespace Enter
   {
     public Collider2D Collider { get; private set; }
 
-    public enum Direction
-    {
-      UP,
-      RIGHT
-    };
-
-    [SerializeField, Min(0)] private float _dampingConstant = 0.1f; // might introduce oscillations if this is higher than 1
-    [SerializeField, Min(0.1f)] private float _timeToMaxVelocity = 0.2f;
-    [SerializeField] private float _maxSpeed = 30;
-    [SerializeField] private Direction direction = Direction.RIGHT;
+    [SerializeField, Min(0)] private float _dampingConstant   = 0.1f; // might introduce oscillations if this is higher than 1
+    [SerializeField, Min(0)] private float _timeToMaxVelocity = 0.2f;
+    [SerializeField, Min(0)] private float _maxSpeed          = 10;
 
     void Awake()
     {
@@ -25,31 +18,32 @@ namespace Enter
 
     void OnTriggerStay2D(Collider2D other)
     {
-      // Resist force orthogonal to 
-      Rigidbody2D rigidBody = other.attachedRigidbody;
+      Rigidbody2D rb = other.attachedRigidbody;
 
-      Vector2 orthoDirection = transform.up;
-      Vector2 forceDirection = transform.right;
+      Vector2 orthoDirection   = transform.up;
+      Vector2 tangentDirection = transform.right;
 
-      if (direction == Direction.UP)
+      float orthoVelocity   = Vector2.Dot(rb.velocity, orthoDirection);
+      float tangentVelocity = Vector2.Dot(rb.velocity, tangentDirection);
+
+      // In orthogonal direction: damps (by an exponential decay function) the velocity to 0
+      float targetOrthoVelocity = Math.Damp(orthoVelocity, 0, _dampingConstant * Mathf.Abs(orthoVelocity), Time.fixedDeltaTime);
+      float orthoDeltaV = targetOrthoVelocity - orthoVelocity;
+      // rb.AddForce(rb.mass * orthoDeltaV * orthoDirection, ForceMode2D.Impulse);
+
+      // In force direction: brings speed to _maxSpeed
+      if (!Mathf.Approximately(tangentVelocity, _maxSpeed))
       {
-        // Swap the two axis
-        (orthoDirection, forceDirection) = (forceDirection, orthoDirection);
-      }
-
-      float orthoVelocity = Vector2.Dot(rigidBody.velocity, orthoDirection);
-      // damps (by an exponential decay function) the velocity to 0 in the orthogonal direction. 
-      float currentDesiredVelocity = Math.Damp(orthoVelocity, 0, _dampingConstant * Mathf.Abs(orthoVelocity), Time.fixedDeltaTime);
-
-      	rigidBody.AddForce((currentDesiredVelocity - orthoVelocity) * orthoDirection * rigidBody.mass, ForceMode2D.Impulse);
-
-      float currentVelocityAlongTractor = Vector2.Dot(rigidBody.velocity, forceDirection);
-      if (currentVelocityAlongTractor < _maxSpeed) {
-		Vector3 force = forceDirection * (_maxSpeed / _timeToMaxVelocity);
-        force = Vector3.ClampMagnitude(force, _maxSpeed - currentVelocityAlongTractor);
-        force *= rigidBody.mass;
-        rigidBody.AddForce(force * Time.fixedDeltaTime, ForceMode2D.Impulse);
-	  }
+        float tangentDeltaV = _maxSpeed - tangentVelocity;
+        if (!Mathf.Approximately(0, _timeToMaxVelocity))
+        {
+          tangentDeltaV = Mathf.Min(
+            _maxSpeed * Time.fixedDeltaTime / _timeToMaxVelocity,
+            _maxSpeed - tangentVelocity);
+        }
+        rb.velocity = _maxSpeed * tangentDirection;
+        // rb.AddForce(rb.mass * tangentDeltaV * tangentDirection, ForceMode2D.Impulse);
+	    }
     }
   }
 }

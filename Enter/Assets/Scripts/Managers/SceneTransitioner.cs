@@ -101,7 +101,9 @@ namespace Enter
       Assert.AreEqual(_prevScene, _currScene, "At this moment, both scenes should be the same.");
 
       // Effectively freeze time for the player
-      PlayerManager.PlayerScript.ToggleTimeSensitiveComponents(enabled: false, affectSelf: true);
+      float temp = Time.timeScale;
+      Time.timeScale = 0;
+      // PlayerManager.PlayerScript.ToggleTimeSensitiveComponents(enabled: false, affectSelf: true);
 
       // Load and align next scene (will update _currScene and SpawnPosition)
       yield return loadAndAlignNextScene(exitPassage);
@@ -114,7 +116,9 @@ namespace Enter
       // Unload _prevScene
       yield return SceneManager.UnloadSceneAsync(_prevScene);
 
-      PlayerManager.PlayerScript.ToggleTimeSensitiveComponents(enabled: true, affectSelf: false);
+      Time.timeScale = temp;
+      // PlayerManager.PlayerScript.ToggleTimeSensitiveComponents(enabled: true, affectSelf: false);
+
       // TODO: Detect if player needs help landing on a ledge. If so, help them.
       PlayerManager.PlayerScript.enabled = true;
 

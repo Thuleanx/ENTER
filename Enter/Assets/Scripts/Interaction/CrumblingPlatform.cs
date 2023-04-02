@@ -129,7 +129,7 @@ namespace Enter {
             // make interactivity return
             GetComponent<BoxCollider2D>().enabled = true;
             GetComponent<EdgeCollider2D>().enabled = true; //what if platform regenerates before then?
-            Debug.Log("Fixed.");
+            // Debug.Log("Fixed.");
 
             crumbling = false;
         }
