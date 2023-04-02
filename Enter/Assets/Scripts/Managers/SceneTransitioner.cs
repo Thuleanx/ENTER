@@ -172,7 +172,8 @@ namespace Enter
       CinemachineVirtualCamera _prevSceneVC = findHighestPriorityVC(_prevScene);
       Assert.IsNotNull(_prevSceneVC, "Previous scene's virtual camera not found");
       _prevSceneVC.Priority = int.MaxValue;
-      yield return null; // Must wait one frame
+
+      yield return null; // Must wait one frame for the cinemachine camera to adjust its internal position
 
       // Min priority of _prevScene's virtual camera
       _prevSceneVC.Priority = 0;
@@ -181,7 +182,10 @@ namespace Enter
       CinemachineVirtualCamera _currSceneVC = findHighestPriorityVC(_currScene);
       int temp = _currSceneVC.Priority;
       _currSceneVC.Priority = int.MaxValue;
-      while (Vector2.Distance(camera.transform.position, _currSceneVC.transform.position) > _eps)
+
+      yield return null; // Must wait one frame for the cinemachine camera to adjust its internal position
+
+      while (Vector2.Distance(camera.transform.position, _currSceneVC.State.CorrectedPosition) > _eps)
         yield return null;
       _currSceneVC.Priority = temp;
     }
@@ -230,6 +234,7 @@ namespace Enter
 
         // Align next scene
         rootTransform.position += _exitPassage.transform.position - entryPassage.transform.position;
+        Debug.Log("root moved");
       }
 
       // Set _currScene and _currSpawnPoint
