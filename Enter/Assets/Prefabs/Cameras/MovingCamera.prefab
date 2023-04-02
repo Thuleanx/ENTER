@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1508603111357356063
 Transform:
   m_ObjectHideFlags: 0
@@ -71,7 +71,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7087370805827828719}
   m_Layer: 0
-  m_Name: Cameras
+  m_Name: MovingCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -124,7 +124,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7087370806279255377}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: -0.058595657, y: -0.032959938, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -150,10 +150,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.17479675
-    y: 0.17509025
-    width: 0.6504065
-    height: 0.6498195
+    x: 0.95170796
+    y: 0.29079497
+    width: 0.75382805
+    height: 0.75313807
   near clip plane: 5
   far clip plane: 15
   field of view: 60
@@ -327,9 +327,37 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7403552990237487869, guid: e98abbc4719ee84449523bfa56e96569, type: 3}
+      propertyPath: m_StandbyUpdate
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7403552990237487870, guid: e98abbc4719ee84449523bfa56e96569, type: 3}
       propertyPath: m_Name
       value: Cinemachine Virtual Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403552991766785737, guid: e98abbc4719ee84449523bfa56e96569, type: 3}
+      propertyPath: m_DeadZoneWidth
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403552991766785737, guid: e98abbc4719ee84449523bfa56e96569, type: 3}
+      propertyPath: m_LookaheadTime
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403552991766785737, guid: e98abbc4719ee84449523bfa56e96569, type: 3}
+      propertyPath: m_SoftZoneWidth
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403552991766785737, guid: e98abbc4719ee84449523bfa56e96569, type: 3}
+      propertyPath: m_SoftZoneHeight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403552991766785737, guid: e98abbc4719ee84449523bfa56e96569, type: 3}
+      propertyPath: m_LookaheadIgnoreY
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7403552991766785737, guid: e98abbc4719ee84449523bfa56e96569, type: 3}
+      propertyPath: m_LookaheadSmoothing
+      value: 0.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e98abbc4719ee84449523bfa56e96569, type: 3}

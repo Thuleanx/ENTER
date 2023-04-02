@@ -60,7 +60,7 @@ namespace Enter
     #endregion
 
     #region ================== Methods
-
+    
     void Start()
     {
       _stretcher = PlayerManager.PlayerStretcherScript;
@@ -92,7 +92,7 @@ namespace Enter
     void OnDrawGizmos()
     {
       // Draw overhead gizmos
-      
+
       Action<Vector2, bool> overheadGizmoDraw = (src, isHitting) =>
       {
         Gizmos.color = isHitting ? Color.green : Color.red; // red if not hitting, green otherwise
@@ -124,8 +124,6 @@ namespace Enter
 
     private void handleDownwardsChecks()
     {
-      OnGround = false;
-      OnRCBox  = false;
       CarryingRigidbody = null;
 
       // Raycast downwards

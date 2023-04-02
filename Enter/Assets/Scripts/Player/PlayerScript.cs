@@ -42,10 +42,6 @@ namespace Enter
     [SerializeField, Tooltip("Multiplier to horizontal acceleration when in the air.")]
     private float _midairHorizontalAccelerationMultiplier;
 
-    [SerializeField, Tooltip("Time window in which highest grounded horizontal speed is stored.")]
-    private float _horizontalSpeedBufferDuration;
-    // private TimedDataBuffer<float> _horizontalSpeedBuffer;
-
     #endregion
 
     #region ====== Vertical Movement
@@ -121,6 +117,8 @@ namespace Enter
     private float _accelerationGrounded => _horizontalSpeed / _timeToMaxSpeed;
     private float _decelerationGrounded => _horizontalSpeed / _timeToZeroSpeed;
 
+    private TimedDataBuffer<float> _horizontalSpeedBuffer = new TimedDataBuffer<float>(0.25f);
+
     private Vector2 _velocityOfGround {
       get { return (_co.OnGround && _co.CarryingRigidbody) ? _co.CarryingRigidbody.velocity : Vector2.zero; }
     }
@@ -146,9 +144,6 @@ namespace Enter
     public float                 MaxFallSpeed          => _maxFall;
 
     public UnityEvent OnJump;
-    
-    [Header("Checking For 'Landing' Effects")]
-    [SerializeField] private float _minTimeBetweenLandingEffects = 0.25f;
 
     #endregion
 
@@ -163,8 +158,6 @@ namespace Enter
       _rb = GetComponent<Rigidbody2D>();
       _bc = GetComponent<BoxCollider2D>();
       _co = GetComponent<PlayerColliderScript>();
-
-      // _horizontalSpeedBuffer = new TimedDataBuffer<float>(_horizontalSpeedBufferDuration);
       _ps = GetComponent<PlayerStretcherScript>();
     }
 
@@ -220,51 +213,25 @@ namespace Enter
       handleMovementAnimation();
     }
 
-    private float _tempVx = 0;
-    private float _tempTime  = -Mathf.Infinity;
     private void handleWalk()
     {
       // Handles horizontal motion
 
-      // _horizontalSpeedBuffer.Push(Mathf.Abs(_velocityOnGround.x));
-      
       float currentVx = _velocityOnGround.x;
       float desiredVx = _in.Move.x * _horizontalSpeed;
 
-      // Updates / Applies stored values needed to turn instantly while on the ground
-      if (!Mathf.Approximately(0, desiredVx))
-      {
-        float timeoutTime = _tempTime + _horizontalSpeedBufferDuration;
-
-        // Compare desired direction to stored direction
-        bool sameDirection = Mathf.Approximately(1, Mathf.Sign(desiredVx) * Mathf.Sign(_tempVx));
-
-        if (sameDirection) 
-        {
-          // Update stored values if traveling in same direction faster or
-          // if stored values has timed out (e.g. after being ungrounded for awhile)
-          if (Mathf.Abs(_tempVx) < Mathf.Abs(currentVx) ||
-              timeoutTime < Time.time)
-          {
-            _tempVx   = currentVx;
-            _tempTime = Time.time;
-          }
-        }
-        else
-        {
-          // Apply stored values if traveling in opposite direction, within some time, and on ground
-          if (Time.time < timeoutTime && _co.OnGround) currentVx = -_tempVx;
-
-          // Update stored values if traveling in opposite direction
-          _tempVx   = currentVx;
-          _tempTime = Time.time;
-        }
+      _horizontalSpeedBuffer.Push(Mathf.Abs(_velocityOnGround.x));
+      
+      // Allows instant momentum flipping while on the ground
+      if (_co.OnGround && !Mathf.Approximately(0, desiredVx)) {
+        if (desiredVx < 0) currentVx = -_horizontalSpeedBuffer.GetMax();
+        else               currentVx = +_horizontalSpeedBuffer.GetMax();
       }
 
       // Do acceleration
       float acceleration = Mathf.Abs(desiredVx) > Mathf.Abs(currentVx) ? _accelerationGrounded : _decelerationGrounded;
-      float mult = _co.OnGround ? 1 : _midairHorizontalAccelerationMultiplier;
-      float amountAccelerated = Mathf.Sign(desiredVx - currentVx) * acceleration * mult * Time.fixedDeltaTime;
+      acceleration *= _co.OnGround ? 1 : _midairHorizontalAccelerationMultiplier;
+      float amountAccelerated = Mathf.Sign(desiredVx - currentVx) * acceleration * Time.fixedDeltaTime;
       float actualVelocityX = Math.Approach(currentVx, desiredVx, amountAccelerated);
       _velocityOnGround = new Vector2(actualVelocityX, _velocityOnGround.y);
     }

@@ -104,17 +104,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sr: {fileID: 5560789134976461472}
   _an: {fileID: 7763624382114927695}
-  _horizontalSpeed: 9
-  _timeToMaxSpeed: 0.05
+  _horizontalSpeed: 9.5
+  _timeToMaxSpeed: 0.075
   _timeToZeroSpeed: 0.025
-  _midairHorizontalAccelerationMultiplier: 0.5
-  _horizontalSpeedBufferDuration: 0.2
+  _midairHorizontalAccelerationMultiplier: 0.75
   _jumpHeight: 4.5
-  _timeToMaxHeight: 0.44444445
-  _maxFallMultiple: -1.05
-  _maxFall: -696969
+  _timeToMaxHeight: 0.4
+  _maxFallMultiple: -1.25
+  _maxFall: -42069
   _jumpPeakMultiplier: 0.5
-  _jumpPeakThreshold: 2
+  _jumpPeakThreshold: 3
   _lowJumpMultiplier: 3
   _coyoteTime: 0.1
   _additionalRCBoxCoyoteTime: 0.1
@@ -146,7 +145,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  _minTimeBetweenLandingEffects: 0.25
 --- !u!114 &3675825429863194642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,7 +163,7 @@ MonoBehaviour:
   _rcBoxLayer:
     serializedVersion: 2
     m_Bits: 2048
-  _groundRayDistance: 0.02
+  _groundRayDistance: 0.03125
   _numGroundRays: 2
   _overheadRayDistance: 0.75
   _outerFrac: 1.02
@@ -488,7 +486,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1748461605, guid: b8222ac1a98774377a0a8bc2978a1f78, type: 3}
+  m_Sprite: {fileID: -1670030370, guid: 867443aac56c94da3bc821214529e077, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

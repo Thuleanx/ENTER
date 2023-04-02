@@ -1,27 +1,19 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &8072745232866600024
+--- !u!1001 &3099429707602885069
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1197858028552293018, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2401394151901432806, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6551662780751061522, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
-      propertyPath: m_Enabled
-      value: 0
+      propertyPath: m_Name
+      value: Camera Confiner (Edit Me)
       objectReference: {fileID: 0}
     - target: {fileID: 7087370805827828716, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
       propertyPath: m_Name
-      value: StaticCamera
+      value: XOnlyCamera
       objectReference: {fileID: 0}
     - target: {fileID: 7087370805827828719, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
       propertyPath: m_RootOrder
@@ -67,17 +59,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7087370806279255378, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
-      propertyPath: orthographic size
-      value: 11.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 7087370806279255378, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
-      propertyPath: m_NormalizedViewPortRect.x
+    - target: {fileID: 7087370806279255469, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
+      propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7087370806279255378, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
-      propertyPath: m_NormalizedViewPortRect.y
-      value: 0.12552302
+    - target: {fileID: 7087370806279255469, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7087370806971220815, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
+      propertyPath: m_DeadZoneWidth
+      value: 0.025
+      objectReference: {fileID: 0}
+    - target: {fileID: 7087370806971220815, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
+      propertyPath: m_SoftZoneWidth
+      value: 0.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 7087370806971220815, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
+      propertyPath: m_DeadZoneHeight
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7087370806971220815, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
+      propertyPath: m_SoftZoneHeight
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}

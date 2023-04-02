@@ -28,15 +28,12 @@ namespace Enter
 
     #region ================== Methods
 
-    void Awake()
+    void Start()
     {
       _spriteTransform = PlayerManager.SpriteRenderer.transform;
 
       Assert.IsNotNull(_spriteTransform, "PlayerStretcherScript must have a reference to the player's sprite's Transform.");
-    }
 
-    void Start()
-    {
       _initialestScale = _currentScale;
       _initialScale    = _currentScale;
       _targetScale     = _currentScale;
