@@ -57,8 +57,8 @@ namespace Enter
     [SerializeField, Tooltip("Max fall as a multiple of jump speed.")]
     private float _maxFallMultiple;
 
-    [SerializeField, Tooltip("Maximum speed when falling due to gravity.")]
-    private float _maxFall;
+    [field:SerializeField, Tooltip("Maximum speed when falling due to gravity.")]
+    private float _maxFall { get {return _maxFallMultiple * _jumpSpeed; } }
 
     #endregion
 
@@ -168,8 +168,6 @@ namespace Enter
 
     void FixedUpdate()
     {
-      _maxFall = _maxFallMultiple * _jumpSpeed; // fixme: delete
-
       if (_isDead) return;
 
       handleMovement();
