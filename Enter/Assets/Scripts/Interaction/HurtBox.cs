@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Enter
 {
-  public class DeathBox : MonoBehaviour
+  public class HurtBox : MonoBehaviour
   {
     void OnTriggerEnter2D(Collider2D other)
     {

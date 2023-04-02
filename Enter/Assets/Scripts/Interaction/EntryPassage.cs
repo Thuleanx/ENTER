@@ -4,6 +4,7 @@ namespace Enter
 {
   public class EntryPassage : MonoBehaviour
   {
-    // Nothing
+    // Nothing.
+    // This just needs to exist for the SceneTransitioner to find it.
   }
 }
