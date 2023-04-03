@@ -73,31 +73,31 @@ namespace Enter.Utils
 
     public void OnBeforeSerialize() {
 #if UNITY_EDITOR
-            if (Scene != null)
-            {
-                string sceneAssetPath = UnityEditor.AssetDatabase.GetAssetPath(Scene);
-                string sceneAssetGUID = UnityEditor.AssetDatabase.AssetPathToGUID(sceneAssetPath);
-                
-                UnityEditor.EditorBuildSettingsScene[] scenes = 
-                    UnityEditor.EditorBuildSettings.scenes;
+      if (Scene != null)
+      {
+        string sceneAssetPath = UnityEditor.AssetDatabase.GetAssetPath(Scene);
+        string sceneAssetGUID = UnityEditor.AssetDatabase.AssetPathToGUID(sceneAssetPath);
+        
+        UnityEditor.EditorBuildSettingsScene[] scenes = 
+          UnityEditor.EditorBuildSettings.scenes;
 
-                sceneIndex = -1;
-                for (int i = 0; i < scenes.Length; i++)
-                {
-                    if (scenes[i].guid.ToString() == sceneAssetGUID)
-                    {
-                        sceneIndex = i;
-                        sceneEnabled = scenes[i].enabled;
-                        if (scenes[i].enabled)
-                            SceneName = Scene.name;
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                SceneName = "";
-            }
+        sceneIndex = -1;
+        for (int i = 0; i < scenes.Length; i++)
+        {
+          if (scenes[i].guid.ToString() == sceneAssetGUID)
+          {
+            sceneIndex = i;
+            sceneEnabled = scenes[i].enabled;
+            if (scenes[i].enabled)
+              SceneName = Scene.name;
+            break;
+          }
+        }
+      }
+      else
+      {
+        SceneName = "";
+      }
 #endif
     }
 

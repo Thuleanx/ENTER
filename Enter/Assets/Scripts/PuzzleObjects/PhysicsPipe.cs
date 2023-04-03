@@ -1,35 +1,52 @@
-using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 using NaughtyAttributes;
+using UnityEngine;
+using UnityEngine.Assertions;
+using UnityEngine.Events;
 
 namespace Enter
 {
   public class PhysicsPipe : MonoBehaviour
   {
-    [SerializeField] private float _blocksPerMinute;
-    [ShowAssetPreview, SerializeField] GameObject physicsObjectPrefab;
-    float timeSinceLastSpawn = -1;
+    [SerializeField, ShowAssetPreview] private GameObject _prefab;
+    
+    [SerializeField] private UnityEvent _onSpawn;
 
-    #region ================== Methods
+    [SerializeField] private float _initialWaitTime = 0;
+    [SerializeField] private float _spawnWaitTime   = 2;
 
-    void Update()
+    [SerializeField] private Vector2 _initialVelocity_global = Vector2.zero;
+
+    void Awake()
     {
-      if (timeSinceLastSpawn + 60f / _blocksPerMinute < Time.time)
+      Assert.IsNotNull(_prefab, "PhysicsPipe must have a reference to GameObject to spawn.");
+    }
+
+    void OnEnable()
+    {
+      StartCoroutine(keepSpawning());
+    }
+
+    void OnDisable()
+    {
+      StopAllCoroutines();
+    }
+
+    private IEnumerator keepSpawning()
+    {
+      yield return new WaitForSeconds(_initialWaitTime);
+
+      while (true)
       {
-        CreatePhysicsObject();
-        timeSinceLastSpawn = Time.time;
+        GameObject obj = BubbleManager.Instance.Borrow(gameObject.scene, _prefab, transform.position, Quaternion.identity);
+        Rigidbody2D rb = obj.GetComponent<Rigidbody2D>();
+        if (rb) rb.velocity = _initialVelocity_global;
+
+        _onSpawn?.Invoke();
+
+        yield return new WaitForSeconds(_spawnWaitTime);
       }
     }
-
-    #endregion
-
-    #region ================== Methods
-
-    // sadguh no object pool
-    private void CreatePhysicsObject()
-    {
-      Instantiate(physicsObjectPrefab, transform.position, Quaternion.identity);
-    }
-
-    #endregion
   }
 }

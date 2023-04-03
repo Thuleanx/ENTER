@@ -6,12 +6,14 @@ using UnityEngine;
 namespace Enter
 {
   [RequireComponent(typeof(LineRenderer))]
-  public class LaserObstacle : Interactable
+  public class LaserObstacle : MonoBehaviour
   {
     [SerializeField] private float _onDuration;
     [SerializeField] private float _offDuration;
     [SerializeField] private bool  _on;
     [SerializeField] private int   _numRaycasts;
+
+    private const float _skinWidth = 0.001f;
 
     private float _onTimer;
     private float _offTimer;
@@ -43,7 +45,7 @@ namespace Enter
 
     void OnDrawGizmos()
     {
-      float minHitDist_global = multiRaycastHelper();
+      float minHitDist_global = multiRaycastHelper(_maxRaycastDistance, _groundMask);
 
       Gizmos.color = Color.red;
       Action<Vector2> laserGizmoDraw = (laserStart_global) =>
@@ -73,7 +75,9 @@ namespace Enter
     {
       float t = (float) i / (_numRaycasts - 1);
 
-      Vector2 laserStart_global = transform.TransformPoint(new Vector2(-0.5f + t, -0.5f -Mathf.Epsilon));
+      Vector2 laserStart_local = new Vector2((t - 0.5f) * (1 - _skinWidth * 2), -0.5f - _skinWidth);
+
+      Vector2 laserStart_global = transform.TransformPoint(laserStart_local);
 
       return laserStart_global;
     }
@@ -101,7 +105,8 @@ namespace Enter
     {
       // For firing the laser
 
-      float minHitDist_global = multiRaycastHelper();
+      float minHitDist_global = multiRaycastHelper(_maxRaycastDistance, _groundMask);
+	    multiRaycastHelper(minHitDist_global, _playerMask); // for killing the player :>
 
       // For rendering the laser
 
@@ -112,37 +117,32 @@ namespace Enter
       _lineRenderer.SetPosition(1, lineEnd_local);
     }
 
-    private float multiRaycastHelper()
+    private float multiRaycastHelper(float maxRaycastDistance, LayerMask mask)
     {
-      float minHitDist_global = _maxRaycastDistance;
+      float minHitDist_global = maxRaycastDistance;
 
       for (int i = 0; i < _numRaycasts; i++)
       {
         Vector2 laserStart_global = getLaserStartPoint(i);
 
-        float thisHitDist_global = raycastHelper(laserStart_global, _laserDirection_global, _groundMask);
+        float thisHitDist_global = raycastHelper(laserStart_global, _laserDirection_global, mask, minHitDist_global);
         minHitDist_global = Mathf.Min(minHitDist_global, thisHitDist_global);
-
-        // This kills the player if hit
-        raycastHelper(laserStart_global, _laserDirection_global, _playerMask);
       }
 
       return minHitDist_global;
     }
 
-    private float raycastHelper(Vector2 origin, Vector2 direction, LayerMask layers)
+    private float raycastHelper(Vector2 origin, Vector2 direction, LayerMask layers, float maxDistance = _maxRaycastDistance)
     {
-      RaycastHit2D hit = Physics2D.Raycast(origin, direction, _maxRaycastDistance, layers);
+      RaycastHit2D hit = Physics2D.Raycast(origin, direction, maxDistance, layers);
 
-      if (!hit) return _maxRaycastDistance;
+      if (!hit) return float.MaxValue;
 
       if (hit.collider.gameObject.tag == "Player") PlayerManager.PlayerScript.Die();
 
       return hit.distance;
     }
-
-
-
+    
     #endregion
   }
 }

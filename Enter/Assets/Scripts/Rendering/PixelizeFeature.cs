@@ -13,7 +13,7 @@ namespace Enter
     public class CustomPassSettings
     {
       public RenderPassEvent renderPassEvent = RenderPassEvent.BeforeRenderingPostProcessing;
-      public int screenHeight = 144;
+	  public int pixelPerUnit = 16;
       [Tooltip("")]
       public Material material;
     }
@@ -75,17 +75,23 @@ namespace Enter
       colorBuffer = renderingData.cameraData.renderer.cameraColorTarget; // where we'll write to
       RenderTextureDescriptor descriptor = renderingData.cameraData.cameraTargetDescriptor;
 
-      // pixelScreenDimension.x = renderingData.cameraData.camera.pixelWidth;
-      // pixelScreenDimension.y = renderingData.cameraData.camera.pixelHeight;
+		float height = renderingData.cameraData.camera.orthographicSize * settings.pixelPerUnit * 2;
+		float width = height * renderingData.cameraData.camera.aspect + 0.5f;
 
-      pixelScreenDimension.y = settings.screenHeight;
-      pixelScreenDimension.x = (int)(pixelScreenDimension.y * renderingData.cameraData.camera.aspect + 0.5f); // round up so you won't get black edge
+      pixelScreenDimension.x = (int) width; // round up so you won't get black edge
+      pixelScreenDimension.y = (int) height;
+	  Vector2 screenSize = renderingData.cameraData.camera.ViewportToScreenPoint(Vector2.one);
+	  float scaleFactor = (float) pixelScreenDimension.y / screenSize.y;
+    //   pixelScreenDimension.x = (int) 256; // round up so you won't get black edge
+    //   pixelScreenDimension.y = (int) 144;
+	Debug.Log(scaleFactor);
 
       // provide material with what it needs
       if (material)
       {
-        material.SetVector("_PixelCnt", (Vector2)pixelScreenDimension);
-        material.SetVector("_PixelSz", new Vector2(1.0f / pixelScreenDimension.x, 1.0f / pixelScreenDimension.y));
+        material.SetFloat("_ScaleFactor", scaleFactor);
+        material.SetVector("_PixelSz", new Vector4(pixelScreenDimension.x, pixelScreenDimension.y, 1.0f / pixelScreenDimension.x, 1.0f / pixelScreenDimension.y));
+        material.SetVector("_ScreenSz", new Vector4(screenSize.x, screenSize.y, 1/screenSize.x, 1/screenSize.y));
       }
 
       descriptor.width = pixelScreenDimension.x;
