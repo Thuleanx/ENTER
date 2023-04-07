@@ -6,17 +6,25 @@ namespace Enter
   [RequireComponent(typeof(CinemachineVirtualCamera))]
   public class FollowPlayerCamera : MonoBehaviour
   {
-    CinemachineVirtualCamera cam;
+    private CinemachineVirtualCamera     _cam;
+    private CinemachineFramingTransposer _cft;
+
+    private float _defaultDeadZoneHeight;
 
     void Awake()
     {
-      cam = GetComponent<CinemachineVirtualCamera>();
+      _cam = GetComponent<CinemachineVirtualCamera>();
+      _cft = _cam.GetCinemachineComponent<CinemachineFramingTransposer>();
+
+      _defaultDeadZoneHeight = _cft.m_DeadZoneHeight;
     }
 
     void Update()
     {
-      // This should only run once per scene
-      if (!cam.Follow) cam.Follow = PlayerManager.Player.transform;
+      if (!_cam.Follow) _cam.Follow = PlayerManager.Player.transform;
+      
+      // Avoid vertical virtual camera movement when ungrounded, by increasing dead-zone height
+      _cft.m_DeadZoneHeight = PlayerManager.PlayerGrounded ? _defaultDeadZoneHeight : _cft.m_SoftZoneHeight;
     }
   }
 }

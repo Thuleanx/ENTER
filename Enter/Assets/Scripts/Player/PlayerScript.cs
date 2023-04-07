@@ -120,7 +120,7 @@ namespace Enter
     private TimedDataBuffer<float> _horizontalSpeedBuffer = new TimedDataBuffer<float>(0.25f);
 
     private Vector2 _velocityOfGround {
-      get { return (_co.OnGround && _co.CarryingRigidbody) ? _co.CarryingRigidbody.velocity : Vector2.zero; }
+      get { return (Grounded && _co.CarryingRigidbody) ? _co.CarryingRigidbody.velocity : Vector2.zero; }
     }
 
     private Vector2 _velocityOnGround {
@@ -134,6 +134,8 @@ namespace Enter
 
     #region ================== Accessors
 
+    public bool Grounded => _co.OnGround;
+    
     public Rigidbody2D           Rigidbody2D           => _rb;
     public BoxCollider2D         BoxCollider2D         => _bc;
     public PlayerStretcherScript PlayerStretcherScript => _ps;
@@ -221,14 +223,14 @@ namespace Enter
       _horizontalSpeedBuffer.Push(Mathf.Abs(_velocityOnGround.x));
       
       // Allows instant momentum flipping while on the ground
-      if (_co.OnGround && !Mathf.Approximately(0, desiredVx)) {
+      if (Grounded && !Mathf.Approximately(0, desiredVx)) {
         if (desiredVx < 0) currentVx = -_horizontalSpeedBuffer.GetMax();
         else               currentVx = +_horizontalSpeedBuffer.GetMax();
       }
 
       // Do acceleration
       float acceleration = Mathf.Abs(desiredVx) > Mathf.Abs(currentVx) ? _accelerationGrounded : _decelerationGrounded;
-      acceleration *= _co.OnGround ? 1 : _midairHorizontalAccelerationMultiplier;
+      acceleration *= Grounded ? 1 : _midairHorizontalAccelerationMultiplier;
       float amountAccelerated = Mathf.Sign(desiredVx - currentVx) * acceleration * Time.fixedDeltaTime;
       float actualVelocityX = Math.Approach(currentVx, desiredVx, amountAccelerated);
       _velocityOnGround = new Vector2(actualVelocityX, _velocityOnGround.y);
@@ -237,7 +239,7 @@ namespace Enter
     private void handleJump()
     {
       // Store last grounded time for coyote-time purposes
-      if (_co.OnGround)
+      if (Grounded)
       {
         _lastGroundedTime = Time.time;
       }
@@ -246,7 +248,7 @@ namespace Enter
       if (_co.OnRCBox && Mathf.Abs(_rb.velocity.x) < _eps) _lastGroundedTime = Time.time + _additionalRCBoxCoyoteTime;
 
       // Jump if grounded or within coyote-time interval
-      if (_in.Jump && (_co.OnGround || Time.time - _coyoteTime < _lastGroundedTime))
+      if (_in.Jump && (Grounded || Time.time - _coyoteTime < _lastGroundedTime))
       {
         // Instant diagonal jumping
         float jumpVx = _rb.velocity.x;
@@ -312,7 +314,7 @@ namespace Enter
 
       _an.SetFloat("Vx", Vx);
       _an.SetFloat("Vy", Vy);
-      _an.SetBool("Grounded", _co.OnGround);
+      _an.SetBool("Grounded", Grounded);
     }
 
     private IEnumerator die()

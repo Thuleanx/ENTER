@@ -11,8 +11,9 @@ namespace Enter
 
     #region ================== Accessors
 
-    public static PlayerScript PlayerScript => PlayerScript.Instance;
-    public static GameObject   Player       => PlayerScript.Instance.gameObject;
+    public static PlayerScript PlayerScript   => PlayerScript.Instance;
+    public static GameObject   Player         => PlayerScript.Instance.gameObject;
+    public static bool         PlayerGrounded => PlayerScript.Instance.Grounded;
 
     public static Rigidbody2D           Rigidbody             => PlayerScript.Instance.Rigidbody2D;
     public static BoxCollider2D         BoxCollider           => PlayerScript.Instance.BoxCollider2D;
