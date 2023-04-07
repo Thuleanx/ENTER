@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.SceneManagement;
 
 namespace Enter
 {
@@ -15,15 +16,21 @@ namespace Enter
 
     #region ================== Methods
 
-    void Start()
+    void OnEnable()
     {
-      updateValidPoints();
+		SceneTransitioner.Instance.OnTransitionAfter.AddListener(UpdateValidPoints);
+		SceneTransitioner.Instance.OnReloadAfter.AddListener(UpdateValidPoints);
     }
+
+	void OnDisable() {
+		SceneTransitioner.Instance.OnTransitionAfter.RemoveListener(UpdateValidPoints);
+		SceneTransitioner.Instance.OnReloadAfter.AddListener(UpdateValidPoints);
+	}
 
 #if UNITY_EDITOR
     void OnDrawGizmos()
     {
-      updateValidPoints();
+      updateValidPoints(); // the scenes passed into here are useless
       _validPoints.ForEach((v) => Gizmos.DrawSphere(new Vector3(v.x, v.y, 0), 0.5f));
     }
 #endif
@@ -53,12 +60,17 @@ namespace Enter
 
     #region ================== Helpers
 
-    private void updateValidPoints()
+    public void UpdateValidPoints(Scene _, Scene __)
     {
+		updateValidPoints();
+    }
+
+	private void updateValidPoints() {
       _validPoints.Clear();
 
       List<Vector2> points = new List<Vector2>();
       int numPoints = 0;
+
 
       // For each path in this composite collider
       for (int i = 0; i < _co.pathCount; ++i)
@@ -90,7 +102,7 @@ namespace Enter
           }
         }
       }
-    }
+	}
 
     #endregion
   }
