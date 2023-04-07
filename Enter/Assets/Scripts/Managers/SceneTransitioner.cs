@@ -174,6 +174,8 @@ namespace Enter
       _prevSceneVC.Priority = int.MaxValue;
 
       yield return null; // Must wait one frame for the cinemachine camera to adjust its internal position
+      // it's important that the cinemachine brain's update method is set to LateUpdate. FixedUpdate does not 
+      // work, due to us freezing timescale
 
       // Min priority of _prevScene's virtual camera
       _prevSceneVC.Priority = 0;
