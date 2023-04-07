@@ -659,6 +659,7 @@ GameObject:
   - component: {fileID: 4573086946571413392}
   - component: {fileID: 1424889039479160073}
   - component: {fileID: 5979160509374148987}
+  - component: {fileID: 4559086553507227783}
   m_Layer: 14
   m_Name: 'RCArea (Geometry Type: Polygons)'
   m_TagString: Untagged
@@ -831,3 +832,16 @@ TilemapCollider2D:
   m_Offset: {x: 0, y: 0}
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0.00001
+--- !u!114 &4559086553507227783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6914250766726389584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abefeb8a6965a4ffd81b92b86ff9a6f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _co: {fileID: 1424889039479160073}

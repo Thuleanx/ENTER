@@ -59,6 +59,7 @@ namespace Enter
 
     public void DespawnRCBox()
     {
+      StopAllCoroutines();
       StartCoroutine(fadeout());
     }
 
@@ -94,11 +95,8 @@ namespace Enter
 
     private Vector3 getRCBoxPosition()
     {
-      // Todo:
-      // account for RCBox's own size via an offset,
-      // either here or in its parent-child transforms
-
-      return _in.MouseWorld;
+      Vector2 closest = FindObjectOfType<RCAreaScript>().FindClosestValidPoint(_in.MouseWorld);
+      return new Vector3(closest.x, closest.y, 0);
     }
 
     #endregion

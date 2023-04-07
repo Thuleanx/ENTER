@@ -92,6 +92,7 @@ namespace Enter
       }
     }
 
+#if UNITY_EDITOR
     void OnDrawGizmos()
     {
       // Draw overhead gizmos
@@ -120,6 +121,7 @@ namespace Enter
         groundGizmoDraw(getGroundPoint(i));
       }
     }
+#endif
 
     #endregion
 

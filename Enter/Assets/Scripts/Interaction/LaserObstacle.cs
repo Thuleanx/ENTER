@@ -43,6 +43,7 @@ namespace Enter
       if (_on) fireAndRenderLaser();
     }
 
+#if UNITY_EDITOR
     void OnDrawGizmos()
     {
       float minHitDist_global = multiRaycastHelper(_maxRaycastDistance, _groundMask);
@@ -60,6 +61,7 @@ namespace Enter
         laserGizmoDraw(getLaserStartPoint(i));
       }
     }
+#endif
 
     #endregion
 

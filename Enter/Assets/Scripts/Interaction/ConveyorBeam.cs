@@ -79,6 +79,7 @@ namespace Enter
       obj.SetActive(false);
     }
 
+#if UNITY_EDITOR
     void OnDrawGizmos()
     {
       if (!_prewarm) return;
@@ -93,10 +94,11 @@ namespace Enter
         currX += _spacing;
       }
     }
+#endif
 
     #endregion
     
-    #region ================== Methods
+    #region ================== Helpers
 
     private void prewarm()
     {
