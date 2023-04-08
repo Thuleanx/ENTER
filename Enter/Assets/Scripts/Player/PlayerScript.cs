@@ -322,13 +322,14 @@ namespace Enter
       if (_isDead) yield break;
 
       _isDead = true;
+      _an.speed = 0;
       _rb.velocity = Vector2.zero;
       yield return new WaitForSeconds(_deathRespawnDelay);
 
       // Reload scene and relocate self
       yield return SceneTransitioner.Instance.Reload();
       _rb.position = SceneTransitioner.Instance.SpawnPosition;
-
+      _an.speed = 1;
       _isDead = false;
     }
 
