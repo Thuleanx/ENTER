@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3577356942520278784}
   - component: {fileID: 3577356942520278799}
   - component: {fileID: 2349211749380333922}
-  m_Layer: 16
+  m_Layer: 17
   m_Name: PhysicsBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -149,5 +149,5 @@ MonoBehaviour:
   _tractorBeamLayer:
     serializedVersion: 2
     m_Bits: 32768
-  PreTractorLifetime: 1
+  PreTractorLifetime: -1
   PostTractorLifetime: 1

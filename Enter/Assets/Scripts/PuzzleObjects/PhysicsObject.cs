@@ -22,7 +22,7 @@ namespace Enter
     {
       _rb = GetComponent<Rigidbody2D>();
       _initialGravity = _rb.gravityScale;
-      _rb.gravityScale = 0;
+      //_rb.gravityScale = 0;
       StartCoroutine(disableAfterTime(PreTractorLifetime));
     }
 

@@ -47,18 +47,16 @@ namespace Enter
 
     void OnEnable()
     {
-      SceneTransitioner.Instance.OnTransitionAfter.AddListener(doStartupThings);
-      SceneTransitioner.Instance.OnReloadAfter.AddListener(doStartupThings);
+      SceneTransitioner.Instance.OnSceneLoad.AddListener(doStartupThings);
       SceneTransitioner.Instance.OnTransitionBefore.AddListener(doCleanupThings);
       SceneTransitioner.Instance.OnReloadBefore.AddListener(doCleanupThings);
     }
 
     void OnDisable()
     {
-      SceneTransitioner.Instance.OnTransitionAfter.RemoveListener(doStartupThings);
-      SceneTransitioner.Instance.OnReloadAfter.RemoveListener(doStartupThings);
-      SceneTransitioner.Instance.OnTransitionBefore.AddListener(doCleanupThings);
-      SceneTransitioner.Instance.OnReloadBefore.AddListener(doCleanupThings);
+      SceneTransitioner.Instance.OnSceneLoad.RemoveListener(doStartupThings);
+      SceneTransitioner.Instance.OnTransitionBefore.RemoveListener(doCleanupThings);
+      SceneTransitioner.Instance.OnReloadBefore.RemoveListener(doCleanupThings);
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -106,14 +104,16 @@ namespace Enter
     
     #region ================== Helpers
 
-    private void doStartupThings(Scene _a1, Scene _a2)
+    private void doStartupThings(Scene scene)
     {
+      if (scene != gameObject.scene) return;
       if (_prewarm) prewarm();
       StartCoroutine(spawnBoxes());
     }
 
-    private void doCleanupThings(Scene _a1)
+    private void doCleanupThings(Scene scene)
     {
+      if (scene != gameObject.scene) return;
       StopAllCoroutines();
     }
 

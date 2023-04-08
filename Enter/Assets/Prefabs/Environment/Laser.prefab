@@ -4915,10 +4915,11 @@ MonoBehaviour:
   _offDuration: 2
   _on: 0
   _numRaycasts: 4
-  _particleSystem: {fileID: 3542656022684808436}
+  _width: 0.5
+  _particleSystems: []
   _groundMask:
     serializedVersion: 2
-    m_Bits: 71680
+    m_Bits: 202752
   _playerMask:
     serializedVersion: 2
     m_Bits: 1024
