@@ -108,7 +108,7 @@ namespace Enter
         
         yield return new WaitForSeconds(3* _offDuration / 4);
 
-        _particleSystems[0].Stop();
+       // _particleSystems[0].Stop();
 
         yield return new WaitForSeconds(_offDuration / 4);
       }
