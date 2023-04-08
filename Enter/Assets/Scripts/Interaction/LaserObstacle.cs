@@ -19,6 +19,7 @@ namespace Enter
     private float _offTimer;
 
     private LineRenderer _lineRenderer;
+    [SerializeField] float _width = 8.0f / 16.0f;
 
     [SerializeField] private ParticleSystem _particleSystem;
 
@@ -77,7 +78,9 @@ namespace Enter
     {
       float t = (float) i / (_numRaycasts - 1);
 
-      Vector2 laserStart_local = new Vector2((t - 0.5f) * (1 - _skinWidth * 2), -0.5f - _skinWidth);
+      float bufferedWidth = _width - _skinWidth * 2;
+
+      Vector2 laserStart_local = new Vector2((t - 0.5f) * bufferedWidth, -0.5f - _skinWidth);
 
       Vector2 laserStart_global = transform.TransformPoint(laserStart_local);
 
@@ -117,6 +120,7 @@ namespace Enter
 
       _lineRenderer.SetPosition(0, _lineStart_local);
       _lineRenderer.SetPosition(1, lineEnd_local);
+      _lineRenderer.SetWidth(_width, _width);
     }
 
     private float multiRaycastHelper(float maxRaycastDistance, LayerMask mask)
