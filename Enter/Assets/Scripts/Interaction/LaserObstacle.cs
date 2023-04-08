@@ -10,6 +10,8 @@ namespace Enter
   {
     [SerializeField] private float _onDuration;
     [SerializeField] private float _offDuration;
+    [SerializeField] private float _delayDuration;
+
     [SerializeField] private bool  _on;
     [SerializeField] private int   _numRaycasts;
 
@@ -21,7 +23,7 @@ namespace Enter
     private LineRenderer _lineRenderer;
     [SerializeField] float _width = 8.0f / 16.0f;
 
-    [SerializeField] private List<ParticleSystem> _particleSystems;
+    [SerializeField] private List<ParticleSystem> _chargingParticles;
 
     private const float _maxRaycastDistance = 100;
     [SerializeField] LayerMask _groundMask;
@@ -93,7 +95,7 @@ namespace Enter
       {
         _on = true;
         _lineRenderer.enabled = true;
-        foreach (ParticleSystem particleSystem in _particleSystems) {
+        foreach (ParticleSystem particleSystem in _chargingParticles) {
           particleSystem.Clear();
           particleSystem.Stop();
         }
@@ -102,13 +104,11 @@ namespace Enter
 
         _on = false;
         _lineRenderer.enabled = false;
-        foreach (ParticleSystem particleSystem in _particleSystems) {
+        foreach (ParticleSystem particleSystem in _chargingParticles) {
           particleSystem.Play();
         }
         
         yield return new WaitForSeconds(3* _offDuration / 4);
-
-        _particleSystems[0].Stop();
 
         yield return new WaitForSeconds(_offDuration / 4);
       }
