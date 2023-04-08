@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.SceneManagement;
 
 namespace Enter
 {
@@ -44,15 +45,20 @@ namespace Enter
       Assert.IsNotNull(_boxPrefab, "ConveyorBeam must have a reference to GameObject to spawn.");
     }
 
-    void Start()
+    void OnEnable()
     {
-      if (_prewarm) prewarm();
-      StartCoroutine(spawnBoxes());
+      SceneTransitioner.Instance.OnTransitionAfter.AddListener(doStartupThings);
+      SceneTransitioner.Instance.OnReloadAfter.AddListener(doStartupThings);
+      SceneTransitioner.Instance.OnTransitionBefore.AddListener(doCleanupThings);
+      SceneTransitioner.Instance.OnReloadBefore.AddListener(doCleanupThings);
     }
-    
+
     void OnDisable()
     {
-      StopAllCoroutines();
+      SceneTransitioner.Instance.OnTransitionAfter.RemoveListener(doStartupThings);
+      SceneTransitioner.Instance.OnReloadAfter.RemoveListener(doStartupThings);
+      SceneTransitioner.Instance.OnTransitionBefore.AddListener(doCleanupThings);
+      SceneTransitioner.Instance.OnReloadBefore.AddListener(doCleanupThings);
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -99,6 +105,17 @@ namespace Enter
     #endregion
     
     #region ================== Helpers
+
+    private void doStartupThings(Scene _a1, Scene _a2)
+    {
+      if (_prewarm) prewarm();
+      StartCoroutine(spawnBoxes());
+    }
+
+    private void doCleanupThings(Scene _a1)
+    {
+      StopAllCoroutines();
+    }
 
     private void prewarm()
     {
