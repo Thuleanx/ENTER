@@ -21,7 +21,7 @@ namespace Enter
     private LineRenderer _lineRenderer;
     [SerializeField] float _width = 8.0f / 16.0f;
 
-    [SerializeField] private ParticleSystem _particleSystem;
+    [SerializeField] private List<ParticleSystem> _particleSystems;
 
     private const float _maxRaycastDistance = 100;
     [SerializeField] LayerMask _groundMask;
@@ -93,16 +93,24 @@ namespace Enter
       {
         _on = true;
         _lineRenderer.enabled = true;
-        _particleSystem.Clear();
-        _particleSystem.Stop();
-        
+        foreach (ParticleSystem particleSystem in _particleSystems) {
+          particleSystem.Clear();
+          particleSystem.Stop();
+        }
+
         yield return new WaitForSeconds(_onDuration);
 
         _on = false;
         _lineRenderer.enabled = false;
-        _particleSystem.Play();
+        foreach (ParticleSystem particleSystem in _particleSystems) {
+          particleSystem.Play();
+        }
         
-        yield return new WaitForSeconds(_offDuration);
+        yield return new WaitForSeconds(3* _offDuration / 4);
+
+        _particleSystems[0].Stop();
+
+        yield return new WaitForSeconds(_offDuration / 4);
       }
     }
 
