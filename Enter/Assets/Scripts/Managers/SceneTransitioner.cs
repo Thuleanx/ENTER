@@ -33,6 +33,8 @@ namespace Enter
 
     public Vector3 SpawnPosition => _currSpawnPoint.transform.position;
     
+    [field:SerializeField] public UnityEvent<Scene>        OnSceneLoad        { get; private set; }
+
     [field:SerializeField] public UnityEvent<Scene>        OnReloadBefore     { get; private set; }
     [field:SerializeField] public UnityEvent<Scene, Scene> OnReloadAfter      { get; private set; }
     [field:SerializeField] public UnityEvent<Scene>        OnTransitionBefore { get; private set; }
@@ -51,14 +53,14 @@ namespace Enter
 
     void OnEnable()
     {
-      // Add to functions that should be called on scene-load
-      SceneManager.sceneLoaded += onSceneLoad;
+      // Add to functions that should be called by the true Scene Manager
+      SceneManager.sceneLoaded += onSceneLoadHelper;
     }
 
     void OnDisable()
     {
-      // Remove from functions that should be called on scene-load
-      SceneManager.sceneLoaded -= onSceneLoad;
+      // Remove from functions that should be called by the true Scene Manager
+      SceneManager.sceneLoaded -= onSceneLoadHelper;
     }
 
     public void Transition(ExitPassage exitPassage)
@@ -109,7 +111,7 @@ namespace Enter
         OnTransitionBefore?.Invoke(_prevScene);
 
         // Load next scene (additively!).
-        // This causes SceneManager to call onSceneLoad(), which will set _currScene
+        // This causes SceneManager to call onSceneLoadHelper(), which will set _currScene
         // and _currSpawnPoint; this should be done in exactly one frame.
         _exitPassage = exitPassage;
         exitPassage.NextSceneReference.LoadScene(LoadSceneMode.Additive);
@@ -145,7 +147,7 @@ namespace Enter
         OnReloadBefore?.Invoke(_prevScene);
 
         // Load current scene (non-additively, i.e. replaces this scene).
-        // This causes SceneManager to call onSceneLoad(), which will set _currScene
+        // This causes SceneManager to call onSceneLoadHelper(), which will set _currScene
         // and _currSpawnPoint; this should be done in exactly one frame.
         SceneManager.LoadScene(_currScene.name);
         yield return null;
@@ -218,7 +220,7 @@ namespace Enter
       return highestPriorityVC;
     }
 
-    private void onSceneLoad(Scene newScene, LoadSceneMode mode)
+    private void onSceneLoadHelper(Scene newScene, LoadSceneMode mode)
     {
       // Hopefully no physics frame happens between scene load and this function. Else Unity documentation lied.
 
@@ -243,6 +245,9 @@ namespace Enter
       _currScene = newScene;
       _currSpawnPoint = findSpawnPoint(newScene);
       Assert.IsNotNull(_currSpawnPoint, "New scene's spawnPoint not found.");
+
+      // Fixme: is this the right place to put this?
+      OnSceneLoad?.Invoke(newScene);
     }
 
     #endregion
