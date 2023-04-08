@@ -18,6 +18,11 @@ namespace Enter
 
     #region ================== Methods
 
+    void Start()
+    {
+        updateValidPoints();
+    }
+    
     void OnEnable()
     {
 		SceneTransitioner.Instance.OnTransitionAfter.AddListener(UpdateValidPoints);
