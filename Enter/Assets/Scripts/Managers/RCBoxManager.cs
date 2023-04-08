@@ -11,11 +11,15 @@ namespace Enter
   {
     public static RCBoxManager Instance;
 
+    [SerializeField, Tooltip("VERY TODO DO NOT LOOK TOO HARD HERE.")]
+    private GameObject _boxPrefab;
+
     private InputData _in;
 
     [SerializeField] private GameObject _rc;
 
     [SerializeField] private LayerMask _rcAreaLayer;
+    [SerializeField] private LayerMask _rcBoxLayer;
 
     [SerializeField] private float _lastRCTime = -Mathf.Infinity;
     [SerializeField] private float _minRCInterval = 1;
@@ -39,6 +43,20 @@ namespace Enter
       // RCBox disappears on left click
       if (_in.LDown && _rc.activeSelf)
       {
+        // VERY TODO DOES NOT REPRESENT ACTUAL LOGIC:
+        // Check if box should be spawned
+        bool yes = Physics2D.OverlapPoint((Vector2) _in.MouseWorld, _rcBoxLayer);
+        if (yes)  
+        {
+          _in.LDown = false;
+          BubbleManager.Instance.Borrow(
+            gameObject.scene,
+            _boxPrefab,
+            _rc.transform.position,
+            Quaternion.identity);
+        }
+        // END VERY TODO
+        
         _in.LDown = false;
         StartCoroutine(leftClick());
       }

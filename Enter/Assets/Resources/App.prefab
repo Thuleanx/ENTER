@@ -245,10 +245,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f3b74baf65cd45dcbc39c48df4ba362, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _boxPrefab: {fileID: 3577356942520278787, guid: 0d414b72f01ad5e48a8ffc5ddedf2900, type: 3}
   _rc: {fileID: 972218654827469861}
   _rcAreaLayer:
     serializedVersion: 2
     m_Bits: 16384
+  _rcBoxLayer:
+    serializedVersion: 2
+    m_Bits: 2048
   _lastRCTime: -Infinity
   _minRCInterval: 1
   _rcBoxFadeoutTime: 0
