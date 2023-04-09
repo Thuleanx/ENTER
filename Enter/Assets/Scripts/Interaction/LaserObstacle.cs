@@ -2,15 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using NaughtyAttributes;
 
 namespace Enter
 {
   [RequireComponent(typeof(LineRenderer))]
   public class LaserObstacle : MonoBehaviour
   {
-    [SerializeField] private float _onDuration;
-    [SerializeField] private float _offDuration;
-    [SerializeField] private float _delayDuration;
+    [SerializeField, Range(0,2)] private float _onDuration;
+    [SerializeField, Range(0,2)] private float _offDuration;
+    [SerializeField, Range(0,10)] private float _delayDuration;
 
     [SerializeField] private bool  _on;
     [SerializeField] private int   _numRaycasts;
@@ -24,6 +25,8 @@ namespace Enter
     [SerializeField] float _width = 8.0f / 16.0f;
 
     [SerializeField] private List<ParticleSystem> _chargingParticles;
+    [SerializeField] private List<ParticleSystem> _attackParticles;
+    [SerializeField, Required] private GameObject laserEnd;
 
     private const float _maxRaycastDistance = 100;
     [SerializeField] LayerMask _groundMask;
@@ -91,26 +94,34 @@ namespace Enter
 
     private IEnumerator laserToggler()
     {
+      yield return new WaitForSeconds(_delayDuration);
       while (true)
       {
+        _on = false;
+        foreach (ParticleSystem attackParticleSystem in _attackParticles) 
+            attackParticleSystem?.Stop();
+        _lineRenderer.enabled = false;
+
+        /* yield return new WaitForSeconds(_offDuration / 2); */
+
+        foreach (ParticleSystem particleSystem in _chargingParticles) {
+          particleSystem?.Play();
+        }
+
+        // what happens here??
+
+        yield return new WaitForSeconds(_offDuration );
+
         _on = true;
         _lineRenderer.enabled = true;
         foreach (ParticleSystem particleSystem in _chargingParticles) {
-          particleSystem.Clear();
-          particleSystem.Stop();
+          particleSystem?.Clear();
+          particleSystem?.Stop();
         }
+        foreach (ParticleSystem attackParticleSystem in _attackParticles) 
+            attackParticleSystem?.Play();
 
         yield return new WaitForSeconds(_onDuration);
-
-        _on = false;
-        _lineRenderer.enabled = false;
-        foreach (ParticleSystem particleSystem in _chargingParticles) {
-          particleSystem.Play();
-        }
-        
-        yield return new WaitForSeconds(3* _offDuration / 4);
-
-        yield return new WaitForSeconds(_offDuration / 4);
       }
     }
 
@@ -129,6 +140,7 @@ namespace Enter
       _lineRenderer.SetPosition(0, _lineStart_local);
       _lineRenderer.SetPosition(1, lineEnd_local);
       _lineRenderer.SetWidth(_width, _width);
+      laserEnd.transform.position = lineEnd_global;
     }
 
     private float multiRaycastHelper(float maxRaycastDistance, LayerMask mask)
