@@ -91,6 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbd89f3ab988e478c84e1a54c78bf135, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputBufferTime: 0.2
 --- !u!114 &972218654134656075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,6 +197,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: c7f18e5d-89ee-4b78-8652-9bf0e60986a8
     m_ActionName: Player/Jump[/Keyboard/w,/Keyboard/upArrow,/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 972218654134656074}
+        m_TargetAssemblyTypeName: Enter.InputManager, Assembly-CSharp
+        m_MethodName: OnJumpReleased
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 1f91007d-69f7-467b-b05a-06348d930df8
+    m_ActionName: Player/JumpReleased[/Keyboard/w,/Keyboard/upArrow,/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
@@ -526,9 +543,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <OnSceneLoad>k__BackingField:
-    m_PersistentCalls:
-      m_Calls: []
-  <OnSceneUnload>k__BackingField:
     m_PersistentCalls:
       m_Calls: []
   <OnReloadBefore>k__BackingField:

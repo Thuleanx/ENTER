@@ -1,12 +1,14 @@
 using UnityEngine.InputSystem;
 using UnityEngine;
+using Enter.Utils;
 
 namespace Enter
 {
   public class InputData
   {
     public Vector2 Move;
-    public bool    Jump;
+    public Timer   Jump;
+    public bool    JumpHeld;
     public Vector2 Mouse;
     public bool    LDown;
     public bool    RDown;
@@ -22,18 +24,24 @@ namespace Enter
 
     public InputData Data { get; private set; } = new InputData();
 
+    [SerializeField] public float inputBufferTime = 0.2f;
+
     #region ================== Methods
 
     void Awake()
     {
       Instance = this;
+      Data.Jump = new Timer(inputBufferTime);
     }
 
     public void OnMove      (InputAction.CallbackContext c) => Data.Move = c.ReadValue<Vector2>();
-    public void OnJump      (InputAction.CallbackContext c) => Data.Jump  = (c.started || c.canceled) ? c.started : Data.Jump;
     public void OnMouse     (InputAction.CallbackContext c) => Data.Mouse = c.ReadValue<Vector2>();
     public void OnLeftClick (InputAction.CallbackContext c) => Data.LDown = (c.started || c.canceled) ? c.started : Data.LDown;
     public void OnRightClick(InputAction.CallbackContext c) => Data.RDown = (c.started || c.canceled) ? c.started : Data.RDown;
+    public void OnJump      (InputAction.CallbackContext c) { 
+        if (c.started) Data.Jump.Start(); 
+        Data.JumpHeld = c.started || c.canceled ? c.started : Data.JumpHeld;
+    }
 
     #endregion
   }

@@ -175,6 +175,13 @@ namespace Enter
       handleMovement();
     }
 
+    void LateUpdate() {
+        // best practice to keep things updating animator states in LateUpdate
+        // this is right before things get rendered on screen, so there
+        // won't be one frame where your animation and actual input/physics are mismatched
+        handleMovementAnimation();
+    }
+
     public void Die()
     {
       StartCoroutine(die());
@@ -209,8 +216,6 @@ namespace Enter
       handleJump();
       handleMidairNudge();
       handleGravity();
-      
-      handleMovementAnimation();
     }
 
     private void handleWalk()
@@ -248,6 +253,9 @@ namespace Enter
       if (_co.OnRCBox && Mathf.Abs(_rb.velocity.x) < _eps) _lastGroundedTime = Time.time + _additionalRCBoxCoyoteTime;
 
       // Jump if grounded or within coyote-time interval
+      // WARN: This actually is called twice every time you press jump, due to the fact that 
+      // the character technically won't leave the ground on the next fixed update due to 
+      // our raycast down distance. 
       if (_in.Jump && (Grounded || Time.time - _coyoteTime < _lastGroundedTime))
       {
         // Instant diagonal jumping
@@ -255,9 +263,20 @@ namespace Enter
         float desiredVx = _in.Move.x * _horizontalSpeed;
         if (Mathf.Abs(jumpVx) < Mathf.Abs(desiredVx)) jumpVx = desiredVx;
 
+        // since this jump code gets triggered twice, we want to capture
+        // just the first time and only emit OnJump once. If you're on the ground
+        // and jumping, supposely your velocity is negative or 0, hence this check.
+        bool isRealJump = _rb.velocity.y <= 0.01f;
+
         _rb.velocity = new Vector2(jumpVx, _jumpSpeed);
         _lastGroundedTime = -Mathf.Infinity;
-        OnJump?.Invoke();
+
+        if (isRealJump) {
+            // certain code are only run once per jump
+            // if we don't do this, and this jump event playoneshot a sound effect
+            // you'll hear two. Same with particle effects.
+            OnJump?.Invoke();
+        }
       }
     }
 
@@ -292,7 +311,10 @@ namespace Enter
       float multiplier = 1;
 
       // Implement "low jumps"
-      if (_rb.velocity.y > 0 && !_in.Jump) multiplier *= _lowJumpMultiplier;
+      if (_rb.velocity.y > 0 && !_in.JumpHeld) {
+          multiplier *= _lowJumpMultiplier;
+          /* _in.JumpReleased.Stop(); */
+      }
 
       // Implement "lower gravity at peak of jump"
       if (Mathf.Abs(_rb.velocity.y) < _jumpPeakThreshold) multiplier *= _jumpPeakMultiplier;
