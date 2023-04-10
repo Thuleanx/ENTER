@@ -97,8 +97,8 @@ namespace Enter
         numPoints = _co.GetPath(i, points);
         for (int j = 0; j < numPoints; j++)
         {
-          Vector2 a = round(transform.TransformPoint(points[j]));
-          Vector2 b = round(transform.TransformPoint(points[(j + 1) % numPoints]));
+          Vector2 a = round(points[j]);
+          Vector2 b = round(points[(j + 1) % numPoints]);
           allEdges.Add(new KeyValuePair<Vector2, Vector2>(a, b));
         }
       }
@@ -222,7 +222,7 @@ namespace Enter
       // we accept points as valid if they appear in both passes
       foreach (KeyValuePair<Vector2Int, int> pointMapped in insideMap)
       {
-        if (pointMapped.Value > 1) _validPoints.Add(pointMapped.Key);
+        if (pointMapped.Value > 1) _validPoints.Add(transform.TransformPoint(new Vector2(pointMapped.Key.x, pointMapped.Key.y)));
       }
     }
 
