@@ -31,7 +31,6 @@ namespace Enter
     void Awake()
     {
       Instance = this;
-      Data.Jump = new Timer(inputBufferTime);
     }
 
     public void OnMove      (InputAction.CallbackContext c) => Data.Move = c.ReadValue<Vector2>();
@@ -39,7 +38,7 @@ namespace Enter
     public void OnLeftClick (InputAction.CallbackContext c) => Data.LDown = (c.started || c.canceled) ? c.started : Data.LDown;
     public void OnRightClick(InputAction.CallbackContext c) => Data.RDown = (c.started || c.canceled) ? c.started : Data.RDown;
     public void OnJump      (InputAction.CallbackContext c) { 
-        if (c.started) Data.Jump.Start(); 
+        if (c.started) Data.Jump = inputBufferTime; // you can assign a float to a timer
         Data.JumpHeld = c.started || c.canceled ? c.started : Data.JumpHeld;
     }
 

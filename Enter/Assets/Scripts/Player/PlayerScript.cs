@@ -311,10 +311,8 @@ namespace Enter
       float multiplier = 1;
 
       // Implement "low jumps"
-      if (_rb.velocity.y > 0 && !_in.JumpHeld) {
+      if (_rb.velocity.y > 0 && !_in.JumpHeld)
           multiplier *= _lowJumpMultiplier;
-          /* _in.JumpReleased.Stop(); */
-      }
 
       // Implement "lower gravity at peak of jump"
       if (Mathf.Abs(_rb.velocity.y) < _jumpPeakThreshold) multiplier *= _jumpPeakMultiplier;

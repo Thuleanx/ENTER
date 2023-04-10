@@ -4,58 +4,40 @@ using UnityEngine;
 
 namespace Enter.Utils {
     /**
-     * Class that represents a timer.
+     * Syntactic fluff around a float value meant to represent when a timer
+     * expires.
      */
     public struct Timer {
         public float Duration { get; private set; }
-        public bool Paused { get; private set; }
-        float timeLeftLagged;
 
-        // The timer itself doesn't really need updating every frame
-        // Instead, every time the user requests for its time, it calculates how much time 
-        // is left by looking at the current duration and time the user last requested its time.
         public float TimeLeft {
-            get {
-                if (!Paused)
-                    timeLeftLagged = Mathf.Max(timeLeftLagged - (Time.time - TimeLastSampled), 0);
-                TimeLastSampled = Time.time;
-                return timeLeftLagged;
-            }
-            set {
-                timeLeftLagged = value;
-                TimeLastSampled = Time.time;
-            }
+            get => Mathf.Max(_expirationTime - Time.time, 0);
+            set => _expirationTime = value + Time.time;
         }
-        public float TimeLastSampled { get; private set; }
-        public float ElapsedFraction { get => 1 - TimeLeft / Duration; }
+        // useful for making cooldown sliders or something
+        public float ElapsedFraction { get => Duration > 0 ? 1 - TimeLeft / Duration : 0; }
+        private float _expirationTime;
 
         /**
          * @brief Construct a timer with a certain duration. By default, this timer is paused.
          */
-        public Timer(float durationSeconds, bool pausedDefault = true) {
+        public Timer(float durationSeconds) {
             Duration = durationSeconds;
-            timeLeftLagged = 0;
-            TimeLastSampled = Time.time;
-            Paused = pausedDefault;
-            if (!pausedDefault) Start();
+            _expirationTime = Time.time + durationSeconds;
         }
 
-        public void Start() {
+        public Timer Start() {
             TimeLeft = Duration;
-            Paused = false;
+            return this;
         }
-        public void Pause() {
-            float left = TimeLeft;
-            Paused = true;
+        public Timer Stop() {
+            TimeLeft = 0;
+            return this;
         }
-        public void UnPause() {
-            float left = TimeLeft;
-            Paused = false;
-        }
-        public void Stop() { TimeLeft = 0; }
 
         // handy operator to implicitly convert the timer to a bool, so you can do if (timer) to see if it's still active
         public static implicit operator bool(Timer timer) => timer.TimeLeft > 0;
-        public static implicit operator Timer(float durationSeconds) => new Timer(durationSeconds, false);
+        public static implicit operator Timer(bool value) => new Timer(value ? 1 : 0);
+        public static implicit operator Timer(float durationSeconds) => new Timer(durationSeconds).Start();
     }
 }
