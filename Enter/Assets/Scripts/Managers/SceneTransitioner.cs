@@ -1,4 +1,5 @@
 using Cinemachine;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -29,6 +30,9 @@ namespace Enter
 
     private GameObject _currSpawnPoint;
 
+    [SerializeField]
+    private ScreenWipe _screenWiper;
+
     #region ================== Accessors
 
     public Vector3 SpawnPosition => _currSpawnPoint.transform.position;
@@ -49,6 +53,10 @@ namespace Enter
       Instance = this;
       _currScene = SceneManager.GetActiveScene();
       _currSpawnPoint = findSpawnPointAny();
+    }
+
+    void Start() {
+        _screenWiper?.Unblock();
     }
 
     void OnEnable()
@@ -78,7 +86,7 @@ namespace Enter
       StartCoroutine(transitionHelper(exitPassage));
     }
 
-    public Coroutine Reload()
+    public Coroutine Reload(Action onLoaded = null)
     {
       // This shouldn't happen; only one scene transition/reload should be happening at a time
       if (_stState != STState.Idle) 
@@ -87,7 +95,7 @@ namespace Enter
         return null;
       }
 
-      return StartCoroutine(reloadHelper());
+      return StartCoroutine(reloadHelper(onLoaded));
     }
 
     #endregion
@@ -123,7 +131,7 @@ namespace Enter
 
         // Do post-transition actions
         OnTransitionAfter?.Invoke(_prevScene, _currScene);
-        
+
         // Unload _prevScene
         yield return SceneManager.UnloadSceneAsync(_prevScene);
       }
@@ -134,7 +142,7 @@ namespace Enter
       _stState = STState.Idle;
     }
 
-    private IEnumerator reloadHelper()
+    private IEnumerator reloadHelper(Action onLoaded = null)
     {
       _stState = STState.Reloading;
 
@@ -146,15 +154,20 @@ namespace Enter
         // Do pre-reload actions
         OnReloadBefore?.Invoke(_prevScene);
 
+        yield return _screenWiper?.Block();
+
         // Load current scene (non-additively, i.e. replaces this scene).
         // This causes SceneManager to call onSceneLoadHelper(), which will set _currScene
         // and _currSpawnPoint; this should be done in exactly one frame.
         SceneManager.LoadScene(_currScene.name);
         yield return null;
+        onLoaded?.Invoke();
         Assert.AreNotEqual(_prevScene, _currScene, "At this moment, both scenes should be different.");
 
         // Do post-reload actions
         OnReloadAfter?.Invoke(_prevScene, _currScene);
+
+        yield return _screenWiper?.Unblock();
       }
 
       _stState = STState.Idle;

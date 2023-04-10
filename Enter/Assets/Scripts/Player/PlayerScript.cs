@@ -349,10 +349,11 @@ namespace Enter
       yield return new WaitForSeconds(_deathRespawnDelay);
 
       // Reload scene and relocate self
-      yield return SceneTransitioner.Instance.Reload();
-      _rb.position = SceneTransitioner.Instance.SpawnPosition;
-      _an.speed = 1;
-      _isDead = false;
+      yield return SceneTransitioner.Instance.Reload(() => {
+        _rb.position = SceneTransitioner.Instance.SpawnPosition;
+        _an.speed = 1;
+        _isDead = false;
+      });
     }
 
     #endregion
