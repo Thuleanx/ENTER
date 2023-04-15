@@ -34,6 +34,11 @@ namespace Enter
     [SerializeField, Tooltip("Time between spawning boxes at the spawn location")]
     private float _spawnWaitTime = 2;
 
+    [SerializeField, Tooltip("The radius of the circle to check for whether or not a new box will be spawned")]
+    private float _spawnCheckRadius = 0.5f;
+
+    [SerializeField] private LayerMask _conveyorLayer;
+
     private float _spacing => _beltSpeed * _spawnWaitTime;
 
     #region ================== Methods
@@ -137,11 +142,17 @@ namespace Enter
 
       while (true)
       {
-        GameObject obj = BubbleManager.Instance.Borrow(
-          gameObject.scene,
-          _boxPrefab,
-          transform.position,
-          Quaternion.identity);
+        // check if any conveyor box is overlapping with the spawn point
+        bool conveyorBoxOverlapped = Physics2D.OverlapCircle(transform.position, _spawnCheckRadius, _conveyorLayer);
+        
+        if (!conveyorBoxOverlapped) {
+          // only spawn new boxes if no overlapping
+          GameObject obj = BubbleManager.Instance.Borrow(
+            gameObject.scene,
+            _boxPrefab,
+            transform.position,
+            Quaternion.identity);
+        }
         yield return new WaitForSeconds(_spawnWaitTime);
       }
     }

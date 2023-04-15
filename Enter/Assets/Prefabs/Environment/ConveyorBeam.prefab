@@ -55,6 +55,10 @@ MonoBehaviour:
   _prewarm: 1
   _initialWaitTime: 0
   _spawnWaitTime: 2
+  _spawnCheckRadius: 1
+  _conveyorLayer:
+    serializedVersion: 2
+    m_Bits: 65536
 --- !u!61 &3714160003459366588
 BoxCollider2D:
   m_ObjectHideFlags: 0
