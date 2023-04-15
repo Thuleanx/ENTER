@@ -19351,9 +19351,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70a85e81d85e34fa6897b573de75ad9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _onDuration: 2
-  _offDuration: 2
-  _delayDuration: 1
+  _onDuration: 1.5
+  _offDuration: 1.5
+  _delayDuration: 0
   _on: 0
   _numRaycasts: 4
   _width: 0.25

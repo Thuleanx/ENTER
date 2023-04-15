@@ -221,11 +221,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3542656023733496962, guid: d158457129f0547fe9f242f4bb6069c0, type: 3}
       propertyPath: _onDuration
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 3542656023733496962, guid: d158457129f0547fe9f242f4bb6069c0, type: 3}
       propertyPath: _offDuration
-      value: 1
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3542656023733496962, guid: d158457129f0547fe9f242f4bb6069c0, type: 3}
+      propertyPath: _delayDuration
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3542656023733496964, guid: d158457129f0547fe9f242f4bb6069c0, type: 3}
       propertyPath: m_RootOrder
@@ -290,11 +294,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3542656023733496962, guid: d158457129f0547fe9f242f4bb6069c0, type: 3}
       propertyPath: _onDuration
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 3542656023733496962, guid: d158457129f0547fe9f242f4bb6069c0, type: 3}
       propertyPath: _offDuration
-      value: 1
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3542656023733496962, guid: d158457129f0547fe9f242f4bb6069c0, type: 3}
+      propertyPath: _delayDuration
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3542656023733496964, guid: d158457129f0547fe9f242f4bb6069c0, type: 3}
       propertyPath: m_RootOrder
@@ -506,19 +514,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1320470816948900106, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
       propertyPath: m_NormalizedViewPortRect.x
-      value: -0.0128410915
+      value: -0.08815427
       objectReference: {fileID: 0}
     - target: {fileID: 1320470816948900106, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
       propertyPath: m_NormalizedViewPortRect.y
-      value: -0.014285714
+      value: -0.0882353
       objectReference: {fileID: 0}
     - target: {fileID: 1320470816948900106, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
       propertyPath: m_NormalizedViewPortRect.width
-      value: 1.0272874
+      value: 1.1753902
       objectReference: {fileID: 0}
     - target: {fileID: 1320470816948900106, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
       propertyPath: m_NormalizedViewPortRect.height
-      value: 1.0285714
+      value: 1.1764706
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
@@ -704,11 +712,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3542656023733496962, guid: d158457129f0547fe9f242f4bb6069c0, type: 3}
       propertyPath: _onDuration
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 3542656023733496962, guid: d158457129f0547fe9f242f4bb6069c0, type: 3}
       propertyPath: _offDuration
-      value: 1
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3542656023733496962, guid: d158457129f0547fe9f242f4bb6069c0, type: 3}
+      propertyPath: _delayDuration
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3542656023733496964, guid: d158457129f0547fe9f242f4bb6069c0, type: 3}
       propertyPath: m_RootOrder
