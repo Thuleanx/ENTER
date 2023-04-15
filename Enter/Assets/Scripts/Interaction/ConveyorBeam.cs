@@ -41,6 +41,12 @@ namespace Enter
 
     private float _spacing => _beltSpeed * _spawnWaitTime;
 
+    #region ================== Accessors
+
+    public Vector2 ConveyorBeamVelocity => _beltSpeed * transform.right;
+
+    #endregion
+
     #region ================== Methods
 
     void Awake()
@@ -62,30 +68,6 @@ namespace Enter
       SceneTransitioner.Instance.OnSceneLoad.RemoveListener(doStartupThings);
       SceneTransitioner.Instance.OnTransitionBefore.RemoveListener(doCleanupThings);
       SceneTransitioner.Instance.OnReloadBefore.RemoveListener(doCleanupThings);
-    }
-
-    void OnTriggerEnter2D(Collider2D other)
-    {
-      Rigidbody2D rb = other.attachedRigidbody;
-
-      rb.gravityScale = 0;
-    }
-
-    void OnTriggerStay2D(Collider2D other)
-    {
-      Rigidbody2D rb = other.attachedRigidbody;
-      
-      // Forces velocity to always be in line with beam
-      rb.velocity = _beltSpeed * transform.right;
-
-      // Forces position to always be in line with beam
-      rb.position = rb.position - Vector2.Dot(rb.position - (Vector2) transform.position, transform.up) * (Vector2) transform.up;
-    }
-
-    void OnTriggerExit2D(Collider2D other)
-    {
-      GameObject obj = other.gameObject;
-      obj.SetActive(false);
     }
 
 #if UNITY_EDITOR
@@ -171,9 +153,3 @@ namespace Enter
     #endregion
   }
 }
-
-
-
-
-
-      
