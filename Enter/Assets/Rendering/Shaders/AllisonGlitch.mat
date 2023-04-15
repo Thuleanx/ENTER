@@ -38,16 +38,18 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _ChromaticAbberation: 0.0055
+    - _ChromaticAbberation: 0.0086
     - _ChunkDisplacement: 0.1
-    - _Density: 0.359
+    - _Density: 0.498
     - _Density2: 0.842
+    - _Density_of_Big: 0.182
+    - _Density_of_Small: 0.105
     - _FrameRate: 8
     - _HorizontalDisplacement: 20
     - _NoiseScale: 1.72
-    - _PPU: 24
+    - _PPU: 13.4
     - _ScrollSpeed: 0.4
     m_Colors:
     - _PPUScale: {r: 0.1, g: 1, b: 0, a: 0}
-    - _Virus_Color: {r: 0, g: 0.61758494, b: 1, a: 0}
+    - _Virus_Color: {r: 1, g: 0.34877867, b: 0.2584905, a: 0}
   m_BuildTextureStacks: []
