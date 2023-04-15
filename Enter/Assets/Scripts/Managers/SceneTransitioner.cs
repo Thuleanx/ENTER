@@ -55,8 +55,9 @@ namespace Enter
       _currSpawnPoint = findSpawnPointAny();
     }
 
-    void Start() {
-        _screenWiper?.Unblock();
+    void Start()
+    {
+      _screenWiper?.Unblock();
     }
 
     void OnEnable()

@@ -150,10 +150,10 @@ Camera:
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.019504877
-    y: 0.018666666
-    width: 0.96024007
-    height: 0.96
+    x: 0.06526173
+    y: 0.06521739
+    width: 0.87015635
+    height: 0.8695652
   near clip plane: 5
   far clip plane: 15
   field of view: 60
@@ -279,6 +279,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7087370805827828719}
     m_Modifications:
+    - target: {fileID: 6776224863786160020, guid: e98abbc4719ee84449523bfa56e96569, type: 3}
+      propertyPath: m_Damping
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6776224863786160020, guid: e98abbc4719ee84449523bfa56e96569, type: 3}
       propertyPath: m_BoundingShape2D
       value: 
