@@ -20,10 +20,13 @@ namespace Enter
 
     [SerializeField] private LayerMask _rcAreaLayer;
     [SerializeField] private LayerMask _rcBoxLayer;
+    [SerializeField] private LayerMask _physicsBoxLayer;
 
     [SerializeField] private float _lastRCTime = -Mathf.Infinity;
     [SerializeField] private float _minRCInterval = 1;
     [SerializeField] private float _rcBoxFadeoutTime = 0;
+
+    private bool hasCut = false;
 
     #region ================== Methods
 
@@ -45,7 +48,8 @@ namespace Enter
       {
         // VERY TODO DOES NOT REPRESENT ACTUAL LOGIC:
         // Check if box should be spawned
-        bool yes = Physics2D.OverlapPoint((Vector2) _in.MouseWorld, _rcBoxLayer);
+        Vector2 i = _in.MouseWorld;
+        bool yes = Physics2D.OverlapPoint((Vector2) i, _rcBoxLayer);
         if (yes)  
         {
           _in.LDown = false;
@@ -54,11 +58,14 @@ namespace Enter
             _boxPrefab,
             _rc.transform.position,
             Quaternion.identity);
+           // bool y = Physics2D.OverlapPoint((Vector2) _in.MouseWorld, _physicsBoxLayer);
+            //if(y) {
+            //  StartCoroutine(cut());
+           // }
         }
         // END VERY TODO
-        
         _in.LDown = false;
-        StartCoroutine(leftClick());
+        StartCoroutine(leftClick(i));
       }
 
       // RCBox appears on right click
@@ -66,7 +73,6 @@ namespace Enter
       {
         // Check that RCBox is appearing in valid area
         bool yes = Physics2D.OverlapPoint((Vector2) _in.MouseWorld, _rcAreaLayer);
-
         if (yes)
         {
           _in.RDown = false;
@@ -85,9 +91,10 @@ namespace Enter
 
     #region ================== Helpers
 
-    private IEnumerator leftClick()
+    private IEnumerator leftClick(Vector2 i)
     {
       // Make the RCBox disappear
+      disambiguate(i);
       yield return fadeout();
     }
 
@@ -99,6 +106,30 @@ namespace Enter
       // Spawn in at this location
       _rc.transform.position = getRCBoxPosition();
       _rc.SetActive(true);
+    }
+
+    //let me know if i should iEnumerate these for seconds
+    private void disambiguate(Vector2 i){
+      if(transform.position.x > i.x){
+        cut();
+      }
+      else{
+        paste();
+      }
+    }
+
+    private void cut()
+    {
+      //cut
+      hasCut = true;
+      Debug.Log("Cut");
+    }
+
+    private void paste()
+    {
+      //paste
+      hasCut = false;
+      Debug.Log("Paste");
     }
 
     private IEnumerator fadeout()
