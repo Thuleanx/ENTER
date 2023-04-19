@@ -6,8 +6,6 @@ namespace Enter
 {
   public class PhysicsObject : MonoBehaviour
   {
-    [SerializeField] private LayerMask _tractorBeamLayer;
-
     [SerializeField, Tooltip("Lifetime in seconds, before entering a tractor beam. -1 = Infinite.")]
     public float PreTractorLifetime = 5;
 
@@ -33,7 +31,7 @@ namespace Enter
 
     void OnTriggerEnter2D(Collider2D other)
     {
-      if ((_tractorBeamLayer & (1 << other.gameObject.layer)) != 0)
+      if ((LayerManager.Instance.PhysicsBeamLayer & (1 << other.gameObject.layer)) != 0)
       {
         if (_numTractorsColliding++ == 0)
         {
@@ -45,7 +43,7 @@ namespace Enter
 
     void OnTriggerExit2D(Collider2D other)
     {
-      if ((_tractorBeamLayer & (1 << other.gameObject.layer)) != 0)
+      if ((LayerManager.Instance.PhysicsBeamLayer & (1 << other.gameObject.layer)) != 0)
       {
         if (--_numTractorsColliding == 0)
         {

@@ -18,10 +18,6 @@ namespace Enter
 
     [SerializeField] private GameObject _rc;
 
-    [SerializeField] private LayerMask _rcAreaLayer;
-    [SerializeField] private LayerMask _rcBoxLayer;
-    [SerializeField] private LayerMask _physicsBoxLayer;
-
     [SerializeField] private float _lastRCTime = -Mathf.Infinity;
     [SerializeField] private float _minRCInterval = 1;
     [SerializeField] private float _rcBoxFadeoutTime = 0;
@@ -49,7 +45,7 @@ namespace Enter
         // VERY TODO DOES NOT REPRESENT ACTUAL LOGIC:
         // Check if box should be spawned
         Vector2 i = _in.MouseWorld;
-        bool yes = Physics2D.OverlapPoint((Vector2) i, _rcBoxLayer);
+        bool yes = Physics2D.OverlapPoint((Vector2) i, LayerManager.Instance.RCBoxLayer);
         if (yes)  
         {
           _in.LDown = false;
@@ -72,7 +68,7 @@ namespace Enter
       if (_in.RDown && Time.time - _minRCInterval > _lastRCTime)
       {
         // Check that RCBox is appearing in valid area
-        bool yes = Physics2D.OverlapPoint((Vector2) _in.MouseWorld, _rcAreaLayer);
+        bool yes = Physics2D.OverlapPoint((Vector2) _in.MouseWorld, LayerManager.Instance.RCAreaLayer);
         if (yes)
         {
           _in.RDown = false;

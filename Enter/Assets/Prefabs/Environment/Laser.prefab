@@ -19364,12 +19364,9 @@ MonoBehaviour:
   - {fileID: 1452395799}
   - {fileID: 1260219609}
   laserEnd: {fileID: 1260219606}
-  _groundMask:
+  _gizmosBlockLaserLayer:
     serializedVersion: 2
     m_Bits: 202752
-  _playerMask:
-    serializedVersion: 2
-    m_Bits: 1024
 --- !u!120 &3542656023733496961
 LineRenderer:
   m_ObjectHideFlags: 0

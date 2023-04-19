@@ -17,13 +17,6 @@ namespace Enter
 
     #region ================== Variables
 
-    [Header("Layers")]
-    [SerializeField] private LayerMask _staticLayer;
-    [SerializeField] private LayerMask _movingLayer;
-    [SerializeField] private LayerMask _rcBoxLayer;
-
-    private LayerMask _allGroundLayers => _staticLayer | _movingLayer | _rcBoxLayer;
-
     [Header("Ground Raycast Position Tweaks")]
     [SerializeField] private float _groundRayDistance = 0.02f;
     [SerializeField, Min(2)] private int _numGroundRays = 2;
@@ -145,9 +138,9 @@ namespace Enter
 
       for (int i = 0; i < _numGroundRays; i++)
       {    
-        RaycastHit2D staticHit = Physics2D.Raycast(getGroundPoint(i), Vector2.down, _groundRayDistance, _staticLayer);
-        RaycastHit2D movingHit = Physics2D.Raycast(getGroundPoint(i), Vector2.down, _groundRayDistance, _movingLayer);
-        RaycastHit2D rcBoxHit  = Physics2D.Raycast(getGroundPoint(i), Vector2.down, _groundRayDistance, _rcBoxLayer);
+        RaycastHit2D staticHit = Physics2D.Raycast(getGroundPoint(i), Vector2.down, _groundRayDistance, LayerManager.Instance.StaticGroundLayer);
+        RaycastHit2D movingHit = Physics2D.Raycast(getGroundPoint(i), Vector2.down, _groundRayDistance, LayerManager.Instance.MovingGroundLayer);
+        RaycastHit2D rcBoxHit  = Physics2D.Raycast(getGroundPoint(i), Vector2.down, _groundRayDistance, LayerManager.Instance.RCBoxGroundLayer);
 
         if (!nonMovingRb) nonMovingRb = rcBoxHit.collider?.GetComponent<Rigidbody2D>() ?? staticHit.collider?.GetComponent<Rigidbody2D>();
         if (!movingRb)    movingRb    = movingHit.collider?.GetComponent<Rigidbody2D>();
@@ -169,7 +162,7 @@ namespace Enter
 
       Func<Vector2, bool> overheadCast = (origin) =>
       {
-        return Physics2D.Raycast(origin, Vector2.up, _overheadRayDistance, _allGroundLayers);
+        return Physics2D.Raycast(origin, Vector2.up, _overheadRayDistance, LayerManager.Instance.AllGroundLayer);
       };
 
       TopLeftmost  = overheadCast(getOverheadPoint(-_outerFrac));

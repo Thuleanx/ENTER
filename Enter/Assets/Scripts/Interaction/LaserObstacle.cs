@@ -13,8 +13,8 @@ namespace Enter
     [SerializeField, Range(0,2)] private float _offDuration;
     [SerializeField, Range(0,10)] private float _delayDuration;
 
-    [SerializeField] private bool  _on;
-    [SerializeField] private int   _numRaycasts;
+    [SerializeField] private bool _on;
+    [SerializeField] private int  _numRaycasts;
 
     private const float _skinWidth = 0.001f;
 
@@ -29,8 +29,7 @@ namespace Enter
     [SerializeField, Required] private GameObject laserEnd;
 
     private const float _maxRaycastDistance = 100;
-    [SerializeField] LayerMask _groundMask;
-    [SerializeField] LayerMask _playerMask;
+    [SerializeField] private LayerMask _gizmosBlockLaserLayer;
 
     #region ================== Methods
 
@@ -52,7 +51,7 @@ namespace Enter
 #if UNITY_EDITOR
     void OnDrawGizmos()
     {
-      float minHitDist_global = multiRaycastHelper(_maxRaycastDistance, _groundMask);
+      float minHitDist_global = multiRaycastHelper(_maxRaycastDistance, _gizmosBlockLaserLayer);
 
       Gizmos.color = Color.red;
       Action<Vector2> laserGizmoDraw = (laserStart_global) =>
@@ -102,15 +101,13 @@ namespace Enter
             attackParticleSystem?.Stop();
         _lineRenderer.enabled = false;
 
-        /* yield return new WaitForSeconds(_offDuration / 2); */
-
         foreach (ParticleSystem particleSystem in _chargingParticles) {
           particleSystem?.Play();
         }
 
         // what happens here??
 
-        yield return new WaitForSeconds(_offDuration );
+        yield return new WaitForSeconds(_offDuration);
 
         _on = true;
         _lineRenderer.enabled = true;
@@ -129,8 +126,8 @@ namespace Enter
     {
       // For firing the laser
 
-      float minHitDist_global = multiRaycastHelper(_maxRaycastDistance, _groundMask);
-	    multiRaycastHelper(minHitDist_global, _playerMask); // for killing the player :>
+      float minHitDist_global = multiRaycastHelper(_maxRaycastDistance, LayerManager.Instance.BlockLaserLayer);
+	    multiRaycastHelper(minHitDist_global, LayerManager.Instance.PlayerLayer); // for killing the player :>
 
       // For rendering the laser
 
@@ -143,7 +140,7 @@ namespace Enter
       laserEnd.transform.position = lineEnd_global;
     }
 
-    private float multiRaycastHelper(float maxRaycastDistance, LayerMask mask)
+    private float multiRaycastHelper(float maxRaycastDistance, LayerMask layers)
     {
       float minHitDist_global = maxRaycastDistance;
 
@@ -151,7 +148,7 @@ namespace Enter
       {
         Vector2 laserStart_global = getLaserStartPoint(i);
 
-        float thisHitDist_global = raycastHelper(laserStart_global, _laserDirection_global, mask, minHitDist_global);
+        float thisHitDist_global = raycastHelper(laserStart_global, _laserDirection_global, layers, minHitDist_global);
         minHitDist_global = Mathf.Min(minHitDist_global, thisHitDist_global);
       }
 

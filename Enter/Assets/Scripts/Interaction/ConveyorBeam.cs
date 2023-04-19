@@ -37,8 +37,6 @@ namespace Enter
     [SerializeField, Tooltip("The radius of the circle to check for whether or not a new box will be spawned")]
     private float _spawnCheckRadius = 0.5f;
 
-    [SerializeField] private LayerMask _conveyorLayer;
-
     private float _spacing => _beltSpeed * _spawnWaitTime;
 
     #region ================== Methods
@@ -143,7 +141,10 @@ namespace Enter
       while (true)
       {
         // check if any conveyor box is overlapping with the spawn point
-        bool conveyorBoxOverlapped = Physics2D.OverlapCircle(transform.position, _spawnCheckRadius, _conveyorLayer);
+        bool conveyorBoxOverlapped = Physics2D.OverlapCircle(
+          transform.position, 
+          _spawnCheckRadius,
+          LayerManager.Instance.ConveyorBoxLayer);
         
         if (!conveyorBoxOverlapped) {
           // only spawn new boxes if no overlapping
