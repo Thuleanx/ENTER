@@ -104,15 +104,26 @@ namespace Enter
 
     private void prewarm()
     {
+      List<float> spawnXs = new List<float>();
       float currX = _spacing * (1 - _initialWaitTime / _spawnWaitTime);
       while (currX < _beltLength)
+      {
+        spawnXs.Add(currX);
+        currX += _spacing;
+      }
+
+      // Sneaky note: to prevent a tiny issue when blocking pre-warmed boxes,
+      //              you should spawn these in reverse order (downstream first)
+      //              so that they'll have their FixedUpdates called first
+      
+      spawnXs.Reverse();
+      foreach (float x in spawnXs)
       {
         GameObject obj = BubbleManager.Instance.Borrow(
           gameObject.scene,
           _boxPrefab,
-          transform.position + transform.right * currX,
+          transform.position + transform.right * x,
           Quaternion.identity);
-        currX += _spacing;
       }
     }
 

@@ -11,6 +11,7 @@ namespace Enter
     
     public ConveyorBeam CurrentConveyorBeam; // In all our use cases, this never changes after being set
     public ConveyorBox  DownstreamConveyorBox;
+    public ConveyorBox  UpstreamConveyorBox;
     public GameObject   DownstreamRCBoxObject;
     public Vector3      CollidedRCBoxPosition;
 
@@ -32,6 +33,7 @@ namespace Enter
     {
       CurrentConveyorBeam   = null;
       DownstreamConveyorBox = null;
+      UpstreamConveyorBox   = null;
       DownstreamRCBoxObject = null;
       CollidedRCBoxPosition = Vector3.positiveInfinity;
     }
@@ -42,10 +44,16 @@ namespace Enter
 
       if (IsBlockedByCB)
       {
-        _rb.velocity = DownstreamConveyorBox.Rigidbody2D.velocity;
-        _rb.position = DownstreamConveyorBox.Rigidbody2D.position + new Vector2(2, 0);
+        SetVelocityAndPositionInChain(
+          DownstreamConveyorBox.Rigidbody2D.velocity,
+          DownstreamConveyorBox.Rigidbody2D.position + new Vector2(2, 0));
+        
       } else {
-        DownstreamConveyorBox = null;
+        if (DownstreamConveyorBox)
+        {
+          DownstreamConveyorBox.UpstreamConveyorBox = null;
+          DownstreamConveyorBox = null;
+        }
       }
 
       if (IsBlockedByRCBox)
@@ -71,7 +79,11 @@ namespace Enter
         // Downstream
         if (colliderIsUpOrDownstream(collider, true)) 
         {
-          DownstreamConveyorBox = null; // Must overwrite to break chain
+          if (DownstreamConveyorBox)
+          {
+            DownstreamConveyorBox.UpstreamConveyorBox = null; // Must overwrite to break chain
+            DownstreamConveyorBox = null;                     // Must overwrite to break chain
+          }
           DownstreamRCBoxObject = collider.gameObject;
           CollidedRCBoxPosition = collider.transform.position;
         }
@@ -85,6 +97,7 @@ namespace Enter
         if (colliderIsUpOrDownstream(collision.collider, true))
         {
           DownstreamConveyorBox = collider.gameObject.GetComponent<ConveyorBox>();
+          DownstreamConveyorBox.UpstreamConveyorBox = this;
         }
         return;
       }
@@ -115,9 +128,21 @@ namespace Enter
       if (colliderIsConveyorBeam(otherCollider))
       {
         gameObject.SetActive(false);
+        if (UpstreamConveyorBox != null)
+        {
+          UpstreamConveyorBox.DownstreamConveyorBox = null;
+          UpstreamConveyorBox = null;
+        }
       }
     }
-    
+  
+    public void SetVelocityAndPositionInChain(Vector2 vel, Vector2 pos)
+    {
+      _rb.velocity = vel;
+      _rb.position = pos;
+      if (UpstreamConveyorBox) UpstreamConveyorBox.SetVelocityAndPositionInChain(vel, pos + new Vector2(2, 0));
+    }
+
     #endregion
     
     #region ================== Helpers
