@@ -31,7 +31,7 @@ namespace Enter
 
     void OnTriggerEnter2D(Collider2D other)
     {
-      if ((LayerManager.Instance.PhysicsBeamLayer & (1 << other.gameObject.layer)) != 0)
+      if (LayerManager.Instance.IsInLayerMask(LayerManager.Instance.PhysicsBeamLayer, other.gameObject))
       {
         if (_numTractorsColliding++ == 0)
         {
@@ -43,7 +43,7 @@ namespace Enter
 
     void OnTriggerExit2D(Collider2D other)
     {
-      if ((LayerManager.Instance.PhysicsBeamLayer & (1 << other.gameObject.layer)) != 0)
+      if (LayerManager.Instance.IsInLayerMask(LayerManager.Instance.PhysicsBeamLayer, other.gameObject))
       {
         if (--_numTractorsColliding == 0)
         {

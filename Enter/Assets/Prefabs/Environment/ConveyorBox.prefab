@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3577356942520278786}
   - component: {fileID: 3577356942520278784}
   - component: {fileID: 3577356942520278799}
+  - component: {fileID: 839876110194616111}
   m_Layer: 16
   m_Name: ConveyorBox
   m_TagString: Untagged
@@ -131,5 +132,21 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.975, y: 0.975}
   m_EdgeRadius: 0
+--- !u!114 &839876110194616111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3577356942520278787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 798aa431f73b34d4eb9021d10dd96954, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentConveyorBeam: {fileID: 0}
+  DownstreamConveyorBox: {fileID: 0}
+  DownstreamRCBoxObject: {fileID: 0}
+  CollidedRCBoxPosition: {x: 0, y: 0, z: 0}

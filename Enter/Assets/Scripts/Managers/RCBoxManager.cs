@@ -45,7 +45,7 @@ namespace Enter
         // VERY TODO DOES NOT REPRESENT ACTUAL LOGIC:
         // Check if box should be spawned
         Vector2 i = _in.MouseWorld;
-        bool yes = Physics2D.OverlapPoint((Vector2) i, LayerManager.Instance.RCBoxLayer);
+        bool yes = Physics2D.OverlapPoint((Vector2) i, LayerManager.Instance.RCBoxForOthersLayer);
         if (yes)  
         {
           _in.LDown = false;
@@ -96,11 +96,15 @@ namespace Enter
 
     private IEnumerator rightClick()
     {
+      // Do nothing if attempting to spawn at same approximate location
+      Vector2 targetPosition = getRCBoxPosition();
+      if (_rc.activeSelf && targetPosition == (Vector2) _rc.transform.position) yield break;
+
       // If the RCBox is already present, make it disappear
       if (_rc.activeSelf) yield return fadeout();
 
-      // Spawn in at this location
-      _rc.transform.position = getRCBoxPosition();
+      // Spawn in at new location
+      _rc.transform.position = targetPosition;
       _rc.SetActive(true);
     }
 

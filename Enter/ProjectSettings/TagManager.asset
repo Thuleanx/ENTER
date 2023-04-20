@@ -6,6 +6,7 @@ TagManager:
   tags:
   - MainCinemachineCamera
   - SceneRoot
+  - RCBox
   layers:
   - Default
   - TransparentFX
@@ -16,9 +17,9 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - RCBoxForPlayer
   - Player
-  - RCBox
+  - RCBoxForOthers
   - Ground
   - Other Environment
   - RCArea

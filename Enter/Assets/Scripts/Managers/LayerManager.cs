@@ -10,7 +10,8 @@ namespace Enter
     [SerializeField] private LayerMask _playerLayer;
     [SerializeField] private LayerMask _groundLayer;
 
-    [SerializeField] private LayerMask _rcBoxLayer;
+    [SerializeField] private LayerMask _rcBoxForPlayerLayer;
+    [SerializeField] private LayerMask _rcBoxForOthersLayer;
     [SerializeField] private LayerMask _rcAreaLayer;
 
     [SerializeField] private LayerMask _physicsBoxLayer;
@@ -19,23 +20,29 @@ namespace Enter
     [SerializeField] private LayerMask _conveyorBoxLayer;
     [SerializeField] private LayerMask _conveyorBeamLayer;
 
-    public LayerMask PlayerLayer       => _playerLayer;
-    public LayerMask StaticGroundLayer => _groundLayer;
-    public LayerMask MovingGroundLayer => _physicsBoxLayer | _conveyorBoxLayer;
-    public LayerMask RCBoxGroundLayer  => _rcBoxLayer;
-    public LayerMask AllGroundLayer    => StaticGroundLayer | MovingGroundLayer | RCBoxGroundLayer;
+    public LayerMask PlayerLayer         => _playerLayer;
+    public LayerMask StaticGroundLayer   => _groundLayer;
+    public LayerMask MovingGroundLayer   => _physicsBoxLayer | _conveyorBoxLayer;
+    public LayerMask RCBoxGroundLayer    => _rcBoxForPlayerLayer;
+    public LayerMask AllGroundLayer      => StaticGroundLayer | MovingGroundLayer | RCBoxGroundLayer;
 
-    public LayerMask RCBoxLayer        => _rcBoxLayer;
-    public LayerMask RCAreaLayer       => _rcAreaLayer;
+    public LayerMask RCBoxForPlayerLayer => _rcBoxForPlayerLayer;
+    public LayerMask RCBoxForOthersLayer => _rcBoxForOthersLayer;
+    public LayerMask RCAreaLayer         => _rcAreaLayer;
 
-    public LayerMask PhysicsBoxLayer   => _physicsBoxLayer;
-    public LayerMask PhysicsBeamLayer  => _physicsBeamLayer;
+    public LayerMask PhysicsBoxLayer     => _physicsBoxLayer;
+    public LayerMask PhysicsBeamLayer    => _physicsBeamLayer;
 
-    public LayerMask ConveyorBoxLayer  => _conveyorBoxLayer;
-    public LayerMask ConveyorBeamLayer => _conveyorBeamLayer;
+    public LayerMask ConveyorBoxLayer    => _conveyorBoxLayer;
+    public LayerMask ConveyorBeamLayer   => _conveyorBeamLayer;
 
-    public LayerMask BlockLaserLayer   => AllGroundLayer;
+    public LayerMask BlockLaserLayer     => AllGroundLayer;
 
     void Awake() { Instance = this; }
+
+    public bool IsInLayerMask(LayerMask layer, GameObject obj) 
+    {
+      return (layer & (1 << obj.layer)) != 0;
+    }
   }
 }
