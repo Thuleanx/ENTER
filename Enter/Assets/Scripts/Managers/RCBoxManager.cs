@@ -41,9 +41,7 @@ namespace Enter
     {
       if (_in.LDown)
       {
-        bool shouldCountLeftClick =
-          _rc.activeSelf &&
-          Physics2D.OverlapPoint((Vector2) _in.MouseWorld, LayerManager.Instance.RCBoxLayer);
+        bool shouldCountLeftClick = _rc.activeSelf;
 
         if (shouldCountLeftClick)
         {
@@ -79,6 +77,14 @@ namespace Enter
 
     private void leftClick()
     {
+      // Left-clicking elsewhere disables the RCBox
+      bool isOnRCBox = Physics2D.OverlapPoint((Vector2) _in.MouseWorld, LayerManager.Instance.RCBoxLayer);
+      if (!isOnRCBox)
+      {
+        disableRCBox();
+        return;
+      }
+
       if (_rc.transform.position.x > _in.MouseWorld.x) cut();
       else                                             paste();
     }
@@ -130,7 +136,15 @@ namespace Enter
         return;
       }
 
+      // Prevent pasting if another object is in the way
+      if (SelectedObject != null)
+      {
+        Debug.Log("Something is in the way.");
+        return;
+      }
+
       Debug.Log("Successfully pasted: " + CutObject.name);
+
       CutObject.transform.SetPositionAndRotation(_rc.transform.position, Quaternion.identity);
       CutObject.GetComponent<Rigidbody2D>().constraints = CutObjectInitialConstraints;
       CutObject.SetActive(true);
