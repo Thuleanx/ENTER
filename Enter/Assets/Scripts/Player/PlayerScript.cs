@@ -57,7 +57,7 @@ namespace Enter
     [SerializeField, Tooltip("Max fall as a multiple of jump speed.")]
     private float _maxFallMultiple;
 
-    [field:SerializeField, Tooltip("Maximum speed when falling due to gravity.")]
+    [property:SerializeField, Tooltip("Maximum speed when falling due to gravity.")]
     private float _maxFall { get {return _maxFallMultiple * _jumpSpeed; } }
 
     #endregion
@@ -175,7 +175,8 @@ namespace Enter
       handleMovement();
     }
 
-    void LateUpdate() {
+    void LateUpdate()
+    {
         // best practice to keep things updating animator states in LateUpdate
         // this is right before things get rendered on screen, so there
         // won't be one frame where your animation and actual input/physics are mismatched

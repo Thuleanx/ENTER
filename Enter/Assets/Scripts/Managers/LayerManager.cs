@@ -14,7 +14,6 @@ namespace Enter
     [SerializeField] private LayerMask _rcAreaLayer;
 
     [SerializeField] private LayerMask _physicsBoxLayer;
-    [SerializeField] private LayerMask _physicsBeamLayer;
 
     [SerializeField] private LayerMask _conveyorBoxLayer;
     [SerializeField] private LayerMask _conveyorBeamLayer;
@@ -30,7 +29,6 @@ namespace Enter
     public LayerMask CuttableLayer       => _physicsBoxLayer;
 
     public LayerMask PhysicsBoxLayer     => _physicsBoxLayer;
-    public LayerMask PhysicsBeamLayer    => _physicsBeamLayer;
 
     public LayerMask ConveyorBoxLayer    => _conveyorBoxLayer;
     public LayerMask ConveyorBeamLayer   => _conveyorBeamLayer;

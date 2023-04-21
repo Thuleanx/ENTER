@@ -6,91 +6,81 @@ using System.Collections.Generic;
 
 namespace Enter
 {
+  // A pool of bubbles. Possible todo: change datastructure
+  public class Pool
+  {
+    private List<Bubble> _bubbles = new List<Bubble>(); 
+
+    public bool Empty => _bubbles.Count == 0;
+
+    public void BubblePush(Bubble bubble) { _bubbles.Add(bubble); }
+
+    public Bubble BubblePop()
+    {
+      int i = _bubbles.Count - 1;
+      Bubble bubble = _bubbles[i];
+      _bubbles.RemoveAt(i);
+
+      return bubble;
+    }
+  };
+
+  // A monobehaviour which must be attached to any game object (created
+  // from a prefab) which is to be put into an object pool
+  public class Bubble : MonoBehaviour
+  {
+    public int id; // the instance ID of the prefab used to create this object
+
+    private Coroutine _currentCoroutine;
+    
+    void OnEnable()
+    {
+      // If enabled mid-collection somehow, stop collecting it
+      if (_currentCoroutine != null) BubbleManager.Instance.StopCoroutine(_currentCoroutine);
+    }
+
+    void OnDestroy()
+    {
+      // If destroyed mid-collection somehow, stop collecting it as
+      // references might be lost when the object is destroyed
+      if (_currentCoroutine != null) BubbleManager.Instance.StopCoroutine(_currentCoroutine);
+    }
+
+    void OnDisable()
+    {
+      if (transform.parent == null)
+      {
+        // If parent is null, we can set this to dontdestroyonload and preserve the object
+        BubbleManager.Instance.Collect(this);
+      }
+      else
+      {
+        // we need to wait one frame to be able to change 
+        // we start the coroutine from the bubble manager because 
+        // coroutines on disabled object (like this one) won't run, so we need
+        // it to run on an object that's always active
+        _currentCoroutine = BubbleManager.Instance.StartCoroutine(CollectsAfterOneFrame());
+      }
+    }
+
+    public IEnumerator CollectsAfterOneFrame()
+    {
+      // We wait for one frame. After this wait, we can set the parent.
+      yield return null;
+      if (gameObject)
+      {
+        transform.parent = null;
+        // We need to check if the gameObject is destroyed already. 
+        // If it has, then we give up on putting this Bubble back into the pool
+        BubbleManager.Instance.Collect(this);
+      }
+    }
+  }
+  
   [DisallowMultipleComponent]
   public class BubbleManager : MonoBehaviour
   {
     public static BubbleManager Instance;
-
-    #region Pool
-
-    // A pool of bubbles. Possible todo: change datastructure
-    private class Pool
-    {
-      private List<Bubble> _bubbles = new List<Bubble>(); 
-
-      public bool Empty => _bubbles.Count == 0;
-
-      public void BubblePush(Bubble bubble) { _bubbles.Add(bubble); }
-
-      public Bubble BubblePop()
-      {
-        int i = _bubbles.Count - 1;
-        Bubble bubble = _bubbles[i];
-        _bubbles.RemoveAt(i);
-
-        return bubble;
-      }
-    };
-
-    #endregion
-
-    #region Bubble
-
-    // A monobehaviour which must be attached to any game object (created
-    // from a prefab) which is to be put into an object pool
-    private class Bubble : MonoBehaviour
-    {
-      public int id; // the instance ID of the prefab used to create this object
-
-      private Coroutine _currentCoroutine;
-      
-      void OnEnable()
-      {
-        // If enabled mid-collection somehow, stop collecting it
-        if (_currentCoroutine != null) BubbleManager.Instance.StopCoroutine(_currentCoroutine);
-      }
-
-      void OnDestroy()
-      {
-        // If destroyed mid-collection somehow, stop collecting it as
-        // references might be lost when the object is destroyed
-        if (_currentCoroutine != null) BubbleManager.Instance.StopCoroutine(_currentCoroutine);
-      }
-
-      void OnDisable()
-      {
-        if (transform.parent == null)
-        {
-          // If parent is null, we can set this to dontdestroyonload and preserve the object
-          BubbleManager.Instance.Collect(this);
-        }
-        else
-        {
-          // we need to wait one frame to be able to change 
-          // we start the coroutine from the bubble manager because 
-          // coroutines on disabled object (like this one) won't run, so we need
-          // it to run on an object that's always active
-          _currentCoroutine = BubbleManager.Instance.StartCoroutine(CollectsAfterOneFrame());
-        }
-      }
-
-      public IEnumerator CollectsAfterOneFrame()
-      {
-        // We wait for one frame. After this wait, we can set the parent.
-        yield return null;
-        if (gameObject)
-        {
-          transform.parent = null;
-          // We need to check if the gameObject is destroyed already. 
-          // If it has, then we give up on putting this Bubble back into the pool
-          BubbleManager.Instance.Collect(this);
-        }
-      }
-    }
-
-    #endregion
-
-    #region BubbleManager
 
     [SerializeField, Min(1)] private int _poolDefaultSize   = 5;
     [SerializeField, Min(1)] private int _poolExpansionSize = 5;
@@ -99,7 +89,7 @@ namespace Enter
 
     void Awake() { Instance = this; }
 
-    void Collect(Bubble bubble)
+    public void Collect(Bubble bubble)
     {
       // Collects a bubble by bringing it back into its pool
 
@@ -145,7 +135,7 @@ namespace Enter
       return bubble.gameObject;
     }
 
-    void ExpandPool(GameObject prefab, int amount)
+    public void ExpandPool(GameObject prefab, int amount)
     {
       // Expand a particular pool of prefab instances by some amount
 
@@ -185,7 +175,5 @@ namespace Enter
 
     // Possible todo: if a pool goes cold for too long, we should start 
     //                destroying its objects to free memory
-
-    #endregion
   }
 }

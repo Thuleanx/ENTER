@@ -136,7 +136,8 @@ namespace Enter
 
       _lineRenderer.SetPosition(0, _lineStart_local);
       _lineRenderer.SetPosition(1, lineEnd_local);
-      _lineRenderer.SetWidth(_width, _width);
+      _lineRenderer.startWidth = _width;
+      _lineRenderer.endWidth   = _width;
       laserEnd.transform.position = lineEnd_global;
     }
 

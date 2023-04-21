@@ -7,14 +7,14 @@ namespace Enter
   public class PhysicsObject : MonoBehaviour
   {
     [SerializeField, Tooltip("Lifetime in seconds, before entering a tractor beam. -1 = Infinite.")]
-    public float PreTractorLifetime = 5;
+    public float PreTractorLifetime = -1;
 
     [SerializeField, Tooltip("Lifetime in seconds, after leaving all tractor beams. -1 = Infinite.")]
-    public float PostTractorLifetime = 5;
+    public float PostTractorLifetime = -1;
 
-    private Rigidbody2D _rb;
-    private float _initialGravity;
-    private int _numTractorsColliding = 0;
+    // private Rigidbody2D _rb;
+    // private float _initialGravity;
+    // private int _numTractorsColliding = 0;
 
     void OnEnable()
     {
