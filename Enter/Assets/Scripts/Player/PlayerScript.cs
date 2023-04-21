@@ -172,15 +172,22 @@ namespace Enter
     {
       if (_isDead) return;
 
+      if (_co.Crushed)
+      {
+        Debug.Log("Crushed");
+        Die();
+        return;
+      }
+
       handleMovement();
     }
 
     void LateUpdate()
     {
-        // best practice to keep things updating animator states in LateUpdate
-        // this is right before things get rendered on screen, so there
-        // won't be one frame where your animation and actual input/physics are mismatched
-        handleMovementAnimation();
+      // best practice to keep things updating animator states in LateUpdate
+      // this is right before things get rendered on screen, so there
+      // won't be one frame where your animation and actual input/physics are mismatched
+      handleMovementAnimation();
     }
 
     public void Die()
@@ -345,13 +352,20 @@ namespace Enter
       _isDead = true;
       _an.speed = 0;
       _rb.velocity = Vector2.zero;
+      _rb.constraints = RigidbodyConstraints2D.FreezeAll;
+      _bc.enabled = false;
+
       yield return new WaitForSeconds(_deathRespawnDelay);
 
       // Reload scene and relocate self
-      yield return SceneTransitioner.Instance.Reload(() => {
-        _rb.position = SceneTransitioner.Instance.SpawnPosition;
-        _an.speed = 1;
+      yield return SceneTransitioner.Instance.Reload(() =>
+      {
         _isDead = false;
+        _an.speed = 1;
+        _rb.velocity = Vector2.zero;
+        _rb.position = SceneTransitioner.Instance.SpawnPosition;
+        _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        _bc.enabled = true;
       });
     }
 

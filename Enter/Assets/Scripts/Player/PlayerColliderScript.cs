@@ -17,8 +17,11 @@ namespace Enter
 
     #region ================== Variables
 
+    [Header("Crush Overlap Circle Tweaks")]
+    [SerializeField] private float _radius = 0.4f;
+
     [Header("Ground Raycast Position Tweaks")]
-    [SerializeField] private float _groundRayDistance = 0.02f;
+    [SerializeField] private float _groundRayDistance = 0.0625f;
     [SerializeField, Min(2)] private int _numGroundRays = 2;
 
     [Header("Overhead Raycast Position Tweaks")]
@@ -37,6 +40,8 @@ namespace Enter
     #endregion
 
     #region ================== Accessors
+
+    [field: SerializeField] public bool Crushed { get; private set; }
 
     [field: SerializeField] public bool OnGround { get; private set; }
     [field: SerializeField] public bool OnRCBox  { get; private set; }
@@ -69,10 +74,12 @@ namespace Enter
 
     void FixedUpdate()
     {
+      handleCrushCheck();
+
       handleDownwardsChecks();
       handleUpwardsChecks();
 
-      // Play particles
+      // Play particles // Zack 4/21/23: Does this still do anything??
       if (OnGround)
       {
         if (Time.time - _lastGroundedTime > _minTimeBetweenLandingEffects)
@@ -88,6 +95,10 @@ namespace Enter
 #if UNITY_EDITOR
     void OnDrawGizmos()
     {
+      // Draw crush gizmo
+      Gizmos.color = Color.red;
+      Gizmos.DrawWireSphere(transform.position, _radius);
+
       // Draw overhead gizmos
 
       Action<Vector2, bool> overheadGizmoDraw = (src, isHitting) =>
@@ -119,6 +130,14 @@ namespace Enter
     #endregion
 
     #region ================== Helpers
+
+    private void handleCrushCheck()
+    {
+      Crushed = Physics2D.OverlapCircle(
+        transform.position,
+        _radius,
+        LayerManager.Instance.NonRCBoxGroundLayer);
+    }
 
     private void handleDownwardsChecks()
     {
