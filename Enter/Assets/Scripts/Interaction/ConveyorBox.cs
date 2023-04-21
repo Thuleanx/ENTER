@@ -17,8 +17,16 @@ namespace Enter
 
     public Rigidbody2D Rigidbody2D => _rb;
 
-    public bool IsBlockedByCB    => DownstreamConveyorBox && DownstreamConveyorBox.gameObject.activeInHierarchy;
-    public bool IsBlockedByRCBox => DownstreamRCBoxObject && DownstreamRCBoxObject.activeInHierarchy && DownstreamRCBoxObject.transform.position == CollidedRCBoxPosition;
+    public bool IsBlockedByCB =>
+      CurrentConveyorBeam != null && 
+      DownstreamConveyorBox &&
+      DownstreamConveyorBox.gameObject.activeInHierarchy;
+
+    public bool IsBlockedByRCBox => 
+      CurrentConveyorBeam != null &&
+      DownstreamRCBoxObject &&
+      DownstreamRCBoxObject.activeInHierarchy &&
+      DownstreamRCBoxObject.transform.position == CollidedRCBoxPosition;
 
     public Vector2 NextInChainOffset => -2 * CurrentConveyorBeam.ConveyorBeamVelocity.normalized;
     
@@ -28,7 +36,6 @@ namespace Enter
     {
       _rb = GetComponent<Rigidbody2D>();
       Assert.IsNotNull(_rb, "ConveyorBox must have a reference to its own Rigidbody2D.");
-      _rb.gravityScale = 0;
     }
 
     void OnEnable()
@@ -40,39 +47,41 @@ namespace Enter
       CollidedRCBoxPosition = Vector3.positiveInfinity;
     }
 
+    void OnDisable()
+    {
+      CurrentConveyorBeam   = null;
+      DownstreamConveyorBox = null;
+      UpstreamConveyorBox   = null;
+      DownstreamRCBoxObject = null;
+      CollidedRCBoxPosition = Vector3.positiveInfinity;
+    }
+
     void FixedUpdate()
     {
-      _rb.velocity = CurrentConveyorBeam ? CurrentConveyorBeam.ConveyorBeamVelocity : Vector2.zero;
-
-      if (IsBlockedByCB)
+      // IMPORTANT: Check that ConveyorBox has been SELECTED against its will
+      if (RCBoxManager.Instance.SelectedObject == gameObject)
       {
-        SetVelocityAndPositionInChain(
-          DownstreamConveyorBox.Rigidbody2D.velocity,
-          DownstreamConveyorBox.Rigidbody2D.position + NextInChainOffset);
-        
-      } else {
         if (DownstreamConveyorBox)
         {
-          DownstreamConveyorBox.UpstreamConveyorBox = null;
-          DownstreamConveyorBox = null;
+          DownstreamConveyorBox.UpstreamConveyorBox = null; // Must overwrite to break chain
+          DownstreamConveyorBox = null;                     // Must overwrite to break chain
         }
+        return;
       }
 
-      if (IsBlockedByRCBox)
+      // Do things if inside conveyor beam
+      if (CurrentConveyorBeam != null)
       {
-        _rb.velocity = Vector2.zero;
-      } else {
-        DownstreamRCBoxObject = null;
-        CollidedRCBoxPosition = Vector3.positiveInfinity;
+        _rb.velocity = CurrentConveyorBeam.ConveyorBeamVelocity;
+        handleChainBehavior();
       }
-      
-      _rb.constraints = (_rb.velocity == Vector2.zero) ?
-        RigidbodyConstraints2D.FreezeAll :
-        RigidbodyConstraints2D.FreezeRotation;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+      // Ignore everything and act like a regular box, if not in conveyor beam
+      if (CurrentConveyorBeam == null) return;
+
       Collider2D collider = collision.collider;
 
       // Ignore if collision is upstream
@@ -102,6 +111,7 @@ namespace Enter
     {
       if (colliderIsConveyorBeam(otherCollider))
       {
+        _rb.gravityScale = 0;
         CurrentConveyorBeam = otherCollider.GetComponent<ConveyorBeam>();
         Assert.IsNotNull(CurrentConveyorBeam, "ConveyorBox must have a reference to its current ConveyorBeam.");
       }
@@ -122,7 +132,9 @@ namespace Enter
     {
       if (colliderIsConveyorBeam(otherCollider))
       {
+        _rb.gravityScale = 1;
         gameObject.SetActive(false);
+
         if (UpstreamConveyorBox != null)
         {
           UpstreamConveyorBox.DownstreamConveyorBox = null;
@@ -141,6 +153,43 @@ namespace Enter
     #endregion
     
     #region ================== Helpers
+
+    private void handleChainBehavior()
+    {
+      // Check if blocked by conveyor box
+      if (IsBlockedByCB)
+      {
+        SetVelocityAndPositionInChain(
+          DownstreamConveyorBox.Rigidbody2D.velocity,
+          DownstreamConveyorBox.Rigidbody2D.position + NextInChainOffset);
+      }
+      else 
+      {
+        if (DownstreamConveyorBox)
+        {
+          // Unset these fields if no longer blocked
+          DownstreamConveyorBox.UpstreamConveyorBox = null;
+          DownstreamConveyorBox = null;
+        }
+      }
+
+      // Check if blocked by conveyor box
+      if (IsBlockedByRCBox)
+      {
+        _rb.velocity = Vector2.zero;
+      }
+      else 
+      {
+        // Unset these fields if no longer blocked
+        DownstreamRCBoxObject = null;
+        CollidedRCBoxPosition = Vector3.positiveInfinity;
+      }
+      
+      // Set constraints if velocity is zero
+      _rb.constraints = (_rb.velocity == Vector2.zero) ?
+        RigidbodyConstraints2D.FreezeAll :
+        RigidbodyConstraints2D.FreezeRotation;
+    }
 
     private bool colliderIsRCBox(Collider2D collider)
     {

@@ -320,10 +320,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f3b74baf65cd45dcbc39c48df4ba362, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _boxPrefab: {fileID: 3577356942520278787, guid: 0d414b72f01ad5e48a8ffc5ddedf2900, type: 3}
   _rc: {fileID: 972218654827469861}
+  _rcLeftRenderer: {fileID: 9190849585267858696}
+  _rcRightRenderer: {fileID: 972218655062192126}
   _lastRCTime: -Infinity
   _minRCInterval: 1
+  SelectedObject: {fileID: 0}
   CutObject: {fileID: 0}
 --- !u!1 &972218654827469861
 GameObject:
@@ -341,7 +343,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &972218654827469860
 Transform:
   m_ObjectHideFlags: 0
@@ -1161,7 +1163,7 @@ MonoBehaviour:
     m_Bits: 131072
   _physicsBeamLayer:
     serializedVersion: 2
-    m_Bits: 32768
+    m_Bits: 0
   _conveyorBoxLayer:
     serializedVersion: 2
     m_Bits: 65536

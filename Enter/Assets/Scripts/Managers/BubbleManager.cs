@@ -48,6 +48,13 @@ namespace Enter
 
     void OnDisable()
     {
+      // IMPORTANT: Check that Bubble has been CUT against its will
+      if (RCBoxManager.Instance.CutObject == gameObject)
+      {
+        Debug.Log("Bubble: I have been taken.");
+        return;
+      }
+
       if (transform.parent == null)
       {
         // If parent is null, we can set this to dontdestroyonload and preserve the object

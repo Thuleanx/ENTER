@@ -282,19 +282,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1320470816948900106, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
       propertyPath: m_NormalizedViewPortRect.x
-      value: -0.12579186
+      value: -0.07754734
       objectReference: {fileID: 0}
     - target: {fileID: 1320470816948900106, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
       propertyPath: m_NormalizedViewPortRect.y
-      value: 0.22586207
+      value: -0.07692308
       objectReference: {fileID: 0}
     - target: {fileID: 1320470816948900106, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
       propertyPath: m_NormalizedViewPortRect.width
-      value: 0.57918555
+      value: 1.1541929
       objectReference: {fileID: 0}
     - target: {fileID: 1320470816948900106, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
       propertyPath: m_NormalizedViewPortRect.height
-      value: 0.62068963
+      value: 1.1538461
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
@@ -364,7 +364,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3542656023733496975, guid: d158457129f0547fe9f242f4bb6069c0, type: 3}
       propertyPath: m_Name
-      value: Laser 1
+      value: Laser1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d158457129f0547fe9f242f4bb6069c0, type: 3}
@@ -589,35 +589,39 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3714160003459366588, guid: 2f4c193ce9a4b47b693a2627ee967dc6, type: 3}
       propertyPath: m_Size.x
-      value: 14
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 3714160003459366588, guid: 2f4c193ce9a4b47b693a2627ee967dc6, type: 3}
       propertyPath: m_Offset.x
-      value: 6
+      value: 6.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3714160003459366589, guid: 2f4c193ce9a4b47b693a2627ee967dc6, type: 3}
+      propertyPath: _prewarm
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3714160003459366589, guid: 2f4c193ce9a4b47b693a2627ee967dc6, type: 3}
       propertyPath: _beltSpeed
-      value: 3
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 3714160003459366589, guid: 2f4c193ce9a4b47b693a2627ee967dc6, type: 3}
       propertyPath: _beltLength
-      value: 14
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 3714160003459366589, guid: 2f4c193ce9a4b47b693a2627ee967dc6, type: 3}
       propertyPath: _spawnWaitTime
-      value: 1.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3714160003459366589, guid: 2f4c193ce9a4b47b693a2627ee967dc6, type: 3}
       propertyPath: _initialWaitTime
-      value: 1.3333334
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3714160004493371068, guid: 2f4c193ce9a4b47b693a2627ee967dc6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6
+      value: 6.5
       objectReference: {fileID: 0}
     - target: {fileID: 3714160004493371069, guid: 2f4c193ce9a4b47b693a2627ee967dc6, type: 3}
       propertyPath: m_Size.x
-      value: 14
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f4c193ce9a4b47b693a2627ee967dc6, type: 3}

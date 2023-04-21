@@ -22,11 +22,12 @@ namespace Enter
     public LayerMask StaticGroundLayer   => _groundLayer;
     public LayerMask MovingGroundLayer   => _physicsBoxLayer | _conveyorBoxLayer;
     public LayerMask RCBoxGroundLayer    => _rcBoxLayer;
+    public LayerMask NonRCBoxGroundLayer => StaticGroundLayer | MovingGroundLayer;
     public LayerMask AllGroundLayer      => StaticGroundLayer | MovingGroundLayer | RCBoxGroundLayer;
 
     public LayerMask RCBoxLayer          => _rcBoxLayer;
     public LayerMask RCAreaLayer         => _rcAreaLayer;
-    public LayerMask CuttableLayer       => _physicsBoxLayer;
+    public LayerMask CuttableLayer       => _physicsBoxLayer | _conveyorBoxLayer;
 
     public LayerMask PhysicsBoxLayer     => _physicsBoxLayer;
 

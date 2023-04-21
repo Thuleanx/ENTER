@@ -11,9 +11,14 @@ namespace Enter
   {
     public static RCBoxManager Instance;
 
+    private static Color _goodColor = new Color(0.25f, 1, 0.25f, 1);
+    private static Color _baseColor;
+
     private InputData _in;
 
     [SerializeField] private GameObject _rc;
+    [SerializeField] private SpriteRenderer _rcLeftRenderer;
+    [SerializeField] private SpriteRenderer _rcRightRenderer;
 
     [SerializeField] private float _lastRCTime = -Mathf.Infinity;
     [SerializeField] private float _minRCInterval = 1;
@@ -30,6 +35,10 @@ namespace Enter
     {
       Instance = this;
       Assert.IsNotNull(_rc, "RCBoxManager must have a reference to GameObject RCBox.");
+      Assert.IsNotNull(_rcLeftRenderer,  "RCBoxManager must have a reference to RCBox's left SpriteRenderer.");
+      Assert.IsNotNull(_rcRightRenderer, "RCBoxManager must have a reference to RCBox's right SpriteRenderer.");
+      
+      _baseColor = _rcLeftRenderer.color;
     }
 
     void Start()
@@ -124,7 +133,7 @@ namespace Enter
       CutObject.SetActive(false);
       Debug.Log("Successfully cut: " + CutObject.name);
 
-      _rc.SetActive(false);
+      disableRCBox();
     }
 
     private void paste()
@@ -143,14 +152,15 @@ namespace Enter
         return;
       }
 
-      Debug.Log("Successfully pasted: " + CutObject.name);
-
+      // IMPORTANT: Set cut object's layer to PhysicsBox
+      CutObject.layer = LayerMask.NameToLayer("PhysicsBox");
+      
       CutObject.transform.SetPositionAndRotation(_rc.transform.position, Quaternion.identity);
       CutObject.GetComponent<Rigidbody2D>().constraints = CutObjectInitialConstraints;
       CutObject.SetActive(true);
       CutObject = null;
 
-      _rc.SetActive(false);
+      disableRCBox();
     }
 
     private Vector3 getRCBoxPosition()
@@ -172,6 +182,10 @@ namespace Enter
         SelectedObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
       }
 
+      // Color RCBox
+      _rcLeftRenderer.color  = (CutObject == null && SelectedObject != null) ? _goodColor : _baseColor;
+      _rcRightRenderer.color = (CutObject != null && SelectedObject == null) ? _goodColor : _baseColor;
+      
       _rc.SetActive(true);
     }
 

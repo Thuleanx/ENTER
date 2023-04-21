@@ -117,14 +117,7 @@ namespace Enter
       //              so that they'll have their FixedUpdates called first
       
       spawnXs.Reverse();
-      foreach (float x in spawnXs)
-      {
-        GameObject obj = BubbleManager.Instance.Borrow(
-          gameObject.scene,
-          _boxPrefab,
-          transform.position + transform.right * x,
-          Quaternion.identity);
-      }
+      foreach (float x in spawnXs) spawnBoxAt(transform.position + transform.right * x);
     }
 
     private IEnumerator spawnBoxes()
@@ -139,16 +132,23 @@ namespace Enter
           _spawnCheckRadius,
           LayerManager.Instance.ConveyorBoxLayer);
         
-        if (!conveyorBoxOverlapped) {
-          // only spawn new boxes if no overlapping
-          GameObject obj = BubbleManager.Instance.Borrow(
-            gameObject.scene,
-            _boxPrefab,
-            transform.position,
-            Quaternion.identity);
-        }
+        if (!conveyorBoxOverlapped) spawnBoxAt(transform.position);
+
         yield return new WaitForSeconds(_spawnWaitTime);
       }
+    }
+
+    private void spawnBoxAt(Vector3 inputPosition)
+    {
+      // only spawn new boxes if no overlapping
+      GameObject obj = BubbleManager.Instance.Borrow(
+        gameObject.scene,
+        _boxPrefab,
+        inputPosition,
+        Quaternion.identity);
+
+      // IMPORTANT: Set cut object's layer to ConveyorBox
+      obj.layer = LayerMask.NameToLayer("ConveyorBox");
     }
 
     private void onBeltLengthChanged()
