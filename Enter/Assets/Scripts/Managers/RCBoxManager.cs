@@ -11,18 +11,18 @@ namespace Enter
   {
     public static RCBoxManager Instance;
 
-    [SerializeField, Tooltip("VERY TODO DO NOT LOOK TOO HARD HERE.")]
-    private GameObject _boxPrefab;
-
     private InputData _in;
 
     [SerializeField] private GameObject _rc;
 
     [SerializeField] private float _lastRCTime = -Mathf.Infinity;
     [SerializeField] private float _minRCInterval = 1;
-    [SerializeField] private float _rcBoxFadeoutTime = 0;
 
-    private bool hasCut = false;
+    public GameObject SelectedObject = null;
+    private RigidbodyConstraints2D SelectedObjectInitialConstraints;
+
+    public GameObject CutObject = null;
+    private RigidbodyConstraints2D CutObjectInitialConstraints;
 
     #region ================== Methods
 
@@ -39,106 +39,103 @@ namespace Enter
 
     void FixedUpdate()
     {
-      // RCBox disappears on left click
-      if (_in.LDown && _rc.activeSelf)
+      if (_in.LDown)
       {
-        // VERY TODO DOES NOT REPRESENT ACTUAL LOGIC:
-        // Check if box should be spawned
-        Vector2 i = _in.MouseWorld;
-        bool yes = Physics2D.OverlapPoint((Vector2) i, LayerManager.Instance.RCBoxForOthersLayer);
-        if (yes)  
+        bool shouldCountLeftClick =
+          _rc.activeSelf &&
+          Physics2D.OverlapPoint((Vector2) _in.MouseWorld, LayerManager.Instance.RCBoxLayer);
+
+        if (shouldCountLeftClick)
         {
           _in.LDown = false;
-          BubbleManager.Instance.Borrow(
-            gameObject.scene,
-            _boxPrefab,
-            _rc.transform.position,
-            Quaternion.identity);
-           // bool y = Physics2D.OverlapPoint((Vector2) _in.MouseWorld, _physicsBoxLayer);
-            //if(y) {
-            //  StartCoroutine(cut());
-           // }
+          leftClick();
         }
-        // END VERY TODO
-        _in.LDown = false;
-        StartCoroutine(leftClick(i));
       }
 
-      // RCBox appears on right click
-      if (_in.RDown && Time.time - _minRCInterval > _lastRCTime)
+      if (_in.RDown)
       {
-        // Check that RCBox is appearing in valid area
-        bool yes = Physics2D.OverlapPoint((Vector2) _in.MouseWorld, LayerManager.Instance.RCAreaLayer);
-        if (yes)
+        bool shouldCountRightClick =
+          (Time.time - _minRCInterval > _lastRCTime) &&
+          Physics2D.OverlapPoint((Vector2) _in.MouseWorld, LayerManager.Instance.RCAreaLayer);
+
+        if (shouldCountRightClick)
         {
           _in.RDown = false;
-          StartCoroutine(rightClick());
+          rightClick();
         }
       }
     }
 
+    // Used as an event in SceneTransitioner
     public void DespawnRCBox()
     {
-      StopAllCoroutines();
-      StartCoroutine(fadeout());
+      CutObject = null;
+      disableRCBox();
     }
 
     #endregion
 
     #region ================== Helpers
 
-    private IEnumerator leftClick(Vector2 i)
+    private void leftClick()
     {
-      // Make the RCBox disappear
-      disambiguate(i);
-      yield return fadeout();
+      if (_rc.transform.position.x > _in.MouseWorld.x) cut();
+      else                                             paste();
     }
 
-    private IEnumerator rightClick()
+    private void rightClick()
     {
       // Do nothing if attempting to spawn at same approximate location
       Vector2 targetPosition = getRCBoxPosition();
-      if (_rc.activeSelf && targetPosition == (Vector2) _rc.transform.position) yield break;
+      if (_rc.activeSelf && targetPosition == (Vector2) _rc.transform.position) return;
 
       // If the RCBox is already present, make it disappear
-      if (_rc.activeSelf) yield return fadeout();
+      if (_rc.activeSelf) disableRCBox();
 
       // Spawn in at new location
-      _rc.transform.position = targetPosition;
-      _rc.SetActive(true);
-    }
-
-    //let me know if i should iEnumerate these for seconds
-    private void disambiguate(Vector2 i){
-      if(transform.position.x > i.x){
-        cut();
-      }
-      else{
-        paste();
-      }
+      enableRCBox(targetPosition);
     }
 
     private void cut()
     {
-      //cut
-      hasCut = true;
-      Debug.Log("Cut");
+      // Prevent cutting multiple things
+      if (CutObject != null)
+      {
+        Debug.Log("Already cut something.");
+        return;
+      }
+      
+      // Prevent cutting nothing
+      if (SelectedObject == null)
+      {
+        Debug.Log("Nothing to cut.");
+        return;
+      }
+
+      CutObject = SelectedObject;
+      CutObjectInitialConstraints = SelectedObjectInitialConstraints;
+      SelectedObject = null;
+      CutObject.SetActive(false);
+      Debug.Log("Successfully cut: " + CutObject.name);
+
+      _rc.SetActive(false);
     }
 
     private void paste()
     {
-      //paste
-      hasCut = false;
-      Debug.Log("Paste");
-    }
+      // Prevent pasting if nothing was cut
+      if (CutObject == null)
+      {
+        Debug.Log("Nothing to paste.");
+        return;
+      }
 
-    private IEnumerator fadeout()
-    {
-      // Optional:
-      // we can use this to implement a delay to the 
-      // RCBox disappearing, or for other effects
-      
-      yield return new WaitForSeconds(_rcBoxFadeoutTime);
+      Debug.Log("Successfully pasted: " + CutObject.name);
+      CutObject.transform.SetPositionAndRotation(_rc.transform.position, Quaternion.identity);
+      CutObject.GetComponent<Rigidbody2D>().constraints = CutObjectInitialConstraints;
+      CutObject.SetActive(true);
+      CutObject = null;
+
       _rc.SetActive(false);
     }
 
@@ -146,6 +143,33 @@ namespace Enter
     {
       Vector2 closest = FindObjectOfType<RCAreaScript>().FindClosestValidPoint(_in.MouseWorld);
       return new Vector3(closest.x, closest.y, 0);
+    }
+
+    private void enableRCBox(Vector2 targetPosition)
+    {
+      _rc.transform.position = targetPosition;
+
+      // Find and freeze currently selected object
+      Collider2D collider = Physics2D.OverlapPoint((Vector2) _rc.transform.position, LayerManager.Instance.CuttableLayer);
+      if (collider != null)
+      {
+        SelectedObject = collider.gameObject;
+        SelectedObjectInitialConstraints = SelectedObject.GetComponent<Rigidbody2D>().constraints;
+        SelectedObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+      }
+
+      _rc.SetActive(true);
+    }
+
+    private void disableRCBox()
+    {
+      _rc.SetActive(false);
+
+      if (SelectedObject != null)
+      {
+        SelectedObject.GetComponent<Rigidbody2D>().constraints = SelectedObjectInitialConstraints;
+        SelectedObject = null;
+      }
     }
 
     #endregion

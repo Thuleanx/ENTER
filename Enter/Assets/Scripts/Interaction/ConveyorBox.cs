@@ -67,7 +67,7 @@ namespace Enter
       }
       
       _rb.constraints = (_rb.velocity == Vector2.zero) ?
-        RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePosition :
+        RigidbodyConstraints2D.FreezeAll :
         RigidbodyConstraints2D.FreezeRotation;
     }
 
@@ -144,7 +144,7 @@ namespace Enter
 
     private bool colliderIsRCBox(Collider2D collider)
     {
-      return LayerManager.Instance.IsInLayerMask(LayerManager.Instance.RCBoxForOthersLayer, collider.gameObject);
+      return LayerManager.Instance.IsInLayerMask(LayerManager.Instance.RCBoxLayer, collider.gameObject);
     }
     
     private bool colliderIsConveyorBeam(Collider2D collider)

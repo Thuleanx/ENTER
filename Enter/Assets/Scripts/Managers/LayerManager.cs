@@ -10,8 +10,7 @@ namespace Enter
     [SerializeField] private LayerMask _playerLayer;
     [SerializeField] private LayerMask _groundLayer;
 
-    [SerializeField] private LayerMask _rcBoxForPlayerLayer;
-    [SerializeField] private LayerMask _rcBoxForOthersLayer;
+    [SerializeField] private LayerMask _rcBoxLayer;
     [SerializeField] private LayerMask _rcAreaLayer;
 
     [SerializeField] private LayerMask _physicsBoxLayer;
@@ -23,12 +22,12 @@ namespace Enter
     public LayerMask PlayerLayer         => _playerLayer;
     public LayerMask StaticGroundLayer   => _groundLayer;
     public LayerMask MovingGroundLayer   => _physicsBoxLayer | _conveyorBoxLayer;
-    public LayerMask RCBoxGroundLayer    => _rcBoxForPlayerLayer;
+    public LayerMask RCBoxGroundLayer    => _rcBoxLayer;
     public LayerMask AllGroundLayer      => StaticGroundLayer | MovingGroundLayer | RCBoxGroundLayer;
 
-    public LayerMask RCBoxForPlayerLayer => _rcBoxForPlayerLayer;
-    public LayerMask RCBoxForOthersLayer => _rcBoxForOthersLayer;
+    public LayerMask RCBoxLayer          => _rcBoxLayer;
     public LayerMask RCAreaLayer         => _rcAreaLayer;
+    public LayerMask CuttableLayer       => _physicsBoxLayer;
 
     public LayerMask PhysicsBoxLayer     => _physicsBoxLayer;
     public LayerMask PhysicsBeamLayer    => _physicsBeamLayer;

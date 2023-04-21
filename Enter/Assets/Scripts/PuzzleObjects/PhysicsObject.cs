@@ -18,49 +18,49 @@ namespace Enter
 
     void OnEnable()
     {
-      _rb = GetComponent<Rigidbody2D>();
-      _initialGravity = _rb.gravityScale;
-      //_rb.gravityScale = 0;
-      StartCoroutine(disableAfterTime(PreTractorLifetime));
+      // _rb = GetComponent<Rigidbody2D>();
+      // _initialGravity = _rb.gravityScale;
+      // //_rb.gravityScale = 0;
+      // StartCoroutine(disableAfterTime(PreTractorLifetime));
     }
 
-    void OnDisable()
-    {
-      StopAllCoroutines();
-    }
+    // void OnDisable()
+    // {
+    //   StopAllCoroutines();
+    // }
 
-    void OnTriggerEnter2D(Collider2D other)
-    {
-      if (LayerManager.Instance.IsInLayerMask(LayerManager.Instance.PhysicsBeamLayer, other.gameObject))
-      {
-        if (_numTractorsColliding++ == 0)
-        {
-          _rb.gravityScale = 0;
-          StopAllCoroutines();
-        }
-      }
-    }
+    // void OnTriggerEnter2D(Collider2D other)
+    // {
+    //   if (LayerManager.Instance.IsInLayerMask(LayerManager.Instance.PhysicsBeamLayer, other.gameObject))
+    //   {
+    //     if (_numTractorsColliding++ == 0)
+    //     {
+    //       _rb.gravityScale = 0;
+    //       StopAllCoroutines();
+    //     }
+    //   }
+    // }
 
-    void OnTriggerExit2D(Collider2D other)
-    {
-      if (LayerManager.Instance.IsInLayerMask(LayerManager.Instance.PhysicsBeamLayer, other.gameObject))
-      {
-        if (--_numTractorsColliding == 0)
-        {
-          _rb.gravityScale = _initialGravity;
+    // void OnTriggerExit2D(Collider2D other)
+    // {
+    //   if (LayerManager.Instance.IsInLayerMask(LayerManager.Instance.PhysicsBeamLayer, other.gameObject))
+    //   {
+    //     if (--_numTractorsColliding == 0)
+    //     {
+    //       _rb.gravityScale = _initialGravity;
 
-          // Must check self and all parents are active, as OnTriggerExit2D can be called on disabling any of them
-          if (gameObject.activeInHierarchy) StartCoroutine(disableAfterTime(PostTractorLifetime));
-        }
-      }
-    }
+    //       // Must check self and all parents are active, as OnTriggerExit2D can be called on disabling any of them
+    //       if (gameObject.activeInHierarchy) StartCoroutine(disableAfterTime(PostTractorLifetime));
+    //     }
+    //   }
+    // }
 
-    private IEnumerator disableAfterTime(float t)
-    {
-      if (!Mathf.Approximately(0, t) && t < 0) yield break;
+    // private IEnumerator disableAfterTime(float t)
+    // {
+    //   if (!Mathf.Approximately(0, t) && t < 0) yield break;
 
-      yield return new WaitForSeconds(t);
-      gameObject.SetActive(false);
-    }
+    //   yield return new WaitForSeconds(t);
+    //   gameObject.SetActive(false);
+    // }
   }
 }
