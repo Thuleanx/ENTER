@@ -20,7 +20,7 @@ namespace Enter
     [SerializeField] private SpriteRenderer _sr;
     [SerializeField] private Animator       _an;
 
-    private InputData _in;
+    private InputData _in => InputManager.Instance.Data;
 
     private const float _eps = 0.001f;
 
@@ -165,7 +165,7 @@ namespace Enter
 
     void Start()
     {
-      _in = InputManager.Instance.Data;
+      /* _in = InputManager.Instance.Data; */
     }
 
     void FixedUpdate()

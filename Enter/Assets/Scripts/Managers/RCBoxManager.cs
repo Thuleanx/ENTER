@@ -14,7 +14,7 @@ namespace Enter
     private static Color _goodColor = new Color(0.25f, 1, 0.25f, 1);
     private static Color _baseColor;
 
-    private InputData _in;
+    private InputData _in => InputManager.Instance.Data;
 
     [SerializeField] private GameObject _rc;
     [SerializeField] private SpriteRenderer _rcLeftRenderer;
@@ -43,7 +43,7 @@ namespace Enter
 
     void Start()
     {
-      _in = InputManager.Instance.Data;
+      /* _in = InputManager.Instance.Data; */
     }
 
     void FixedUpdate()

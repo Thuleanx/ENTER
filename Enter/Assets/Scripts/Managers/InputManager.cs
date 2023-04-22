@@ -4,44 +4,49 @@ using Enter.Utils;
 
 namespace Enter
 {
-  public class InputData
-  {
-    public Vector2 Move;
-    public Timer   Jump;
-    public bool    JumpHeld;
-    public Vector2 Mouse;
-    public bool    LDown;
-    public bool    RDown;
-    
-    public Vector3 MouseWorld => Camera.main.ScreenToWorldPoint(new Vector3(Mouse.x, Mouse.y, Camera.main.nearClipPlane));
-  }
-
-  [DisallowMultipleComponent]
-  [RequireComponent(typeof(PlayerInput))]
-  public class InputManager : MonoBehaviour
-  {
-    public static InputManager Instance;
-
-    public InputData Data { get; private set; } = new InputData();
-
-    [SerializeField] public float inputBufferTime = 0.2f;
-
-    #region ================== Methods
-
-    void Awake()
+    public class InputData
     {
-      Instance = this;
+        public Vector2 Move;
+        public Timer Jump;
+        public bool JumpHeld;
+        public Vector2 Mouse;
+        public bool LDown;
+        public bool RDown;
+        public Vector3 MouseWorld => Camera.main.ScreenToWorldPoint(new Vector3(Mouse.x, Mouse.y, Camera.main.nearClipPlane));
     }
 
-    public void OnMove      (InputAction.CallbackContext c) => Data.Move = c.ReadValue<Vector2>();
-    public void OnMouse     (InputAction.CallbackContext c) => Data.Mouse = c.ReadValue<Vector2>();
-    public void OnLeftClick (InputAction.CallbackContext c) => Data.LDown = (c.started || c.canceled) ? c.started : Data.LDown;
-    public void OnRightClick(InputAction.CallbackContext c) => Data.RDown = (c.started || c.canceled) ? c.started : Data.RDown;
-    public void OnJump      (InputAction.CallbackContext c) { 
-        if (c.started) Data.Jump = inputBufferTime; // you can assign a float to a timer
-        Data.JumpHeld = c.started || c.canceled ? c.started : Data.JumpHeld;
-    }
+    [DisallowMultipleComponent]
+    [RequireComponent(typeof(PlayerInput))]
+    public class InputManager : MonoBehaviour
+    {
+        public static InputManager Instance;
 
-    #endregion
-  }
+        InputData _realInputData = new InputData();
+        InputData _overridenInputData = new InputData();
+
+        public bool OverrideInput = false;
+        public InputData Data => OverrideInput ? _overridenInputData : _realInputData;
+        public InputData OverridenInputData => _overridenInputData;
+
+        [SerializeField] public float inputBufferTime = 0.2f;
+
+        #region ================== Methods
+
+        void Awake()
+        {
+            Instance = this;
+        }
+
+        public void OnMove(InputAction.CallbackContext c) => _realInputData.Move = c.ReadValue<Vector2>();
+        public void OnMouse(InputAction.CallbackContext c) => _realInputData.Mouse = c.ReadValue<Vector2>();
+        public void OnLeftClick(InputAction.CallbackContext c) => _realInputData.LDown = (c.started || c.canceled) ? c.started : _realInputData.LDown;
+        public void OnRightClick(InputAction.CallbackContext c) => _realInputData.RDown = (c.started || c.canceled) ? c.started : _realInputData.RDown;
+        public void OnJump(InputAction.CallbackContext c)
+        {
+            if (c.started) _realInputData.Jump = inputBufferTime; // you can assign a float to a timer
+            _realInputData.JumpHeld = c.started || c.canceled ? c.started : _realInputData.JumpHeld;
+        }
+
+        #endregion
+    }
 }
