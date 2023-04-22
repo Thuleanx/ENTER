@@ -78,9 +78,12 @@ namespace Enter
     [SerializeField, Tooltip("Time after becoming ungrounded by any means other than jumping, during which jumping is permitted.")]
     private float _coyoteTime;
     private float _lastGroundedTime = -Mathf.Infinity;
+    private float _lastJumpedTime = -Mathf.Infinity;
 
     [SerializeField, Tooltip("Additional coyote time after falling off an RCBox while stationary. This is added to coyote time.")]
     private float _additionalRCBoxCoyoteTime;
+
+    private float _earlyJumpReleaseTime = 0.15f;
 
     #endregion
 
@@ -90,6 +93,7 @@ namespace Enter
 
     [SerializeField, Tooltip("Amount of time between the player dying and respawning.")]
     private float _deathRespawnDelay = 0.5f;
+    
 
     #endregion
     
@@ -146,6 +150,8 @@ namespace Enter
     public float                 MaxFallSpeed          => _maxFall;
 
     public UnityEvent OnJump;
+    public UnityEvent OnEarlyJumpRelease;
+    public UnityEvent OnJumpRelease;
 
     #endregion
 
@@ -278,6 +284,7 @@ namespace Enter
 
         _rb.velocity = new Vector2(jumpVx, _jumpSpeed);
         _lastGroundedTime = -Mathf.Infinity;
+        _lastJumpedTime = Time.time;
 
         if (isRealJump) {
             // certain code are only run once per jump
@@ -319,8 +326,13 @@ namespace Enter
       float multiplier = 1;
 
       // Implement "low jumps"
-      if (_rb.velocity.y > 0 && !_in.JumpHeld)
+      if (_rb.velocity.y > 0 && !_in.JumpHeld) {
           multiplier *= _lowJumpMultiplier;
+          if (Time.time - _lastJumpedTime <= _earlyJumpReleaseTime) {
+              OnEarlyJumpRelease?.Invoke();
+          }
+          OnJumpRelease?.Invoke();
+      }
 
       // Implement "lower gravity at peak of jump"
       if (Mathf.Abs(_rb.velocity.y) < _jumpPeakThreshold) multiplier *= _jumpPeakMultiplier;
