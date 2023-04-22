@@ -21,7 +21,7 @@ namespace Enter
     [SerializeField] private SpriteRenderer _rcRightRenderer;
 
     [SerializeField] private float _lastRCTime = -Mathf.Infinity;
-    [SerializeField] private float _minRCInterval = 1;
+    [SerializeField] private float _minRCInterval = 0.1f;
 
     public GameObject SelectedObject = null;
     private RigidbodyConstraints2D SelectedObjectInitialConstraints;
@@ -187,6 +187,7 @@ namespace Enter
       _rcRightRenderer.color = (CutObject != null && SelectedObject == null) ? _goodColor : _baseColor;
       
       _rc.SetActive(true);
+      _lastRCTime = Time.time;
     }
 
     private void disableRCBox()
