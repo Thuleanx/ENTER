@@ -29,6 +29,8 @@ namespace Enter
     public GameObject CutObject = null;
     private RigidbodyConstraints2D CutObjectInitialConstraints;
 
+    private Vector2 _pasteTLOffset = new Vector2(-0.95f, 0.95f);
+
     #region ================== Methods
 
     void Awake()
@@ -71,6 +73,22 @@ namespace Enter
           rightClick();
         }
       }
+    }
+
+    void OnDrawGizmos()
+    {
+      if (!_rc.activeSelf) return;
+
+      bool isPastingIntoConveyorBeam = Physics2D.OverlapArea(
+        (Vector2) _rc.transform.position + _pasteTLOffset,
+        (Vector2) _rc.transform.position - _pasteTLOffset,
+        LayerManager.Instance.ConveyorBeamLayer);
+
+      Gizmos.color = isPastingIntoConveyorBeam ? Color.red : Color.green;
+
+      Gizmos.DrawLine(
+        (Vector2) _rc.transform.position + _pasteTLOffset,
+        (Vector2) _rc.transform.position - _pasteTLOffset);
     }
 
     // Used as an event in SceneTransitioner
@@ -152,8 +170,12 @@ namespace Enter
         return;
       }
 
-      // IMPORTANT: Set cut object's layer to PhysicsBox
-      CutObject.layer = LayerMask.NameToLayer("PhysicsBox");
+      // IMPORTANT: Set cut object's layer
+      bool isPastingIntoConveyorBeam = Physics2D.OverlapArea(
+        (Vector2) _rc.transform.position + _pasteTLOffset,
+        (Vector2) _rc.transform.position - _pasteTLOffset,
+        LayerManager.Instance.ConveyorBeamLayer);
+      CutObject.layer = isPastingIntoConveyorBeam ? LayerMask.NameToLayer("ConveyorBox") : LayerMask.NameToLayer("PhysicsBox");
       
       CutObject.transform.SetPositionAndRotation(_rc.transform.position, Quaternion.identity);
       CutObject.GetComponent<Rigidbody2D>().constraints = CutObjectInitialConstraints;
