@@ -18,20 +18,31 @@ namespace Enter
     }
 
     [Header("State Information")]
-    [SerializeField] private State _startingState = State.BLOCKED;
-    [SerializeField, ReadOnly] private State _state;
+    [SerializeField]
+    private State _startingState = State.BLOCKED;
+
+    [SerializeField, ReadOnly]
+    private State _state;
 
     // Why are we animating in code?
     // That's because animation on Canvas
     // is quite slow using the Animator due to how the whole 
     // screen refreshes when a single thing moves
-    [HorizontalLine(color:EColor.Red)]
-    [Header("Components for Animations")]
-    [SerializeField, Range(0,3)] private float _blockingDuration;
-    [SerializeField] private Ease _blockingEase = Ease.Linear;
-    [SerializeField, Range(0,3)] private float _unblockingDuration;
-    [SerializeField] private Ease _unblockingEase = Ease.Linear;
-    [SerializeField] private RawImage _coverImage;
+
+    [Header("Components for Animation")]
+    [SerializeField] private RawImage _blackScreen;
+
+    [SerializeField, Range(0,3)]
+    private float _blockingDuration;
+
+    [SerializeField]
+    private Ease _blockingEase = Ease.Linear;
+    
+    [SerializeField, Range(0,3)]
+    private float _unblockingDuration;
+    
+    [SerializeField]
+    private Ease _unblockingEase = Ease.Linear;
 
     public Coroutine Block()
     {
@@ -51,7 +62,7 @@ namespace Enter
     {
       // fade the cover image's alpha to 1
       _state = State.UNBLOCKED;
-      _coverImage.DOFade(1, _blockingDuration).SetEase(_blockingEase);
+      _blackScreen.DOFade(1, _blockingDuration).SetEase(_blockingEase);
       yield return new WaitForSecondsRealtime(_blockingDuration);
       _state = State.BLOCKED;
     }
@@ -60,7 +71,7 @@ namespace Enter
     {
       // fade the cover image's alpha to 0
       _state = State.BLOCKED;
-      _coverImage.DOFade(0, _unblockingDuration).SetEase(_unblockingEase);
+      _blackScreen.DOFade(0, _unblockingDuration).SetEase(_unblockingEase);
       yield return new WaitForSecondsRealtime(_unblockingDuration);
       _state = State.UNBLOCKED;
     }

@@ -28,7 +28,7 @@ namespace Enter
     public InputData Data => OverrideInput ? _overriddenInputData : _realInputData;
     public InputData OverriddenInputData => _overriddenInputData;
 
-    [SerializeField] public float inputBufferTime = 0.2f;
+    public float InputBufferTime = 0.25f;
 
     #region ================== Methods
 
@@ -43,7 +43,7 @@ namespace Enter
     public void OnRightClick(InputAction.CallbackContext c) => _realInputData.RDown = (c.started || c.canceled) ? c.started : _realInputData.RDown;
     public void OnJump      (InputAction.CallbackContext c)
     {
-      if (c.started) _realInputData.Jump = inputBufferTime; // you can assign a float to a timer
+      if (c.started) _realInputData.Jump = InputBufferTime; // you can assign a float to a timer
       _realInputData.JumpHeld = c.started || c.canceled ? c.started : _realInputData.JumpHeld;
     }
 
