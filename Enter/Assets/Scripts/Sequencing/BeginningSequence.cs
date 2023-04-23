@@ -145,7 +145,7 @@ namespace Enter {
                 }
 
                 // we have player walks in
-                InputManager.Instance.OverridenInputData.Move = Vector2.right;
+                InputManager.Instance.OverriddenInputData.Move = Vector2.right;
                 while (PlayerManager.Player.transform.position.x < -15) {
                     Debug.Log(PlayerManager.Player.transform.position.x);
                     yield return null;
