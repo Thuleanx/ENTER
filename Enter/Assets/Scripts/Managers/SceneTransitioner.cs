@@ -11,7 +11,7 @@ using Enter.Utils;
 
 namespace Enter
 {
-  enum STState {
+  public enum STState {
     Idle = 0,
     Transitioning,
     Reloading
@@ -26,7 +26,8 @@ namespace Enter
 
     private Scene       _currScene;
     private ExitPassage _exitPassage;
-    private STState     _stState = STState.Idle;
+    
+    public STState STState { get; private set; } = STState.Idle;
 
     private GameObject _currSpawnPoint;
 
@@ -53,11 +54,13 @@ namespace Enter
       Instance = this;
       _currScene = SceneManager.GetActiveScene();
       _currSpawnPoint = findSpawnPointAny();
+
+      Assert.IsNotNull(_screenWiper, "SceneTransitioner must have a reference to screen wiper.");
     }
 
     void Start()
     {
-      _screenWiper?.Unblock();
+      _screenWiper.Unblock();
     }
 
     void OnEnable()
@@ -78,7 +81,7 @@ namespace Enter
       Assert.IsNotNull(exitPassage.NextSceneReference, "ExitPassage must have a NextSceneReference.");
 
       // This shouldn't happen; only one scene transition/reload should be happening at a time
-      if (_stState != STState.Idle)
+      if (STState != STState.Idle)
       {
         Debug.LogError("Attempting to transition scenes while another transition/reload is happening.");
         return;
@@ -87,16 +90,16 @@ namespace Enter
       StartCoroutine(transitionHelper(exitPassage));
     }
 
-    public Coroutine Reload(Action onLoaded = null)
+    public void Reload()
     {
       // This shouldn't happen; only one scene transition/reload should be happening at a time
-      if (_stState != STState.Idle) 
+      if (STState != STState.Idle) 
       {
         Debug.LogError("Attempting to reload scene while another transition/reload is happening.");
-        return null;
+        return;
       }
 
-      return StartCoroutine(reloadHelper(onLoaded));
+      StartCoroutine(reloadHelper());
     }
 
     #endregion
@@ -105,7 +108,7 @@ namespace Enter
 
     private IEnumerator transitionHelper(ExitPassage exitPassage)
     {
-      _stState = STState.Transitioning;
+      STState = STState.Transitioning;
       
       // Freeze time
       float temp = Time.timeScale;
@@ -140,12 +143,12 @@ namespace Enter
       // Unfreeze time
       Time.timeScale = temp;
 
-      _stState = STState.Idle;
+      STState = STState.Idle;
     }
 
     private IEnumerator reloadHelper(Action onLoaded = null)
     {
-      _stState = STState.Reloading;
+      STState = STState.Reloading;
 
       {
         // Set _prevScene
@@ -153,9 +156,9 @@ namespace Enter
         Assert.AreEqual(_prevScene, _currScene, "At this moment, both scenes should be equal.");
 
         // Do pre-reload actions
+        PauseManager.Instance.Unpause();
+        yield return _screenWiper.Block();
         OnReloadBefore?.Invoke(_prevScene);
-
-        yield return _screenWiper?.Block();
 
         // Load current scene (non-additively, i.e. replaces this scene).
         // This causes SceneManager to call onSceneLoadHelper(), which will set _currScene
@@ -167,11 +170,12 @@ namespace Enter
 
         // Do post-reload actions
         OnReloadAfter?.Invoke(_prevScene, _currScene);
+        PlayerManager.PlayerScript.SetFieldsAlive();
+        yield return _screenWiper.Unblock();
 
-        yield return _screenWiper?.Unblock();
       }
 
-      _stState = STState.Idle;
+      STState = STState.Idle;
     }
 
     private IEnumerator cameraTransition(Scene _prevScene, Scene _currScene)
@@ -238,7 +242,7 @@ namespace Enter
     {
       // Hopefully no physics frame happens between scene load and this function. Else Unity documentation lied.
 
-      if (_stState == STState.Transitioning)
+      if (STState == STState.Transitioning)
       {
         // Get next scene's entry passage
         EntryPassage entryPassage = null;

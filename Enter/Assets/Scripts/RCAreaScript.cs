@@ -20,17 +20,18 @@ namespace Enter
 
     void Start()
     {
-        updateValidPoints();
+      updateValidPoints();
     }
     
     void OnEnable()
     {
-		SceneTransitioner.Instance.OnSceneLoad.AddListener(UpdateValidPoints);
+		  SceneTransitioner.Instance.OnSceneLoad.AddListener(UpdateValidPoints);
     }
 
-	void OnDisable() {
-		SceneTransitioner.Instance.OnSceneLoad.AddListener(UpdateValidPoints);
-	}
+    void OnDisable()
+    {
+      SceneTransitioner.Instance.OnSceneLoad.AddListener(UpdateValidPoints);
+    }
 
 #if UNITY_EDITOR
     void OnDrawGizmos()

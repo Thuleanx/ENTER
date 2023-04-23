@@ -9,7 +9,6 @@ namespace Enter
   [DisallowMultipleComponent]
   public class PlayerColliderScript : MonoBehaviour
   {
-    private PlayerStretcherScript _stretcher;
     private BoxCollider2D         _collider;
     private Rigidbody2D           _rigidbody;
 
@@ -32,11 +31,6 @@ namespace Enter
     private Vector2 _groundRayOffset   => new Vector2(0, -_groundRayDistance);
     private Vector2 _overheadRayOffset => new Vector2(0, +_overheadRayDistance);
 
-    [Header("Checking For 'Landing' Effects")]
-    [SerializeField] private float _minTimeBetweenLandingEffects = 0.25f;
-
-    private float _lastGroundedTime = -Mathf.Infinity;
-
     #endregion
 
     #region ================== Accessors
@@ -56,40 +50,23 @@ namespace Enter
     private Vector2 _nudge = Vector2.zero;
     public Vector2 Nudge { get { return _nudge; } }
 
-    public UnityEvent OnLand;
-
     #endregion
 
     #region ================== Methods
     
     void Start()
     {
-      _stretcher = PlayerManager.PlayerStretcherScript;
       _collider  = PlayerManager.BoxCollider;
       _rigidbody = GetComponent<Rigidbody2D>();
 
-      Assert.IsNotNull(_stretcher, "PlayerColliderScript must have a reference to a PlayerStretcherScript.");
       Assert.IsNotNull(_collider,  "PlayerColliderScript must have a reference to a BoxCollider2D.");
     }
 
     void FixedUpdate()
     {
       handleCrushCheck();
-
       handleDownwardsChecks();
       handleUpwardsChecks();
-
-      // Play particles // Zack 4/21/23: Does this still do anything??
-      if (OnGround)
-      {
-        if (Time.time - _lastGroundedTime > _minTimeBetweenLandingEffects)
-        {
-          OnLand?.Invoke();
-          _stretcher.PlayLandingSquash();
-        }
-
-        _lastGroundedTime = Time.time;
-      }
     }
 
 #if UNITY_EDITOR

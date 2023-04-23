@@ -30,7 +30,7 @@ namespace Enter
     // screen refreshes when a single thing moves
 
     [Header("Components for Animation")]
-    [SerializeField] private RawImage _blackScreen;
+    [SerializeField] private Image _blackOverlay;
 
     [SerializeField, Range(0,3)]
     private float _blockingDuration;
@@ -62,7 +62,7 @@ namespace Enter
     {
       // fade the cover image's alpha to 1
       _state = State.UNBLOCKED;
-      _blackScreen.DOFade(1, _blockingDuration).SetEase(_blockingEase);
+      _blackOverlay.DOFade(1, _blockingDuration).SetEase(_blockingEase);
       yield return new WaitForSecondsRealtime(_blockingDuration);
       _state = State.BLOCKED;
     }
@@ -71,7 +71,7 @@ namespace Enter
     {
       // fade the cover image's alpha to 0
       _state = State.BLOCKED;
-      _blackScreen.DOFade(0, _unblockingDuration).SetEase(_unblockingEase);
+      _blackOverlay.DOFade(0, _unblockingDuration).SetEase(_unblockingEase);
       yield return new WaitForSecondsRealtime(_unblockingDuration);
       _state = State.UNBLOCKED;
     }

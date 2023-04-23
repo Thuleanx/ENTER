@@ -64,7 +64,7 @@ namespace Enter
     {
       _initialScale = _maxLandSquash;
 
-      yield return new WaitForSeconds(0.125f); // fixme
+      yield return new WaitForSeconds(0.125f); // fixme @ Sebastian
 
       _initialScale = _initialestScale;
     }

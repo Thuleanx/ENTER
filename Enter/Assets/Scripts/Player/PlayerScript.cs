@@ -87,13 +87,28 @@ namespace Enter
 
     #endregion
 
+    #region ====== Animation
+
+    [Header("Animation")]
+
+    [SerializeField, Tooltip("Minimum time between landing events occurring.")]
+    private float _minTimeBetweenLandingEffects = 0.25f;
+
+    [SerializeField, Tooltip("Landing events, e.g. playing particles.")]
+    private UnityEvent _onLandEvents;
+
+    public UnityEvent OnJump;
+    public UnityEvent OnEarlyJumpRelease;
+    public UnityEvent OnJumpRelease;
+
+    #endregion
+
     #region ====== Death
 
     [Header("Death")]
 
     [SerializeField, Tooltip("Amount of time between the player dying and respawning.")]
     private float _deathRespawnDelay = 0.5f;
-    
 
     #endregion
     
@@ -149,10 +164,6 @@ namespace Enter
     public float                 MaxJumpSpeed          => _jumpSpeed;
     public float                 MaxFallSpeed          => _maxFall;
 
-    public UnityEvent OnJump;
-    public UnityEvent OnEarlyJumpRelease;
-    public UnityEvent OnJumpRelease;
-
     #endregion
 
     #region ================== Methods
@@ -199,6 +210,27 @@ namespace Enter
     public void Die()
     {
       StartCoroutine(die());
+    }
+
+    public void SetFieldsDead()
+    {
+      _isDead = true;
+      _an.speed = 0;
+      _rb.velocity = Vector2.zero;
+      _rb.constraints = RigidbodyConstraints2D.FreezeAll;
+      _bc.enabled = false;
+    }
+
+    public void SetFieldsAlive()
+    {
+      _isDead = false;
+      _an.speed = 1;
+      _sr.flipX = false;
+      _lastGroundedTime = Time.time; // Prevents landing effect playing on respawn
+      _rb.velocity = Vector2.zero;
+      _rb.position = SceneTransitioner.Instance.SpawnPosition;
+      _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+      _bc.enabled = true;
     }
 
     // Allows for freezing this component (in place and in animation). By default also disable the current component.
@@ -346,6 +378,7 @@ namespace Enter
 
     private void handleMovementAnimation()
     {
+      // Running/jumping
       float Vx = _velocityOnGround.x / _horizontalSpeed;
       float Vy = _velocityOnGround.y / _jumpSpeed;
       bool idle = Mathf.Abs(_velocityOnGround.x) < _eps;
@@ -355,30 +388,31 @@ namespace Enter
       _an.SetFloat("Vx", Vx);
       _an.SetFloat("Vy", Vy);
       _an.SetBool("Grounded", Grounded);
+
+      // Landing effects
+      if (_co.OnGround)
+      {
+        if (Time.time - _lastGroundedTime > _minTimeBetweenLandingEffects)
+        {
+          _onLandEvents?.Invoke();
+          _ps.PlayLandingSquash();
+        }
+
+        _lastGroundedTime = Time.time;
+      }
     }
 
     private IEnumerator die()
     {
       if (_isDead) yield break;
 
-      _isDead = true;
-      _an.speed = 0;
-      _rb.velocity = Vector2.zero;
-      _rb.constraints = RigidbodyConstraints2D.FreezeAll;
-      _bc.enabled = false;
+      SetFieldsDead();
+
+      // Todo: particles, etc
 
       yield return new WaitForSeconds(_deathRespawnDelay);
 
-      // Reload scene and relocate self
-      yield return SceneTransitioner.Instance.Reload(() =>
-      {
-        _isDead = false;
-        _an.speed = 1;
-        _rb.velocity = Vector2.zero;
-        _rb.position = SceneTransitioner.Instance.SpawnPosition;
-        _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-        _bc.enabled = true;
-      });
+      SceneTransitioner.Instance.Reload();
     }
 
     #endregion
