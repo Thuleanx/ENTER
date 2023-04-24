@@ -1,13 +1,14 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!687078895 &4343727234628468602
-SpriteAtlas:
+--- !u!612988286 &1
+SpriteAtlasAsset:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Atlas
-  m_EditorData:
+  m_Name: 
+  m_MasterAtlas: {fileID: 0}
+  m_ImporterData:
     serializedVersion: 2
     textureSettings:
       serializedVersion: 2
@@ -58,61 +59,6 @@ SpriteAtlas:
     - {fileID: 2800000, guid: 2a99256b5f2fd9e4391debda0a5caf63, type: 3}
     - {fileID: 2800000, guid: b9c358fca9d8ee942a152e8ffd2dc80d, type: 3}
     bindAsDefault: 1
-    isAtlasV2: 0
+    isAtlasV2: 1
     cachedData: {fileID: 0}
-  m_MasterAtlas: {fileID: 0}
-  m_PackedSprites:
-  - {fileID: 21300000, guid: 1179ed00b42d0ff4897ce575740d771a, type: 3}
-  - {fileID: 21300000, guid: 27d66f905c8b0ed4faf28d2e9305088b, type: 3}
-  - {fileID: 21300000, guid: 8f41c8017d21f94448834c3171c25dc0, type: 3}
-  - {fileID: 21300000, guid: b12ad951f2147b44fb5984d0580cffdd, type: 3}
-  - {fileID: 21300000, guid: 088fd262bdfa9ff42a83d70e3c43e1de, type: 3}
-  - {fileID: 21300000, guid: b33054d2e59f87c429610174db226a33, type: 3}
-  - {fileID: 21300000, guid: dba6b0e2dcb11e742a64c76a4e3843af, type: 3}
-  - {fileID: 21300000, guid: b22c95b7fb4973b41ae5a59f24ba463f, type: 3}
-  - {fileID: 21300000, guid: 99793b18cfe8f3b4e9524be7923eb013, type: 3}
-  - {fileID: 21300000, guid: 27ee574880d025545b5cf97ea17a5fbb, type: 3}
-  - {fileID: 21300000, guid: 206ead585c514b244bb98edd6e7997ce, type: 3}
-  - {fileID: 21300000, guid: 948fde1916cf49043a2c8f02ebed75ab, type: 3}
-  - {fileID: 21300000, guid: 90219e29c4712184fb0e2fd0ced6f6f0, type: 3}
-  - {fileID: 21300000, guid: 6b60ba499f8e40e4fa7c849df322f463, type: 3}
-  - {fileID: 21300000, guid: d671172b976d1b34baf742432902c0eb, type: 3}
-  - {fileID: 21300000, guid: 2a99256b5f2fd9e4391debda0a5caf63, type: 3}
-  - {fileID: 21300000, guid: a775f1ab0cce711478d69d6570f81dda, type: 3}
-  - {fileID: 21300000, guid: 5ee34dabd81fa9146836aadbc332965f, type: 3}
-  - {fileID: 21300000, guid: d418705cad9a4ad45999848d5ce66dd9, type: 3}
-  - {fileID: 21300000, guid: d3318f7c4ebbc744dad6f6a202e3edfd, type: 3}
-  - {fileID: 21300000, guid: b9c358fca9d8ee942a152e8ffd2dc80d, type: 3}
-  - {fileID: 21300000, guid: 0028906d1dc4e764fbe462be695fffc9, type: 3}
-  - {fileID: 21300000, guid: 5002a99d5796d574cb52d2c6f6026df1, type: 3}
-  - {fileID: 21300000, guid: 9f2102cd75947bf4bb14261e305244e7, type: 3}
-  - {fileID: 21300000, guid: c25e54ddede50dd4eb656c62674c9fb7, type: 3}
-  m_PackedSpriteNamesToIndex:
-  - blackSmoke00
-  - blackSmoke16
-  - blackSmoke10
-  - blackSmoke06
-  - blackSmoke02
-  - blackSmoke07
-  - blackSmoke21
-  - blackSmoke09
-  - blackSmoke04
-  - blackSmoke18
-  - blackSmoke22
-  - blackSmoke19
-  - blackSmoke20
-  - blackSmoke12
-  - blackSmoke01
-  - blackSmoke23
-  - blackSmoke17
-  - blackSmoke05
-  - blackSmoke14
-  - blackSmoke08
-  - blackSmoke24
-  - blackSmoke15
-  - blackSmoke03
-  - blackSmoke11
-  - blackSmoke13
-  m_RenderDataMap: {}
-  m_Tag: Atlas
   m_IsVariant: 0
