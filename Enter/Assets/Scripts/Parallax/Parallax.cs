@@ -7,11 +7,11 @@ namespace Enter
     public class Parallax : MonoBehaviour
     {
         
-        [SerializeField] private Camera _camera;        
-        [SerializeField] private List<GameObject> _layers; // background images
-        [SerializeField] private List<float> _parallaxValues; // parallax value (0-1) for each layer
         [SerializeField] private float _translateCorrectionValue; // an extra to apply after layer translation to make the two backgrounds seamless
         [SerializeField] private int _repeatFactor;
+
+        private Camera _camera;        
+        private List<ParallaxItem> _layers; // background images
 
         private List<Vector3> _startPositions;
         private List<Vector2> _imageSizes;
@@ -23,9 +23,10 @@ namespace Enter
         {
             _startPositions = new List<Vector3>();
             _imageSizes = new List<Vector2>();
+            _layers = new List<ParallaxItem>(GetComponentsInChildren<ParallaxItem>());
 
-            foreach(GameObject layer in _layers) {
-                InitializeLayerInfo(layer);
+            foreach (ParallaxItem item in _layers) {
+                InitializeLayerInfo(item);
             }
 
             RepeatLayers();
@@ -49,25 +50,29 @@ namespace Enter
 
         #region ================== Helpers
 
-        private void InitializeLayerInfo(GameObject layer)
+        private void InitializeLayerInfo(ParallaxItem item)
         {
-            _startPositions.Add(layer.transform.position);
-            _imageSizes.Add(layer.GetComponentInChildren<SpriteRenderer>().bounds.size);
+            _startPositions.Add(item.transform.position);
+            _imageSizes.Add(item.GetComponentInChildren<SpriteRenderer>().bounds.size);
         }
 
         private void RepeatLayers()
         {
-            List<GameObject> repeatedLayers = new List<GameObject>();
+            List<ParallaxItem> repeatedLayers = new List<ParallaxItem>();
             for (int i = 0; i < _repeatFactor-1; i++) 
             {
                 for (int j = 0; j < _layers.Count; j++)
                 {
-                    GameObject layer = _layers[j];
-                    GameObject clonedLayer = Instantiate(layer, layer.transform.position + Vector3.right*(i+1)*_imageSizes[j].x, layer.transform.rotation, transform);
-                    repeatedLayers.Add(clonedLayer);
+                    ParallaxItem item = _layers[j];
+                    GameObject clonedLayer = Instantiate(
+                        item.gameObject,
+                        item.transform.position + Vector3.right*(i+1)*_imageSizes[j].x,
+                        item.transform.rotation, 
+                        transform
+                    );
+                    repeatedLayers.Add(clonedLayer.GetComponent<ParallaxItem>());
                     _startPositions.Add(clonedLayer.transform.position);
                 }
-                _parallaxValues.AddRange(_parallaxValues);
                 _imageSizes.AddRange(_imageSizes);
             }
 
@@ -83,7 +88,7 @@ namespace Enter
 
         private float ComputeCameraOffset(int layerIndex)
         {
-            float parallaxValue = _parallaxValues[layerIndex];
+            float parallaxValue = _layers[layerIndex].parallaxValue;
             Vector2 imageLength = _imageSizes[layerIndex];
 
             Vector3 relativePos = _camera.transform.position * parallaxValue;   
@@ -110,7 +115,7 @@ namespace Enter
         private void MoveLayer(int layerIndex)
         {
             Vector3 startPos = _startPositions[layerIndex];
-            float parallaxValue = _parallaxValues[layerIndex];
+            float parallaxValue = _layers[layerIndex].parallaxValue;
 
             Vector3 relativePos = _camera.transform.position * parallaxValue;
             relativePos.z = startPos.z;

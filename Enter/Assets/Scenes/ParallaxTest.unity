@@ -271,9 +271,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aff99e7fff88ac448a6658ec5b89d970, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onInteractFunctions:
-    m_PersistentCalls:
-      m_Calls: []
   <NextSceneReference>k__BackingField:
     Scene: {fileID: 0}
     SceneName: 
@@ -11452,6 +11449,26 @@ PrefabInstance:
       propertyPath: _camera
       value: 
       objectReference: {fileID: 658559395}
+    - target: {fileID: 1113840807421435752, guid: b1b0d700ff29a4209bbb59e99ec2a6cd, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+    - target: {fileID: 1113840807769819365, guid: b1b0d700ff29a4209bbb59e99ec2a6cd, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+    - target: {fileID: 1113840808207383062, guid: b1b0d700ff29a4209bbb59e99ec2a6cd, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+    - target: {fileID: 1113840808461615675, guid: b1b0d700ff29a4209bbb59e99ec2a6cd, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+    - target: {fileID: 1113840808464300923, guid: b1b0d700ff29a4209bbb59e99ec2a6cd, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1b0d700ff29a4209bbb59e99ec2a6cd, type: 3}
 --- !u!4 &927820527587387248 stripped
