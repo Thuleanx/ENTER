@@ -27,7 +27,7 @@ namespace Enter
             foreach(GameObject layer in _layers) {
                 InitializeLayerInfo(layer);
             }
-            
+
             RepeatLayers();
         }
 
@@ -41,7 +41,6 @@ namespace Enter
 
                 MoveLayer(i);
              }
-
         }
 
         #endregion
