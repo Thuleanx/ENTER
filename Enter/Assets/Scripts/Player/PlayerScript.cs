@@ -171,13 +171,15 @@ namespace Enter
     void Awake()
     {
       // This prevents multiple copies of the player from existing at once
-      if (Instance) Destroy(this);
-      Instance = this;
+      if (Instance) DestroyImmediate(this);
+	  else {
+		Instance = this;
 
-      _rb = GetComponent<Rigidbody2D>();
-      _bc = GetComponent<BoxCollider2D>();
-      _co = GetComponent<PlayerColliderScript>();
-      _ps = GetComponent<PlayerStretcherScript>();
+		_rb = GetComponent<Rigidbody2D>();
+		_bc = GetComponent<BoxCollider2D>();
+		_co = GetComponent<PlayerColliderScript>();
+		_ps = GetComponent<PlayerStretcherScript>();
+	  }
     }
 
     void Start()

@@ -6,11 +6,12 @@ namespace Enter
 {
     public class Parallax : MonoBehaviour
     {
+		static Parallax _instance;
         
         [SerializeField] private float _translateCorrectionValue; // an extra to apply after layer translation to make the two backgrounds seamless
         [SerializeField] private int _repeatFactor;
 
-        private Camera _camera;        
+        private Camera _camera => Camera.main;
         private List<ParallaxItem> _layers; // background images
 
         private List<Vector3> _startPositions;
@@ -19,8 +20,18 @@ namespace Enter
 
         #region ================== Methods
 
-        void Start()
-        {
+		private void Awake() {
+			if (_instance)
+				Destroy(gameObject);
+			else {
+                _instance = this;
+                transform.SetParent(null);
+				DontDestroyOnLoad(gameObject);
+			}
+		}
+
+        void Start() {
+
             _startPositions = new List<Vector3>();
             _imageSizes = new List<Vector2>();
             _layers = new List<ParallaxItem>(GetComponentsInChildren<ParallaxItem>());
@@ -32,8 +43,21 @@ namespace Enter
             RepeatLayers();
         }
 
+        void LateUpdate() {
+            // TODO: On scene reset, make sure parallax backgrounds stay consistent.
+
+            // now we need to call on lateupdate because 
+            // time is paused during scene transitions, so there won't be a fixed update call
+            UpdateLayers();
+        }
+
         void FixedUpdate()
         {
+            // not calling on fixed update would mean jittery movement
+            UpdateLayers();
+        }
+        
+        void UpdateLayers() {
             for (int i = 0; i < _layers.Count; i++) 
             {
                 float layerOffset = ComputeCameraOffset(i);
