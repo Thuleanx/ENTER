@@ -699,7 +699,7 @@ Tilemap:
   m_TileColorArray: []
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
-  m_Color: {r: 0.2216981, g: 0.3760659, b: 1, a: 0.101960786}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: 0, y: 0, z: 0}
   m_Size: {x: 0, y: 0, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
@@ -741,7 +741,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 5ac36b253f532a64cbc444f62a186982, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
