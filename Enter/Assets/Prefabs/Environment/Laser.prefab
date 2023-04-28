@@ -19354,9 +19354,10 @@ MonoBehaviour:
   _onDuration: 1.5
   _offDuration: 1.5
   _delayDuration: 0
-  _on: 0
-  _numRaycasts: 4
+  _numRaycasts: 2
   _width: 0.25
+  _permanentlyOn: 0
+  _currentlyOn: 0
   _chargingParticles:
   - {fileID: 1177771555}
   - {fileID: 1925580011}

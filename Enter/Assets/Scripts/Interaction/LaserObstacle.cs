@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.Assertions;
 using NaughtyAttributes;
 
 namespace Enter
@@ -9,20 +10,30 @@ namespace Enter
   [RequireComponent(typeof(LineRenderer))]
   public class LaserObstacle : MonoBehaviour
   {
-    [SerializeField, Range(0,2)] private float _onDuration;
-    [SerializeField, Range(0,2)] private float _offDuration;
-    [SerializeField, Range(0,10)] private float _delayDuration;
+    [SerializeField, Tooltip("Duration in seconds for 'on' phase of laser cycle.")]
+    private float _onDuration;
 
-    [SerializeField] private bool _on;
-    [SerializeField] private int  _numRaycasts;
+    [SerializeField, Tooltip("Duration in seconds for 'off' phase of laser cycle.")]
+    private float _offDuration;
+
+    [SerializeField, Tooltip("Duration in seconds before first 'on' phase of laser cycle.")]
+    private float _delayDuration;
+
+    [SerializeField, Tooltip("Number of raycasts to use to check for hits / blocks.")]
+    private int _numRaycasts;
+
+    [SerializeField, Tooltip("Width of laser beam.")]
+    private float _width = 4.0f / 16.0f;
+
+    [SerializeField, Tooltip("Whether the laser is permanently firing."), OnValueChanged("onPermanentlyOnChanged")]
+    private bool _permanentlyOn;
+
+    [SerializeField, ReadOnly, Tooltip("Whether the laser is currently firing.")]
+    private bool _currentlyOn;
 
     private const float _skinWidth = 0.001f;
 
-    private float _onTimer;
-    private float _offTimer;
-
     private LineRenderer _lineRenderer;
-    [SerializeField] float _width = 8.0f / 16.0f;
 
     [SerializeField] private List<ParticleSystem> _chargingParticles;
     [SerializeField] private List<ParticleSystem> _attackParticles;
@@ -36,16 +47,23 @@ namespace Enter
     void Awake()
     {
       _lineRenderer = GetComponent<LineRenderer>();
+      Assert.IsNotNull(_lineRenderer, "LaserObstacle must have a reference to its LineRenderer.");
     }
 
     void Start()
     {
+      if (_permanentlyOn)
+      {
+        turnOnLaser();
+        return;
+      }
+
       StartCoroutine(laserToggler());
     }
 
     void Update()
     {
-      if (_on) fireAndRenderLaser();
+      if (_permanentlyOn || _currentlyOn) fireAndRenderLaser();
     }
 
 #if UNITY_EDITOR
@@ -96,29 +114,52 @@ namespace Enter
       yield return new WaitForSeconds(_delayDuration);
       while (true)
       {
-        _on = false;
-        foreach (ParticleSystem attackParticleSystem in _attackParticles) 
-            attackParticleSystem?.Stop();
-        _lineRenderer.enabled = false;
-
-        foreach (ParticleSystem particleSystem in _chargingParticles) {
-          particleSystem?.Play();
-        }
-
-        // what happens here??
-
-        yield return new WaitForSeconds(_offDuration);
-
-        _on = true;
-        _lineRenderer.enabled = true;
-        foreach (ParticleSystem particleSystem in _chargingParticles) {
-          particleSystem?.Clear();
-          particleSystem?.Stop();
-        }
-        foreach (ParticleSystem attackParticleSystem in _attackParticles) 
-            attackParticleSystem?.Play();
-
+        turnOnLaser();
         yield return new WaitForSeconds(_onDuration);
+        turnOffLaser();
+        yield return new WaitForSeconds(_offDuration);
+      }
+    }
+
+    private void turnOnLaser()
+    {
+      _currentlyOn = true;
+      _lineRenderer.enabled = true;
+      foreach (ParticleSystem attackParticleSystem in _attackParticles)
+      {
+        attackParticleSystem?.Play();
+      }
+      foreach (ParticleSystem particleSystem in _chargingParticles)
+      {
+        particleSystem?.Clear();
+        particleSystem?.Stop();
+      }
+    }
+
+    private void turnOffLaser()
+    {
+      _currentlyOn = false;
+      _lineRenderer.enabled = false;
+      foreach (ParticleSystem attackParticleSystem in _attackParticles)
+      {
+        attackParticleSystem?.Stop();
+      }
+      foreach (ParticleSystem particleSystem in _chargingParticles)
+      {
+        particleSystem?.Play();
+      }
+    }
+
+    private void onPermanentlyOnChanged()
+    {
+      if (_permanentlyOn)
+      {
+        StopAllCoroutines();
+        turnOnLaser();
+      }
+      else
+      {
+        StartCoroutine(laserToggler());
       }
     }
 
