@@ -180,6 +180,11 @@ namespace Enter
           bubble.gameObject.SetActive(false);
     }
 
+    public void CollectAllBubblesInEarlierScene(Scene scene, Scene _)
+    {
+      CollectAllBubblesInScene(scene);
+    }
+
     // Possible todo: if a pool goes cold for too long, we should start 
     //                destroying its objects to free memory
   }

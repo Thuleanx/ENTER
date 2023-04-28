@@ -1762,10 +1762,13 @@ MonoBehaviour:
       m_Calls: []
   <OnTransitionBefore>k__BackingField:
     m_PersistentCalls:
+      m_Calls: []
+  <OnTransitionAfter>k__BackingField:
+    m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 985384366487885822}
         m_TargetAssemblyTypeName: Enter.BubbleManager, Assembly-CSharp
-        m_MethodName: CollectAllBubblesInScene
+        m_MethodName: CollectAllBubblesInEarlierScene
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1775,9 +1778,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  <OnTransitionAfter>k__BackingField:
-    m_PersistentCalls:
-      m_Calls:
       - m_Target: {fileID: 972218654574051559}
         m_TargetAssemblyTypeName: Enter.RCBoxManager, Assembly-CSharp
         m_MethodName: DespawnRCBox
