@@ -147,7 +147,7 @@ namespace Enter
 
       OnGround = anyHit;
       OnRCBox  = anyRCHit;
-      CarryingRigidbody = allGroundOrRC ? nonMovingRb : movingRb;
+      CarryingRigidbody = allGroundOrRC ? nonMovingRb : (movingRb == null ? nonMovingRb : movingRb);
     }
 
     private void handleUpwardsChecks()
