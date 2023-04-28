@@ -121,6 +121,9 @@ namespace Enter
     {
       if (colliderIsConveyorBeam(otherCollider))
       {
+        // Fix weird, rare bug where CurrentConveyorBeam is null at this point
+        if (CurrentConveyorBeam == null) return;
+        
         // Set position to be in line with beam by using projection
         Vector2 offsetFromBeamObject  = _rb.position - (Vector2) CurrentConveyorBeam.transform.position;
         Vector2 beamObjectUpDirection = CurrentConveyorBeam.transform.up;
