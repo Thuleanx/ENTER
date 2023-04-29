@@ -146,11 +146,18 @@ namespace Enter {
 
                 // we have player walks in
                 InputManager.Instance.OverriddenInputData.Move = Vector2.right;
-                while (PlayerManager.Player.transform.position.x < -15) {
+                // right to the very right edge of the screen lol.
+
+                while (true) {
+                /* while (PlayerManager.Player.transform.position.x < -15) { */
                     yield return null;
                 }
             }
 
+            InputManager.Instance.OverrideInput = false;
+        }
+
+        void OnDisable() {
             InputManager.Instance.OverrideInput = false;
         }
 
