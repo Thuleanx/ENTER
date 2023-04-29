@@ -129,7 +129,7 @@ namespace Enter {
                 foreach (GameObject corruptedBox in corruptedBoxes) 
                     displacementFromVirus.Add(corruptedBox.transform.position - _virusPosition.transform.position);
 
-                float movingDuration = 1;
+                float movingDuration = 2;
                 float screenEdge = Camera.main.ViewportToWorldPoint(new Vector2(1.0f, 0.0f)).x;
 
                 while (moveDown.IsPlaying())

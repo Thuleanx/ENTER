@@ -43,9 +43,12 @@ namespace Enter
       _baseColor = _rcLeftRenderer.color;
     }
 
-    void Start()
-    {
-      /* _in = InputManager.Instance.Data; */
+    void LateUpdate() {
+        bool shouldCountRightClick =
+          Physics2D.OverlapPoint((Vector2) _in.MouseWorld, LayerManager.Instance.RCAreaLayer) && Time.timeScale != 0;
+
+        if (shouldCountRightClick)  CursorManager.Instance.HoveringEntities.Add(GetInstanceID());
+        else                        CursorManager.Instance.HoveringEntities.Remove(GetInstanceID());
     }
 
     void FixedUpdate()
@@ -96,6 +99,10 @@ namespace Enter
     {
       CutObject = null;
       disableRCBox();
+    }
+
+    void OnDisable() {
+        CursorManager.Instance.HoveringEntities.Remove(GetInstanceID());
     }
 
     #endregion

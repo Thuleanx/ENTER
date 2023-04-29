@@ -22,15 +22,15 @@ namespace Enter
     {
       updateValidPoints();
     }
-    
+
     void OnEnable()
     {
-		  SceneTransitioner.Instance.OnSceneLoad.AddListener(UpdateValidPoints);
+	  SceneTransitioner.Instance.OnSceneLoad.AddListener(UpdateValidPoints);
     }
 
     void OnDisable()
     {
-      SceneTransitioner.Instance.OnSceneLoad.AddListener(UpdateValidPoints);
+      SceneTransitioner.Instance.OnSceneLoad.RemoveListener(UpdateValidPoints);
     }
 
 #if UNITY_EDITOR
@@ -46,6 +46,11 @@ namespace Enter
       // This should only ever be called when there are RC areas and one got clicked
       Assert.IsTrue(_validPoints.Count != 0);
 
+      FindClosestValidPoint(target, out Vector2 bestPoint);
+      return bestPoint;
+    }
+
+    public bool FindClosestValidPoint(Vector2 target, out Vector2 closestPoint) {
       Vector2 bestPoint  = Vector2.zero;
       float bestDistance = Mathf.Infinity;
 
@@ -58,8 +63,8 @@ namespace Enter
           bestDistance = distance;
         }
       }
-
-      return bestPoint;
+      closestPoint = bestPoint;
+      return bestDistance != Mathf.Infinity;
     }
 
     #endregion
