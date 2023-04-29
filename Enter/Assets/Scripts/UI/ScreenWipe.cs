@@ -62,6 +62,7 @@ namespace Enter
     {
       // fade the cover image's alpha to 1
       _state = State.UNBLOCKED;
+      _blackOverlay.raycastTarget = true;
       _blackOverlay.DOFade(1, _blockingDuration).SetEase(_blockingEase);
       yield return new WaitForSecondsRealtime(_blockingDuration);
       _state = State.BLOCKED;
@@ -74,6 +75,7 @@ namespace Enter
       _blackOverlay.DOFade(0, _unblockingDuration).SetEase(_unblockingEase);
       yield return new WaitForSecondsRealtime(_unblockingDuration);
       _state = State.UNBLOCKED;
+      _blackOverlay.raycastTarget = false;
     }
   }
 }
