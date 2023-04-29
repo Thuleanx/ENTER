@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UiScaleMode: 0
-  m_ReferencePixelsPerUnit: 100
+  m_ReferencePixelsPerUnit: 16
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
@@ -162,7 +162,7 @@ MonoBehaviour:
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
-  m_DynamicPixelsPerUnit: 100
+  m_DynamicPixelsPerUnit: 16
   m_PresetInfoIsWorld: 1
 --- !u!223 &144703299
 Canvas:
@@ -195,7 +195,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 699807661}
   m_Father: {fileID: 785022900}
@@ -23796,7 +23796,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2094179049}
   - {fileID: 601233135}
@@ -23865,7 +23865,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47eeef1a7f97778499e138fb4f0d458e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _charactersPerMinute: 10000
+  _linesPerMinute: 400
   _scrollDelay: 1
   _fallingCamera: {fileID: 1725124482}
   _corruptedBox: {fileID: 8130251922980461296, guid: d5fa491edcac91840afd4e34134fd837, type: 3}

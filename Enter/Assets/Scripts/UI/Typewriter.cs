@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
@@ -27,31 +28,38 @@ namespace Enter
             textMesh.text = "";
         }
 
-        public void DisplayCharacters(int numberOfCharacters) {
-            if (numberOfCharacters >= TextLength)
-                textMesh.text = _finishedText;
-            else textMesh.text = _finishedText.Substring(0, numberOfCharacters) + "_";
-
-            LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
-            if (parentRecTransform) LayoutRebuilder.ForceRebuildLayoutImmediate(parentRecTransform);
-        }
-
-        public IEnumerator WaitForTypeWrite(float _charactersPerMinute) {
+        public IEnumerator WaitForTypeWrite(float _linesPerMinute) {
             float startTime = Time.unscaledTime;
 
-            int charactersToDisplay = 0;
-            int i = -1;
-            do {
-                if (i != ((int) charactersToDisplay)) {
+            string[] allLines = _finishedText.Split(new[]{ Environment.NewLine }, StringSplitOptions.None);
+            Debug.Log(allLines.Length);
+
+            string currentDisplay = "";
+            int lineToDisplay = 0;
+            int currentlyDisplayedLine = 0;
+            while (lineToDisplay < allLines.Length) {
+                if (currentlyDisplayedLine < ((int) lineToDisplay)) {
                     // only update when neccessary
-                    i = (int) charactersToDisplay;
-                    DisplayCharacters(i);
+                    while (currentlyDisplayedLine < lineToDisplay) {
+
+                        if (currentlyDisplayedLine > 0) currentDisplay += "\n";
+                        currentDisplay += allLines[currentlyDisplayedLine];
+
+                        currentlyDisplayedLine++;
+                    }
+                    textMesh.text = currentDisplay + "_";
+
+                    LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
+                    if (parentRecTransform) LayoutRebuilder.ForceRebuildLayoutImmediate(parentRecTransform);
                 }
                 yield return null;
                 float elapsedTime = Time.unscaledTime - startTime;
-                charactersToDisplay = (int) (elapsedTime * _charactersPerMinute / 60.0f);
-            } while (charactersToDisplay < _finishedText.Length);
-            DisplayCharacters(TextLength);
+                lineToDisplay = (int) (elapsedTime * _linesPerMinute / 60.0f);
+            }
+
+            textMesh.text = _finishedText;
+            LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
+            if (parentRecTransform) LayoutRebuilder.ForceRebuildLayoutImmediate(parentRecTransform);
         }
     }
 }

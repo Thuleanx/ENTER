@@ -8,7 +8,7 @@ using Enter.Utils;
 
 namespace Enter {
     public class BeginningSequence : MonoBehaviour {
-        [SerializeField] float _charactersPerMinute = 80;
+        [SerializeField] float _linesPerMinute = 30;
         [SerializeField, Range(0, 5)] float _scrollDelay = 2;
         [SerializeField] CinemachineVirtualCamera _fallingCamera;
         [SerializeField] GameObject _corruptedBox;
@@ -164,7 +164,7 @@ namespace Enter {
         IEnumerator _Typewrite() {
             if (_sequenceTexts != null) {
                 foreach (Typewriter typewriter in _sequenceTexts)
-                    yield return typewriter.WaitForTypeWrite(_charactersPerMinute);
+                    yield return typewriter.WaitForTypeWrite(_linesPerMinute);
             }
         }
     }
