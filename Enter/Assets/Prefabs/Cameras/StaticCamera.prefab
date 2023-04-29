@@ -19,6 +19,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6910967969872963782, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
+      propertyPath: m_RendererIndex
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7087370805827828716, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
       propertyPath: m_Name
       value: StaticCamera
