@@ -26,17 +26,26 @@ namespace Enter
       set { _spriteTransform.localScale = value; }
     }
 
+    private InputData _in;
+    private bool _isCrouching;
+
     #region ================== Methods
 
     void Start()
     {
       _spriteTransform = PlayerManager.SpriteRenderer.transform;
+      _in = InputManager.Instance.Data;
 
+      Assert.IsNotNull(_spriteTransform, "PlayerStretcherScript must have a reference to the player's sprite's Transform.");
       Assert.IsNotNull(_spriteTransform, "PlayerStretcherScript must have a reference to the player's sprite's Transform.");
 
       _initialestScale = _currentScale;
       _initialScale    = _currentScale;
       _targetScale     = _currentScale;
+    }
+
+    void FixedUpdate() {
+      handleCrouchAnimation();
     }
 
     void LateUpdate()
@@ -60,13 +69,29 @@ namespace Enter
 
     #region ================== Helpers
 
+    private void handleCrouchAnimation() {
+      float inY = _in.Move.y;
+      if(inY < 0 && !_isCrouching) {
+        _isCrouching = true;
+        _initialScale = _maxLandSquash;
+      }
+      if(inY >= 0 && _isCrouching || _in.Move.x != 0) {
+        _isCrouching = false;
+        _initialScale = _initialestScale;
+      }
+    }
+
     private IEnumerator landStretch()
     {
       _initialScale = _maxLandSquash;
+      // _targetScale = _maxLandSquash;
 
       yield return new WaitForSeconds(0.125f); // fixme @ Sebastian
 
-      _initialScale = _initialestScale;
+      if(!_isCrouching) {
+        _initialScale = _initialestScale;
+      }
+      // _targetScale = _maxLandSquash;
     }
 
     #endregion
