@@ -19,7 +19,8 @@ namespace Enter
 
     private Vector3 _initialestScale;
     private Vector3 _initialScale;
-    private Vector3 _targetScale;
+    private Vector3 _targetStretchScale;
+    private Vector3 _targetSquashScale;
     private Vector3 _currentScale
     {
       get { return _spriteTransform.localScale; }
@@ -28,6 +29,7 @@ namespace Enter
 
     private InputData _in;
     private bool _isCrouching;
+    private bool _isLanding;
 
     #region ================== Methods
 
@@ -41,7 +43,8 @@ namespace Enter
 
       _initialestScale = _currentScale;
       _initialScale    = _currentScale;
-      _targetScale     = _currentScale;
+      _targetStretchScale     = _currentScale;
+      _targetSquashScale      = _currentScale;
     }
 
     void FixedUpdate() {
@@ -54,9 +57,13 @@ namespace Enter
         PlayerManager.Rigidbody.velocity.y / PlayerManager.MaxJumpSpeed :
         PlayerManager.Rigidbody.velocity.y / PlayerManager.MaxFallSpeed;
 
-      _targetScale = Vector3.Lerp(_initialScale, _maxJumpStretch, yVelocityLerpPoint);
+      _targetStretchScale = Vector3.Lerp(_initialScale, _maxJumpStretch, yVelocityLerpPoint);
 
-      _currentScale = _targetScale;
+      if(_isCrouching || _isLanding) {
+        _currentScale = Vector3.Lerp(_currentScale, _targetSquashScale, 0.1f);
+      } else {
+        _currentScale = _targetStretchScale;
+      }
     }
 
     public void PlayLandingSquash()
@@ -73,25 +80,27 @@ namespace Enter
       float inY = _in.Move.y;
       if(inY < 0 && !_isCrouching) {
         _isCrouching = true;
-        _initialScale = _maxLandSquash;
+        _targetSquashScale = _maxLandSquash;
       }
       if(inY >= 0 && _isCrouching || _in.Move.x != 0) {
         _isCrouching = false;
-        _initialScale = _initialestScale;
+        _targetSquashScale = _initialestScale;
       }
     }
 
     private IEnumerator landStretch()
     {
-      _initialScale = _maxLandSquash;
-      // _targetScale = _maxLandSquash;
+      _isLanding = true;
+      _targetSquashScale = _maxLandSquash;
+      // _targetStretchScale = _maxLandSquash;
 
       yield return new WaitForSeconds(0.125f); // fixme @ Sebastian
 
       if(!_isCrouching) {
-        _initialScale = _initialestScale;
+        _targetSquashScale = _initialestScale;
       }
-      // _targetScale = _maxLandSquash;
+      _isLanding = false;
+      // _targetStretchScale = _maxLandSquash;
     }
 
     #endregion
