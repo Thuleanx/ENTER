@@ -185,7 +185,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3714160003459366587, guid: 2f4c193ce9a4b47b693a2627ee967dc6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -14
+      value: -26
       objectReference: {fileID: 0}
     - target: {fileID: 3714160003459366587, guid: 2f4c193ce9a4b47b693a2627ee967dc6, type: 3}
       propertyPath: m_LocalPosition.z
@@ -221,11 +221,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3714160003459366588, guid: 2f4c193ce9a4b47b693a2627ee967dc6, type: 3}
       propertyPath: m_Size.x
-      value: 46
+      value: 65
       objectReference: {fileID: 0}
     - target: {fileID: 3714160003459366588, guid: 2f4c193ce9a4b47b693a2627ee967dc6, type: 3}
       propertyPath: m_Offset.x
-      value: 22
+      value: 31.5
       objectReference: {fileID: 0}
     - target: {fileID: 3714160003459366589, guid: 2f4c193ce9a4b47b693a2627ee967dc6, type: 3}
       propertyPath: _beltSpeed
@@ -233,7 +233,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3714160003459366589, guid: 2f4c193ce9a4b47b693a2627ee967dc6, type: 3}
       propertyPath: _beltLength
-      value: 46
+      value: 65
       objectReference: {fileID: 0}
     - target: {fileID: 3714160003459366589, guid: 2f4c193ce9a4b47b693a2627ee967dc6, type: 3}
       propertyPath: _initialWaitTime
@@ -241,11 +241,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3714160004493371068, guid: 2f4c193ce9a4b47b693a2627ee967dc6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 22
+      value: 31.5
       objectReference: {fileID: 0}
     - target: {fileID: 3714160004493371069, guid: 2f4c193ce9a4b47b693a2627ee967dc6, type: 3}
       propertyPath: m_Size.x
-      value: 46
+      value: 65
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f4c193ce9a4b47b693a2627ee967dc6, type: 3}
@@ -515,19 +515,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5284979485866314911, guid: 349358f96f76640dcac5145bd0d543f0, type: 3}
       propertyPath: m_NormalizedViewPortRect.x
-      value: -0.11089866
+      value: -0.42485547
       objectReference: {fileID: 0}
     - target: {fileID: 5284979485866314911, guid: 349358f96f76640dcac5145bd0d543f0, type: 3}
       propertyPath: m_NormalizedViewPortRect.y
-      value: -0.1122449
+      value: -0.42051283
       objectReference: {fileID: 0}
     - target: {fileID: 5284979485866314911, guid: 349358f96f76640dcac5145bd0d543f0, type: 3}
       propertyPath: m_NormalizedViewPortRect.width
-      value: 1.2237093
+      value: 1.849711
       objectReference: {fileID: 0}
     - target: {fileID: 5284979485866314911, guid: 349358f96f76640dcac5145bd0d543f0, type: 3}
       propertyPath: m_NormalizedViewPortRect.height
-      value: 1.2244898
+      value: 1.8461539
       objectReference: {fileID: 0}
     - target: {fileID: 5687732561128283139, guid: 349358f96f76640dcac5145bd0d543f0, type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[0].y
@@ -3970,6 +3970,10 @@ PrefabInstance:
     - target: {fileID: 1424889039479160073, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_ColliderPaths.Array.data[1].m_ColliderPaths.Array.data[2].Array.data[10].Y
       value: -80000100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2039508394902037582, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2542896415054344335, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_CompositePaths.m_Paths.Array.size
