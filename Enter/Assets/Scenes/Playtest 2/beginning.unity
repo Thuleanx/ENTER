@@ -23866,7 +23866,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _linesPerMinute: 400
-  _scrollDelay: 1
+  _scrollDelay: 6.76
+  _delayScaleBetweenSpawn: 0.5
   _fallingCamera: {fileID: 1725124482}
   _corruptedBox: {fileID: 8130251922980461296, guid: d5fa491edcac91840afd4e34134fd837, type: 3}
   _environment: {fileID: 898531339}

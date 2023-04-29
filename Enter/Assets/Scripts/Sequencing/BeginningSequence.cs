@@ -9,7 +9,8 @@ using Enter.Utils;
 namespace Enter {
     public class BeginningSequence : MonoBehaviour {
         [SerializeField] float _linesPerMinute = 30;
-        [SerializeField, Range(0, 5)] float _scrollDelay = 2;
+        [SerializeField, Range(0, 10)] float _scrollDelay = 2;
+        [SerializeField] float _delayScaleBetweenSpawn;
         [SerializeField] CinemachineVirtualCamera _fallingCamera;
         [SerializeField] GameObject _corruptedBox;
         [SerializeField] GameObject _environment;
@@ -34,9 +35,7 @@ namespace Enter {
 
                 Coroutine typewriting = StartCoroutine(_Typewrite());
 
-                yield return new WaitForSecondsRealtime(4);
-
-
+                yield return new WaitForSecondsRealtime(_scrollDelay);
 
                 // spawn some squares
                 List<GameObject> corruptedBoxes = new List<GameObject>();
@@ -52,7 +51,7 @@ namespace Enter {
                 for (int i = 0; i < numCorruptedBoxes; i++) {
 
                     float screenX = UnityEngine.Random.Range(0.0f,1.0f);
-                    float screenY = UnityEngine.Random.Range(0.0f,1.0f);
+                    float screenY = UnityEngine.Random.Range(0.0f, i>3 ? 1.0f : .5f);
 
                     Vector2 pos = new Vector2(screenX, screenY);
                     pos = Camera.main.ViewportToWorldPoint(pos);
@@ -72,7 +71,8 @@ namespace Enter {
                     corruptedBox.transform.localScale = Vector2.one * 1.5f;
                     corruptedBox.transform.DOScale(Vector2.one, 0.2f).SetEase(Ease.InCirc);
 
-                    float wait = DOVirtual.EasedValue(4f, 0f, ((float)i) / numCorruptedBoxes, easingForWait);
+                    float wait = DOVirtual.EasedValue(4f * _delayScaleBetweenSpawn, 
+                            0f, ((float)i) / numCorruptedBoxes, easingForWait);
                     if (i>0) wait = Mathf.Min(wait, 2f/i);
 
                     renderer.transform.DOShakePosition( 50, 0.2f).Play();
