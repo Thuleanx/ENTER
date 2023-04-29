@@ -19,10 +19,6 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6910967969872963782, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
-      propertyPath: m_RendererIndex
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7087370805827828716, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
       propertyPath: m_Name
       value: StaticCamera
@@ -77,19 +73,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7087370806279255378, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
       propertyPath: m_NormalizedViewPortRect.x
-      value: 0.0296875
+      value: 0.9513642
       objectReference: {fileID: 0}
     - target: {fileID: 7087370806279255378, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
       propertyPath: m_NormalizedViewPortRect.y
-      value: 0.3763889
+      value: 0.27076223
       objectReference: {fileID: 0}
     - target: {fileID: 7087370806279255378, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
       propertyPath: m_NormalizedViewPortRect.width
-      value: 0.5
+      value: 0.75919336
       objectReference: {fileID: 0}
     - target: {fileID: 7087370806279255378, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
       propertyPath: m_NormalizedViewPortRect.height
-      value: 0.5
+      value: 0.8191126
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3efed5c02b027435c8b3ae3841d189dd, type: 3}
