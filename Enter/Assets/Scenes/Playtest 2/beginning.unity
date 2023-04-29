@@ -448,6 +448,99 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3, y: 1}
   m_EdgeRadius: 0
+--- !u!1001 &398517636
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1553006326992584950, guid: d5fa491edcac91840afd4e34134fd837, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1553006326992584950, guid: d5fa491edcac91840afd4e34134fd837, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1553006326992584950, guid: d5fa491edcac91840afd4e34134fd837, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1553006326992584950, guid: d5fa491edcac91840afd4e34134fd837, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8130251922980461296, guid: d5fa491edcac91840afd4e34134fd837, type: 3}
+      propertyPath: m_Name
+      value: CorruptedBox__BeginningSequence
+      objectReference: {fileID: 0}
+    - target: {fileID: 8130251922980461296, guid: d5fa491edcac91840afd4e34134fd837, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8130251922980461298, guid: d5fa491edcac91840afd4e34134fd837, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8130251922980461298, guid: d5fa491edcac91840afd4e34134fd837, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 4.31
+      objectReference: {fileID: 0}
+    - target: {fileID: 8130251922980461298, guid: d5fa491edcac91840afd4e34134fd837, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 4.31
+      objectReference: {fileID: 0}
+    - target: {fileID: 8130251922980461298, guid: d5fa491edcac91840afd4e34134fd837, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 4.31
+      objectReference: {fileID: 0}
+    - target: {fileID: 8130251922980461298, guid: d5fa491edcac91840afd4e34134fd837, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 8.83
+      objectReference: {fileID: 0}
+    - target: {fileID: 8130251922980461298, guid: d5fa491edcac91840afd4e34134fd837, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 26.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8130251922980461298, guid: d5fa491edcac91840afd4e34134fd837, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8130251922980461298, guid: d5fa491edcac91840afd4e34134fd837, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8130251922980461298, guid: d5fa491edcac91840afd4e34134fd837, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8130251922980461298, guid: d5fa491edcac91840afd4e34134fd837, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8130251922980461298, guid: d5fa491edcac91840afd4e34134fd837, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8130251922980461298, guid: d5fa491edcac91840afd4e34134fd837, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8130251922980461298, guid: d5fa491edcac91840afd4e34134fd837, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8130251922980461298, guid: d5fa491edcac91840afd4e34134fd837, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8130251922980461298, guid: d5fa491edcac91840afd4e34134fd837, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d5fa491edcac91840afd4e34134fd837, type: 3}
 --- !u!1001 &449152153
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23917,6 +24010,7 @@ GameObject:
   - component: {fileID: 1239424447}
   - component: {fileID: 1239424449}
   - component: {fileID: 1239424448}
+  - component: {fileID: 1239424450}
   m_Layer: 0
   m_Name: Mask Camera
   m_TagString: Untagged
@@ -23951,7 +24045,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RenderShadows: 1
+  m_RenderShadows: 0
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
@@ -23961,7 +24055,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
-  m_VolumeFrameworkUpdateModeOption: 2
+  m_VolumeFrameworkUpdateModeOption: 0
   m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
@@ -24000,12 +24094,12 @@ Camera:
   field of view: 60
   orthographic: 1
   orthographic size: 11.25
-  m_Depth: 0
+  m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 262144
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
+  m_TargetTexture: {fileID: 8400000, guid: 48c56a8ab68926445a214a9978620898, type: 2}
   m_TargetDisplay: 1
   m_TargetEye: 3
   m_HDR: 1
@@ -24015,6 +24109,21 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &1239424450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1239424446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc40ce00baf40f941aac0ac3a62e1959, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultTexture: {fileID: 8400000, guid: 48c56a8ab68926445a214a9978620898, type: 2}
+  renderMaterial: {fileID: 2100000, guid: eb5a3a7edbc5b5449a2fb9c2487f5bb1, type: 2}
+  <maskCamera>k__BackingField: {fileID: 1239424449}
 --- !u!1 &1568959743
 GameObject:
   m_ObjectHideFlags: 0
