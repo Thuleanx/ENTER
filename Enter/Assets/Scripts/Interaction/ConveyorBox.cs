@@ -79,8 +79,7 @@ namespace Enter
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-      // Ignore everything and act like a regular box, if not in conveyor beam
-      if (CurrentConveyorBeam == null) return;
+      if (!this.enabled) return;
 
       Collider2D collider = collision.collider;
 
@@ -109,6 +108,8 @@ namespace Enter
 
     void OnTriggerEnter2D(Collider2D otherCollider)
     {
+      if (!this.enabled) return;
+
       if (colliderIsConveyorBeam(otherCollider))
       {
         _rb.gravityScale = 0;
@@ -119,6 +120,8 @@ namespace Enter
 
     void OnTriggerStay2D(Collider2D otherCollider)
     {
+      if (!this.enabled) return;
+
       if (colliderIsConveyorBeam(otherCollider))
       {
         // Fix weird, rare bug where CurrentConveyorBeam is null at this point
@@ -133,9 +136,10 @@ namespace Enter
 
     void OnTriggerExit2D(Collider2D otherCollider)
     {
+      if (!this.enabled) return;
+
       if (colliderIsConveyorBeam(otherCollider))
       {
-        _rb.gravityScale = 1;
         gameObject.SetActive(false);
 
         if (UpstreamConveyorBox != null)
@@ -148,6 +152,8 @@ namespace Enter
   
     public void SetVelocityAndPositionInChain(Vector2 vel, Vector2 pos)
     {
+      if (!this.enabled) return;
+      
       _rb.velocity = vel;
       _rb.position = pos;
       if (UpstreamConveyorBox) UpstreamConveyorBox.SetVelocityAndPositionInChain(vel, pos + NextInChainOffset);

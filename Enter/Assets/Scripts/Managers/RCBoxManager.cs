@@ -101,8 +101,9 @@ namespace Enter
       disableRCBox();
     }
 
-    void OnDisable() {
-        CursorManager.Instance.HoveringEntities.Remove(GetInstanceID());
+    void OnDisable()
+    {
+      CursorManager.Instance.HoveringEntities.Remove(GetInstanceID());
     }
 
     #endregion
@@ -177,12 +178,16 @@ namespace Enter
         return;
       }
 
-      // IMPORTANT: Set cut object's layer
-      bool isPastingIntoConveyorBeam = Physics2D.OverlapArea(
-        (Vector2) _rc.transform.position + _pasteTLOffset,
-        (Vector2) _rc.transform.position - _pasteTLOffset,
-        LayerManager.Instance.ConveyorBeamLayer);
-      CutObject.layer = isPastingIntoConveyorBeam ? LayerMask.NameToLayer("ConveyorBox") : LayerMask.NameToLayer("PhysicsBox");
+      // IMPORTANT: If cut object is box, toggle behaviour accordingly
+      Box boxScript = CutObject.GetComponent<Box>();
+      if (boxScript != null)
+      {
+        bool isPastingIntoConveyorBeam = Physics2D.OverlapArea(
+          (Vector2) _rc.transform.position + _pasteTLOffset,
+          (Vector2) _rc.transform.position - _pasteTLOffset,
+          LayerManager.Instance.ConveyorBeamLayer);
+        boxScript.IsPhysicsBox = !isPastingIntoConveyorBeam;
+      }
       
       CutObject.transform.SetPositionAndRotation(_rc.transform.position, Quaternion.identity);
       CutObject.GetComponent<Rigidbody2D>().constraints = CutObjectInitialConstraints;
