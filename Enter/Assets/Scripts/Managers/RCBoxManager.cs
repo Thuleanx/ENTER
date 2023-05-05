@@ -69,6 +69,7 @@ namespace Enter
         bool shouldCountRightClick =
           (Time.time - _minRCInterval > _lastRCTime) &&
           Physics2D.OverlapPoint((Vector2) _in.MouseWorld, LayerManager.Instance.RCAreaLayer);
+        ShockwaveManager.Instance.SpawnAtPos(_in.MouseWorld);
 
         if (shouldCountRightClick)
         {
