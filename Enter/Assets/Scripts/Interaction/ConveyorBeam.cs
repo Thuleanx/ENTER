@@ -37,6 +37,9 @@ namespace Enter
     [SerializeField, Tooltip("The radius of the circle to check for whether or not a new box will be spawned")]
     private float _spawnCheckRadius = 0.5f;
 
+    [SerializeField, Tooltip("Sprite of the conveyor beam. Used by the beam for scrolling at the same speed as the beam.")]
+    private SpriteRenderer _sprite;
+
     private float _spacing => _beltSpeed * _spawnWaitTime;
 
     #region ================== Accessors
@@ -66,6 +69,10 @@ namespace Enter
       SceneTransitioner.Instance.OnSceneLoad.RemoveListener(doStartupThings);
       SceneTransitioner.Instance.OnTransitionBefore.RemoveListener(doCleanupThings);
       SceneTransitioner.Instance.OnReloadBefore.RemoveListener(doCleanupThings);
+    }
+
+    void LateUpdate() {
+        _sprite.material.SetFloat("_ScrollSpeed", _beltSpeed);
     }
 
 #if UNITY_EDITOR

@@ -46,8 +46,7 @@ namespace Enter {
                 (Mode.Dark, CursorType.Hover) => _hoverDark,
                 _ => _pointer
             };
-            Debug.Log(param.texture.width + " " + param.texture.height);
-            Cursor.SetCursor(param.texture, param.hotspot, CursorMode.Auto);
+            Cursor.SetCursor(param.texture, param.hotspot, CursorMode.ForceSoftware);
         }
 
         void LateUpdate() {
