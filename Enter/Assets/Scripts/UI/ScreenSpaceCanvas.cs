@@ -1,17 +1,24 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Enter {
-    [RequireComponent(typeof(Canvas))]
-    public class ScreenSpaceCanvas : MonoBehaviour {
-        Canvas canvas;
+namespace Enter
+{
+  [ExecuteAlways]
+  [RequireComponent(typeof(Canvas))]
+  public class ScreenSpaceCanvas : MonoBehaviour
+  {
+    private Canvas _canvas;
 
-        void Awake() {
-            canvas = GetComponent<Canvas>();
-        }
-
-        void LateUpdate() {
-            canvas.worldCamera = Camera.main;
-        }
+    void Awake()
+    {
+      Debug.Log(Camera.main);
+      _canvas = GetComponent<Canvas>();
+      _canvas.worldCamera = Camera.main;
     }
+
+    void LateUpdate()
+    {
+      _canvas.worldCamera = Camera.main;
+    }
+  }
 }

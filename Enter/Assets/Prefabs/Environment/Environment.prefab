@@ -1051,13 +1051,41 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5170594659017192043}
     m_Modifications:
+    - target: {fileID: 682741987096979246, guid: 7979faa13db46764d910bf363038f964, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 682741987096979246, guid: 7979faa13db46764d910bf363038f964, type: 3}
+      propertyPath: m_PlaneDistance
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 780935882963853331, guid: 7979faa13db46764d910bf363038f964, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 780935882963853331, guid: 7979faa13db46764d910bf363038f964, type: 3}
+      propertyPath: m_PlaneDistance
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175097700438106534, guid: 7979faa13db46764d910bf363038f964, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175097700438106534, guid: 7979faa13db46764d910bf363038f964, type: 3}
+      propertyPath: m_PlaneDistance
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3070621407416022979, guid: 7979faa13db46764d910bf363038f964, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3070621407416022979, guid: 7979faa13db46764d910bf363038f964, type: 3}
+      propertyPath: m_PlaneDistance
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 6349838559478716338, guid: 7979faa13db46764d910bf363038f964, type: 3}
       propertyPath: m_Name
       value: Backgrounds
-      objectReference: {fileID: 0}
-    - target: {fileID: 6349838559478716338, guid: 7979faa13db46764d910bf363038f964, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6349838559478716348, guid: 7979faa13db46764d910bf363038f964, type: 3}
       propertyPath: m_RootOrder
@@ -1102,6 +1130,22 @@ PrefabInstance:
     - target: {fileID: 6349838559478716348, guid: 7979faa13db46764d910bf363038f964, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7020862305477188482, guid: 7979faa13db46764d910bf363038f964, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7020862305477188482, guid: 7979faa13db46764d910bf363038f964, type: 3}
+      propertyPath: m_PlaneDistance
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 9118600486396723726, guid: 7979faa13db46764d910bf363038f964, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9118600486396723726, guid: 7979faa13db46764d910bf363038f964, type: 3}
+      propertyPath: m_PlaneDistance
+      value: 13
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7979faa13db46764d910bf363038f964, type: 3}
