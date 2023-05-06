@@ -60,10 +60,10 @@ namespace Enter
     private Vector2 _nudge = Vector2.zero;
     public Vector2 Nudge { get { return _nudge; } }
 
-    private Vector2 _boundsTopCenter    => (Vector2)_collider.bounds.center + Vector2.up    * _collider.bounds.size.y / 2;
-    private Vector2 _boundsBottomCenter => (Vector2)_collider.bounds.center - Vector2.up    * _collider.bounds.size.y / 2;
-    private Vector2 _boundsLeftCenter   => (Vector2)_collider.bounds.center - Vector2.right * _collider.bounds.size.x / 2;
-    private Vector2 _boundsRightCenter  => (Vector2)_collider.bounds.center + Vector2.right * _collider.bounds.size.x / 2;
+    private Vector2 _boundsTopCenter    => _collider ? (Vector2)_collider.bounds.center + Vector2.up    * _collider.bounds.size.y / 2 : Vector2.zero;
+    private Vector2 _boundsBottomCenter => _collider ? (Vector2)_collider.bounds.center - Vector2.up    * _collider.bounds.size.y / 2 : Vector2.zero;
+    private Vector2 _boundsLeftCenter   => _collider ? (Vector2)_collider.bounds.center - Vector2.right * _collider.bounds.size.x / 2 : Vector2.zero;
+    private Vector2 _boundsRightCenter  => _collider ? (Vector2)_collider.bounds.center + Vector2.right * _collider.bounds.size.x / 2 : Vector2.zero;
 
     #endregion
 
@@ -189,11 +189,11 @@ namespace Enter
 
     private Vector2 getGroundPoint(int i)
     {
-      Vector2 bottomLeft = (Vector2)_collider.bounds.min;
+      Vector2 bottomLeft = _collider ? (Vector2)_collider.bounds.min : Vector2.zero;
       float t = (float) i / (_numGroundRays - 1);
 
       return bottomLeft +
-        Vector2.right * t * _collider.bounds.size.x +
+        Vector2.right * t * (_collider ? _collider.bounds.size.x : 0) +
         Vector2.up * _skinWidth;
     }
 
@@ -218,7 +218,7 @@ namespace Enter
     private Vector2 getOverheadPoint(float offsetFromCenterTop)
     {
       return _boundsTopCenter +
-        Vector2.right * offsetFromCenterTop * _collider.bounds.size.x / 2 +
+        Vector2.right * offsetFromCenterTop * (_collider? _collider.bounds.size.x / 2 : 0) +
         Vector2.down * _skinWidth;
     }
 

@@ -103,6 +103,9 @@ namespace Enter
     public UnityEvent OnJump;
     public UnityEvent OnEarlyJumpRelease;
     public UnityEvent OnJumpRelease;
+    public UnityEvent OnAlive;
+    public UnityEvent OnDeath;
+    public UnityEvent OnDeath_Delayed;
 
     #endregion
 
@@ -112,6 +115,7 @@ namespace Enter
 
     [SerializeField, Tooltip("Amount of time between the player dying and respawning.")]
     private float _deathRespawnDelay = 0.5f;
+    private float _deathEffectDelayTime = 0.4f;
 
     #endregion
     
@@ -215,8 +219,11 @@ namespace Enter
 
     public void Die()
     {
-      SetFieldsDead();
-      StartCoroutine(waitForRespawn());
+      if (!_isDead) {
+        OnDeath?.Invoke();
+        SetFieldsDead();
+        StartCoroutine(waitForRespawn());
+      }
     }
 
     public void SetFieldsDead()
@@ -226,10 +233,12 @@ namespace Enter
       _rb.velocity = Vector2.zero;
       _rb.constraints = RigidbodyConstraints2D.FreezeAll;
       _bc.enabled = false;
+      _sr.enabled = false;
     }
 
     public void SetFieldsAlive()
     {
+      OnAlive?.Invoke();
       _isDead = false;
       _an.speed = 1;
       _sr.flipX = false;
@@ -238,6 +247,7 @@ namespace Enter
       _rb.position = SceneTransitioner.Instance.SpawnPosition;
       _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
       _bc.enabled = true;
+      _sr.enabled = true;
     }
 
     // Allows for freezing this component (in place and in animation). By default also disable the current component.
@@ -413,7 +423,10 @@ namespace Enter
     {
       // Todo: particles, etc
 
-      yield return new WaitForSeconds(_deathRespawnDelay);
+      yield return new WaitForSeconds(_deathEffectDelayTime);
+      OnDeath_Delayed?.Invoke();
+      ShockwaveManager.Instance?.SpawnAtPos(transform.position);
+      yield return new WaitForSeconds(_deathRespawnDelay - _deathEffectDelayTime);
 
       SceneTransitioner.Instance.Reload();
     }

@@ -170,6 +170,7 @@ namespace Enter
 
         // Do post-reload actions
         OnReloadAfter?.Invoke(_prevScene, _currScene);
+
         PlayerManager.PlayerScript.SetFieldsAlive();
         yield return _screenWiper.Unblock();
 
