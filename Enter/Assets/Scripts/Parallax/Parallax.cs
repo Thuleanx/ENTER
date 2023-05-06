@@ -70,7 +70,24 @@ namespace Enter
 
     private void updateLayersVertical()
     {
-      // todo
+        float cameraY = _camera.transform.position.y;
+        Vector2 backOffset  = new Vector2(0, cameraY / 3000);
+        Vector2 midOffset   = new Vector2(0, cameraY / 1500);
+        Vector2 frontOffset = new Vector2(0,  cameraY / 750);
+
+      _bgImageBackTop.material.mainTextureOffset  += backOffset;
+      _bgImageMidTop.material.mainTextureOffset   += midOffset;
+      _bgImageFrontTop.material.mainTextureOffset += frontOffset;
+
+      _bgImageBack.material.mainTextureOffset  += backOffset;
+      _bgImageMid.material.mainTextureOffset   += midOffset;
+      _bgImageFront.material.mainTextureOffset += frontOffset;
+
+        // float x = _bgImageFrontTop.transform.position.x;
+        // float y = _bgImageFrontTop.transform.position.y;
+        // float z = _bgImageFrontTop.transform.position.z;
+        // _bgImageFrontTop.transform.position = new Vector3(x, cameraY / 1000, z);
+
     }
 
     #endregion
