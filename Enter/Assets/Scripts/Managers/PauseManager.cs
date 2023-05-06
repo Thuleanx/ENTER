@@ -65,6 +65,16 @@ namespace Enter
       Debug.Log("QuitGame");
     }
 
+    public void CursorHover()
+    {
+      CursorManager.Instance.SetCursor(CursorManager.CursorType.Hover);
+    }
+
+    public void CursorNormal()
+    {
+      CursorManager.Instance.SetCursor(CursorManager.CursorType.Pointer);
+    }
+
     #endregion
   }
 }

@@ -6,12 +6,12 @@ namespace Enter {
     public class CursorManager : MonoBehaviour {
         public static CursorManager Instance;
 
-        enum CursorType {
+        public enum CursorType {
             Pointer,
             Hover
         }
 
-        enum Mode {
+        public enum Mode {
             Light,
             Dark
         }
@@ -37,7 +37,7 @@ namespace Enter {
             /* Cursor.lockState = CursorLockMode.Confined; */
         }
 
-        void SetCursor(CursorType type) {
+        public void SetCursor(CursorType type) {
             var argument = (mode, type);
             CursorParams param = argument switch {
                 (Mode.Light, CursorType.Pointer) => _pointer,
