@@ -370,6 +370,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1528534237285401434, guid: 1a607d7897405f34da1f9e6ded493545, type: 3}
+      propertyPath: m_ReferencePixelsPerUnit
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 1528534237285401439, guid: 1a607d7897405f34da1f9e6ded493545, type: 3}
       propertyPath: m_Name
       value: Instruction Canvas
@@ -388,6 +392,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1156142616}
     m_Modifications:
+    - target: {fileID: 4647921272558660888, guid: 8f03ae02a1c310a429443fb7dd7ffc48, type: 3}
+      propertyPath: WoobleScale
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 4647921272558660889, guid: 8f03ae02a1c310a429443fb7dd7ffc48, type: 3}
       propertyPath: autoAppear
       value: 1
@@ -694,19 +702,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1320470816948900106, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
       propertyPath: m_NormalizedViewPortRect.x
-      value: 0.042172983
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1320470816948900106, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
       propertyPath: m_NormalizedViewPortRect.y
-      value: 0.041931383
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1320470816948900106, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
       propertyPath: m_NormalizedViewPortRect.width
-      value: 0.9149393
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1320470816948900106, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
       propertyPath: m_NormalizedViewPortRect.height
-      value: 0.91486657
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1320470816948900341, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
       propertyPath: m_LocalPosition.x
@@ -20449,11 +20457,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5170594659893880952, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_TileMatrixArray.Array.data[4].m_Data.e01
-      value: -0.00000008742278
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5170594659893880952, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_TileMatrixArray.Array.data[4].m_Data.e02
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5170594659893880952, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_TileMatrixArray.Array.data[4].m_Data.e03
@@ -20461,7 +20469,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5170594659893880952, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_TileMatrixArray.Array.data[4].m_Data.e10
-      value: 0.00000008742278
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5170594659893880952, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_TileMatrixArray.Array.data[4].m_Data.e11
@@ -20477,7 +20485,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5170594659893880952, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_TileMatrixArray.Array.data[4].m_Data.e20
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5170594659893880952, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_TileMatrixArray.Array.data[4].m_Data.e21

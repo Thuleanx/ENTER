@@ -15,12 +15,12 @@ public class Wavy : TMPManipulator
 	{
 		base.Update();
 		int p = 0;
-		Vector3 offset =(Wobble(Time.unscaledTime + p++));
+		Vector3 offset = RoundToPPU(Wobble(Time.unscaledTime + p++));
 
 		for (int i = 0; i < textMesh.textInfo.characterCount; i++) {
 			TMP_CharacterInfo c = textMesh.textInfo.characterInfo[i];
 			if (c.character == ' ') {
-				/* offset = RoundToPPU(Wobble(Time.time + p++)); */
+				offset = RoundToPPU(Wobble(Time.time + p++));
 			} else {
 				int index = c.vertexIndex;
 				for (int j = 0; j < 4; j++)
@@ -30,10 +30,11 @@ public class Wavy : TMPManipulator
 	}
 
     Vector2 RoundToPPU(Vector2 pos) {
-        pos *= PPU;
-        pos.x = Mathf.Round(pos.x);
-        pos.y = Mathf.Round(pos.y);
-        return pos/PPU;
+        return pos;
+        /* pos *= PPU; */
+        /* pos.x = Mathf.Round(pos.x); */
+        /* pos.y = Mathf.Round(pos.y); */
+        /* return pos/PPU; */
     }
 
 	Vector2 Wobble(float time) {
