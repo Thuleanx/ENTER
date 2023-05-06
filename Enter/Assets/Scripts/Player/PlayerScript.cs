@@ -94,6 +94,9 @@ namespace Enter
     [SerializeField, Tooltip("Minimum time between landing events occurring.")]
     private float _minTimeBetweenLandingEffects = 0.25f;
 
+    [SerializeField, Tooltip("Minimum time after a jump for ground contact to be considered landing.")]
+    private float _minTimeLandAfterJump = 0.01f;
+
     [SerializeField, Tooltip("Landing events, e.g. playing particles.")]
     private UnityEvent _onLandEvents;
 
@@ -396,7 +399,7 @@ namespace Enter
       // Landing effects
       if (_co.OnGround)
       {
-        if (Time.time - _lastGroundedTime > _minTimeBetweenLandingEffects)
+        if (Time.time - _lastGroundedTime > _minTimeBetweenLandingEffects && Time.time - _lastJumpedTime > _minTimeLandAfterJump)
         {
           _onLandEvents?.Invoke();
           _ps.PlayLandingSquash();
