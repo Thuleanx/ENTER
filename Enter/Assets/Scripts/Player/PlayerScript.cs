@@ -309,7 +309,8 @@ namespace Enter
       // WARN: This actually is called twice every time you press jump, due to the fact that 
       // the character technically won't leave the ground on the next fixed update due to 
       // our raycast down distance. 
-      if (_in.Jump && (Grounded || Time.time - _coyoteTime < _lastGroundedTime))
+      if (_in.Jump) // TODO: Remove this before commiting!
+      // if (_in.Jump && (Grounded || Time.time - _coyoteTime < _lastGroundedTime))
       {
         // Instant diagonal jumping
         float jumpVx = _rb.velocity.x;

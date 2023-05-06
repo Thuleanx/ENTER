@@ -138,13 +138,18 @@ namespace Enter
 
         private void MoveLayer(int layerIndex)
         {
-            Vector3 startPos = _startPositions[layerIndex];
-            float parallaxValue = _layers[layerIndex].parallaxValue;
+            // Vector3 startPos = _startPositions[layerIndex];
+            // float parallaxValue = _layers[layerIndex].parallaxValue;
+            // float parallaxValueX = _layers[layerIndex].parallaxValueX;
+            // float parallaxValueY = _layers[layerIndex].parallaxValueY;
 
-            Vector3 relativePos = _camera.transform.position * parallaxValue;
-            relativePos.z = startPos.z;
+            // Vector3 relativePos = _camera.transform.position * parallaxValue;
+            // relativePos = Vector2.up * _camera.transform.position.y * parallaxValueY + Vector2.right * _camera.transform.position.x * parallaxValueX;
+            // relativePos.z = startPos.z;
 
-            _layers[layerIndex].transform.position = startPos + relativePos;
+            // _layers[layerIndex].transform.position = startPos + relativePos;
+
+            _layers[layerIndex].transform.position = new Vector3(_camera.transform.position.x, _camera.transform.position.y, _layers[layerIndex].transform.position.z);
         }
 
 
