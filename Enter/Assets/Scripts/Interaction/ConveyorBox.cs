@@ -83,6 +83,9 @@ namespace Enter
 
       Collider2D collider = collision.collider;
 
+      // Fix weird, rare bug where CurrentConveyorBeam is null at this point
+      if (CurrentConveyorBeam == null) return;
+      
       // Ignore if collision is upstream
       if (!colliderIsDownstream(collider)) return;
 

@@ -194,6 +194,7 @@ namespace Enter
       if (_co.Crushed)
       {
         Debug.Log("Crushed");
+        _co.Crushed = false;
         Die();
         return;
       }
@@ -211,7 +212,8 @@ namespace Enter
 
     public void Die()
     {
-      StartCoroutine(die());
+      SetFieldsDead();
+      StartCoroutine(waitForRespawn());
     }
 
     public void SetFieldsDead()
@@ -404,12 +406,8 @@ namespace Enter
       }
     }
 
-    private IEnumerator die()
+    private IEnumerator waitForRespawn()
     {
-      if (_isDead) yield break;
-
-      SetFieldsDead();
-
       // Todo: particles, etc
 
       yield return new WaitForSeconds(_deathRespawnDelay);

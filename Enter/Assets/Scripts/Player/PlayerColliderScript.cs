@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Assertions;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using NaughtyAttributes;
 
 namespace Enter
@@ -9,15 +11,18 @@ namespace Enter
   [DisallowMultipleComponent]
   public class PlayerColliderScript : MonoBehaviour
   {
-    private BoxCollider2D         _collider;
-    private Rigidbody2D           _rigidbody;
+    private BoxCollider2D _collider;
+    private Rigidbody2D   _rigidbody;
 
     private const float _skinWidth = 0.001f;
+    
+    private float _mostRecentDangerCollisionTime = -Mathf.Infinity;
 
     #region ================== Variables
 
-    [Header("Crush Overlap Circle Tweaks")]
+    [Header("Crush Check Tweaks")]
     [SerializeField] private float _radius = 0.4f;
+    [SerializeField] private float _crushCheckDistance = 0.15f;
 
     [Header("Ground Raycast Position Tweaks")]
     [SerializeField] private float _groundRayDistance = 0.0625f;
@@ -35,10 +40,15 @@ namespace Enter
 
     #region ================== Accessors
 
-    [field: SerializeField] public bool Crushed { get; private set; }
+    [field: SerializeField] public bool Crushed { get; set; } // Public set so that PlayerScript can consume it
 
     [field: SerializeField] public bool OnGround { get; private set; }
     [field: SerializeField] public bool OnRCBox  { get; private set; }
+
+    [field: SerializeField] public Collider2D AgainstCeiling   { get; private set; }
+    [field: SerializeField] public Collider2D AgainstGround    { get; private set; }
+    [field: SerializeField] public Collider2D AgainstWallLeft  { get; private set; }
+    [field: SerializeField] public Collider2D AgainstWallRight { get; private set; }
 
     [field: SerializeField] public bool TopLeftmost  { get; private set; }
     [field: SerializeField] public bool TopLeft      { get; private set; }
@@ -50,6 +60,11 @@ namespace Enter
     private Vector2 _nudge = Vector2.zero;
     public Vector2 Nudge { get { return _nudge; } }
 
+    private Vector2 _boundsTopCenter    => (Vector2)_collider.bounds.center + Vector2.up    * _collider.bounds.size.y / 2;
+    private Vector2 _boundsBottomCenter => (Vector2)_collider.bounds.center - Vector2.up    * _collider.bounds.size.y / 2;
+    private Vector2 _boundsLeftCenter   => (Vector2)_collider.bounds.center - Vector2.right * _collider.bounds.size.x / 2;
+    private Vector2 _boundsRightCenter  => (Vector2)_collider.bounds.center + Vector2.right * _collider.bounds.size.x / 2;
+
     #endregion
 
     #region ================== Methods
@@ -60,11 +75,14 @@ namespace Enter
       _rigidbody = GetComponent<Rigidbody2D>();
 
       Assert.IsNotNull(_collider,  "PlayerColliderScript must have a reference to a BoxCollider2D.");
+      Assert.IsNotNull(_rigidbody, "PlayerColliderScript must have a reference to a Rigidbody2D.");
     }
 
     void FixedUpdate()
     {
-      handleCrushCheck();
+      if (!_collider.enabled) return;
+
+      handleCrushChecks();
       handleDownwardsChecks();
       handleUpwardsChecks();
     }
@@ -72,22 +90,17 @@ namespace Enter
 #if UNITY_EDITOR
     void OnDrawGizmos()
     {
-      // Draw crush gizmo
+      // Draw crush gizmos
+
       Gizmos.color = Color.red;
       Gizmos.DrawWireSphere(transform.position, _radius);
 
-      // Draw overhead gizmos
-
-      Action<Vector2, bool> overheadGizmoDraw = (src, isHitting) =>
-      {
-        Gizmos.color = isHitting ? Color.green : Color.red; // red if not hitting, green otherwise
-        Gizmos.DrawLine(src, src + Vector2.up * _overheadRayOffset);
-      };
-
-      overheadGizmoDraw(getOverheadPoint(-_outerFrac), TopLeftmost);
-      overheadGizmoDraw(getOverheadPoint(-_innerFrac), TopLeft);
-      overheadGizmoDraw(getOverheadPoint(_innerFrac),  TopRight);
-      overheadGizmoDraw(getOverheadPoint(_outerFrac),  TopRightmost);
+      Gizmos.color = AgainstWallLeft ? Color.green : Color.red;
+      Gizmos.DrawLine(_boundsLeftCenter,  _boundsLeftCenter  - Vector2.right * _groundRayDistance);
+      Gizmos.color = AgainstWallRight ? Color.green : Color.red;
+      Gizmos.DrawLine(_boundsRightCenter, _boundsRightCenter + Vector2.right * _groundRayDistance);
+      Gizmos.color = AgainstCeiling ? Color.green : Color.red;
+      Gizmos.DrawLine(_boundsTopCenter,   _boundsTopCenter   + Vector2.up    * _groundRayDistance);
 
       // Draw ground gizmos
 
@@ -101,6 +114,19 @@ namespace Enter
       {
         groundGizmoDraw(getGroundPoint(i));
       }
+
+      // Draw overhead gizmos
+
+      Action<Vector2, bool> overheadGizmoDraw = (src, isHitting) =>
+      {
+        Gizmos.color = isHitting ? Color.green : Color.red; // red if not hitting, green otherwise
+        Gizmos.DrawLine(src, src + Vector2.up * _overheadRayOffset);
+      };
+
+      overheadGizmoDraw(getOverheadPoint(-_outerFrac), TopLeftmost);
+      overheadGizmoDraw(getOverheadPoint(-_innerFrac), TopLeft);
+      overheadGizmoDraw(getOverheadPoint(_innerFrac),  TopRight);
+      overheadGizmoDraw(getOverheadPoint(_outerFrac),  TopRightmost);
     }
 #endif
 
@@ -108,12 +134,23 @@ namespace Enter
 
     #region ================== Helpers
 
-    private void handleCrushCheck()
+    private void handleCrushChecks()
     {
-      Crushed = Physics2D.OverlapCircle(
-        transform.position,
-        _radius,
-        LayerManager.Instance.NonRCBoxGroundLayer);
+      AgainstCeiling   = Physics2D.Raycast(_boundsTopCenter,    Vector2.up,     _crushCheckDistance, LayerManager.Instance.AllGroundLayer).collider;
+      AgainstGround    = Physics2D.Raycast(_boundsBottomCenter, -Vector2.up,    _crushCheckDistance, LayerManager.Instance.AllGroundLayer).collider;
+      AgainstWallLeft  = Physics2D.Raycast(_boundsLeftCenter,   -Vector2.right, _crushCheckDistance, LayerManager.Instance.AllGroundLayer).collider;
+      AgainstWallRight = Physics2D.Raycast(_boundsRightCenter,  Vector2.right,  _crushCheckDistance, LayerManager.Instance.AllGroundLayer).collider;
+
+      if ((AgainstCeiling   && AgainstGround   && AgainstCeiling   != AgainstGround) ||
+          (AgainstWallRight && AgainstWallLeft && AgainstWallRight != AgainstWallLeft))
+      {
+        _mostRecentDangerCollisionTime = Time.time;
+      }
+
+      Crushed = Physics2D.OverlapCircle(transform.position, _radius, LayerManager.Instance.AllGroundLayer | LayerManager.Instance.BoxLayer) &&
+        Time.fixedDeltaTime * 2 + _mostRecentDangerCollisionTime > Time.time;
+
+      if (Crushed) _mostRecentDangerCollisionTime = -Mathf.Infinity;
     }
 
     private void handleDownwardsChecks()
@@ -150,12 +187,18 @@ namespace Enter
       CarryingRigidbody = allGroundOrRC ? nonMovingRb : (movingRb == null ? nonMovingRb : movingRb);
     }
 
+    private Vector2 getGroundPoint(int i)
+    {
+      Vector2 bottomLeft = (Vector2)_collider.bounds.min;
+      float t = (float) i / (_numGroundRays - 1);
+
+      return bottomLeft +
+        Vector2.right * t * _collider.bounds.size.x +
+        Vector2.up * _skinWidth;
+    }
+
     private void handleUpwardsChecks()
     {
-      Bounds bounds = _collider.bounds;
-
-      Vector2 topCenter = (Vector2)bounds.center + Vector2.up * bounds.size.y / 2;
-
       Func<Vector2, bool> overheadCast = (origin) =>
       {
         return Physics2D.Raycast(origin, Vector2.up, _overheadRayDistance, LayerManager.Instance.AllGroundLayer);
@@ -168,29 +211,34 @@ namespace Enter
 
       if (TopLeftmost ^ TopRightmost)
       {
-        _nudge.x = (_outerFrac - _innerFrac) * bounds.size.x / 2 * (TopLeftmost ? 1 : -1);
+        _nudge.x = (_outerFrac - _innerFrac) * _collider.bounds.size.x / 2 * (TopLeftmost ? 1 : -1);
       }
     }
 
     private Vector2 getOverheadPoint(float offsetFromCenterTop)
     {
-      Vector2 topCenter = (Vector2)_collider.bounds.center + Vector2.up * _collider.bounds.size.y / 2;
-      
-      return topCenter +
+      return _boundsTopCenter +
         Vector2.right * offsetFromCenterTop * _collider.bounds.size.x / 2 +
         Vector2.down * _skinWidth;
-    }
-
-    private Vector2 getGroundPoint(int i)
-    {
-      Vector2 bottomLeft = (Vector2)_collider.bounds.min;
-      float t = (float) i / (_numGroundRays - 1);
-
-      return bottomLeft +
-        Vector2.right * t * _collider.bounds.size.x +
-        Vector2.up * _skinWidth;
     }
 
     #endregion
   }
 }
+
+
+// private bool collisionIsFrom(Vector2 direction, Collision2D collision)
+// {
+//   foreach (ContactPoint2D contactPoint in collision.contacts)
+//   {
+//     Vector2 contactNormal = contactPoint.normal;
+//     Debug.Log("Collided with " + collision.collider.gameObject.name + " with normal " + contactNormal);
+//     if (Vector2.Dot(contactNormal, -direction) > 0.7071067812) 
+//     {
+//       Debug.Log("Confirmed!");
+//       return true;
+//     }
+//   }
+//   Debug.Log("De-confirmed!");
+//   return false;
+// }
