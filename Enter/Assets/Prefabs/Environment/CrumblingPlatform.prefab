@@ -72,7 +72,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: fee00e57c5069480cb72de47512eb29a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -182,6 +182,9 @@ MonoBehaviour:
   _sr: {fileID: 1010988800}
   _bc: {fileID: 2309567756344072612}
   _ec: {fileID: 1304073375}
+  _spriteOriginal: {fileID: 21300000, guid: fee00e57c5069480cb72de47512eb29a, type: 3}
+  _spriteCrumbling: {fileID: 21300000, guid: d8f93df56647a42978d7924805d29b1f, type: 3}
+  _spriteFalling: {fileID: 21300000, guid: 2637663df6a5f42a1b00131549c5568b, type: 3}
   _preCrumblingDuration: 1
   _crumblingDuration: 0.5
   _postCrumblingDuration: 2

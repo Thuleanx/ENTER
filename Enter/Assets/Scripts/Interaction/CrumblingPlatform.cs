@@ -22,6 +22,13 @@ namespace Enter
     Color originalColor  = Color.white;
     Color crumblingColor = Color.red;
 
+    [SerializeField, Tooltip("Original Sprite - not crumbling nor fading/falling.")]
+    private Sprite _spriteOriginal;
+    [SerializeField, Tooltip("Crumbling Sprite")]
+    private Sprite _spriteCrumbling;
+    [SerializeField, Tooltip("Falling Sprite")]
+    private Sprite _spriteFalling;
+
     [SerializeField, Tooltip("Time between when player lands and when the platform is no longer interactable")] 
     private float _preCrumblingDuration = 1f;
     
@@ -69,6 +76,7 @@ namespace Enter
       // and instead modify the sprite renderer's width so it tiles, instead of stretches, the sprite
       _sr.transform.localScale = new Vector2(1 / transform.localScale.x, _sr.transform.localScale.y);
       _sr.size = new Vector2(transform.localScale.x, _sr.size.y);
+      _sr.sprite = _spriteOriginal;
     }
 
     void SetupEdgeColliderPoints()
@@ -108,6 +116,7 @@ namespace Enter
       // we don't want fade because we want the shake to abruptly stop
       // and this moment where it stops is what player can use to time their jumps
       // if they wanna jump at the last moment
+      _sr.sprite = _spriteCrumbling;
       Tween shakeSprite = _sr.transform.DOShakePosition(
         _preCrumblingDuration, 
         new Vector3(1 / transform.localScale.x, 1 / transform.localScale.y, 0) * .1f,
@@ -121,7 +130,7 @@ namespace Enter
       // platform turns un-interactable
 
       // disable collision and set the sprite to fall and fade
-      _sr.color = crumblingColor;
+      _sr.sprite = _spriteFalling;
       _bc.enabled = false;
       _ec.enabled = false;
 
@@ -141,7 +150,8 @@ namespace Enter
       yield return new WaitForSeconds(_postCrumblingDuration);
 
       // Remember to reset colors (and also alpha) as well as Y position
-      _sr.color = originalColor;
+      _sr.color = Color.white;
+      _sr.sprite = _spriteOriginal;
       _sr.transform.position = new Vector3(
         _sr.transform.position.x, 
         originalYPos, 
