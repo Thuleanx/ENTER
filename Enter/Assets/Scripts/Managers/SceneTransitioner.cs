@@ -34,6 +34,8 @@ namespace Enter
     [SerializeField]
     private ScreenWipe _screenWiper;
 
+    private Vector2 _previousRootPosition;
+
     #region ================== Accessors
 
     public Vector3 SpawnPosition => _currSpawnPoint.transform.position;
@@ -150,6 +152,8 @@ namespace Enter
     {
       STState = STState.Reloading;
 
+      _previousRootPosition = GameObject.FindWithTag("SceneRoot").transform.position;
+
       {
         // Set _prevScene
         Scene _prevScene = SceneManager.GetActiveScene();
@@ -258,6 +262,14 @@ namespace Enter
         // Align next scene
         rootTransform.position += _exitPassage.transform.position - entryPassage.transform.position;
         Debug.Log("root moved");
+      }
+      if (STState == STState.Reloading) {
+          EntryPassage entryPassage = null;
+          foreach (EntryPassage x in FindObjectsOfType<EntryPassage>())
+              if (x.gameObject.scene == newScene) entryPassage = x;
+          Transform rootTransform = entryPassage.transform.root.transform;
+          Debug.Log(rootTransform.position + " " + _previousRootPosition);
+          rootTransform.position = _previousRootPosition;
       }
 
       // Set _currScene and _currSpawnPoint
