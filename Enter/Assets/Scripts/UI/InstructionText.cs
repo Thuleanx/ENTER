@@ -11,13 +11,16 @@ namespace Enter {
 
         void Awake() {
             _group = GetComponent<CanvasGroup>();
+        }
+
+        void Start() {
             _originalPos = transform.position;
+            if (autoAppear) Appear();
         }
 
         void OnEnable() {
             _appeared = false;
             _group.alpha = 0;
-            if (autoAppear) Appear();
         }
 
         [Button]
