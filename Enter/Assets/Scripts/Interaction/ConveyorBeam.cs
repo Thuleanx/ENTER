@@ -154,8 +154,8 @@ namespace Enter
         inputPosition,
         Quaternion.identity);
 
-      // IMPORTANT: Set cut object's layer to ConveyorBox
-      obj.layer = LayerMask.NameToLayer("ConveyorBox");
+      // IMPORTANT: Toggle behaviour accordingly
+      obj.GetComponent<Box>().IsPhysicsBox = false;
     }
 
     private void onBeltLengthChanged()
