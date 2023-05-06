@@ -67,9 +67,6 @@ namespace Enter {
 			pixelScreenDimension.x = renderingData.cameraData.camera.pixelWidth;
 			pixelScreenDimension.y = renderingData.cameraData.camera.pixelHeight;
 
-			// pixelScreenDimension.y = settings.screenHeight;
-			// pixelScreenDimension.x = (int) (pixelScreenDimension.y * renderingData.cameraData.camera.aspect + 0.5f); // round up so you won't get black edge
-
 			// provide material with what it needs
 			if (material) {
 				material.SetVector("_PixelCnt", (Vector2) pixelScreenDimension);
