@@ -1,0 +1,756 @@
+can(long long, long long, int, std::vector<std::pair<long long, long long>, std::allocator<std::pair<long long, long long> > > const&):
+        <color = #333 >push</color>    rbp
+        <color = #333 >mov</color>     rbp, rsp
+        <color = #333 >push</color>    rbx
+        <color = #333 >sub</color>     rsp, 600
+        <color = #333 >mov</color>     QWORD PTR [rbp-584], rdi
+        <color = #333 >mov</color>     QWORD PTR [rbp-592], rsi
+        <color = #333 >mov</color>     DWORD PTR [rbp-596], edx
+        <color = #333 >mov     QWORD PTR [rbp-608], rcx
+        <color = #333 >lea     rax, [rbp-512]
+        <color = #333 >mov     rdi, rax
+        <color = #333 >call    std::set<std::pair<long long, int>, std::less<std::pair<long long, int> >, std::allocator<std::pair<long long, int> > >::set() [complete object constructor]
+        <color = #333 >lea     rax, [rbp-560]
+        <color = #333 >mov     rdi, rax
+        <color = #333 >call    std::set<std::pair<long long, int>, std::less<std::pair<long long, int> >, std::allocator<std::pair<long long, int> > >::set() [complete object constructor]
+        <color = #333 >mov     DWORD PTR [rbp-564], 0
+        <color = #333 >jmp     .L10
+.L11:
+        mov     eax, DWORD PTR [rbp-564]
+        movsx   rdx, eax
+        mov     rax, QWORD PTR [rbp-608]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::vector<std::pair<long long, long long>, std::allocator<std::pair<long long, long long> > >::operator[](unsigned long) const
+        mov     rcx, rax
+        lea     rdx, [rbp-564]
+        lea     rax, [rbp-512]
+        mov     rsi, rcx
+        mov     rdi, rax
+        call    std::pair<std::_Rb_tree_const_iterator<std::pair<long long, int> >, bool> std::set<std::pair<long long, int>, std::less<std::pair<long long, int> >, std::allocator<std::pair<long long, int> > >::emplace<long long const&, int&>(long long const&, int&)
+        mov     eax, DWORD PTR [rbp-564]
+        movsx   rdx, eax
+        mov     rax, QWORD PTR [rbp-608]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::vector<std::pair<long long, long long>, std::allocator<std::pair<long long, long long> > >::operator[](unsigned long) const
+        lea     rcx, [rax+8]
+        lea     rdx, [rbp-564]
+        lea     rax, [rbp-560]
+        mov     rsi, rcx
+        mov     rdi, rax
+        call    std::pair<std::_Rb_tree_const_iterator<std::pair<long long, int> >, bool> std::set<std::pair<long long, int>, std::less<std::pair<long long, int> >, std::allocator<std::pair<long long, int> > >::emplace<long long const&, int&>(long long const&, int&)
+        mov     eax, DWORD PTR [rbp-564]
+        add     eax, 1
+        mov     DWORD PTR [rbp-564], eax
+.L10:
+        mov     rax, QWORD PTR [rbp-608]
+        mov     rdi, rax
+        call    std::vector<std::pair<long long, long long>, std::allocator<std::pair<long long, long long> > >::size() const
+        mov     edx, eax
+        mov     eax, DWORD PTR [rbp-564]
+        cmp     edx, eax
+        setg    al
+        test    al, al
+        jne     .L11
+        jmp     .L12
+.L34:
+        cmp     DWORD PTR [rbp-596], 0
+        jne     .L13
+        lea     rax, [rbp-512]
+        mov     rdi, rax
+        call    std::set<std::pair<long long, int>, std::less<std::pair<long long, int> >, std::allocator<std::pair<long long, int> > >::end() const
+        mov     QWORD PTR [rbp-464], rax
+        mov     DWORD PTR [rbp-428], 0
+        lea     rdx, [rbp-428]
+        lea     rax, [rbp-584]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::pair<std::__strip_reference_wrapper<std::decay<long long&>::type>::__type, std::__strip_reference_wrapper<std::decay<int>::type>::__type> std::make_pair<long long&, int>(long long&, int&&)
+        mov     QWORD PTR [rbp-448], rax
+        mov     QWORD PTR [rbp-440], rdx
+        lea     rdx, [rbp-448]
+        lea     rax, [rbp-512]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::set<std::pair<long long, int>, std::less<std::pair<long long, int> >, std::allocator<std::pair<long long, int> > >::lower_bound(std::pair<long long, int> const&)
+        mov     QWORD PTR [rbp-456], rax
+        lea     rdx, [rbp-464]
+        lea     rax, [rbp-456]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::operator==(std::_Rb_tree_const_iterator<std::pair<long long, int> > const&, std::_Rb_tree_const_iterator<std::pair<long long, int> > const&)
+        test    al, al
+        jne     .L14
+        mov     DWORD PTR [rbp-396], 0
+        lea     rdx, [rbp-396]
+        lea     rax, [rbp-584]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::pair<std::__strip_reference_wrapper<std::decay<long long&>::type>::__type, std::__strip_reference_wrapper<std::decay<int>::type>::__type> std::make_pair<long long&, int>(long long&, int&&)
+        mov     QWORD PTR [rbp-416], rax
+        mov     QWORD PTR [rbp-408], rdx
+        lea     rdx, [rbp-416]
+        lea     rax, [rbp-512]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::set<std::pair<long long, int>, std::less<std::pair<long long, int> >, std::allocator<std::pair<long long, int> > >::lower_bound(std::pair<long long, int> const&)
+        mov     QWORD PTR [rbp-424], rax
+        lea     rax, [rbp-424]
+        mov     rdi, rax
+        call    std::_Rb_tree_const_iterator<std::pair<long long, int> >::operator->() const
+        mov     rdx, QWORD PTR [rax]
+        mov     rax, QWORD PTR [rbp-584]
+        cmp     rdx, rax
+        jle     .L15
+.L14:
+        mov     eax, 1
+        jmp     .L16
+.L15:
+        mov     eax, 0
+.L16:
+        test    al, al
+        je      .L19
+        mov     ebx, 0
+        jmp     .L18
+.L22:
+        mov     DWORD PTR [rbp-356], 0
+        lea     rdx, [rbp-356]
+        lea     rax, [rbp-584]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::pair<std::__strip_reference_wrapper<std::decay<long long&>::type>::__type, std::__strip_reference_wrapper<std::decay<int>::type>::__type> std::make_pair<long long&, int>(long long&, int&&)
+        mov     QWORD PTR [rbp-384], rax
+        mov     QWORD PTR [rbp-376], rdx
+        lea     rdx, [rbp-384]
+        lea     rax, [rbp-512]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::set<std::pair<long long, int>, std::less<std::pair<long long, int> >, std::allocator<std::pair<long long, int> > >::lower_bound(std::pair<long long, int> const&)
+        mov     QWORD PTR [rbp-392], rax
+        lea     rax, [rbp-392]
+        mov     rdi, rax
+        call    std::_Rb_tree_const_iterator<std::pair<long long, int> >::operator->() const
+        mov     eax, DWORD PTR [rax+8]
+        mov     DWORD PTR [rbp-568], eax
+        mov     eax, DWORD PTR [rbp-568]
+        movsx   rdx, eax
+        mov     rax, QWORD PTR [rbp-608]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::vector<std::pair<long long, long long>, std::allocator<std::pair<long long, long long> > >::operator[](unsigned long) const
+        mov     rdx, rax
+        lea     rax, [rbp-568]
+        mov     rsi, rax
+        mov     rdi, rdx
+        call    std::pair<std::__strip_reference_wrapper<std::decay<long long const&>::type>::__type, std::__strip_reference_wrapper<std::decay<int&>::type>::__type> std::make_pair<long long const&, int&>(long long const&, int&)
+        mov     QWORD PTR [rbp-352], rax
+        mov     QWORD PTR [rbp-344], rdx
+        lea     rdx, [rbp-352]
+        lea     rax, [rbp-512]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::set<std::pair<long long, int>, std::less<std::pair<long long, int> >, std::allocator<std::pair<long long, int> > >::erase(std::pair<long long, int> const&)
+        mov     eax, DWORD PTR [rbp-568]
+        movsx   rdx, eax
+        mov     rax, QWORD PTR [rbp-608]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::vector<std::pair<long long, long long>, std::allocator<std::pair<long long, long long> > >::operator[](unsigned long) const
+        lea     rdx, [rax+8]
+        lea     rax, [rbp-568]
+        mov     rsi, rax
+        mov     rdi, rdx
+        call    std::pair<std::__strip_reference_wrapper<std::decay<long long const&>::type>::__type, std::__strip_reference_wrapper<std::decay<int&>::type>::__type> std::make_pair<long long const&, int&>(long long const&, int&)
+        mov     QWORD PTR [rbp-336], rax
+        mov     QWORD PTR [rbp-328], rdx
+        lea     rdx, [rbp-336]
+        lea     rax, [rbp-560]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::set<std::pair<long long, int>, std::less<std::pair<long long, int> >, std::allocator<std::pair<long long, int> > >::erase(std::pair<long long, int> const&)
+        mov     eax, DWORD PTR [rbp-568]
+        movsx   rdx, eax
+        mov     rax, QWORD PTR [rbp-608]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::vector<std::pair<long long, long long>, std::allocator<std::pair<long long, long long> > >::operator[](unsigned long) const
+        mov     rax, QWORD PTR [rax+8]
+        mov     rdx, QWORD PTR [rbp-592]
+        sub     rdx, rax
+        mov     QWORD PTR [rbp-592], rdx
+.L19:
+        lea     rax, [rbp-512]
+        mov     rdi, rax
+        call    std::set<std::pair<long long, int>, std::less<std::pair<long long, int> >, std::allocator<std::pair<long long, int> > >::end() const
+        mov     QWORD PTR [rbp-320], rax
+        mov     DWORD PTR [rbp-284], 0
+        lea     rdx, [rbp-284]
+        lea     rax, [rbp-584]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::pair<std::__strip_reference_wrapper<std::decay<long long&>::type>::__type, std::__strip_reference_wrapper<std::decay<int>::type>::__type> std::make_pair<long long&, int>(long long&, int&&)
+        mov     QWORD PTR [rbp-304], rax
+        mov     QWORD PTR [rbp-296], rdx
+        lea     rdx, [rbp-304]
+        lea     rax, [rbp-512]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::set<std::pair<long long, int>, std::less<std::pair<long long, int> >, std::allocator<std::pair<long long, int> > >::lower_bound(std::pair<long long, int> const&)
+        mov     QWORD PTR [rbp-312], rax
+        lea     rdx, [rbp-320]
+        lea     rax, [rbp-312]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::operator!=(std::_Rb_tree_const_iterator<std::pair<long long, int> > const&, std::_Rb_tree_const_iterator<std::pair<long long, int> > const&)
+        test    al, al
+        je      .L20
+        mov     DWORD PTR [rbp-244], 0
+        lea     rdx, [rbp-244]
+        lea     rax, [rbp-584]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::pair<std::__strip_reference_wrapper<std::decay<long long&>::type>::__type, std::__strip_reference_wrapper<std::decay<int>::type>::__type> std::make_pair<long long&, int>(long long&, int&&)
+        mov     QWORD PTR [rbp-272], rax
+        mov     QWORD PTR [rbp-264], rdx
+        lea     rdx, [rbp-272]
+        lea     rax, [rbp-512]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::set<std::pair<long long, int>, std::less<std::pair<long long, int> >, std::allocator<std::pair<long long, int> > >::lower_bound(std::pair<long long, int> const&)
+        mov     QWORD PTR [rbp-280], rax
+        lea     rax, [rbp-280]
+        mov     rdi, rax
+        call    std::_Rb_tree_const_iterator<std::pair<long long, int> >::operator->() const
+        mov     rdx, QWORD PTR [rax]
+        mov     rax, QWORD PTR [rbp-584]
+        cmp     rdx, rax
+        jne     .L20
+        mov     eax, 1
+        jmp     .L21
+.L20:
+        mov     eax, 0
+.L21:
+        test    al, al
+        jne     .L22
+        jmp     .L23
+.L13:
+        lea     rax, [rbp-560]
+        mov     rdi, rax
+        call    std::set<std::pair<long long, int>, std::less<std::pair<long long, int> >, std::allocator<std::pair<long long, int> > >::end() const
+        mov     QWORD PTR [rbp-240], rax
+        mov     DWORD PTR [rbp-204], 0
+        lea     rdx, [rbp-204]
+        lea     rax, [rbp-592]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::pair<std::__strip_reference_wrapper<std::decay<long long&>::type>::__type, std::__strip_reference_wrapper<std::decay<int>::type>::__type> std::make_pair<long long&, int>(long long&, int&&)
+        mov     QWORD PTR [rbp-224], rax
+        mov     QWORD PTR [rbp-216], rdx
+        lea     rdx, [rbp-224]
+        lea     rax, [rbp-560]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::set<std::pair<long long, int>, std::less<std::pair<long long, int> >, std::allocator<std::pair<long long, int> > >::lower_bound(std::pair<long long, int> const&)
+        mov     QWORD PTR [rbp-232], rax
+        lea     rdx, [rbp-240]
+        lea     rax, [rbp-232]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::operator==(std::_Rb_tree_const_iterator<std::pair<long long, int> > const&, std::_Rb_tree_const_iterator<std::pair<long long, int> > const&)
+        test    al, al
+        jne     .L24
+        mov     DWORD PTR [rbp-172], 0
+        lea     rdx, [rbp-172]
+        lea     rax, [rbp-592]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::pair<std::__strip_reference_wrapper<std::decay<long long&>::type>::__type, std::__strip_reference_wrapper<std::decay<int>::type>::__type> std::make_pair<long long&, int>(long long&, int&&)
+        mov     QWORD PTR [rbp-192], rax
+        mov     QWORD PTR [rbp-184], rdx
+        lea     rdx, [rbp-192]
+        lea     rax, [rbp-560]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::set<std::pair<long long, int>, std::less<std::pair<long long, int> >, std::allocator<std::pair<long long, int> > >::lower_bound(std::pair<long long, int> const&)
+        mov     QWORD PTR [rbp-200], rax
+        lea     rax, [rbp-200]
+        mov     rdi, rax
+        call    std::_Rb_tree_const_iterator<std::pair<long long, int> >::operator->() const
+        mov     rdx, QWORD PTR [rax]
+        mov     rax, QWORD PTR [rbp-592]
+        cmp     rdx, rax
+        jle     .L25
+.L24:
+        mov     eax, 1
+        jmp     .L26
+.L25:
+        mov     eax, 0
+.L26:
+        test    al, al
+        je      .L28
+        mov     ebx, 0
+        jmp     .L18
+.L31:
+        mov     DWORD PTR [rbp-132], 0
+        lea     rdx, [rbp-132]
+        lea     rax, [rbp-592]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::pair<std::__strip_reference_wrapper<std::decay<long long&>::type>::__type, std::__strip_reference_wrapper<std::decay<int>::type>::__type> std::make_pair<long long&, int>(long long&, int&&)
+        mov     QWORD PTR [rbp-160], rax
+        mov     QWORD PTR [rbp-152], rdx
+        lea     rdx, [rbp-160]
+        lea     rax, [rbp-560]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::set<std::pair<long long, int>, std::less<std::pair<long long, int> >, std::allocator<std::pair<long long, int> > >::lower_bound(std::pair<long long, int> const&)
+        mov     QWORD PTR [rbp-168], rax
+        lea     rax, [rbp-168]
+        mov     rdi, rax
+        call    std::_Rb_tree_const_iterator<std::pair<long long, int> >::operator->() const
+        mov     eax, DWORD PTR [rax+8]
+        mov     DWORD PTR [rbp-572], eax
+        mov     eax, DWORD PTR [rbp-572]
+        movsx   rdx, eax
+        mov     rax, QWORD PTR [rbp-608]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::vector<std::pair<long long, long long>, std::allocator<std::pair<long long, long long> > >::operator[](unsigned long) const
+        lea     rdx, [rax+8]
+        lea     rax, [rbp-572]
+        mov     rsi, rax
+        mov     rdi, rdx
+        call    std::pair<std::__strip_reference_wrapper<std::decay<long long const&>::type>::__type, std::__strip_reference_wrapper<std::decay<int&>::type>::__type> std::make_pair<long long const&, int&>(long long const&, int&)
+        mov     QWORD PTR [rbp-128], rax
+        mov     QWORD PTR [rbp-120], rdx
+        lea     rdx, [rbp-128]
+        lea     rax, [rbp-560]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::set<std::pair<long long, int>, std::less<std::pair<long long, int> >, std::allocator<std::pair<long long, int> > >::erase(std::pair<long long, int> const&)
+        mov     eax, DWORD PTR [rbp-572]
+        movsx   rdx, eax
+        mov     rax, QWORD PTR [rbp-608]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::vector<std::pair<long long, long long>, std::allocator<std::pair<long long, long long> > >::operator[](unsigned long) const
+        mov     rdx, rax
+        lea     rax, [rbp-572]
+        mov     rsi, rax
+        mov     rdi, rdx
+        call    std::pair<std::__strip_reference_wrapper<std::decay<long long const&>::type>::__type, std::__strip_reference_wrapper<std::decay<int&>::type>::__type> std::make_pair<long long const&, int&>(long long const&, int&)
+        mov     QWORD PTR [rbp-112], rax
+        mov     QWORD PTR [rbp-104], rdx
+        lea     rdx, [rbp-112]
+        lea     rax, [rbp-512]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::set<std::pair<long long, int>, std::less<std::pair<long long, int> >, std::allocator<std::pair<long long, int> > >::erase(std::pair<long long, int> const&)
+        mov     eax, DWORD PTR [rbp-572]
+        movsx   rdx, eax
+        mov     rax, QWORD PTR [rbp-608]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::vector<std::pair<long long, long long>, std::allocator<std::pair<long long, long long> > >::operator[](unsigned long) const
+        mov     rax, QWORD PTR [rax]
+        mov     rdx, QWORD PTR [rbp-584]
+        sub     rdx, rax
+        mov     QWORD PTR [rbp-584], rdx
+.L28:
+        lea     rax, [rbp-560]
+        mov     rdi, rax
+        call    std::set<std::pair<long long, int>, std::less<std::pair<long long, int> >, std::allocator<std::pair<long long, int> > >::end() const
+        mov     QWORD PTR [rbp-96], rax
+        mov     DWORD PTR [rbp-60], 0
+        lea     rdx, [rbp-60]
+        lea     rax, [rbp-592]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::pair<std::__strip_reference_wrapper<std::decay<long long&>::type>::__type, std::__strip_reference_wrapper<std::decay<int>::type>::__type> std::make_pair<long long&, int>(long long&, int&&)
+        mov     QWORD PTR [rbp-80], rax
+        mov     QWORD PTR [rbp-72], rdx
+        lea     rdx, [rbp-80]
+        lea     rax, [rbp-560]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::set<std::pair<long long, int>, std::less<std::pair<long long, int> >, std::allocator<std::pair<long long, int> > >::lower_bound(std::pair<long long, int> const&)
+        mov     QWORD PTR [rbp-88], rax
+        lea     rdx, [rbp-96]
+        lea     rax, [rbp-88]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::operator!=(std::_Rb_tree_const_iterator<std::pair<long long, int> > const&, std::_Rb_tree_const_iterator<std::pair<long long, int> > const&)
+        test    al, al
+        je      .L29
+        mov     DWORD PTR [rbp-20], 0
+        lea     rdx, [rbp-20]
+        lea     rax, [rbp-592]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::pair<std::__strip_reference_wrapper<std::decay<long long&>::type>::__type, std::__strip_reference_wrapper<std::decay<int>::type>::__type> std::make_pair<long long&, int>(long long&, int&&)
+        mov     QWORD PTR [rbp-48], rax
+        mov     QWORD PTR [rbp-40], rdx
+        lea     rdx, [rbp-48]
+        lea     rax, [rbp-560]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::set<std::pair<long long, int>, std::less<std::pair<long long, int> >, std::allocator<std::pair<long long, int> > >::lower_bound(std::pair<long long, int> const&)
+        mov     QWORD PTR [rbp-56], rax
+        lea     rax, [rbp-56]
+        mov     rdi, rax
+        call    std::_Rb_tree_const_iterator<std::pair<long long, int> >::operator->() const
+        mov     rdx, QWORD PTR [rax]
+        mov     rax, QWORD PTR [rbp-592]
+        cmp     rdx, rax
+        jne     .L29
+        mov     eax, 1
+        jmp     .L30
+.L29:
+        mov     eax, 0
+.L30:
+        test    al, al
+        jne     .L31
+.L23:
+        cmp     DWORD PTR [rbp-596], 0
+        sete    al
+        movzx   eax, al
+        mov     DWORD PTR [rbp-596], eax
+.L12:
+        lea     rax, [rbp-512]
+        mov     rdi, rax
+        call    std::set<std::pair<long long, int>, std::less<std::pair<long long, int> >, std::allocator<std::pair<long long, int> > >::empty() const
+        xor     eax, 1
+        test    al, al
+        je      .L32
+        lea     rax, [rbp-560]
+        mov     rdi, rax
+        call    std::set<std::pair<long long, int>, std::less<std::pair<long long, int> >, std::allocator<std::pair<long long, int> > >::empty() const
+        xor     eax, 1
+        test    al, al
+        je      .L32
+        mov     eax, 1
+        jmp     .L33
+.L32:
+        mov     eax, 0
+.L33:
+        test    al, al
+        jne     .L34
+        mov     ebx, 1
+.L18:
+        lea     rax, [rbp-560]
+        mov     rdi, rax
+        call    std::set<std::pair<long long, int>, std::less<std::pair<long long, int> >, std::allocator<std::pair<long long, int> > >::~set() [complete object destructor]
+        lea     rax, [rbp-512]
+        mov     rdi, rax
+        call    std::set<std::pair<long long, int>, std::less<std::pair<long long, int> >, std::allocator<std::pair<long long, int> > >::~set() [complete object destructor]
+        mov     eax, ebx
+        jmp     .L38
+        mov     rbx, rax
+        lea     rax, [rbp-560]
+        mov     rdi, rax
+        call    std::set<std::pair<long long, int>, std::less<std::pair<long long, int> >, std::allocator<std::pair<long long, int> > >::~set() [complete object destructor]
+        lea     rax, [rbp-512]
+        mov     rdi, rax
+        call    std::set<std::pair<long long, int>, std::less<std::pair<long long, int> >, std::allocator<std::pair<long long, int> > >::~set() [complete object destructor]
+        mov     rax, rbx
+        mov     rdi, rax
+        call    _Unwind_Resume
+.L38:
+        mov     rbx, QWORD PTR [rbp-8]
+        leave
+        ret
+.LC0:
+        .string " "
+solve():
+        push    rbp
+        mov     rbp, rsp
+        push    rbx
+        sub     rsp, 184
+        lea     rax, [rbp-72]
+        mov     rsi, rax
+        mov     edi, OFFSET FLAT:_ZSt3cin
+        call    std::basic_istream<char, std::char_traits<char> >::operator>>(int&)
+        mov     QWORD PTR [rbp-24], 0
+        mov     QWORD PTR [rbp-80], 0
+        mov     QWORD PTR [rbp-88], 0
+        lea     rax, [rbp-65]
+        mov     QWORD PTR [rbp-48], rax
+        nop
+        nop
+        mov     eax, DWORD PTR [rbp-72]
+        movsx   rcx, eax
+        lea     rdx, [rbp-65]
+        lea     rax, [rbp-112]
+        mov     rsi, rcx
+        mov     rdi, rax
+        call    std::vector<std::pair<long long, long long>, std::allocator<std::pair<long long, long long> > >::vector(unsigned long, std::allocator<std::pair<long long, long long> > const&) [complete object constructor]
+        lea     rax, [rbp-65]
+        mov     rdi, rax
+        call    std::__new_allocator<std::pair<long long, long long> >::~__new_allocator() [base object destructor]
+        nop
+        mov     DWORD PTR [rbp-28], 0
+        jmp     .L44
+.L45:
+        mov     eax, DWORD PTR [rbp-28]
+        movsx   rdx, eax
+        lea     rax, [rbp-112]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::vector<std::pair<long long, long long>, std::allocator<std::pair<long long, long long> > >::operator[](unsigned long)
+        mov     rsi, rax
+        mov     edi, OFFSET FLAT:_ZSt3cin
+        call    std::basic_istream<char, std::char_traits<char> >::operator>>(long long&)
+        mov     rbx, rax
+        mov     eax, DWORD PTR [rbp-28]
+        movsx   rdx, eax
+        lea     rax, [rbp-112]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::vector<std::pair<long long, long long>, std::allocator<std::pair<long long, long long> > >::operator[](unsigned long)
+        add     rax, 8
+        mov     rsi, rax
+        mov     rdi, rbx
+        call    std::basic_istream<char, std::char_traits<char> >::operator>>(long long&)
+        mov     eax, DWORD PTR [rbp-28]
+        movsx   rdx, eax
+        lea     rax, [rbp-112]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::vector<std::pair<long long, long long>, std::allocator<std::pair<long long, long long> > >::operator[](unsigned long)
+        mov     rbx, QWORD PTR [rax]
+        mov     eax, DWORD PTR [rbp-28]
+        movsx   rdx, eax
+        lea     rax, [rbp-112]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::vector<std::pair<long long, long long>, std::allocator<std::pair<long long, long long> > >::operator[](unsigned long)
+        mov     rax, QWORD PTR [rax+8]
+        imul    rax, rbx
+        add     QWORD PTR [rbp-24], rax
+        mov     eax, DWORD PTR [rbp-28]
+        movsx   rdx, eax
+        lea     rax, [rbp-112]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::vector<std::pair<long long, long long>, std::allocator<std::pair<long long, long long> > >::operator[](unsigned long)
+        mov     rdx, rax
+        lea     rax, [rbp-80]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    long long const& std::max<long long>(long long const&, long long const&)
+        mov     rax, QWORD PTR [rax]
+        mov     QWORD PTR [rbp-80], rax
+        mov     eax, DWORD PTR [rbp-28]
+        movsx   rdx, eax
+        lea     rax, [rbp-112]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::vector<std::pair<long long, long long>, std::allocator<std::pair<long long, long long> > >::operator[](unsigned long)
+        lea     rdx, [rax+8]
+        lea     rax, [rbp-88]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    long long const& std::max<long long>(long long const&, long long const&)
+        mov     rax, QWORD PTR [rax]
+        mov     QWORD PTR [rbp-88], rax
+        add     DWORD PTR [rbp-28], 1
+.L44:
+        mov     eax, DWORD PTR [rbp-72]
+        cmp     DWORD PTR [rbp-28], eax
+        jl      .L45
+        lea     rax, [rbp-160]
+        mov     rdi, rax
+        call    std::set<std::pair<long long, long long>, std::less<std::pair<long long, long long> >, std::allocator<std::pair<long long, long long> > >::set() [complete object constructor]
+        mov     rbx, QWORD PTR [rbp-80]
+        mov     rax, QWORD PTR [rbp-24]
+        cqo
+        idiv    rbx
+        mov     rcx, rdx
+        mov     rax, rcx
+        test    rax, rax
+        jne     .L46
+        mov     rcx, QWORD PTR [rbp-80]
+        mov     rax, QWORD PTR [rbp-24]
+        cqo
+        idiv    rcx
+        mov     rsi, rax
+        mov     rax, QWORD PTR [rbp-80]
+        lea     rdx, [rbp-112]
+        mov     rcx, rdx
+        mov     edx, 0
+        mov     rdi, rax
+        call    can(long long, long long, int, std::vector<std::pair<long long, long long>, std::allocator<std::pair<long long, long long> > > const&)
+        test    al, al
+        je      .L46
+        mov     eax, 1
+        jmp     .L47
+.L46:
+        mov     eax, 0
+.L47:
+        test    al, al
+        je      .L48
+        mov     rbx, QWORD PTR [rbp-80]
+        mov     rax, QWORD PTR [rbp-24]
+        cqo
+        idiv    rbx
+        mov     QWORD PTR [rbp-64], rax
+        lea     rdx, [rbp-64]
+        lea     rcx, [rbp-80]
+        lea     rax, [rbp-160]
+        mov     rsi, rcx
+        mov     rdi, rax
+        call    std::pair<std::_Rb_tree_const_iterator<std::pair<long long, long long> >, bool> std::set<std::pair<long long, long long>, std::less<std::pair<long long, long long> >, std::allocator<std::pair<long long, long long> > >::emplace<long long&, long long>(long long&, long long&&)
+.L48:
+        mov     rcx, QWORD PTR [rbp-88]
+        mov     rax, QWORD PTR [rbp-24]
+        cqo
+        idiv    rcx
+        mov     rcx, rdx
+        mov     rax, rcx
+        test    rax, rax
+        jne     .L49
+        mov     rsi, QWORD PTR [rbp-88]
+        mov     rbx, QWORD PTR [rbp-88]
+        mov     rax, QWORD PTR [rbp-24]
+        cqo
+        idiv    rbx
+        mov     rdi, rax
+        lea     rax, [rbp-112]
+        mov     rcx, rax
+        mov     edx, 1
+        call    can(long long, long long, int, std::vector<std::pair<long long, long long>, std::allocator<std::pair<long long, long long> > > const&)
+        test    al, al
+        je      .L49
+        mov     eax, 1
+        jmp     .L50
+.L49:
+        mov     eax, 0
+.L50:
+        test    al, al
+        je      .L51
+        mov     rcx, QWORD PTR [rbp-88]
+        mov     rax, QWORD PTR [rbp-24]
+        cqo
+        idiv    rcx
+        mov     QWORD PTR [rbp-56], rax
+        lea     rdx, [rbp-88]
+        lea     rcx, [rbp-56]
+        lea     rax, [rbp-160]
+        mov     rsi, rcx
+        mov     rdi, rax
+        call    std::pair<std::_Rb_tree_const_iterator<std::pair<long long, long long> >, bool> std::set<std::pair<long long, long long>, std::less<std::pair<long long, long long> >, std::allocator<std::pair<long long, long long> > >::emplace<long long, long long&>(long long&&, long long&)
+.L51:
+        lea     rax, [rbp-160]
+        mov     rdi, rax
+        call    std::set<std::pair<long long, long long>, std::less<std::pair<long long, long long> >, std::allocator<std::pair<long long, long long> > >::size() const
+        mov     esi, eax
+        mov     edi, OFFSET FLAT:_ZSt4cout
+        call    std::basic_ostream<char, std::char_traits<char> >::operator<<(int)
+        mov     esi, 10
+        mov     rdi, rax
+        call    std::basic_ostream<char, std::char_traits<char> >& std::operator<< <std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char)
+        lea     rax, [rbp-160]
+        mov     QWORD PTR [rbp-40], rax
+        mov     rax, QWORD PTR [rbp-40]
+        mov     rdi, rax
+        call    std::set<std::pair<long long, long long>, std::less<std::pair<long long, long long> >, std::allocator<std::pair<long long, long long> > >::begin() const
+        mov     QWORD PTR [rbp-184], rax
+        mov     rax, QWORD PTR [rbp-40]
+        mov     rdi, rax
+        call    std::set<std::pair<long long, long long>, std::less<std::pair<long long, long long> >, std::allocator<std::pair<long long, long long> > >::end() const
+        mov     QWORD PTR [rbp-192], rax
+        jmp     .L52
+.L53:
+        lea     rax, [rbp-184]
+        mov     rdi, rax
+        call    std::_Rb_tree_const_iterator<std::pair<long long, long long> >::operator*() const
+        mov     rdx, QWORD PTR [rax+8]
+        mov     rax, QWORD PTR [rax]
+        mov     QWORD PTR [rbp-176], rax
+        mov     QWORD PTR [rbp-168], rdx
+        mov     rax, QWORD PTR [rbp-176]
+        mov     rsi, rax
+        mov     edi, OFFSET FLAT:_ZSt4cout
+        call    std::basic_ostream<char, std::char_traits<char> >::operator<<(long long)
+        mov     esi, OFFSET FLAT:.LC0
+        mov     rdi, rax
+        call    std::basic_ostream<char, std::char_traits<char> >& std::operator<< <std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*)
+        mov     rdx, rax
+        mov     rax, QWORD PTR [rbp-168]
+        mov     rsi, rax
+        mov     rdi, rdx
+        call    std::basic_ostream<char, std::char_traits<char> >::operator<<(long long)
+        mov     esi, 10
+        mov     rdi, rax
+        call    std::basic_ostream<char, std::char_traits<char> >& std::operator<< <std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char)
+        lea     rax, [rbp-184]
+        mov     rdi, rax
+        call    std::_Rb_tree_const_iterator<std::pair<long long, long long> >::operator++()
+.L52:
+        lea     rdx, [rbp-192]
+        lea     rax, [rbp-184]
+        mov     rsi, rdx
+        mov     rdi, rax
+        call    std::operator!=(std::_Rb_tree_const_iterator<std::pair<long long, long long> > const&, std::_Rb_tree_const_iterator<std::pair<long long, long long> > const&)
+        test    al, al
+        jne     .L53
+        lea     rax, [rbp-160]
+        mov     rdi, rax
+        call    std::set<std::pair<long long, long long>, std::less<std::pair<long long, long long> >, std::allocator<std::pair<long long, long long> > >::~set() [complete object destructor]
+        lea     rax, [rbp-112]
+        mov     rdi, rax
+        call    std::vector<std::pair<long long, long long>, std::allocator<std::pair<long long, long long> > >::~vector() [complete object destructor]
+        jmp     .L60
+        mov     rbx, rax
+        lea     rax, [rbp-65]
+        mov     rdi, rax
+        call    std::__new_allocator<std::pair<long long, long long> >::~__new_allocator() [base object destructor]
+        nop
+        mov     rax, rbx
+        mov     rdi, rax
+        call    _Unwind_Resume
+        mov     rbx, rax
+        lea     rax, [rbp-160]
+        mov     rdi, rax
+        call    std::set<std::pair<long long, long long>, std::less<std::pair<long long, long long> >, std::allocator<std::pair<long long, long long> > >::~set() [complete object destructor]
+        jmp     .L56
+        mov     rbx, rax
+.L56:
+        lea     rax, [rbp-112]
+        mov     rdi, rax
+        call    std::vector<std::pair<long long, long long>, std::allocator<std::pair<long long, long long> > >::~vector() [complete object destructor]
+        mov     rax, rbx
+        mov     rdi, rax
+        call    _Unwind_Resume
+.L60:
+        mov     rbx, QWORD PTR [rbp-8]
+        leave
+        ret
+main:
+        push    rbp
+        mov     rbp, rsp
+        sub     rsp, 16
+        mov     edi, 0
+        call    std::ios_base::sync_with_stdio(bool)
+        mov     esi, 0
+        mov     edi, OFFSET FLAT:_ZSt3cin+16
+        call    std::basic_ios<char, std::char_traits<char> >::tie(std::basic_ostream<char, std::char_traits<char> >*)
+        lea     rax, [rbp-8]
+        mov     rsi, rax
+        mov     edi, OFFSET FLAT:_ZSt3cin
+        call    std::basic_istream<char, std::char_traits<char> >::operator>>(int&)
+        mov     DWORD PTR [rbp-4], 0
+        jmp     .L62
+.L63:
+        call    solve()
+        add     DWORD PTR [rbp-4], 1
+.L62:
+        mov     eax, DWORD PTR [rbp-8]
+        cmp     DWORD PTR [rbp-4], eax
+        jl      .L63
+        mov     eax, 0
+        leave
+        ret
+.LC1:
+        .string "cannot create std::vector larger than max_size()"

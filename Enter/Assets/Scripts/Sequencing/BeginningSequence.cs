@@ -23,6 +23,9 @@ namespace Enter {
         }
 
         void Start() {
+        }
+
+        public void RunSequence() {
             StartCoroutine(_RunSequence());
         }
 

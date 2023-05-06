@@ -32,7 +32,6 @@ namespace Enter
             float startTime = Time.unscaledTime;
 
             string[] allLines = _finishedText.Split(new[]{ Environment.NewLine }, StringSplitOptions.None);
-            Debug.Log(allLines.Length);
 
             string currentDisplay = "";
             int lineToDisplay = 0;
