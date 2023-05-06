@@ -38,18 +38,18 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _ConfinementRadius: 0.05
-    - _Magnification: 0.1
+    - _ConfinementRadius: 0.03
+    - _Magnification: 0.05
     - _MaskHardness: 0.928
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Saturation: 0
     - _Size: 0.05
-    - _SizeRatio: 1.777
+    - _SizeRatio: 5
     - _Speed: 1
-    - _TimeOffset: 37.48
+    - _TimeOffset: 275.74
     m_Colors:
-    - _FocalPoint: {r: 7.240521, g: -4.615957, b: 0, a: 0}
+    - _FocalPoint: {r: 25, g: -4, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &6211444774772223790
 MonoBehaviour:
