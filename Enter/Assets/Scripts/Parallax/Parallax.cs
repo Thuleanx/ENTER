@@ -10,11 +10,11 @@ namespace Enter
     public static Parallax Instance;
     
     [SerializeField] private Image _bgImageBackTop;
-    // [SerializeField] private Image _bgImageMidTop;
+    [SerializeField] private Image _bgImageMidTop;
     [SerializeField] private Image _bgImageFrontTop;
     
     [SerializeField] private Image _bgImageBack;
-    // [SerializeField] private Image _bgImageMid;
+    [SerializeField] private Image _bgImageMid;
     [SerializeField] private Image _bgImageFront;
 
     [SerializeField] private float _translateCorrectionValue; // an extra to apply after layer translation to make the two backgrounds seamless
@@ -54,16 +54,17 @@ namespace Enter
 
     private void updateLayersHorizontal()
     {
-      Vector2 backOffset  = new Vector2(Time.time/4, 0);
-      Vector2 midOffset   = new Vector2(Time.time/2, 0);
-      Vector2 frontOffset = new Vector2(Time.time,   0);
+      float x = _camera.transform.position.x;
+      Vector2 backOffset  = new Vector2(x / 1000, 0);
+      Vector2 midOffset   = new Vector2(x / 500,  0);
+      Vector2 frontOffset = new Vector2(x / 250,  0);
 
       _bgImageBackTop.material.mainTextureOffset  = backOffset;
-      // _bgImageMidTop.material.mainTextureOffset   = midOffset;
+      _bgImageMidTop.material.mainTextureOffset   = midOffset;
       _bgImageFrontTop.material.mainTextureOffset = frontOffset;
 
       _bgImageBack.material.mainTextureOffset  = backOffset;
-      // _bgImageMid.material.mainTextureOffset   = midOffset;
+      _bgImageMid.material.mainTextureOffset   = midOffset;
       _bgImageFront.material.mainTextureOffset = frontOffset;
     }
 

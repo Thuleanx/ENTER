@@ -371,15 +371,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5284979485866314911, guid: 349358f96f76640dcac5145bd0d543f0, type: 3}
       propertyPath: m_BackGroundColor.b
-      value: 1
+      value: 0.17254902
       objectReference: {fileID: 0}
     - target: {fileID: 5284979485866314911, guid: 349358f96f76640dcac5145bd0d543f0, type: 3}
       propertyPath: m_BackGroundColor.g
-      value: 0.9128302
+      value: 0.64705884
       objectReference: {fileID: 0}
     - target: {fileID: 5284979485866314911, guid: 349358f96f76640dcac5145bd0d543f0, type: 3}
       propertyPath: m_BackGroundColor.r
-      value: 0.8443396
+      value: 0.46666667
       objectReference: {fileID: 0}
     - target: {fileID: 5284979485866314911, guid: 349358f96f76640dcac5145bd0d543f0, type: 3}
       propertyPath: m_NormalizedViewPortRect.x
@@ -5259,6 +5259,10 @@ PrefabInstance:
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[8].Array.data[10].Y
       value: -70000100
       objectReference: {fileID: 0}
+    - target: {fileID: 2013804218883100965, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 411207556}
     - target: {fileID: 2542896415054344335, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_CompositePaths.m_Paths.Array.size
       value: 2
@@ -6131,6 +6135,10 @@ PrefabInstance:
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[2].Array.data[11].Y
       value: 310000100
       objectReference: {fileID: 0}
+    - target: {fileID: 3404737224022542144, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 411207556}
     - target: {fileID: 3838514890400929661, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_Size.x
       value: 31
@@ -42619,14 +42627,6 @@ PrefabInstance:
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[2].Array.data[133].Y
       value: -140000100
       objectReference: {fileID: 0}
-    - target: {fileID: 5179333591076918334, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 2100000, guid: 7eec62815cc8f4d929c2cac9ee97a22d, type: 2}
-    - target: {fileID: 5483977634633940150, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 2100000, guid: 042bb70e940814ff79917f63f5057675, type: 2}
     - target: {fileID: 5756927944163960040, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_Camera
       value: 

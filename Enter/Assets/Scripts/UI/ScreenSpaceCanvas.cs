@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 namespace Enter
 {
+  [ExecuteAlways]
   [RequireComponent(typeof(Canvas))]
   public class ScreenSpaceCanvas : MonoBehaviour
   {
@@ -10,6 +11,7 @@ namespace Enter
 
     void Awake()
     {
+      Debug.Log(Camera.main);
       _canvas = GetComponent<Canvas>();
       _canvas.worldCamera = Camera.main;
     }
