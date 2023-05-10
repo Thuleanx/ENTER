@@ -135,8 +135,6 @@ namespace Enter
 
       // Spawn in at new location
       enableRCBox(targetPosition);
-
-    ShockwaveManager.Instance.SpawnAtPos(targetPosition);
     }
 
     private void cut()
@@ -219,9 +217,11 @@ namespace Enter
       }
 
       // Color RCBox
-      _rcLeftRenderer.color  = (CutObject == null && SelectedObject != null) ? _goodColor : _baseColor;
-      _rcRightRenderer.color = (CutObject != null && SelectedObject == null) ? _goodColor : _baseColor;
-      
+      applyCutPasteVisuals();
+
+      // Create shockwave
+      ShockwaveManager.Instance.SpawnAtPos(targetPosition);
+
       _rc.SetActive(true);
       _lastRCTime = Time.time;
     }
@@ -235,6 +235,13 @@ namespace Enter
         SelectedObject.GetComponent<Rigidbody2D>().constraints = SelectedObjectInitialConstraints;
         SelectedObject = null;
       }
+    }
+
+    private void applyCutPasteVisuals()
+    {
+      // Todo
+      _rcLeftRenderer.color  = (CutObject == null && SelectedObject != null) ? _goodColor : _baseColor;
+      _rcRightRenderer.color = (CutObject != null && SelectedObject == null) ? _goodColor : _baseColor;
     }
 
     #endregion
