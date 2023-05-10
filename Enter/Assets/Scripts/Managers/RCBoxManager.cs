@@ -31,6 +31,8 @@ namespace Enter
 
     private Vector2 _pasteTLOffset = new Vector2(-0.95f, 0.95f);
 
+    public bool CanCutPaste => SceneTransitioner.Instance.CurrSpawnPoint.CanCutPaste;
+
     #region ================== Methods
 
     void Awake()
@@ -120,6 +122,10 @@ namespace Enter
         return;
       }
 
+      // Prevent cutting/pasting if not enabled yet
+      if (!CanCutPaste) return;
+
+      // Else, cut/paste based on position
       if (_rc.transform.position.x > _in.MouseWorld.x) cut();
       else                                             paste();
     }
@@ -240,8 +246,8 @@ namespace Enter
     private void applyCutPasteVisuals()
     {
       // Todo
-      _rcLeftRenderer.color  = (CutObject == null && SelectedObject != null) ? _goodColor : _baseColor;
-      _rcRightRenderer.color = (CutObject != null && SelectedObject == null) ? _goodColor : _baseColor;
+      _rcLeftRenderer.color  = (CanCutPaste && CutObject == null && SelectedObject != null) ? _goodColor : _baseColor;
+      _rcRightRenderer.color = (CanCutPaste && CutObject != null && SelectedObject == null) ? _goodColor : _baseColor;
     }
 
     #endregion
