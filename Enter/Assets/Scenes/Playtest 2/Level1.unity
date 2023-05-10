@@ -136,7 +136,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4647921272558660890, guid: 8f03ae02a1c310a429443fb7dd7ffc48, type: 3}
       propertyPath: m_text
-      value: WASD to Move
+      value: WASD to move
+      objectReference: {fileID: 0}
+    - target: {fileID: 4647921272558660890, guid: 8f03ae02a1c310a429443fb7dd7ffc48, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 4647921272558660890, guid: 8f03ae02a1c310a429443fb7dd7ffc48, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4647921272558660892, guid: 8f03ae02a1c310a429443fb7dd7ffc48, type: 3}
       propertyPath: m_Name
@@ -208,11 +216,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4647921272558660893, guid: 8f03ae02a1c310a429443fb7dd7ffc48, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -16.57
+      value: -15.5
       objectReference: {fileID: 0}
     - target: {fileID: 4647921272558660893, guid: 8f03ae02a1c310a429443fb7dd7ffc48, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -6
+      value: -5.5
       objectReference: {fileID: 0}
     - target: {fileID: 4647921272558660893, guid: 8f03ae02a1c310a429443fb7dd7ffc48, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -287,7 +295,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7142682188187260079, guid: 9a902e58236f5444c973d117a0fa05b1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -18
+      value: -17.5
       objectReference: {fileID: 0}
     - target: {fileID: 7142682188187260079, guid: 9a902e58236f5444c973d117a0fa05b1, type: 3}
       propertyPath: m_LocalPosition.y
@@ -348,12 +356,16 @@ PrefabInstance:
       value: "Hold W to \njump higher"
       objectReference: {fileID: 0}
     - target: {fileID: 4647921272558660890, guid: 8f03ae02a1c310a429443fb7dd7ffc48, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 4647921272558660890, guid: 8f03ae02a1c310a429443fb7dd7ffc48, type: 3}
       propertyPath: m_HorizontalAlignment
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4647921272558660892, guid: 8f03ae02a1c310a429443fb7dd7ffc48, type: 3}
       propertyPath: m_Name
-      value: space to jump
+      value: hold w to jump higher
       objectReference: {fileID: 0}
     - target: {fileID: 4647921272558660893, guid: 8f03ae02a1c310a429443fb7dd7ffc48, type: 3}
       propertyPath: m_Pivot.x
@@ -389,7 +401,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4647921272558660893, guid: 8f03ae02a1c310a429443fb7dd7ffc48, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4647921272558660893, guid: 8f03ae02a1c310a429443fb7dd7ffc48, type: 3}
       propertyPath: m_LocalPosition.x
@@ -421,7 +433,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4647921272558660893, guid: 8f03ae02a1c310a429443fb7dd7ffc48, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -2.5699997
+      value: -2.5
       objectReference: {fileID: 0}
     - target: {fileID: 4647921272558660893, guid: 8f03ae02a1c310a429443fb7dd7ffc48, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -503,19 +515,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1320470816948900106, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
       propertyPath: m_NormalizedViewPortRect.x
-      value: 0
+      value: 0.124340184
       objectReference: {fileID: 0}
     - target: {fileID: 1320470816948900106, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
       propertyPath: m_NormalizedViewPortRect.y
-      value: 0
+      value: 0.124087594
       objectReference: {fileID: 0}
     - target: {fileID: 1320470816948900106, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
       propertyPath: m_NormalizedViewPortRect.width
-      value: 1
+      value: 0.75073314
       objectReference: {fileID: 0}
     - target: {fileID: 1320470816948900106, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
       propertyPath: m_NormalizedViewPortRect.height
-      value: 1
+      value: 0.7507821
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
