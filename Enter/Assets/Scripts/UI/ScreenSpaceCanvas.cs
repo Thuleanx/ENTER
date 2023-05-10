@@ -11,7 +11,6 @@ namespace Enter
 
     void Awake()
     {
-      Debug.Log(Camera.main);
       _canvas = GetComponent<Canvas>();
       _canvas.worldCamera = Camera.main;
     }
