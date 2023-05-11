@@ -130,6 +130,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1627158976}
     m_Modifications:
+    - target: {fileID: 682741987096979246, guid: 7979faa13db46764d910bf363038f964, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1915963220}
+    - target: {fileID: 682741987096979246, guid: 7979faa13db46764d910bf363038f964, type: 3}
+      propertyPath: m_PlaneDistance
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 780935882963853331, guid: 7979faa13db46764d910bf363038f964, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1915963220}
+    - target: {fileID: 780935882963853331, guid: 7979faa13db46764d910bf363038f964, type: 3}
+      propertyPath: m_PlaneDistance
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1101754617579218396, guid: 7979faa13db46764d910bf363038f964, type: 3}
       propertyPath: m_IsActive
       value: 0

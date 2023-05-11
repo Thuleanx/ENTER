@@ -344,6 +344,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 785022900}
     m_Modifications:
+    - target: {fileID: 783334932, guid: 9a902e58236f5444c973d117a0fa05b1, type: 3}
+      propertyPath: _canCutPaste
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7142682188187260076, guid: 9a902e58236f5444c973d117a0fa05b1, type: 3}
       propertyPath: m_Name
       value: SpawnPoint
@@ -728,25 +732,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1320470816948900106, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
       propertyPath: m_NormalizedViewPortRect.x
-      value: -0.051724136
+      value: 0.124340184
       objectReference: {fileID: 0}
     - target: {fileID: 1320470816948900106, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
       propertyPath: m_NormalizedViewPortRect.y
-      value: -0.05214724
+      value: 0.124087594
       objectReference: {fileID: 0}
     - target: {fileID: 1320470816948900106, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
       propertyPath: m_NormalizedViewPortRect.width
-      value: 1.1034483
+      value: 0.75073314
       objectReference: {fileID: 0}
     - target: {fileID: 1320470816948900106, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
       propertyPath: m_NormalizedViewPortRect.height
-      value: 1.1042944
+      value: 0.7507821
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
 --- !u!4 &1725124479 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1320470816334978999, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
+  m_PrefabInstance: {fileID: 1725124478}
+  m_PrefabAsset: {fileID: 0}
+--- !u!20 &1725124480 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 1320470816948900106, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
   m_PrefabInstance: {fileID: 1725124478}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1829812575
@@ -2725,6 +2734,10 @@ PrefabInstance:
       propertyPath: m_ColliderPaths.Array.data[1].m_ColliderPaths.Array.data[0].Array.data[11].Y
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 2013804218883100965, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1725124480}
     - target: {fileID: 2039508394902037582, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_RootOrder
       value: 8
@@ -3105,6 +3118,18 @@ PrefabInstance:
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[0].Array.data[21].Y
       value: -80000041
       objectReference: {fileID: 0}
+    - target: {fileID: 3404737224022542144, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1725124480}
+    - target: {fileID: 4041672366422540744, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1725124480}
+    - target: {fileID: 4303471668491355893, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1725124480}
     - target: {fileID: 5170594659017191956, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_Name
       value: Environment
@@ -22497,6 +22522,14 @@ PrefabInstance:
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[4].Array.data[21].Y
       value: -100000000
       objectReference: {fileID: 0}
+    - target: {fileID: 5756927944163960040, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1725124480}
+    - target: {fileID: 5764727040631504228, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1725124480}
     - target: {fileID: 8432397074758516415, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_Size.x
       value: 44

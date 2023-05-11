@@ -11,7 +11,8 @@ using Enter.Utils;
 
 namespace Enter
 {
-  public enum STState {
+  public enum STState
+  {
     Idle = 0,
     Transitioning,
     Reloading
@@ -24,20 +25,25 @@ namespace Enter
 
     private const float _eps = 0.001f;
 
-    private Scene       _currScene;
-    private ExitPassage _exitPassage;
-    
-    public STState STState { get; private set; } = STState.Idle;
+    public STState      STState           { get; private set; } = STState.Idle;
 
-    private GameObject _currSpawnPoint;
+    public Scene        PrevScene         { get; private set; }
+    public Scene        CurrScene         { get; private set; }
+    public SpawnPoint   CurrSpawnPoint    { get; private set; }
+    public EntryPassage CurrEntryPassage  { get; private set; }
+    public Transform    CurrRootTransform { get; private set; }
 
     [SerializeField]
     private ScreenWipe _screenWiper;
 
+    private bool        _firstLoadComplete;
+    private ExitPassage _tempExitPassage;
+    private Vector2     _tempPreviousRootPosition;
+
     #region ================== Accessors
 
-    public Vector3 SpawnPosition => _currSpawnPoint.transform.position;
-    
+    public Vector3 SpawnPosition => CurrSpawnPoint.transform.position;
+
     [field:SerializeField] public UnityEvent<Scene>        OnSceneLoad        { get; private set; }
 
     [field:SerializeField] public UnityEvent<Scene>        OnReloadBefore     { get; private set; }
@@ -52,14 +58,14 @@ namespace Enter
     void Awake()
     {
       Instance = this;
-      _currScene = SceneManager.GetActiveScene();
-      _currSpawnPoint = findSpawnPointAny();
+      CurrSpawnPoint = findInAnyScene<SpawnPoint>();
 
       Assert.IsNotNull(_screenWiper, "SceneTransitioner must have a reference to screen wiper.");
     }
 
     void Start()
     {
+      setSceneFields(SceneManager.GetActiveScene());
       _screenWiper.Unblock();
     }
 
@@ -115,29 +121,29 @@ namespace Enter
       Time.timeScale = 0;
 
       {
-        // Set _prevScene
-        Scene _prevScene = SceneManager.GetActiveScene();
-        Assert.AreEqual(_prevScene, _currScene, "At this moment, both scenes should be equal.");
+        // Set PrevScene
+        PrevScene = SceneManager.GetActiveScene();
+        Assert.AreEqual(PrevScene, CurrScene, "At this moment, both scenes should be equal.");
 
         // Do pre-transition actions
-        OnTransitionBefore?.Invoke(_prevScene);
+        OnTransitionBefore?.Invoke(PrevScene);
 
         // Load next scene (additively!).
-        // This causes SceneManager to call onSceneLoadHelper(), which will set _currScene
-        // and _currSpawnPoint; this should be done in exactly one frame.
-        _exitPassage = exitPassage;
-        exitPassage.NextSceneReference.LoadScene(LoadSceneMode.Additive);
+        // This causes SceneManager to call onSceneLoadHelper(), which will set CurrScene
+        // and CurrSpawnPoint; this should be done in exactly one frame.
+        _tempExitPassage = exitPassage;
+        _tempExitPassage.NextSceneReference.LoadScene(LoadSceneMode.Additive);
         yield return null;
-        Assert.AreNotEqual(_prevScene, _currScene, "At this moment, both scenes should be different.");
+        Assert.AreNotEqual(PrevScene, CurrScene, "At this moment, both scenes should be different.");
 
         // Wait for camera to move smoothly
-        yield return cameraTransition(_prevScene, _currScene);
+        yield return cameraTransition();
 
         // Do post-transition actions
-        OnTransitionAfter?.Invoke(_prevScene, _currScene);
+        OnTransitionAfter?.Invoke(PrevScene, CurrScene);
 
-        // Unload _prevScene
-        yield return SceneManager.UnloadSceneAsync(_prevScene);
+        // Unload PrevScene
+        yield return SceneManager.UnloadSceneAsync(PrevScene);
       }
 
       // Unfreeze time
@@ -150,26 +156,28 @@ namespace Enter
     {
       STState = STState.Reloading;
 
+      _tempPreviousRootPosition = CurrRootTransform.position;
+
       {
-        // Set _prevScene
-        Scene _prevScene = SceneManager.GetActiveScene();
-        Assert.AreEqual(_prevScene, _currScene, "At this moment, both scenes should be equal.");
+        // Set PrevScene
+        PrevScene = SceneManager.GetActiveScene();
+        Assert.AreEqual(PrevScene, CurrScene, "At this moment, both scenes should be equal.");
 
         // Do pre-reload actions
         PauseManager.Instance.Unpause();
         yield return _screenWiper.Block();
-        OnReloadBefore?.Invoke(_prevScene);
+        OnReloadBefore?.Invoke(PrevScene);
 
         // Load current scene (non-additively, i.e. replaces this scene).
-        // This causes SceneManager to call onSceneLoadHelper(), which will set _currScene
-        // and _currSpawnPoint; this should be done in exactly one frame.
-        SceneManager.LoadScene(_currScene.name);
+        // This causes SceneManager to call onSceneLoadHelper(), which will set CurrScene
+        // and CurrSpawnPoint; this should be done in exactly one frame.
+        SceneManager.LoadScene(CurrScene.name);
         yield return null;
         onLoaded?.Invoke();
-        Assert.AreNotEqual(_prevScene, _currScene, "At this moment, both scenes should be different.");
+        Assert.AreNotEqual(PrevScene, CurrScene, "At this moment, both scenes should be different.");
 
         // Do post-reload actions
-        OnReloadAfter?.Invoke(_prevScene, _currScene);
+        OnReloadAfter?.Invoke(PrevScene, CurrScene);
 
         PlayerManager.PlayerScript.SetFieldsAlive();
         yield return _screenWiper.Unblock();
@@ -179,30 +187,31 @@ namespace Enter
       STState = STState.Idle;
     }
 
-    private IEnumerator cameraTransition(Scene _prevScene, Scene _currScene)
+    private IEnumerator cameraTransition()
     {
-      // Disable _prevScene's camera, so that _currScene's camera becomes the one in use
+      // Disable PrevScene's camera, so that CurrScene's camera becomes the one in use
       foreach (Camera x in FindObjectsOfType<Camera>())
-        if (x.gameObject.scene == _prevScene) x.gameObject.SetActive(false);
+        if (x.gameObject.scene == PrevScene) x.gameObject.SetActive(false);
 
-      // Get _currScene's camera (the only remaining one)
+      // Get CurrScene's camera (the only remaining one)
       Camera camera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
 
-      // Max priority of _prevScene's virtual camera, so that the camera snaps there
+      // Max priority of PrevScene's virtual camera, so that the camera snaps there
       // Important: you can't just set the camera's position, or the virtual camera will slap you
-      CinemachineVirtualCamera _prevSceneVC = findHighestPriorityVC(_prevScene);
+      CinemachineVirtualCamera _prevSceneVC = findHighestPriorityVC(PrevScene);
       Assert.IsNotNull(_prevSceneVC, "Previous scene's virtual camera not found");
       _prevSceneVC.Priority = int.MaxValue;
 
-      yield return null; // Must wait one frame for the cinemachine camera to adjust its internal position
+      // Must wait one frame for the cinemachine camera to adjust its internal position
       // it's important that the cinemachine brain's update method is set to LateUpdate. FixedUpdate does not 
       // work, due to us freezing timescale
+      yield return null;
 
-      // Min priority of _prevScene's virtual camera
+      // Min priority of PrevScene's virtual camera
       _prevSceneVC.Priority = 0;
 
-      // Wait until camera has moved to the highest-priority virtual camera in _currScene
-      CinemachineVirtualCamera _currSceneVC = findHighestPriorityVC(_currScene);
+      // Wait until camera has moved to the highest-priority virtual camera in CurrScene
+      CinemachineVirtualCamera _currSceneVC = findHighestPriorityVC(CurrScene);
       int temp = _currSceneVC.Priority;
       _currSceneVC.Priority = int.MaxValue;
 
@@ -213,17 +222,17 @@ namespace Enter
       _currSceneVC.Priority = temp;
     }
 
-    private GameObject findSpawnPointAny()
+    private T findInAnyScene<T>() where T : MonoBehaviour
     {
-      return FindObjectOfType<SpawnPoint>()?.gameObject;
+      return FindObjectOfType<T>();
     }
 
-    private GameObject findSpawnPoint(Scene scene)
+    private T findInScene<T>(Scene scene) where T : MonoBehaviour
     {
       // Assumes only one spawn point per scene
-      foreach (SpawnPoint x in FindObjectsOfType<SpawnPoint>())
+      foreach (T x in FindObjectsOfType<T>())
         if (x.gameObject.scene == scene)
-          return x.gameObject;
+          return x;
 
       return null;
     }
@@ -243,30 +252,43 @@ namespace Enter
     {
       // Hopefully no physics frame happens between scene load and this function. Else Unity documentation lied.
 
-      if (STState == STState.Transitioning)
+      // Check for weird state
+      if (STState == STState.Idle) 
       {
-        // Get next scene's entry passage
-        EntryPassage entryPassage = null;
-        foreach (EntryPassage x in FindObjectsOfType<EntryPassage>())
-          if (x.gameObject.scene == newScene) entryPassage = x;
-        Assert.IsNotNull(entryPassage, "New scene's entryPassage not found.");
-
-        // Get next scene's root transform
-        Transform rootTransform = entryPassage.transform.root;
-        Assert.IsNotNull(rootTransform, "New scene's root not found.");
-
-        // Align next scene
-        rootTransform.position += _exitPassage.transform.position - entryPassage.transform.position;
-        Debug.Log("root moved");
+        if (_firstLoadComplete)
+        {
+          throw new Exception("Scene loaded, but SceneTransitioner is idle, and this is not the first load.");
+        }
+        Debug.Log("Scene loaded, but SceneTransitioner is idle. This must be the first load.");
+        _firstLoadComplete = true;
       }
 
-      // Set _currScene and _currSpawnPoint
-      _currScene = newScene;
-      _currSpawnPoint = findSpawnPoint(newScene);
-      Assert.IsNotNull(_currSpawnPoint, "New scene's spawnPoint not found.");
-
+      // Set fields obtained from new scene
+      setSceneFields(newScene);
+        
+      // Align next scene
+      if (STState == STState.Transitioning)
+      {
+        CurrRootTransform.position += _tempExitPassage.transform.position - CurrEntryPassage.transform.position;
+      }
+      else if (STState == STState.Reloading)
+      {
+        CurrRootTransform.position = _tempPreviousRootPosition;
+      }
+      
       // Fixme: is this the right place to put this?
       OnSceneLoad?.Invoke(newScene);
+    }
+
+    private void setSceneFields(Scene scene)
+    {
+      CurrScene         = scene;
+      CurrSpawnPoint    = findInScene<SpawnPoint>(scene);
+      CurrEntryPassage  = findInScene<EntryPassage>(scene);
+      CurrRootTransform = CurrEntryPassage.transform.root.transform;
+      Assert.IsNotNull(CurrSpawnPoint,    "Scene's spawnPoint not found.");
+      Assert.IsNotNull(CurrEntryPassage,  "Scene's entryPassage not found.");
+      Assert.IsNotNull(CurrRootTransform, "Scene's root transform not found.");
     }
 
     #endregion

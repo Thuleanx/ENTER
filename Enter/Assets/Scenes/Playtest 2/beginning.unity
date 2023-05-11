@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 144703300}
   - component: {fileID: 144703299}
   - component: {fileID: 144703298}
+  - component: {fileID: 144703301}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -198,6 +199,7 @@ RectTransform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 699807661}
+  - {fileID: 1560212739}
   m_Father: {fileID: 785022900}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -206,190 +208,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 26}
   m_SizeDelta: {x: 40, y: 23}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &257638568
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 257638569}
-  - component: {fileID: 257638573}
-  - component: {fileID: 257638572}
-  - component: {fileID: 257638571}
-  - component: {fileID: 257638570}
-  m_Layer: 5
-  m_Name: Text (5)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &257638569
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 257638568}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
-  m_Children: []
-  m_Father: {fileID: 699807661}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 20, y: 0}
-  m_SizeDelta: {x: 38, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &257638570
+--- !u!114 &144703301
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 257638568}
+  m_GameObject: {fileID: 144703296}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff3d7f86a23296146aa77f4ce11cdb4f, type: 3}
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &257638571
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 257638568}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalFit: 0
-  m_VerticalFit: 2
---- !u!114 &257638572
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 257638568}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_text: "using UnityEngine;\r\nusing UnityEngine.UI;\r\nusing System.Collections;\r\nusing
-    TMPro;\r\nusing NaughtyAttributes;\r\n\r\nnamespace Enter\r\n{\r\n    [RequireComponent(typeof(RectTransform))]\r\n   
-    public class Typewriter : MonoBehaviour {\r\n        RectTransform rectTransform;\r\n       
-    RectTransform parentRecTransform;\r\n\r\n        TMP_Text textMesh;\r\n       
-    string _finishedText;\r\n\r\n        public void Awake() {\r\n            textMesh
-    = GetComponentInChildren<TMP_Text>();\r\n            rectTransform = GetComponent<RectTransform>();\r\n           
-    parentRecTransform = transform.parent?.GetComponent<RectTransform>();\r\n           
-    _finishedText = textMesh.text;\r\n        }\r\n\r\n        void OnEnable() {\r\n           
-    textMesh.text = \"\";\r\n        }\r\n\r\n        public IEnumerator WaitForTypeWrite(float
-    _charactersPerMinute) {\r\n            float startTime = Time.unscaledTime;\r\n\r\n           
-    int charactersToDisplay = 0;\r\n            int i = -1;\r\n            while
-    (charactersToDisplay < _finishedText.Length) {\r\n                float elapsedTime
-    = startTime;\r\n                charactersToDisplay = (int) (elapsedTime * _charactersPerMinute
-    / 60.0f);\r\n                if (i != ((int) charactersToDisplay)) {\r\n                   
-    // only update when neccessary\r\n                    i = (int) charactersToDisplay;\r\n                   
-    textMesh.text = _finishedText.Substring(0, i) + \"_\";\r\n                   
-    LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);\r\n                   
-    if (parentRecTransform) LayoutRebuilder.ForceRebuildLayoutImmediate(parentRecTransform);\r\n               
-    }\r\n                yield return null;\r\n            }\r\n\r\n            textMesh.text
-    = _finishedText;\r\n            LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);\r\n           
-    if (parentRecTransform) LayoutRebuilder.ForceRebuildLayoutImmediate(parentRecTransform);\r\n       
-    }\r\n    }\r\n}\r\n"
-  m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8d68277bad61c7b46bd7e03ebc534c3c, type: 2}
-  m_sharedMaterial: {fileID: 2779201154810601168, guid: 8d68277bad61c7b46bd7e03ebc534c3c, type: 2}
-  m_fontSharedMaterials: []
-  m_fontMaterial: {fileID: 0}
-  m_fontMaterials: []
-  m_fontColor32:
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
-  m_enableVertexGradient: 0
-  m_colorMode: 3
-  m_fontColorGradient:
-    topLeft: {r: 1, g: 1, b: 1, a: 1}
-    topRight: {r: 1, g: 1, b: 1, a: 1}
-    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
-    bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
-  m_tintAllSprites: 0
-  m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: -1183493901
-  m_overrideHtmlColors: 0
-  m_faceColor:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontSize: 1
-  m_fontSizeBase: 1
-  m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
-  m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
-  m_textAlignment: 65535
-  m_characterSpacing: 0
-  m_wordSpacing: 0
-  m_lineSpacing: 0
-  m_lineSpacingMax: 0
-  m_paragraphSpacing: 0
-  m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
-  m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
-  m_linkedTextComponent: {fileID: 0}
-  parentLinkedComponent: {fileID: 0}
-  m_enableKerning: 1
-  m_enableExtraPadding: 0
-  checkPaddingRequired: 0
-  m_isRichText: 1
-  m_parseCtrlCharacters: 1
-  m_isOrthographic: 1
-  m_isCullingEnabled: 0
-  m_horizontalMapping: 0
-  m_verticalMapping: 0
-  m_uvLineOffset: 0
-  m_geometrySortingOrder: 0
-  m_IsTextObjectScaleStatic: 0
-  m_VertexBufferAutoSizeReduction: 0
-  m_useMaxVisibleDescender: 1
-  m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
-  m_isUsingLegacyAnimationComponent: 0
-  m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_baseMaterial: {fileID: 0}
-  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!222 &257638573
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 257638568}
-  m_CullTransparentMesh: 1
+    m_Bits: 4294967295
 --- !u!1 &375182614
 GameObject:
   m_ObjectHideFlags: 0
@@ -684,374 +519,6 @@ MonoBehaviour:
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
---- !u!1 &571008409
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 571008410}
-  - component: {fileID: 571008414}
-  - component: {fileID: 571008413}
-  - component: {fileID: 571008412}
-  - component: {fileID: 571008411}
-  m_Layer: 5
-  m_Name: Text (2)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &571008410
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 571008409}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
-  m_Children: []
-  m_Father: {fileID: 699807661}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 20, y: 0}
-  m_SizeDelta: {x: 38, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &571008411
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 571008409}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff3d7f86a23296146aa77f4ce11cdb4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &571008412
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 571008409}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalFit: 0
-  m_VerticalFit: 2
---- !u!114 &571008413
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 571008409}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_text: "using UnityEngine;\r\nusing UnityEngine.UI;\r\nusing System.Collections;\r\nusing
-    TMPro;\r\nusing NaughtyAttributes;\r\n\r\nnamespace Enter\r\n{\r\n    [RequireComponent(typeof(RectTransform))]\r\n   
-    public class Typewriter : MonoBehaviour {\r\n        RectTransform rectTransform;\r\n       
-    RectTransform parentRecTransform;\r\n\r\n        TMP_Text textMesh;\r\n       
-    string _finishedText;\r\n\r\n        public void Awake() {\r\n            textMesh
-    = GetComponentInChildren<TMP_Text>();\r\n            rectTransform = GetComponent<RectTransform>();\r\n           
-    parentRecTransform = transform.parent?.GetComponent<RectTransform>();\r\n           
-    _finishedText = textMesh.text;\r\n        }\r\n\r\n        void OnEnable() {\r\n           
-    textMesh.text = \"\";\r\n        }\r\n\r\n        public IEnumerator WaitForTypeWrite(float
-    _charactersPerMinute) {\r\n            float startTime = Time.unscaledTime;\r\n\r\n           
-    int charactersToDisplay = 0;\r\n            int i = -1;\r\n            while
-    (charactersToDisplay < _finishedText.Length) {\r\n                float elapsedTime
-    = startTime;\r\n                charactersToDisplay = (int) (elapsedTime * _charactersPerMinute
-    / 60.0f);\r\n                if (i != ((int) charactersToDisplay)) {\r\n                   
-    // only update when neccessary\r\n                    i = (int) charactersToDisplay;\r\n                   
-    textMesh.text = _finishedText.Substring(0, i) + \"_\";\r\n                   
-    LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);\r\n                   
-    if (parentRecTransform) LayoutRebuilder.ForceRebuildLayoutImmediate(parentRecTransform);\r\n               
-    }\r\n                yield return null;\r\n            }\r\n\r\n            textMesh.text
-    = _finishedText;\r\n            LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);\r\n           
-    if (parentRecTransform) LayoutRebuilder.ForceRebuildLayoutImmediate(parentRecTransform);\r\n       
-    }\r\n    }\r\n}\r\n"
-  m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8d68277bad61c7b46bd7e03ebc534c3c, type: 2}
-  m_sharedMaterial: {fileID: 2779201154810601168, guid: 8d68277bad61c7b46bd7e03ebc534c3c, type: 2}
-  m_fontSharedMaterials: []
-  m_fontMaterial: {fileID: 0}
-  m_fontMaterials: []
-  m_fontColor32:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
-  m_enableVertexGradient: 0
-  m_colorMode: 3
-  m_fontColorGradient:
-    topLeft: {r: 1, g: 1, b: 1, a: 1}
-    topRight: {r: 1, g: 1, b: 1, a: 1}
-    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
-    bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
-  m_tintAllSprites: 0
-  m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: -1183493901
-  m_overrideHtmlColors: 0
-  m_faceColor:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontSize: 1
-  m_fontSizeBase: 1
-  m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
-  m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
-  m_textAlignment: 65535
-  m_characterSpacing: 0
-  m_wordSpacing: 0
-  m_lineSpacing: 0
-  m_lineSpacingMax: 0
-  m_paragraphSpacing: 0
-  m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
-  m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
-  m_linkedTextComponent: {fileID: 0}
-  parentLinkedComponent: {fileID: 0}
-  m_enableKerning: 1
-  m_enableExtraPadding: 0
-  checkPaddingRequired: 0
-  m_isRichText: 1
-  m_parseCtrlCharacters: 1
-  m_isOrthographic: 1
-  m_isCullingEnabled: 0
-  m_horizontalMapping: 0
-  m_verticalMapping: 0
-  m_uvLineOffset: 0
-  m_geometrySortingOrder: 0
-  m_IsTextObjectScaleStatic: 0
-  m_VertexBufferAutoSizeReduction: 0
-  m_useMaxVisibleDescender: 1
-  m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
-  m_isUsingLegacyAnimationComponent: 0
-  m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_baseMaterial: {fileID: 0}
-  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!222 &571008414
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 571008409}
-  m_CullTransparentMesh: 1
---- !u!1 &601233134
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 601233135}
-  - component: {fileID: 601233138}
-  - component: {fileID: 601233137}
-  - component: {fileID: 601233136}
-  - component: {fileID: 601233139}
-  m_Layer: 5
-  m_Name: Text (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &601233135
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 601233134}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
-  m_Children: []
-  m_Father: {fileID: 699807661}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 20, y: 0}
-  m_SizeDelta: {x: 38, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &601233136
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 601233134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalFit: 0
-  m_VerticalFit: 2
---- !u!114 &601233137
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 601233134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_text: "using UnityEngine;\r\nusing UnityEngine.UI;\r\nusing System.Collections;\r\nusing
-    TMPro;\r\nusing NaughtyAttributes;\r\n\r\nnamespace Enter\r\n{\r\n    [RequireComponent(typeof(RectTransform))]\r\n   
-    public class Typewriter : MonoBehaviour {\r\n        RectTransform rectTransform;\r\n       
-    RectTransform parentRecTransform;\r\n\r\n        TMP_Text textMesh;\r\n       
-    string _finishedText;\r\n\r\n        public void Awake() {\r\n            textMesh
-    = GetComponentInChildren<TMP_Text>();\r\n            rectTransform = GetComponent<RectTransform>();\r\n           
-    parentRecTransform = transform.parent?.GetComponent<RectTransform>();\r\n           
-    _finishedText = textMesh.text;\r\n        }\r\n\r\n        void OnEnable() {\r\n           
-    textMesh.text = \"\";\r\n        }\r\n\r\n        public IEnumerator WaitForTypeWrite(float
-    _charactersPerMinute) {\r\n            float startTime = Time.unscaledTime;\r\n\r\n           
-    int charactersToDisplay = 0;\r\n            int i = -1;\r\n            while
-    (charactersToDisplay < _finishedText.Length) {\r\n                float elapsedTime
-    = startTime;\r\n                charactersToDisplay = (int) (elapsedTime * _charactersPerMinute
-    / 60.0f);\r\n                if (i != ((int) charactersToDisplay)) {\r\n                   
-    // only update when neccessary\r\n                    i = (int) charactersToDisplay;\r\n                   
-    textMesh.text = _finishedText.Substring(0, i) + \"_\";\r\n                   
-    LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);\r\n                   
-    if (parentRecTransform) LayoutRebuilder.ForceRebuildLayoutImmediate(parentRecTransform);\r\n               
-    }\r\n                yield return null;\r\n            }\r\n\r\n            textMesh.text
-    = _finishedText;\r\n            LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);\r\n           
-    if (parentRecTransform) LayoutRebuilder.ForceRebuildLayoutImmediate(parentRecTransform);\r\n       
-    }\r\n    }\r\n}\r\n"
-  m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8d68277bad61c7b46bd7e03ebc534c3c, type: 2}
-  m_sharedMaterial: {fileID: 2779201154810601168, guid: 8d68277bad61c7b46bd7e03ebc534c3c, type: 2}
-  m_fontSharedMaterials: []
-  m_fontMaterial: {fileID: 0}
-  m_fontMaterials: []
-  m_fontColor32:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
-  m_enableVertexGradient: 0
-  m_colorMode: 3
-  m_fontColorGradient:
-    topLeft: {r: 1, g: 1, b: 1, a: 1}
-    topRight: {r: 1, g: 1, b: 1, a: 1}
-    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
-    bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
-  m_tintAllSprites: 0
-  m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: -1183493901
-  m_overrideHtmlColors: 0
-  m_faceColor:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontSize: 1
-  m_fontSizeBase: 1
-  m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
-  m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
-  m_textAlignment: 65535
-  m_characterSpacing: 0
-  m_wordSpacing: 0
-  m_lineSpacing: 0
-  m_lineSpacingMax: 0
-  m_paragraphSpacing: 0
-  m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
-  m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
-  m_linkedTextComponent: {fileID: 0}
-  parentLinkedComponent: {fileID: 0}
-  m_enableKerning: 1
-  m_enableExtraPadding: 0
-  checkPaddingRequired: 0
-  m_isRichText: 1
-  m_parseCtrlCharacters: 1
-  m_isOrthographic: 1
-  m_isCullingEnabled: 0
-  m_horizontalMapping: 0
-  m_verticalMapping: 0
-  m_uvLineOffset: 0
-  m_geometrySortingOrder: 0
-  m_IsTextObjectScaleStatic: 0
-  m_VertexBufferAutoSizeReduction: 0
-  m_useMaxVisibleDescender: 1
-  m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
-  m_isUsingLegacyAnimationComponent: 0
-  m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_baseMaterial: {fileID: 0}
-  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!222 &601233138
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 601233134}
-  m_CullTransparentMesh: 1
---- !u!114 &601233139
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 601233134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff3d7f86a23296146aa77f4ce11cdb4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &614985070
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23799,12 +23266,7 @@ RectTransform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2094179049}
-  - {fileID: 601233135}
-  - {fileID: 571008410}
-  - {fileID: 1568959744}
-  - {fileID: 1223101197}
-  - {fileID: 257638569}
-  - {fileID: 1639018975}
+  - {fileID: 1021197707}
   m_Father: {fileID: 144703300}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -23927,6 +23389,254 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5170594659017191956, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
   m_PrefabInstance: {fileID: 614985070}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1021197706
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1021197707}
+  - component: {fileID: 1021197711}
+  - component: {fileID: 1021197710}
+  - component: {fileID: 1021197709}
+  - component: {fileID: 1021197708}
+  m_Layer: 5
+  m_Name: Text (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1021197707
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021197706}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 699807661}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 20, y: 0}
+  m_SizeDelta: {x: 38, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1021197708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021197706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff3d7f86a23296146aa77f4ce11cdb4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1021197709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021197706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 2
+--- !u!114 &1021197710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021197706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: "using UnityEngine; \r\nusing System;\r\nusing System.Collections;\r\nusing
+    System.Collections.Generic;\r\nusing Cinemachine;\r\nusing DG.Tweening;\r\nusing
+    Enter.Utils;\r\n\r\nnamespace Enter {\r\n    public class BeginningSequence :
+    MonoBehaviour {\r\n        [SerializeField] float _linesPerMinute = 30;\r\n       
+    [SerializeField, Range(0, 10)] float _scrollDelay = 2;\r\n        [SerializeField]
+    float _delayScaleBetweenSpawn;\r\n        [SerializeField] CinemachineVirtualCamera
+    _fallingCamera;\r\n        [SerializeField] GameObject _corruptedBox;\r\n       
+    [SerializeField] GameObject _environment;\r\n        [SerializeField] Transform
+    _virusPosition;\r\n\r\n        List<Typewriter> _sequenceTexts;\r\n\r\n       
+    void Awake() {\r\n            _sequenceTexts = new List<Typewriter>(GetComponentsInChildren<Typewriter>());\r\n       
+    }\r\n\r\n        void Start() {\r\n        }\r\n\r\n        public void RunSequence()
+    {\r\n            StartCoroutine(_RunSequence());\r\n        }\r\n\r\n       
+    IEnumerator _RunSequence() {\r\n            InputManager.Instance.OverrideInput
+    = true;\r\n\r\n            if (_sequenceTexts != null) {\r\n                //
+    we wait a frame so that the typewriters can erase all their texts\r\n\t\t\t\tyield
+    return null;\r\n\r\n                Coroutine typewriting = StartCoroutine(_Typewrite());\r\n\r\n               
+    yield return new WaitForSecondsRealtime(_scrollDelay);\r\n\r\n               
+    // spawn some squares\r\n                List<GameObject> corruptedBoxes = new
+    List<GameObject>();\r\n                int numCorruptedBoxes = 100;\r\n\r\n               
+    Ease easingForWait = Ease.OutExpo;\r\n\r\n                int skip = 0;\r\n\r\n               
+    RectTransform rectTransform = GetComponent<RectTransform>();\r\n               
+    float lastHeight = rectTransform.rect.height;\r\n\r\n                for (int
+    i = 0; i < numCorruptedBoxes; i++) {\r\n\r\n                    float screenX
+    = UnityEngine.Random.Range(0.0f,1.0f);\r\n                    float screenY =
+    UnityEngine.Random.Range(0.0f, i>3 ? 1.0f : .5f);\r\n\r\n                   
+    Vector2 pos = new Vector2(screenX, screenY);\r\n                    pos = Camera.main.ViewportToWorldPoint(pos);\r\n\r\n                   
+    Vector2 size = new Vector2(\r\n                        UnityEngine.Random.Range(0.05f,0.2f),\r\n                       
+    UnityEngine.Random.Range(0.05f,0.2f)\r\n                    );\r\n                   
+    size = Camera.main.ViewportToWorldPoint(size) - Camera.main.ViewportToWorldPoint(Vector2.zero);\r\n\r\n                   
+    GameObject corruptedBox = BubbleManager.Instance.Borrow(gameObject.scene, _corruptedBox,
+    pos);\r\n                    SpriteRenderer renderer = corruptedBox.GetComponentInChildren<SpriteRenderer>();\r\n                   
+    renderer.size = size;\r\n                    corruptedBoxes.Add(corruptedBox);\r\n\r\n\r\n                   
+    corruptedBox.transform.localScale = Vector2.one * 1.5f;\r\n                   
+    corruptedBox.transform.DOScale(Vector2.one, 0.2f).SetEase(Ease.InCirc);\r\n\r\n                   
+    float wait = DOVirtual.EasedValue(4f * _delayScaleBetweenSpawn, \r\n                           
+    0f, ((float)i) / numCorruptedBoxes, easingForWait);\r\n                    if
+    (i>0) wait = Mathf.Min(wait, 2f/i);\r\n\r\n                    renderer.transform.DOShakePosition(
+    50, 0.2f).Play();\r\n\r\n                    if (skip == 0) {\r\n                       
+    skip += (i+4)/5;\r\n\r\n                        Timer waiting = wait;\r\n                       
+    while (waiting) {\r\n                            float deltaHeight = rectTransform.rect.height
+    - lastHeight;\r\n                            if (deltaHeight > 0.1f) {\r\n                               
+    foreach (GameObject box in corruptedBoxes) \r\n                                   
+    box.transform.position += deltaHeight * Vector3.up;\r\n                               
+    lastHeight = rectTransform.rect.height;\r\n                            }\r\n                           
+    yield return null;\r\n                        }\r\n\r\n                    }
+    else skip--;\r\n                }\r\n\r\n                float convergenceDuration
+    = 3.0f;\r\n                DOTween.KillAll();\r\n                StopCoroutine(typewriting);\r\n               
+    // fade all texts\r\n                GetComponent<CanvasGroup>()?.DOFade(0, 1);\r\n\r\n               
+    Tween moveDown = _environment.transform.DOMoveY(_virusPosition.transform.position.y,
+    2);\r\n\r\n                foreach (GameObject corruptedBox in corruptedBoxes)
+    \r\n                    corruptedBox.transform.localScale = Vector2.one;\r\n\r\n               
+    // make the boxes approach 0\r\n                foreach (GameObject corruptedBox
+    in corruptedBoxes) {\r\n                    float distanceToVirus = UnityEngine.Random.Range(0.0f,
+    3.0f);\r\n\r\n                    Vector2 interpolatedPoint = (transform.position
+    - _virusPosition.transform.position).normalized * distanceToVirus;\r\n                   
+    interpolatedPoint = interpolatedPoint + (Vector2) _virusPosition.transform.position;\r\n\r\n                   
+    float actualConvergenceDuration = UnityEngine.Random.Range(0.8f * convergenceDuration,
+    1.25f * convergenceDuration);\r\n\r\n                    float delay = actualConvergenceDuration
+    * 0.3f;\r\n\r\n                    corruptedBox.GetComponentInChildren<SpriteRenderer>().transform.DOShakePosition(
+    50, 1f, 10, 90, false ).Play().SetDelay(delay);\r\n                    corruptedBox.transform.DOMove(
+    interpolatedPoint, actualConvergenceDuration ).SetEase(Ease.InElastic);\r\n               
+    }\r\n\r\n                yield return new WaitForSecondsRealtime(convergenceDuration
+    * 1.25f);\r\n\r\n                // all boxes circles around virus position and
+    moves with it\r\n\r\n                List<Vector2> displacementFromVirus = new
+    List<Vector2>();\r\n\r\n                foreach (GameObject corruptedBox in corruptedBoxes)
+    \r\n                    displacementFromVirus.Add(corruptedBox.transform.position
+    - _virusPosition.transform.position);\r\n\r\n                float movingDuration
+    = 2;\r\n                float screenEdge = Camera.main.ViewportToWorldPoint(new
+    Vector2(1.0f, 0.0f)).x;\r\n\r\n                while (moveDown.IsPlaying())\r\n                   
+    yield return null;\r\n\r\n                Tween tween = _virusPosition.transform.DOMoveX(screenEdge
+    + 50, movingDuration).SetEase(Ease.OutCirc).Play().SetDelay(2.0f);\r\n               
+    while (tween.IsPlaying()) {\r\n                    for (int i = 0; i < corruptedBoxes.Count;
+    i++) {\r\n                        GameObject corruptedBox = corruptedBoxes[i];\r\n                       
+    corruptedBox.transform.position = (Vector2) _virusPosition.transform.position
+    + displacementFromVirus[i];\r\n                    }\r\n                    yield
+    return null;\r\n                }\r\n\r\n                // we have player walks
+    in\r\n                InputManager.Instance.OverriddenInputData.Move = Vector2.right;\r\n               
+    // right to the very right edge of the screen lol.\r\n\r\n                while
+    (true) {\r\n                /* while (PlayerManager.Player.transform.position.x
+    < -15) { */\r\n                    yield return null;\r\n                }\r\n           
+    }\r\n\r\n            InputManager.Instance.OverrideInput = false;\r\n       
+    }\r\n\r\n        void OnDisable() {\r\n            InputManager.Instance.OverrideInput
+    = false;\r\n        }\r\n\r\n        IEnumerator _Typewrite() {\r\n           
+    if (_sequenceTexts != null) {\r\n                foreach (Typewriter typewriter
+    in _sequenceTexts)\r\n                    yield return typewriter.WaitForTypeWrite(_linesPerMinute);\r\n           
+    }\r\n        }\r\n    }\r\n}\r\n"
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8d68277bad61c7b46bd7e03ebc534c3c, type: 2}
+  m_sharedMaterial: {fileID: 2779201154810601168, guid: 8d68277bad61c7b46bd7e03ebc534c3c, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 1
+  m_fontSizeBase: 1
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1021197711
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021197706}
+  m_CullTransparentMesh: 1
 --- !u!1001 &1215111877
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24016,7 +23726,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2022af163a5d474094071b939412d23, type: 3}
---- !u!1 &1223101196
+--- !u!1 &1560212738
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -24024,365 +23734,142 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1223101197}
-  - component: {fileID: 1223101201}
-  - component: {fileID: 1223101200}
-  - component: {fileID: 1223101199}
-  - component: {fileID: 1223101198}
+  - component: {fileID: 1560212739}
+  - component: {fileID: 1560212742}
+  - component: {fileID: 1560212741}
+  - component: {fileID: 1560212740}
   m_Layer: 5
-  m_Name: Text (4)
+  m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &1223101197
+--- !u!224 &1560212739
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1223101196}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_GameObject: {fileID: 1560212738}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
+  m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 699807661}
-  m_RootOrder: 4
+  m_Father: {fileID: 144703300}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 20, y: 0}
-  m_SizeDelta: {x: 38, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1223101198
+--- !u!114 &1560212740
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1223101196}
+  m_GameObject: {fileID: 1560212738}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff3d7f86a23296146aa77f4ce11cdb4f, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1223101199
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 0
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1560212741}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 699807664}
+        m_TargetAssemblyTypeName: Enter.BeginningSequence, Assembly-CSharp
+        m_MethodName: RunSequence
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1560212738}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1560212741
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1223101196}
+  m_GameObject: {fileID: 1560212738}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalFit: 0
-  m_VerticalFit: 2
---- !u!114 &1223101200
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1223101196}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "using UnityEngine;\r\nusing UnityEngine.UI;\r\nusing System.Collections;\r\nusing
-    TMPro;\r\nusing NaughtyAttributes;\r\n\r\nnamespace Enter\r\n{\r\n    [RequireComponent(typeof(RectTransform))]\r\n   
-    public class Typewriter : MonoBehaviour {\r\n        RectTransform rectTransform;\r\n       
-    RectTransform parentRecTransform;\r\n\r\n        TMP_Text textMesh;\r\n       
-    string _finishedText;\r\n\r\n        public void Awake() {\r\n            textMesh
-    = GetComponentInChildren<TMP_Text>();\r\n            rectTransform = GetComponent<RectTransform>();\r\n           
-    parentRecTransform = transform.parent?.GetComponent<RectTransform>();\r\n           
-    _finishedText = textMesh.text;\r\n        }\r\n\r\n        void OnEnable() {\r\n           
-    textMesh.text = \"\";\r\n        }\r\n\r\n        public IEnumerator WaitForTypeWrite(float
-    _charactersPerMinute) {\r\n            float startTime = Time.unscaledTime;\r\n\r\n           
-    int charactersToDisplay = 0;\r\n            int i = -1;\r\n            while
-    (charactersToDisplay < _finishedText.Length) {\r\n                float elapsedTime
-    = startTime;\r\n                charactersToDisplay = (int) (elapsedTime * _charactersPerMinute
-    / 60.0f);\r\n                if (i != ((int) charactersToDisplay)) {\r\n                   
-    // only update when neccessary\r\n                    i = (int) charactersToDisplay;\r\n                   
-    textMesh.text = _finishedText.Substring(0, i) + \"_\";\r\n                   
-    LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);\r\n                   
-    if (parentRecTransform) LayoutRebuilder.ForceRebuildLayoutImmediate(parentRecTransform);\r\n               
-    }\r\n                yield return null;\r\n            }\r\n\r\n            textMesh.text
-    = _finishedText;\r\n            LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);\r\n           
-    if (parentRecTransform) LayoutRebuilder.ForceRebuildLayoutImmediate(parentRecTransform);\r\n       
-    }\r\n    }\r\n}\r\n"
-  m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8d68277bad61c7b46bd7e03ebc534c3c, type: 2}
-  m_sharedMaterial: {fileID: 2779201154810601168, guid: 8d68277bad61c7b46bd7e03ebc534c3c, type: 2}
-  m_fontSharedMaterials: []
-  m_fontMaterial: {fileID: 0}
-  m_fontMaterials: []
-  m_fontColor32:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
-  m_enableVertexGradient: 0
-  m_colorMode: 3
-  m_fontColorGradient:
-    topLeft: {r: 1, g: 1, b: 1, a: 1}
-    topRight: {r: 1, g: 1, b: 1, a: 1}
-    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
-    bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
-  m_tintAllSprites: 0
-  m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: -1183493901
-  m_overrideHtmlColors: 0
-  m_faceColor:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontSize: 1
-  m_fontSizeBase: 1
-  m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
-  m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
-  m_textAlignment: 65535
-  m_characterSpacing: 0
-  m_wordSpacing: 0
-  m_lineSpacing: 0
-  m_lineSpacingMax: 0
-  m_paragraphSpacing: 0
-  m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
-  m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
-  m_linkedTextComponent: {fileID: 0}
-  parentLinkedComponent: {fileID: 0}
-  m_enableKerning: 1
-  m_enableExtraPadding: 0
-  checkPaddingRequired: 0
-  m_isRichText: 1
-  m_parseCtrlCharacters: 1
-  m_isOrthographic: 1
-  m_isCullingEnabled: 0
-  m_horizontalMapping: 0
-  m_verticalMapping: 0
-  m_uvLineOffset: 0
-  m_geometrySortingOrder: 0
-  m_IsTextObjectScaleStatic: 0
-  m_VertexBufferAutoSizeReduction: 0
-  m_useMaxVisibleDescender: 1
-  m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
-  m_isUsingLegacyAnimationComponent: 0
-  m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_baseMaterial: {fileID: 0}
-  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!222 &1223101201
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1560212742
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1223101196}
-  m_CullTransparentMesh: 1
---- !u!1 &1568959743
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1568959744}
-  - component: {fileID: 1568959748}
-  - component: {fileID: 1568959747}
-  - component: {fileID: 1568959746}
-  - component: {fileID: 1568959745}
-  m_Layer: 5
-  m_Name: Text (3)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1568959744
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1568959743}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
-  m_Children: []
-  m_Father: {fileID: 699807661}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 20, y: 0}
-  m_SizeDelta: {x: 38, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1568959745
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1568959743}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff3d7f86a23296146aa77f4ce11cdb4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1568959746
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1568959743}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalFit: 0
-  m_VerticalFit: 2
---- !u!114 &1568959747
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1568959743}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_text: "using UnityEngine;\r\nusing UnityEngine.UI;\r\nusing System.Collections;\r\nusing
-    TMPro;\r\nusing NaughtyAttributes;\r\n\r\nnamespace Enter\r\n{\r\n    [RequireComponent(typeof(RectTransform))]\r\n   
-    public class Typewriter : MonoBehaviour {\r\n        RectTransform rectTransform;\r\n       
-    RectTransform parentRecTransform;\r\n\r\n        TMP_Text textMesh;\r\n       
-    string _finishedText;\r\n\r\n        public void Awake() {\r\n            textMesh
-    = GetComponentInChildren<TMP_Text>();\r\n            rectTransform = GetComponent<RectTransform>();\r\n           
-    parentRecTransform = transform.parent?.GetComponent<RectTransform>();\r\n           
-    _finishedText = textMesh.text;\r\n        }\r\n\r\n        void OnEnable() {\r\n           
-    textMesh.text = \"\";\r\n        }\r\n\r\n        public IEnumerator WaitForTypeWrite(float
-    _charactersPerMinute) {\r\n            float startTime = Time.unscaledTime;\r\n\r\n           
-    int charactersToDisplay = 0;\r\n            int i = -1;\r\n            while
-    (charactersToDisplay < _finishedText.Length) {\r\n                float elapsedTime
-    = startTime;\r\n                charactersToDisplay = (int) (elapsedTime * _charactersPerMinute
-    / 60.0f);\r\n                if (i != ((int) charactersToDisplay)) {\r\n                   
-    // only update when neccessary\r\n                    i = (int) charactersToDisplay;\r\n                   
-    textMesh.text = _finishedText.Substring(0, i) + \"_\";\r\n                   
-    LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);\r\n                   
-    if (parentRecTransform) LayoutRebuilder.ForceRebuildLayoutImmediate(parentRecTransform);\r\n               
-    }\r\n                yield return null;\r\n            }\r\n\r\n            textMesh.text
-    = _finishedText;\r\n            LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);\r\n           
-    if (parentRecTransform) LayoutRebuilder.ForceRebuildLayoutImmediate(parentRecTransform);\r\n       
-    }\r\n    }\r\n}\r\n"
-  m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8d68277bad61c7b46bd7e03ebc534c3c, type: 2}
-  m_sharedMaterial: {fileID: 2779201154810601168, guid: 8d68277bad61c7b46bd7e03ebc534c3c, type: 2}
-  m_fontSharedMaterials: []
-  m_fontMaterial: {fileID: 0}
-  m_fontMaterials: []
-  m_fontColor32:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
-  m_enableVertexGradient: 0
-  m_colorMode: 3
-  m_fontColorGradient:
-    topLeft: {r: 1, g: 1, b: 1, a: 1}
-    topRight: {r: 1, g: 1, b: 1, a: 1}
-    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
-    bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
-  m_tintAllSprites: 0
-  m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: -1183493901
-  m_overrideHtmlColors: 0
-  m_faceColor:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontSize: 1
-  m_fontSizeBase: 1
-  m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
-  m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
-  m_textAlignment: 65535
-  m_characterSpacing: 0
-  m_wordSpacing: 0
-  m_lineSpacing: 0
-  m_lineSpacingMax: 0
-  m_paragraphSpacing: 0
-  m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
-  m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
-  m_linkedTextComponent: {fileID: 0}
-  parentLinkedComponent: {fileID: 0}
-  m_enableKerning: 1
-  m_enableExtraPadding: 0
-  checkPaddingRequired: 0
-  m_isRichText: 1
-  m_parseCtrlCharacters: 1
-  m_isOrthographic: 1
-  m_isCullingEnabled: 0
-  m_horizontalMapping: 0
-  m_verticalMapping: 0
-  m_uvLineOffset: 0
-  m_geometrySortingOrder: 0
-  m_IsTextObjectScaleStatic: 0
-  m_VertexBufferAutoSizeReduction: 0
-  m_useMaxVisibleDescender: 1
-  m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
-  m_isUsingLegacyAnimationComponent: 0
-  m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_baseMaterial: {fileID: 0}
-  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!222 &1568959748
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1568959743}
+  m_GameObject: {fileID: 1560212738}
   m_CullTransparentMesh: 1
 --- !u!1 &1571874916
 GameObject:
@@ -24415,190 +23902,6 @@ Transform:
   m_Father: {fileID: 785022900}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1639018974
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1639018975}
-  - component: {fileID: 1639018979}
-  - component: {fileID: 1639018978}
-  - component: {fileID: 1639018977}
-  - component: {fileID: 1639018976}
-  m_Layer: 5
-  m_Name: Text (6)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1639018975
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1639018974}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
-  m_Children: []
-  m_Father: {fileID: 699807661}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 20, y: 0}
-  m_SizeDelta: {x: 38, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1639018976
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1639018974}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff3d7f86a23296146aa77f4ce11cdb4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1639018977
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1639018974}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalFit: 0
-  m_VerticalFit: 2
---- !u!114 &1639018978
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1639018974}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_text: "using UnityEngine;\r\nusing UnityEngine.UI;\r\nusing System.Collections;\r\nusing
-    TMPro;\r\nusing NaughtyAttributes;\r\n\r\nnamespace Enter\r\n{\r\n    [RequireComponent(typeof(RectTransform))]\r\n   
-    public class Typewriter : MonoBehaviour {\r\n        RectTransform rectTransform;\r\n       
-    RectTransform parentRecTransform;\r\n\r\n        TMP_Text textMesh;\r\n       
-    string _finishedText;\r\n\r\n        public void Awake() {\r\n            textMesh
-    = GetComponentInChildren<TMP_Text>();\r\n            rectTransform = GetComponent<RectTransform>();\r\n           
-    parentRecTransform = transform.parent?.GetComponent<RectTransform>();\r\n           
-    _finishedText = textMesh.text;\r\n        }\r\n\r\n        void OnEnable() {\r\n           
-    textMesh.text = \"\";\r\n        }\r\n\r\n        public IEnumerator WaitForTypeWrite(float
-    _charactersPerMinute) {\r\n            float startTime = Time.unscaledTime;\r\n\r\n           
-    int charactersToDisplay = 0;\r\n            int i = -1;\r\n            while
-    (charactersToDisplay < _finishedText.Length) {\r\n                float elapsedTime
-    = startTime;\r\n                charactersToDisplay = (int) (elapsedTime * _charactersPerMinute
-    / 60.0f);\r\n                if (i != ((int) charactersToDisplay)) {\r\n                   
-    // only update when neccessary\r\n                    i = (int) charactersToDisplay;\r\n                   
-    textMesh.text = _finishedText.Substring(0, i) + \"_\";\r\n                   
-    LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);\r\n                   
-    if (parentRecTransform) LayoutRebuilder.ForceRebuildLayoutImmediate(parentRecTransform);\r\n               
-    }\r\n                yield return null;\r\n            }\r\n\r\n            textMesh.text
-    = _finishedText;\r\n            LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);\r\n           
-    if (parentRecTransform) LayoutRebuilder.ForceRebuildLayoutImmediate(parentRecTransform);\r\n       
-    }\r\n    }\r\n}\r\n"
-  m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8d68277bad61c7b46bd7e03ebc534c3c, type: 2}
-  m_sharedMaterial: {fileID: 2779201154810601168, guid: 8d68277bad61c7b46bd7e03ebc534c3c, type: 2}
-  m_fontSharedMaterials: []
-  m_fontMaterial: {fileID: 0}
-  m_fontMaterials: []
-  m_fontColor32:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
-  m_enableVertexGradient: 0
-  m_colorMode: 3
-  m_fontColorGradient:
-    topLeft: {r: 1, g: 1, b: 1, a: 1}
-    topRight: {r: 1, g: 1, b: 1, a: 1}
-    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
-    bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
-  m_tintAllSprites: 0
-  m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: -1183493901
-  m_overrideHtmlColors: 0
-  m_faceColor:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontSize: 1
-  m_fontSizeBase: 1
-  m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
-  m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
-  m_textAlignment: 65535
-  m_characterSpacing: 0
-  m_wordSpacing: 0
-  m_lineSpacing: 0
-  m_lineSpacingMax: 0
-  m_paragraphSpacing: 0
-  m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
-  m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
-  m_linkedTextComponent: {fileID: 0}
-  parentLinkedComponent: {fileID: 0}
-  m_enableKerning: 1
-  m_enableExtraPadding: 0
-  checkPaddingRequired: 0
-  m_isRichText: 1
-  m_parseCtrlCharacters: 1
-  m_isOrthographic: 1
-  m_isCullingEnabled: 0
-  m_horizontalMapping: 0
-  m_verticalMapping: 0
-  m_uvLineOffset: 0
-  m_geometrySortingOrder: 0
-  m_IsTextObjectScaleStatic: 0
-  m_VertexBufferAutoSizeReduction: 0
-  m_useMaxVisibleDescender: 1
-  m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
-  m_isUsingLegacyAnimationComponent: 0
-  m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_baseMaterial: {fileID: 0}
-  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!222 &1639018979
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1639018974}
-  m_CullTransparentMesh: 1
 --- !u!1001 &1725124478
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24794,7 +24097,6 @@ GameObject:
   - component: {fileID: 2094179051}
   - component: {fileID: 2094179050}
   - component: {fileID: 2094179052}
-  - component: {fileID: 2094179053}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -24844,6 +24146,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: ' <<color=#ff0000>Enter</color>>
 
+
 '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8d68277bad61c7b46bd7e03ebc534c3c, type: 2}
@@ -24871,8 +24174,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 1
-  m_fontSizeBase: 1
+  m_fontSize: 5
+  m_fontSizeBase: 5
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -24935,15 +24238,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
---- !u!114 &2094179053
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2094179048}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff3d7f86a23296146aa77f4ce11cdb4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

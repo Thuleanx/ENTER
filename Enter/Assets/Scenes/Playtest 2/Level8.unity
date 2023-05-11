@@ -266,7 +266,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7142682188187260079, guid: 9a902e58236f5444c973d117a0fa05b1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -15
+      value: -17.5
       objectReference: {fileID: 0}
     - target: {fileID: 7142682188187260079, guid: 9a902e58236f5444c973d117a0fa05b1, type: 3}
       propertyPath: m_LocalPosition.y
@@ -542,6 +542,11 @@ PrefabInstance:
 --- !u!4 &1747462608 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5284979485511320098, guid: 349358f96f76640dcac5145bd0d543f0, type: 3}
+  m_PrefabInstance: {fileID: 1747462607}
+  m_PrefabAsset: {fileID: 0}
+--- !u!20 &1747462609 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 5284979485866314911, guid: 349358f96f76640dcac5145bd0d543f0, type: 3}
   m_PrefabInstance: {fileID: 1747462607}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1829812575
@@ -3971,6 +3976,10 @@ PrefabInstance:
       propertyPath: m_ColliderPaths.Array.data[1].m_ColliderPaths.Array.data[2].Array.data[10].Y
       value: -80000100
       objectReference: {fileID: 0}
+    - target: {fileID: 2013804218883100965, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1747462609}
     - target: {fileID: 2039508394902037582, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -4543,6 +4552,18 @@ PrefabInstance:
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[1].Array.data[11].Y
       value: -79999900
       objectReference: {fileID: 0}
+    - target: {fileID: 3404737224022542144, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1747462609}
+    - target: {fileID: 4041672366422540744, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1747462609}
+    - target: {fileID: 4303471668491355893, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1747462609}
     - target: {fileID: 5170594659017191956, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_Name
       value: Environment
@@ -56531,6 +56552,14 @@ PrefabInstance:
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[5].Array.data[15].Y
       value: -270000100
       objectReference: {fileID: 0}
+    - target: {fileID: 5756927944163960040, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1747462609}
+    - target: {fileID: 5764727040631504228, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1747462609}
     - target: {fileID: 7005737234147014588, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_RootOrder
       value: 3

@@ -31,6 +31,8 @@ namespace Enter
 
     private Vector2 _pasteTLOffset = new Vector2(-0.95f, 0.95f);
 
+    public bool CanCutPaste => SceneTransitioner.Instance.CurrSpawnPoint.CanCutPaste;
+
     #region ================== Methods
 
     void Awake()
@@ -120,6 +122,10 @@ namespace Enter
         return;
       }
 
+      // Prevent cutting/pasting if not enabled yet
+      if (!CanCutPaste) return;
+
+      // Else, cut/paste based on position
       if (_rc.transform.position.x > _in.MouseWorld.x) cut();
       else                                             paste();
     }
@@ -135,8 +141,6 @@ namespace Enter
 
       // Spawn in at new location
       enableRCBox(targetPosition);
-
-    ShockwaveManager.Instance.SpawnAtPos(targetPosition);
     }
 
     private void cut()
@@ -219,9 +223,11 @@ namespace Enter
       }
 
       // Color RCBox
-      _rcLeftRenderer.color  = (CutObject == null && SelectedObject != null) ? _goodColor : _baseColor;
-      _rcRightRenderer.color = (CutObject != null && SelectedObject == null) ? _goodColor : _baseColor;
-      
+      applyCutPasteVisuals();
+
+      // Create shockwave
+      ShockwaveManager.Instance.SpawnAtPos(targetPosition);
+
       _rc.SetActive(true);
       _lastRCTime = Time.time;
     }
@@ -235,6 +241,13 @@ namespace Enter
         SelectedObject.GetComponent<Rigidbody2D>().constraints = SelectedObjectInitialConstraints;
         SelectedObject = null;
       }
+    }
+
+    private void applyCutPasteVisuals()
+    {
+      // Todo
+      _rcLeftRenderer.color  = (CanCutPaste && CutObject == null && SelectedObject != null) ? _goodColor : _baseColor;
+      _rcRightRenderer.color = (CanCutPaste && CutObject != null && SelectedObject == null) ? _goodColor : _baseColor;
     }
 
     #endregion
