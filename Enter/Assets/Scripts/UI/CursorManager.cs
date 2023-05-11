@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using NaughtyAttributes;
 
 namespace Enter {
+
+    public enum CursorType {
+        Pointer,
+        Hover
+    }
+
     public class CursorManager : MonoBehaviour {
         public static CursorManager Instance;
 
-        public enum CursorType {
-            Pointer,
-            Hover
-        }
 
         public enum Mode {
             Light,
