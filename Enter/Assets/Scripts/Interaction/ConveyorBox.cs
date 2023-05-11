@@ -18,7 +18,7 @@ namespace Enter
     public Rigidbody2D Rigidbody2D => _rb;
 
     public bool IsBlockedByCB =>
-      CurrentConveyorBeam != null && 
+      CurrentConveyorBeam != null &&
       DownstreamConveyorBox &&
       DownstreamConveyorBox.gameObject.activeInHierarchy;
 
@@ -79,7 +79,7 @@ namespace Enter
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-      if (!this.enabled) return;
+      if (!gameObject.activeInHierarchy || !this.enabled) return;
 
       Collider2D collider = collision.collider;
 
@@ -111,7 +111,7 @@ namespace Enter
 
     void OnTriggerEnter2D(Collider2D otherCollider)
     {
-      if (!this.enabled) return;
+      if (!gameObject.activeInHierarchy || !this.enabled) return;
 
       if (colliderIsConveyorBeam(otherCollider))
       {
@@ -123,7 +123,7 @@ namespace Enter
 
     void OnTriggerStay2D(Collider2D otherCollider)
     {
-      if (!this.enabled) return;
+      if (!gameObject.activeInHierarchy || !this.enabled) return;
 
       if (colliderIsConveyorBeam(otherCollider))
       {
@@ -139,23 +139,26 @@ namespace Enter
 
     void OnTriggerExit2D(Collider2D otherCollider)
     {
-      if (!this.enabled) return;
+      if (!gameObject.activeInHierarchy || !this.enabled) return;
 
       if (colliderIsConveyorBeam(otherCollider))
       {
-        gameObject.SetActive(false);
-
         if (UpstreamConveyorBox != null)
         {
           UpstreamConveyorBox.DownstreamConveyorBox = null;
           UpstreamConveyorBox = null;
         }
+
+        CurrentConveyorBeam.OnBoxExit();
+
+        // This must be last, because onDisable sets stuff to null
+        gameObject.SetActive(false);
       }
     }
   
     public void SetVelocityAndPositionInChain(Vector2 vel, Vector2 pos)
     {
-      if (!this.enabled) return;
+      if (!gameObject.activeInHierarchy || !this.enabled) return;
       
       _rb.velocity = vel;
       _rb.position = pos;
@@ -171,6 +174,7 @@ namespace Enter
       // Check if blocked by conveyor box
       if (IsBlockedByCB)
       {
+        Debug.Log(DownstreamConveyorBox.Rigidbody2D);
         SetVelocityAndPositionInChain(
           DownstreamConveyorBox.Rigidbody2D.velocity,
           DownstreamConveyorBox.Rigidbody2D.position + NextInChainOffset);
@@ -185,7 +189,7 @@ namespace Enter
         }
       }
 
-      // Check if blocked by conveyor box
+      // Check if blocked by RC box
       if (IsBlockedByRCBox)
       {
         _rb.velocity = Vector2.zero;

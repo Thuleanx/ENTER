@@ -1,5 +1,6 @@
 using Enter.Utils;
 using NaughtyAttributes;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -37,14 +38,32 @@ namespace Enter
     [SerializeField, Tooltip("The radius of the circle to check for whether or not a new box will be spawned")]
     private float _spawnCheckRadius = 0.5f;
 
+    [SerializeField, Tooltip("Whether or not to spawn each box flush with the previous one. Will ignore wait time if true."), OnValueChanged("onSpawnFlushChange")]
+    private bool _spawnFlush = false;
+    private ConveyorBox _previousFlushConveyorBox;
+    // We'll make a dangerous assumption that the conveyor beam will never get backed up in _spawnFlush mode.
+    // To keep in sync with the despawning, we will just spawn a new box when one despawns, instead of waiting.
+
     [SerializeField, Tooltip("Sprite of the conveyor beam. Used by the beam for scrolling at the same speed as the beam.")]
     private SpriteRenderer _sprite;
 
-    private float _spacing => _beltSpeed * _spawnWaitTime;
+    private float _spacing => _spawnFlush ? 2 : _beltSpeed * _spawnWaitTime;
+
+    private bool _isSpawning = true;
 
     #region ================== Accessors
 
     public Vector2 ConveyorBeamVelocity => _beltSpeed * transform.right;
+
+    public bool IsSpawning
+    {
+      get { return _isSpawning; }
+      set
+      {
+        if (value) throw new Exception("Shouldn't happen. Who let you start spawning, lol?");
+        _isSpawning = false;
+      }
+    }
 
     #endregion
 
@@ -93,6 +112,11 @@ namespace Enter
     }
 #endif
 
+    public void OnBoxExit()
+    {
+      if (_isSpawning && _spawnFlush) spawnBoxAt(transform.position);
+    }
+
     #endregion
     
     #region ================== Helpers
@@ -132,9 +156,9 @@ namespace Enter
     {
       yield return new WaitForSeconds(_initialWaitTime);
 
-      while (true)
+      while (_isSpawning && !_spawnFlush)
       {
-        // check if any conveyor box is overlapping with the spawn point
+        // Check if any conveyor box is overlapping with the spawn point
         bool conveyorBoxOverlapped = Physics2D.OverlapCircle(
           transform.position, 
           _spawnCheckRadius,
@@ -148,7 +172,7 @@ namespace Enter
 
     private void spawnBoxAt(Vector3 inputPosition)
     {
-      // only spawn new boxes if no overlapping
+      // Only spawn new boxes if no overlapping
       GameObject obj = BubbleManager.Instance.Borrow(
         gameObject.scene,
         _boxPrefab,
@@ -157,6 +181,16 @@ namespace Enter
 
       // IMPORTANT: Toggle behaviour accordingly
       obj.GetComponent<Box>().IsPhysicsBox = false;
+
+      if (_spawnFlush)
+      {
+        ConveyorBox currentConveyorBox = obj.GetComponent<ConveyorBox>();
+
+        if (_previousFlushConveyorBox != null) _previousFlushConveyorBox.UpstreamConveyorBox = currentConveyorBox;
+
+        currentConveyorBox.DownstreamConveyorBox = _previousFlushConveyorBox;
+        _previousFlushConveyorBox = currentConveyorBox;
+      }
     }
 
     private void onBeltLengthChanged()
@@ -168,6 +202,11 @@ namespace Enter
       Vector2 offset = new Vector2(_beltLength / 2 - 1, 0);
       _co.offset                  = offset;
       _sr.transform.localPosition = offset;
+    }
+
+    private void onSpawnFlushChange()
+    {
+      if (!_spawnFlush) _previousFlushConveyorBox = null;
     }
 
     #endregion
