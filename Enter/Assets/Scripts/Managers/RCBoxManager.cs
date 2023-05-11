@@ -11,21 +11,24 @@ namespace Enter
   {
     public static RCBoxManager Instance;
 
-    private static Color _goodColor = new Color(0.25f, 1, 0.25f, 1);
-    private static Color _baseColor;
-
     private InputData _in => InputManager.Instance.Data;
 
-    [SerializeField] private GameObject _rc;
-    [SerializeField] private SpriteRenderer _rcLeftRenderer;
-    [SerializeField] private SpriteRenderer _rcRightRenderer;
+    [SerializeField] private GameObject     _rc;
+    [SerializeField] private SpriteRenderer _rcSpriteRenderer;
+
+    [SerializeField] private Sprite _rcSprite00;
+    [SerializeField] private Sprite _rcSprite01; // Paste
+    [SerializeField] private Sprite _rcSprite10; // Cut
+    [SerializeField] private Sprite _rcSprite02; // Paste hover
+    [SerializeField] private Sprite _rcSprite20; // Cut   hover
+    [SerializeField] private Sprite _rcSprite03; // Paste blocked
+    [SerializeField] private Sprite _rcSprite30; // Cut   blocked
 
     [SerializeField] private float _lastRCTime = -Mathf.Infinity;
     [SerializeField] private float _minRCInterval = 0.1f;
 
     public GameObject SelectedObject = null;
     private RigidbodyConstraints2D SelectedObjectInitialConstraints;
-
     public GameObject CutObject = null;
     private RigidbodyConstraints2D CutObjectInitialConstraints;
 
@@ -33,24 +36,24 @@ namespace Enter
 
     public bool CanCutPaste => SceneTransitioner.Instance.CurrSpawnPoint.CanCutPaste;
 
+    public Sprite RCSprite { set { _rcSpriteRenderer.sprite = value; } }
+
+    public bool MouseIsOverLeft;
+    public bool MouseIsOverRight;
+    
     #region ================== Methods
 
     void Awake()
     {
       Instance = this;
-      Assert.IsNotNull(_rc, "RCBoxManager must have a reference to GameObject RCBox.");
-      Assert.IsNotNull(_rcLeftRenderer,  "RCBoxManager must have a reference to RCBox's left SpriteRenderer.");
-      Assert.IsNotNull(_rcRightRenderer, "RCBoxManager must have a reference to RCBox's right SpriteRenderer.");
-      
-      _baseColor = _rcLeftRenderer.color;
+      Assert.IsNotNull(_rc,               "RCBoxManager must have a reference to GameObject RCBox.");
+      Assert.IsNotNull(_rcSpriteRenderer, "RCBoxManager must have a reference to RCBox's SpriteRenderer.");
+      RCSprite = _rcSprite00;
     }
 
-    void LateUpdate() {
-        bool shouldCountRightClick =
-          Physics2D.OverlapPoint((Vector2) _in.MouseWorld, LayerManager.Instance.RCAreaLayer) && Time.timeScale != 0;
-
-        if (shouldCountRightClick)  CursorManager.Instance.HoveringEntities.Add(GetInstanceID());
-        else                        CursorManager.Instance.HoveringEntities.Remove(GetInstanceID());
+    void LateUpdate()
+    {
+      updateCutPasteVisuals();
     }
 
     void FixedUpdate()
@@ -65,8 +68,7 @@ namespace Enter
           leftClick();
         }
       }
-
-      if (_in.RDown)
+      else if (_in.RDown)
       {
         bool shouldCountRightClick =
           (Time.time - _minRCInterval > _lastRCTime) &&
@@ -78,8 +80,16 @@ namespace Enter
           rightClick();
         }
       }
+
+      if (_rc.activeSelf) findAndFreezeSelectedObject();
     }
 
+    void OnDisable()
+    {
+      CursorManager.Instance.HoveringEntities.Remove(GetInstanceID());
+    }
+
+#if UNITY_EDITOR
     void OnDrawGizmos()
     {
       if (!_rc.activeSelf) return;
@@ -95,17 +105,13 @@ namespace Enter
         (Vector2) _rc.transform.position + _pasteTLOffset,
         (Vector2) _rc.transform.position - _pasteTLOffset);
     }
+#endif
 
     // Used as an event in SceneTransitioner
     public void DespawnRCBox()
     {
       CutObject = null;
       disableRCBox();
-    }
-
-    void OnDisable()
-    {
-      CursorManager.Instance.HoveringEntities.Remove(GetInstanceID());
     }
 
     #endregion
@@ -163,8 +169,8 @@ namespace Enter
       CutObjectInitialConstraints = SelectedObjectInitialConstraints;
       SelectedObject = null;
       CutObject.SetActive(false);
-      Debug.Log("Successfully cut: " + CutObject.name);
 
+      CursorManager.Instance.SetCursor(CursorType.Pointer);
       disableRCBox();
     }
 
@@ -200,6 +206,7 @@ namespace Enter
       CutObject.SetActive(true);
       CutObject = null;
 
+      CursorManager.Instance.SetCursor(CursorType.Pointer);
       disableRCBox();
     }
 
@@ -214,16 +221,7 @@ namespace Enter
       _rc.transform.position = targetPosition;
 
       // Find and freeze currently selected object
-      Collider2D collider = Physics2D.OverlapPoint((Vector2) _rc.transform.position, LayerManager.Instance.CuttableLayer);
-      if (collider != null)
-      {
-        SelectedObject = collider.gameObject;
-        SelectedObjectInitialConstraints = SelectedObject.GetComponent<Rigidbody2D>().constraints;
-        SelectedObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
-      }
-
-      // Color RCBox
-      applyCutPasteVisuals();
+      findAndFreezeSelectedObject();
 
       // Create shockwave
       ShockwaveManager.Instance.SpawnAtPos(targetPosition);
@@ -243,11 +241,58 @@ namespace Enter
       }
     }
 
-    private void applyCutPasteVisuals()
+    private void findAndFreezeSelectedObject()
     {
-      // Todo
-      _rcLeftRenderer.color  = (CanCutPaste && CutObject == null && SelectedObject != null) ? _goodColor : _baseColor;
-      _rcRightRenderer.color = (CanCutPaste && CutObject != null && SelectedObject == null) ? _goodColor : _baseColor;
+      if (SelectedObject != null) return;
+      
+      Collider2D collider = Physics2D.OverlapCircle((Vector2) _rc.transform.position, 0.05f, LayerManager.Instance.CuttableLayer);
+      if (collider != null)
+      {
+        SelectedObject = collider.gameObject;
+        SelectedObjectInitialConstraints = SelectedObject.GetComponent<Rigidbody2D>().constraints;
+        SelectedObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+      }
+    }
+
+    private void updateCutPasteVisuals()
+    {
+      if (!CanCutPaste)
+      {
+        RCSprite = _rcSprite00;
+        return;
+      }
+
+      // Can cut
+      if (CutObject == null)
+      {
+        // Nothing to cut
+        if (SelectedObject == null)
+        {
+          RCSprite = _rcSprite30;
+          return;
+        }
+
+        // Something to cut
+        RCSprite = MouseIsOverLeft ? _rcSprite20 : _rcSprite10;
+        if (MouseIsOverLeft) CursorManager.Instance.SetCursor(CursorType.Hover);
+        return;
+      }
+
+      // Can paste
+      if (CutObject != null)
+      {
+        // Blocked from pasting
+        if (SelectedObject != null)
+        {
+          RCSprite = _rcSprite03;
+          return;
+        }
+
+        // Free to paste
+        RCSprite = MouseIsOverRight ? _rcSprite02 : _rcSprite01;
+        if (MouseIsOverRight) CursorManager.Instance.SetCursor(CursorType.Hover);
+        return;
+      }
     }
 
     #endregion

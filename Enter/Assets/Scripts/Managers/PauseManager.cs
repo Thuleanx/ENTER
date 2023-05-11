@@ -67,12 +67,12 @@ namespace Enter
 
     public void CursorHover()
     {
-      CursorManager.Instance.SetCursor(CursorManager.CursorType.Hover);
+      CursorManager.Instance.SetCursor(CursorType.Hover);
     }
 
     public void CursorNormal()
     {
-      CursorManager.Instance.SetCursor(CursorManager.CursorType.Pointer);
+      CursorManager.Instance.SetCursor(CursorType.Pointer);
     }
 
     #endregion
