@@ -22,7 +22,7 @@ namespace Enter
     [SerializeField, Tooltip("The total length in tiles of the conveyor beam."),  Min(1), OnValueChanged("onBeltLengthChanged")]
     private float _beltLength = 5;
     
-    [SerializeField, Tooltip("The speed that boxes will be set to."), Min(0)]
+    [SerializeField, Tooltip("The speed that boxes will be set to."), Min(0.01f)]
     private float _beltSpeed = 2.5f;
 
     [SerializeField, Tooltip("If set to true, will spawn boxes on enable, and initial wait time becomes nothing more than a phase offset.")]
@@ -31,7 +31,7 @@ namespace Enter
     [SerializeField, Tooltip("Delay before spawning the first box at the spawn location. If prewarm is true, this becomes nothing more than a phase offset.")]
     private float _initialWaitTime = 0;
 
-    [SerializeField, Tooltip("Time between spawning boxes at the spawn location")]
+    [SerializeField, Tooltip("Time between spawning boxes at the spawn location"), Min(0.01f)]
     private float _spawnWaitTime = 2;
 
     [SerializeField, Tooltip("The radius of the circle to check for whether or not a new box will be spawned")]
@@ -71,8 +71,9 @@ namespace Enter
       SceneTransitioner.Instance.OnReloadBefore.RemoveListener(doCleanupThings);
     }
 
-    void LateUpdate() {
-        _sprite.material.SetFloat("_ScrollSpeed", _beltSpeed);
+    void LateUpdate()
+    {
+      _sprite.material.SetFloat("_ScrollSpeed", _beltSpeed);
     }
 
 #if UNITY_EDITOR
