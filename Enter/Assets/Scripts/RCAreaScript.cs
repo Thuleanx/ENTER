@@ -46,11 +46,6 @@ namespace Enter
       // This should only ever be called when there are RC areas and one got clicked
       Assert.IsTrue(_validPoints.Count != 0);
 
-      FindClosestValidPoint(target, out Vector2 bestPoint);
-      return bestPoint;
-    }
-
-    public bool FindClosestValidPoint(Vector2 target, out Vector2 closestPoint) {
       Vector2 bestPoint  = Vector2.zero;
       float bestDistance = Mathf.Infinity;
 
@@ -63,8 +58,8 @@ namespace Enter
           bestDistance = distance;
         }
       }
-      closestPoint = bestPoint;
-      return bestDistance != Mathf.Infinity;
+
+      return bestPoint;
     }
 
     #endregion

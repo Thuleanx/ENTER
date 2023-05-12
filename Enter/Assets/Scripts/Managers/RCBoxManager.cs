@@ -34,7 +34,8 @@ namespace Enter
 
     private Vector2 _pasteTLOffset = new Vector2(-0.95f, 0.95f);
 
-    public bool CanCutPaste => SceneTransitioner.Instance.CurrSpawnPoint.CanCutPaste;
+    public bool CanCutPaste   => SceneTransitioner.Instance.CurrSpawnPoint.CanCutPaste;
+    public bool CanRCAnywhere => SceneTransitioner.Instance.CurrSpawnPoint.CanRCAnywhere;
 
     public Sprite RCSprite { set { _rcSpriteRenderer.sprite = value; } }
 
@@ -70,9 +71,8 @@ namespace Enter
       }
       else if (_in.RDown)
       {
-        bool shouldCountRightClick =
-          (Time.time - _minRCInterval > _lastRCTime) &&
-          Physics2D.OverlapPoint((Vector2) _in.MouseWorld, LayerManager.Instance.RCAreaLayer);
+        bool hitArea = Physics2D.OverlapPoint((Vector2) _in.MouseWorld, LayerManager.Instance.RCAreaLayer);
+        bool shouldCountRightClick = (Time.time - _minRCInterval > _lastRCTime) && (hitArea || CanRCAnywhere);
 
         if (shouldCountRightClick)
         {
@@ -212,6 +212,11 @@ namespace Enter
 
     private Vector3 getRCBoxPosition()
     {
+      if (CanRCAnywhere) 
+      {
+        return new Vector3(Mathf.Round(_in.MouseWorld.x), Mathf.Round(_in.MouseWorld.y), 0);
+      }
+
       Vector2 closest = FindObjectOfType<RCAreaScript>().FindClosestValidPoint(_in.MouseWorld);
       return new Vector3(closest.x, closest.y, 0);
     }
