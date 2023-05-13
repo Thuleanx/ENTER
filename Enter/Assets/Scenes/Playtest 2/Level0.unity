@@ -170,17 +170,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: SpawnPoint
       objectReference: {fileID: 0}
-    - target: {fileID: 7142682188187260078, guid: 9a902e58236f5444c973d117a0fa05b1, type: 3}
-      propertyPath: m_Color.a
-      value: 0.050980393
-      objectReference: {fileID: 0}
     - target: {fileID: 7142682188187260079, guid: 9a902e58236f5444c973d117a0fa05b1, type: 3}
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7142682188187260079, guid: 9a902e58236f5444c973d117a0fa05b1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -19.5
+      value: -17.5
       objectReference: {fileID: 0}
     - target: {fileID: 7142682188187260079, guid: 9a902e58236f5444c973d117a0fa05b1, type: 3}
       propertyPath: m_LocalPosition.y
@@ -287,25 +283,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1320470816948900106, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
       propertyPath: m_NormalizedViewPortRect.x
-      value: -0.16945606
+      value: 0.055555556
       objectReference: {fileID: 0}
     - target: {fileID: 1320470816948900106, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
       propertyPath: m_NormalizedViewPortRect.y
-      value: -0.16728625
+      value: 0.05555556
       objectReference: {fileID: 0}
     - target: {fileID: 1320470816948900106, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
       propertyPath: m_NormalizedViewPortRect.width
-      value: 1.3389121
+      value: 0.8888889
       objectReference: {fileID: 0}
     - target: {fileID: 1320470816948900106, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
       propertyPath: m_NormalizedViewPortRect.height
-      value: 1.33829
+      value: 0.88888896
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
 --- !u!4 &1725124479 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1320470816334978999, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
+  m_PrefabInstance: {fileID: 1725124478}
+  m_PrefabAsset: {fileID: 0}
+--- !u!20 &1725124480 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 1320470816948900106, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
   m_PrefabInstance: {fileID: 1725124478}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1829812575
@@ -385,10 +386,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 785022900}
     m_Modifications:
-    - target: {fileID: 1720439147585626207, guid: f2022af163a5d474094071b939412d23, type: 3}
-      propertyPath: m_Color.a
-      value: 0.050980393
-      objectReference: {fileID: 0}
     - target: {fileID: 8654797006753239841, guid: f2022af163a5d474094071b939412d23, type: 3}
       propertyPath: _nextSceneReference.Scene
       value: 
@@ -407,7 +404,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8654797006753239841, guid: f2022af163a5d474094071b939412d23, type: 3}
       propertyPath: <NextSceneReference>k__BackingField.sceneIndex
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 8654797006753239841, guid: f2022af163a5d474094071b939412d23, type: 3}
       propertyPath: <NextSceneReference>k__BackingField.sceneEnabled
@@ -483,6 +480,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 785022900}
     m_Modifications:
+    - target: {fileID: 1409534290460240871, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1725124480}
     - target: {fileID: 1424889039479160073, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_ColliderPaths.Array.size
       value: 1
@@ -867,6 +868,14 @@ PrefabInstance:
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[0].Array.data[21].Y
       value: -80000041
       objectReference: {fileID: 0}
+    - target: {fileID: 3404737224022542144, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1725124480}
+    - target: {fileID: 4303471668491355893, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1725124480}
     - target: {fileID: 5170594659017191956, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_Name
       value: Environment
@@ -20571,6 +20580,10 @@ PrefabInstance:
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[4].Array.data[21].Y
       value: -100000000
       objectReference: {fileID: 0}
+    - target: {fileID: 5756927944163960040, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1725124480}
     - target: {fileID: 8432397074758516415, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_Size.x
       value: 44
