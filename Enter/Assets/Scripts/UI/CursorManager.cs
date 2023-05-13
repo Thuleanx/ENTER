@@ -2,62 +2,64 @@ using UnityEngine;
 using System.Collections.Generic;
 using NaughtyAttributes;
 
-namespace Enter {
+namespace Enter
+{
+  public enum CursorType
+  {
+    Pointer,
+    Hover
+  }
 
-    public enum CursorType {
-        Pointer,
-        Hover
+  public enum CursorTheme
+  {
+    Light,
+    Dark
+  }
+
+  public class CursorManager : MonoBehaviour
+  {
+    public static CursorManager Instance;
+
+    [System.Serializable]
+    public struct CursorParams
+    {
+      public Texture2D texture;
+      public Vector2   hotspot;
     }
 
-    public class CursorManager : MonoBehaviour {
-        public static CursorManager Instance;
+    [SerializeField] private CursorParams _pointer;
+    [SerializeField] private CursorParams _pointerDark;
+    [SerializeField] private CursorParams _hover;
+    [SerializeField] private CursorParams _hoverDark;
+    [ReadOnly, SerializeField] private CursorType  _currentType  = CursorType.Pointer;
+    [ReadOnly, SerializeField] private CursorTheme _currentTheme = CursorTheme.Light;
 
+    public HashSet<GameObject> HoveringEntities { get; } = new HashSet<GameObject>();
 
-        public enum Mode {
-            Light,
-            Dark
-        }
-
-        [System.Serializable]
-        public struct CursorParams {
-            public Texture2D texture;
-            public Vector2 hotspot;
-        }
-
-        [SerializeField] CursorParams _pointer;
-        [SerializeField] CursorParams _pointerDark;
-        [SerializeField] CursorParams _hover;
-        [SerializeField] CursorParams _hoverDark;
-        [ReadOnly, SerializeField] CursorType currentType = CursorType.Pointer;
-        Mode mode = Mode.Light;
-
-        public HashSet<int> HoveringEntities = new HashSet<int>();
-
-        void Awake() {
-            Instance = this;
-            SetCursor(currentType);
-            /* Cursor.lockState = CursorLockMode.Confined; */
-        }
-
-        public void SetCursor(CursorType type) {
-            var argument = (mode, type);
-            CursorParams param = argument switch {
-                (Mode.Light, CursorType.Pointer) => _pointer,
-                (Mode.Light, CursorType.Hover) => _hover,
-                (Mode.Dark, CursorType.Pointer) => _pointerDark,
-                (Mode.Dark, CursorType.Hover) => _hoverDark,
-                _ => _pointer
-            };
-            Cursor.SetCursor(param.texture, param.hotspot, CursorMode.Auto);
-        }
-
-        void LateUpdate() {
-            CursorType desiredCursor = HoveringEntities.Count == 0 ? CursorType.Pointer : CursorType.Hover;
-
-            if (desiredCursor != currentType) {
-                SetCursor(desiredCursor);
-                currentType = desiredCursor;
-            }
-        }
+    void Awake()
+    {
+      Instance = this;
+      SetCursor(_currentType);
     }
+
+    public void SetCursor(CursorType type)
+    {
+      var argument = (_currentTheme, type);
+      CursorParams param = argument switch {
+        (CursorTheme.Light, CursorType.Pointer) => _pointer,
+        (CursorTheme.Light, CursorType.Hover)   => _hover,
+        (CursorTheme.Dark,  CursorType.Pointer) => _pointerDark,
+        (CursorTheme.Dark,  CursorType.Hover)   => _hoverDark,
+        _ => _pointer
+      };
+      Cursor.SetCursor(param.texture, param.hotspot, CursorMode.Auto);
+    }
+
+    void LateUpdate()
+    {
+      CursorType desiredCursor = HoveringEntities.Count == 0 ? CursorType.Pointer : CursorType.Hover;
+
+      SetCursor(desiredCursor);
+    }
+  }
 }

@@ -67,12 +67,12 @@ namespace Enter
 
     public void CursorHover()
     {
-      CursorManager.Instance.SetCursor(CursorType.Hover);
+      CursorManager.Instance.HoveringEntities.Add(gameObject);;
     }
 
     public void CursorNormal()
     {
-      CursorManager.Instance.SetCursor(CursorType.Pointer);
+      CursorManager.Instance.HoveringEntities.Remove(gameObject);
     }
 
     #endregion

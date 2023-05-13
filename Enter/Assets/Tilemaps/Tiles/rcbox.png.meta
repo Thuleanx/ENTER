@@ -109,7 +109,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 96
+        y: 144
         width: 64
         height: 48
       alignment: 0
@@ -130,7 +130,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 64
-        y: 96
+        y: 144
         width: 64
         height: 48
       alignment: 0
@@ -151,7 +151,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 128
-        y: 96
+        y: 144
         width: 64
         height: 48
       alignment: 0
@@ -172,7 +172,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 48
+        y: 96
         width: 64
         height: 48
       alignment: 0
@@ -193,7 +193,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 64
-        y: 48
+        y: 96
         width: 64
         height: 48
       alignment: 0
@@ -214,7 +214,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 128
-        y: 48
+        y: 96
         width: 64
         height: 48
       alignment: 0
@@ -235,7 +235,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 48
         width: 64
         height: 48
       alignment: 0
@@ -256,7 +256,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 64
-        y: 0
+        y: 48
         width: 64
         height: 48
       alignment: 0
@@ -277,7 +277,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 128
-        y: 0
+        y: 48
         width: 64
         height: 48
       alignment: 0
@@ -289,6 +289,69 @@ TextureImporter:
       bones: []
       spriteID: 6e1d7a4f5439c44ba9e4faf67f01145b
       internalID: 168141574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rcbox_9
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 64
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 22358c058f0eb492094fd739bcedf459
+      internalID: -131753847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rcbox_10
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 64
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1820a272f4de64b4fb5d87f61471548a
+      internalID: -1674921888
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: rcbox_11
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 64
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5cd059cbd0f164df28ba07e48ae7acdc
+      internalID: 1357204654
       vertices: []
       indices: 
       edges: []
@@ -306,11 +369,14 @@ TextureImporter:
     nameFileIdTable:
       rcbox_4: -1641595841
       rcbox_5: 1610364535
+      rcbox_9: -131753847
       rcbox_3: 148346223
       rcbox_8: 168141574
       rcbox_0: 1653385123
       rcbox_1: -946547965
       rcbox_2: -1962954646
+      rcbox_11: 1357204654
+      rcbox_10: -1674921888
       rcbox_6: -1899513556
       rcbox_7: -2014193505
   spritePackingTag: 

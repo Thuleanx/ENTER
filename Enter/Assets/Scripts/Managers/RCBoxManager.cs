@@ -23,6 +23,9 @@ namespace Enter
     [SerializeField] private Sprite _rcSprite20; // Cut   hover
     [SerializeField] private Sprite _rcSprite03; // Paste blocked
     [SerializeField] private Sprite _rcSprite30; // Cut   blocked
+    [SerializeField] private Sprite _rcSpriteD1; // Delete
+    [SerializeField] private Sprite _rcSpriteD2; // Delete hover
+    [SerializeField] private Sprite _rcSpriteD3; // Delete blocked
 
     [SerializeField] private float _lastRCTime = -Mathf.Infinity;
     [SerializeField] private float _minRCInterval = 0.1f;
@@ -34,13 +37,11 @@ namespace Enter
 
     private Vector2 _pasteTLOffset = new Vector2(-0.95f, 0.95f);
 
-    public bool CanCutPaste   => SceneTransitioner.Instance.CurrSpawnPoint.CanCutPaste;
-    public bool CanRCAnywhere => SceneTransitioner.Instance.CurrSpawnPoint.CanRCAnywhere;
+    private bool _canCutPaste   => SceneTransitioner.Instance.CurrSpawnPoint.CanCutPaste;
+    private bool _canRCAnywhere => SceneTransitioner.Instance.CurrSpawnPoint.CanRCAnywhere;
+    private bool _canDelete     => SceneTransitioner.Instance.CurrSpawnPoint.CanDelete;
 
     public Sprite RCSprite { set { _rcSpriteRenderer.sprite = value; } }
-
-    public bool MouseIsOverLeft;
-    public bool MouseIsOverRight;
     
     #region ================== Methods
 
@@ -54,7 +55,7 @@ namespace Enter
 
     void LateUpdate()
     {
-      updateCutPasteVisuals();
+      updateRCBoxSprite();
     }
 
     void FixedUpdate()
@@ -72,7 +73,7 @@ namespace Enter
       else if (_in.RDown)
       {
         bool hitArea = Physics2D.OverlapPoint((Vector2) _in.MouseWorld, LayerManager.Instance.RCAreaLayer);
-        bool shouldCountRightClick = (Time.time - _minRCInterval > _lastRCTime) && (hitArea || CanRCAnywhere);
+        bool shouldCountRightClick = (Time.time - _minRCInterval > _lastRCTime) && (hitArea || _canRCAnywhere);
 
         if (shouldCountRightClick)
         {
@@ -82,11 +83,6 @@ namespace Enter
       }
 
       if (_rc.activeSelf) findAndFreezeSelectedObject();
-    }
-
-    void OnDisable()
-    {
-      CursorManager.Instance.HoveringEntities.Remove(GetInstanceID());
     }
 
 #if UNITY_EDITOR
@@ -120,20 +116,15 @@ namespace Enter
 
     private void leftClick()
     {
-      // Left-clicking elsewhere disables the RCBox
       bool isOnRCBox = Physics2D.OverlapPoint((Vector2) _in.MouseWorld, LayerManager.Instance.RCBoxLayer);
-      if (!isOnRCBox)
+
+      if      (!isOnRCBox) disableRCBox();
+      else if (_canDelete) delete();
+      else if (_canCutPaste)
       {
-        disableRCBox();
-        return;
+        if (_in.MouseWorld.x < _rc.transform.position.x) cut();
+        else                                             paste();
       }
-
-      // Prevent cutting/pasting if not enabled yet
-      if (!CanCutPaste) return;
-
-      // Else, cut/paste based on position
-      if (_rc.transform.position.x > _in.MouseWorld.x) cut();
-      else                                             paste();
     }
 
     private void rightClick()
@@ -170,7 +161,6 @@ namespace Enter
       SelectedObject = null;
       CutObject.SetActive(false);
 
-      CursorManager.Instance.SetCursor(CursorType.Pointer);
       disableRCBox();
     }
 
@@ -206,13 +196,27 @@ namespace Enter
       CutObject.SetActive(true);
       CutObject = null;
 
-      CursorManager.Instance.SetCursor(CursorType.Pointer);
+      disableRCBox();
+    }
+
+    private void delete()
+    {
+      // Prevent deleting nothing
+      if (SelectedObject == null)
+      {
+        Debug.Log("Nothing to delete.");
+        return;
+      }
+
+      SelectedObject.SetActive(false);
+      SelectedObject = null;
+
       disableRCBox();
     }
 
     private Vector3 getRCBoxPosition()
     {
-      if (CanRCAnywhere) 
+      if (_canRCAnywhere) 
       {
         return new Vector3(Mathf.Round(_in.MouseWorld.x), Mathf.Round(_in.MouseWorld.y), 0);
       }
@@ -250,7 +254,17 @@ namespace Enter
     {
       if (SelectedObject != null) return;
       
-      Collider2D collider = Physics2D.OverlapCircle((Vector2) _rc.transform.position, 0.05f, LayerManager.Instance.CuttableLayer);
+      // Option 1: offset slightly down to avoid selecting things above the RCBox
+      // Collider2D collider = Physics2D.OverlapPoint(
+      //   (Vector2) _rc.transform.position - new Vector2(0, 0.01f),
+      //   LayerManager.Instance.CuttableLayer);
+
+      // Option 2: be more generous with selection
+      Collider2D collider = Physics2D.OverlapCircle(
+        (Vector2) _rc.transform.position,
+        0.05f,
+        LayerManager.Instance.CuttableLayer);
+
       if (collider != null)
       {
         SelectedObject = collider.gameObject;
@@ -259,9 +273,34 @@ namespace Enter
       }
     }
 
-    private void updateCutPasteVisuals()
+    private void updateRCBoxSprite()
     {
-      if (!CanCutPaste)
+      bool isOnRCBox = !PauseManager.Instance.IsPaused &&
+        Physics2D.OverlapPoint((Vector2) _in.MouseWorld, LayerManager.Instance.RCBoxLayer);
+
+      bool mouseIsOver      = isOnRCBox;
+      bool mouseIsOverLeft  = isOnRCBox && _in.MouseWorld.x <  _rc.transform.position.x;
+      bool mouseIsOverRight = isOnRCBox && _in.MouseWorld.x >= _rc.transform.position.x;
+
+      CursorManager.Instance.HoveringEntities.Remove(gameObject);
+
+      if (_canDelete)
+      {
+        // Nothing to delete
+        if (SelectedObject == null)
+        {
+          RCSprite = _rcSpriteD3;
+          return;
+        }
+
+        // Something to delete
+        RCSprite = mouseIsOver ? _rcSpriteD2 : _rcSpriteD1;
+        if (mouseIsOver) CursorManager.Instance.HoveringEntities.Add(gameObject);
+        return;
+      }
+
+      // Cannot cut/paste
+      if (!_canCutPaste)
       {
         RCSprite = _rcSprite00;
         return;
@@ -278,8 +317,8 @@ namespace Enter
         }
 
         // Something to cut
-        RCSprite = MouseIsOverLeft ? _rcSprite20 : _rcSprite10;
-        if (MouseIsOverLeft) CursorManager.Instance.SetCursor(CursorType.Hover);
+        RCSprite = mouseIsOverLeft ? _rcSprite20 : _rcSprite10;
+        if (mouseIsOverLeft) CursorManager.Instance.HoveringEntities.Add(gameObject);
         return;
       }
 
@@ -294,8 +333,8 @@ namespace Enter
         }
 
         // Free to paste
-        RCSprite = MouseIsOverRight ? _rcSprite02 : _rcSprite01;
-        if (MouseIsOverRight) CursorManager.Instance.SetCursor(CursorType.Hover);
+        RCSprite = mouseIsOverRight ? _rcSprite02 : _rcSprite01;
+        if (mouseIsOverRight) CursorManager.Instance.HoveringEntities.Add(gameObject);
         return;
       }
     }

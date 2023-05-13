@@ -7,8 +7,8 @@ namespace Enter
 {
   public class ConveyorBox : MonoBehaviour
   {
-    private Rigidbody2D  _rb;
-    
+    private Rigidbody2D _rb;
+
     public ConveyorBeam CurrentConveyorBeam; // In all our use cases, this never changes after being set
     public ConveyorBox  DownstreamConveyorBox;
     public ConveyorBox  UpstreamConveyorBox;
@@ -29,7 +29,7 @@ namespace Enter
       DownstreamRCBoxObject.transform.position == CollidedRCBoxPosition;
 
     public Vector2 NextInChainOffset => -2 * CurrentConveyorBeam.ConveyorBeamVelocity.normalized;
-    
+
     #region ================== Methods
 
     void Awake()
@@ -87,7 +87,7 @@ namespace Enter
       if (CurrentConveyorBeam == null) return;
       
       // Ignore if collision is upstream
-      if (!colliderIsDownstream(collider)) return;
+      if (!collisionIsDownstream(collision)) return;
 
       // Collision with RCBox which is downstream
       if (colliderIsRCBox(collider))
@@ -99,6 +99,7 @@ namespace Enter
         }
         DownstreamRCBoxObject = collider.gameObject;
         CollidedRCBoxPosition = collider.transform.position;
+        return;
       }
 
       // Collision with conveyor box which is downstream
@@ -106,6 +107,7 @@ namespace Enter
       {
         DownstreamConveyorBox = collider.gameObject.GetComponent<ConveyorBox>();
         DownstreamConveyorBox.UpstreamConveyorBox = this;
+        return;
       }
     }
 
@@ -155,7 +157,7 @@ namespace Enter
         gameObject.SetActive(false);
       }
     }
-  
+
     public void SetVelocityAndPositionInChain(Vector2 vel, Vector2 pos)
     {
       if (!gameObject.activeInHierarchy || !this.enabled) return;
@@ -166,7 +168,7 @@ namespace Enter
     }
 
     #endregion
-    
+
     #region ================== Helpers
 
     private void handleChainBehavior()
@@ -174,7 +176,6 @@ namespace Enter
       // Check if blocked by conveyor box
       if (IsBlockedByCB)
       {
-        Debug.Log(DownstreamConveyorBox.Rigidbody2D);
         SetVelocityAndPositionInChain(
           DownstreamConveyorBox.Rigidbody2D.velocity,
           DownstreamConveyorBox.Rigidbody2D.position + NextInChainOffset);
@@ -211,7 +212,7 @@ namespace Enter
     {
       return LayerManager.Instance.IsInLayerMask(LayerManager.Instance.RCBoxLayer, collider.gameObject);
     }
-    
+
     private bool colliderIsConveyorBeam(Collider2D collider)
     {
       return LayerManager.Instance.IsInLayerMask(LayerManager.Instance.ConveyorBeamLayer, collider.gameObject);
@@ -221,13 +222,12 @@ namespace Enter
     {
       return LayerManager.Instance.IsInLayerMask(LayerManager.Instance.ConveyorBoxLayer, collider.gameObject);
     }
-    
-    private bool colliderIsDownstream(Collider2D collider)
+
+    private bool collisionIsDownstream(Collision2D collision)
     {
-      Vector2 blockerPosition = collider.transform.position;
-      Vector2 thisToBlocker   = (blockerPosition - _rb.position).normalized;
-      Vector2 travelDirection = CurrentConveyorBeam.ConveyorBeamVelocity.normalized;
-      return Vector2.Dot(thisToBlocker, travelDirection) > 0.7071067812;
+      Vector2 negContactNormal = -collision.GetContact(0).normal;
+      Vector2 travelDirection  = CurrentConveyorBeam.ConveyorBeamVelocity.normalized;
+      return Vector2.Dot(negContactNormal, travelDirection) > Mathf.Cos(Mathf.PI / 4.0f + 0.1f);
     }
 
     #endregion

@@ -25,7 +25,7 @@ namespace Enter
 
     void OnEnable()
     {
-	  SceneTransitioner.Instance.OnSceneLoad.AddListener(UpdateValidPoints);
+  	  SceneTransitioner.Instance.OnSceneLoad.AddListener(UpdateValidPoints);
     }
 
     void OnDisable()
