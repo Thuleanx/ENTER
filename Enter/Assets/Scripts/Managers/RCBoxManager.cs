@@ -44,7 +44,7 @@ namespace Enter
     private RigidbodyConstraints2D SelectedObjectInitialConstraints;
     public GameObject CutObject = null;
     private RigidbodyConstraints2D CutObjectInitialConstraints;
-    public TileInfo TileToDeleteInfo = new TileInfo();
+    public TileInfo TileInfoForDelete = new TileInfo();
 
     private Vector2 _pasteTLOffset = new Vector2(-0.95f, 0.95f);
 
@@ -125,6 +125,73 @@ namespace Enter
 
     #region ================== Helpers
 
+    private void updateRCBoxSprite()
+    {
+      bool isOnRCBox = !PauseManager.Instance.IsPaused &&
+        Physics2D.OverlapPoint((Vector2) _in.MouseWorld, LayerManager.Instance.RCBoxLayer);
+
+      bool mouseIsOver      = isOnRCBox;
+      bool mouseIsOverLeft  = isOnRCBox && _in.MouseWorld.x <  _rc.transform.position.x;
+      bool mouseIsOverRight = isOnRCBox && _in.MouseWorld.x >= _rc.transform.position.x;
+
+      CursorManager.Instance.HoveringEntities.Remove(gameObject);
+
+      // Can delete
+      if (_canDelete)
+      {
+        // Nothing to delete
+        if (!TileInfoForDelete.valid)
+        {
+          RCSprite = _rcSpriteD3;
+          return;
+        }
+
+        // Something to delete
+        RCSprite = mouseIsOver ? _rcSpriteD2 : _rcSpriteD1;
+        if (mouseIsOver) CursorManager.Instance.HoveringEntities.Add(gameObject);
+        return;
+      }
+
+      // Cannot cut/paste
+      if (!_canCutPaste)
+      {
+        RCSprite = _rcSprite00;
+        return;
+      }
+
+      // Can cut
+      if (CutObject == null)
+      {
+        // Nothing to cut
+        if (SelectedObject == null)
+        {
+          RCSprite = _rcSprite30;
+          return;
+        }
+
+        // Something to cut
+        RCSprite = mouseIsOverLeft ? _rcSprite20 : _rcSprite10;
+        if (mouseIsOverLeft) CursorManager.Instance.HoveringEntities.Add(gameObject);
+        return;
+      }
+
+      // Can paste
+      if (CutObject != null)
+      {
+        // Blocked from pasting
+        if (SelectedObject != null)
+        {
+          RCSprite = _rcSprite03;
+          return;
+        }
+
+        // Free to paste
+        RCSprite = mouseIsOverRight ? _rcSprite02 : _rcSprite01;
+        if (mouseIsOverRight) CursorManager.Instance.HoveringEntities.Add(gameObject);
+        return;
+      }
+    }
+
     private void leftClick()
     {
       bool isOnRCBox = Physics2D.OverlapPoint((Vector2) _in.MouseWorld, LayerManager.Instance.RCBoxLayer);
@@ -141,7 +208,7 @@ namespace Enter
     private void rightClick()
     {
       // Do nothing if attempting to spawn at same approximate location
-      Vector2 targetPosition = getRCBoxPosition();
+      Vector2 targetPosition = decideRCBoxSpawnPosition();
       if (_rc.activeSelf && targetPosition == (Vector2) _rc.transform.position) return;
 
       // If the RCBox is already present, make it disappear
@@ -151,21 +218,49 @@ namespace Enter
       enableRCBox(targetPosition);
     }
 
+    #region ================== Helpers: Deleting
+
     private void delete()
     {
       // Prevent deleting nothing
-      if (!TileToDeleteInfo.valid)
+      if (!TileInfoForDelete.valid)
       {
         Debug.Log("Nothing to delete.");
         return;
       }
 
       // Flood-delete tiles (todo)
-      TileToDeleteInfo.tilemap.SetTile(TileToDeleteInfo.indices, null);
-      TileToDeleteInfo.valid = false;
+      recursivelyDeleteTiles(TileInfoForDelete.tilemap, TileInfoForDelete.indices);
+      TileInfoForDelete.valid = false;
 
       disableRCBox();
     }
+
+    private void recursivelyDeleteTiles(Tilemap tilemap, Vector3Int indices)
+    {
+      Queue<Vector3Int> toDelete = new Queue<Vector3Int>();
+      toDelete.Enqueue(indices);
+
+      while (toDelete.Count > 0)
+      {
+        Vector3Int currentIndices = toDelete.Dequeue();
+        tilemap.SetTile(currentIndices, null);
+
+        bool up    = (tilemap.GetTile(currentIndices + Vector3Int.up)    != null);
+        bool down  = (tilemap.GetTile(currentIndices + Vector3Int.down)  != null);
+        bool left  = (tilemap.GetTile(currentIndices + Vector3Int.left)  != null);
+        bool right = (tilemap.GetTile(currentIndices + Vector3Int.right) != null);
+
+        if (up)    toDelete.Enqueue(currentIndices + Vector3Int.up);
+        if (down)  toDelete.Enqueue(currentIndices + Vector3Int.down);
+        if (left)  toDelete.Enqueue(currentIndices + Vector3Int.left);
+        if (right) toDelete.Enqueue(currentIndices + Vector3Int.right);
+      }
+    }
+
+    #endregion
+
+    #region ================== Helpers: Cutting and Pasting
 
     private void cut()
     {
@@ -226,7 +321,11 @@ namespace Enter
       disableRCBox();
     }
 
-    private Vector3 getRCBoxPosition()
+    #endregion
+
+    #region ================== Helpers: Spawning/Despawning the RCBox
+
+    private Vector3 decideRCBoxSpawnPosition()
     {
       if (_canRCAnywhere) 
       {
@@ -243,7 +342,7 @@ namespace Enter
 
       // Find and freeze currently selected object
       if (_canCutPaste) findAndFreezeSelectedObject();
-      if (_canDelete)   findTargetToDelete();
+      if (_canDelete)   findTileInfoForDelete();
 
       // Create shockwave
       ShockwaveManager.Instance.SpawnAtPos(targetPosition);
@@ -262,7 +361,7 @@ namespace Enter
         SelectedObject = null;
       }
 
-      if (TileToDeleteInfo.valid) TileToDeleteInfo.valid = false;
+      if (TileInfoForDelete.valid) TileInfoForDelete.valid = false;
     }
 
     private void findAndFreezeSelectedObject()
@@ -288,19 +387,19 @@ namespace Enter
       }
     }
 
-    private void findTargetToDelete()
+    private void findTileInfoForDelete()
     {
-      if (TileToDeleteInfo.valid) return;
+      if (TileInfoForDelete.valid) return;
 
-      TileInfo          found = getTileAtOffset(new Vector2(-0.5f, +0.5f));
-      if (!found.valid) found = getTileAtOffset(new Vector2(+0.5f, +0.5f));
-      if (!found.valid) found = getTileAtOffset(new Vector2(-0.5f, -0.5f));
-      if (!found.valid) found = getTileAtOffset(new Vector2(+0.5f, -0.5f));
+      TileInfo          found = getTileInfoAtRCBoxOffset(new Vector2(-0.5f, +0.5f));
+      if (!found.valid) found = getTileInfoAtRCBoxOffset(new Vector2(+0.5f, +0.5f));
+      if (!found.valid) found = getTileInfoAtRCBoxOffset(new Vector2(-0.5f, -0.5f));
+      if (!found.valid) found = getTileInfoAtRCBoxOffset(new Vector2(+0.5f, -0.5f));
         
-      if (found.valid) TileToDeleteInfo = found;
+      if (found.valid) TileInfoForDelete = found;
     }
 
-    private TileInfo getTileAtOffset(Vector2 offset)
+    private TileInfo getTileInfoAtRCBoxOffset(Vector2 offset)
     {
       TileInfo tileInfo = new TileInfo();
 
@@ -317,72 +416,7 @@ namespace Enter
       return tileInfo;
     }
 
-    private void updateRCBoxSprite()
-    {
-      bool isOnRCBox = !PauseManager.Instance.IsPaused &&
-        Physics2D.OverlapPoint((Vector2) _in.MouseWorld, LayerManager.Instance.RCBoxLayer);
-
-      bool mouseIsOver      = isOnRCBox;
-      bool mouseIsOverLeft  = isOnRCBox && _in.MouseWorld.x <  _rc.transform.position.x;
-      bool mouseIsOverRight = isOnRCBox && _in.MouseWorld.x >= _rc.transform.position.x;
-
-      CursorManager.Instance.HoveringEntities.Remove(gameObject);
-
-      // Can delete
-      if (_canDelete)
-      {
-        // Nothing to delete
-        if (!TileToDeleteInfo.valid)
-        {
-          RCSprite = _rcSpriteD3;
-          return;
-        }
-
-        // Something to delete
-        RCSprite = mouseIsOver ? _rcSpriteD2 : _rcSpriteD1;
-        if (mouseIsOver) CursorManager.Instance.HoveringEntities.Add(gameObject);
-        return;
-      }
-
-      // Cannot cut/paste
-      if (!_canCutPaste)
-      {
-        RCSprite = _rcSprite00;
-        return;
-      }
-
-      // Can cut
-      if (CutObject == null)
-      {
-        // Nothing to cut
-        if (SelectedObject == null)
-        {
-          RCSprite = _rcSprite30;
-          return;
-        }
-
-        // Something to cut
-        RCSprite = mouseIsOverLeft ? _rcSprite20 : _rcSprite10;
-        if (mouseIsOverLeft) CursorManager.Instance.HoveringEntities.Add(gameObject);
-        return;
-      }
-
-      // Can paste
-      if (CutObject != null)
-      {
-        // Blocked from pasting
-        if (SelectedObject != null)
-        {
-          RCSprite = _rcSprite03;
-          return;
-        }
-
-        // Free to paste
-        RCSprite = mouseIsOverRight ? _rcSprite02 : _rcSprite01;
-        if (mouseIsOverRight) CursorManager.Instance.HoveringEntities.Add(gameObject);
-        return;
-      }
-    }
+    #endregion
 
     #endregion
   }
