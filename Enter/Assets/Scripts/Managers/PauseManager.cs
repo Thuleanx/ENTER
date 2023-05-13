@@ -11,6 +11,7 @@ namespace Enter
     public static PauseManager Instance;
 
     [SerializeField] private GameObject _pauseMenuCanvas;
+    [SerializeField] private GameObject _settingsMenuCanvas;
 
     private float _prevTimeScale = 1;
 
@@ -50,9 +51,13 @@ namespace Enter
       Time.timeScale = _prevTimeScale;
     }
 
-    public void ShowSettings()
+     public void ShowSettings()
     {
-      Debug.Log("ShowSettings");
+      _settingsMenuCanvas.SetActive(true);
+    }
+
+    public void HideSettings() {
+      _settingsMenuCanvas.SetActive(false);
     }
 
     public void RestartLevel()
@@ -74,6 +79,18 @@ namespace Enter
     {
       CursorManager.Instance.HoveringEntities.Remove(gameObject);
     }
+
+    #region ================== Volume
+
+    public void VolumeUp() {
+      Debug.Log("Turn up volume");
+    }
+
+    public void VolumeDown() {
+      Debug.Log("Turn down volume");
+    }
+
+    #endregion
 
     #endregion
   }
