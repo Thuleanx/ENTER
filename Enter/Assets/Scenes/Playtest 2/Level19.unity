@@ -167,6 +167,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 785022900}
     m_Modifications:
     - target: {fileID: 783334932, guid: 9a902e58236f5444c973d117a0fa05b1, type: 3}
+      propertyPath: _canDelete
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 783334932, guid: 9a902e58236f5444c973d117a0fa05b1, type: 3}
       propertyPath: _canRCAnywhere
       value: 1
       objectReference: {fileID: 0}
@@ -1708,6 +1712,10 @@ PrefabInstance:
       propertyPath: m_Tiles.Array.data[25].second.m_TileObjectToInstantiateIndex
       value: 65535
       objectReference: {fileID: 0}
+    - target: {fileID: 1409534290460240871, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1406156190}
     - target: {fileID: 1424889039479160073, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_ColliderPaths.Array.size
       value: 1
