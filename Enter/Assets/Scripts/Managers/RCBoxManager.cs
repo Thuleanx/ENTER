@@ -1,11 +1,21 @@
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.InputSystem;
+using UnityEngine.Tilemaps;
 using System.Collections;
 using System.Collections.Generic;
 
 namespace Enter
 {
+  [System.Serializable]
+  public struct TileInfo
+  {
+    public bool       isInvalid;
+    public TileBase   tileBase;
+    public Tilemap    tilemap;
+    public Vector3Int indices;
+  }
+
   [DisallowMultipleComponent]
   public class RCBoxManager : MonoBehaviour
   {
@@ -34,6 +44,7 @@ namespace Enter
     private RigidbodyConstraints2D SelectedObjectInitialConstraints;
     public GameObject CutObject = null;
     private RigidbodyConstraints2D CutObjectInitialConstraints;
+    public TileInfo TileToDeleteInfo = new TileInfo();
 
     private Vector2 _pasteTLOffset = new Vector2(-0.95f, 0.95f);
 
@@ -82,7 +93,7 @@ namespace Enter
         }
       }
 
-      if (_rc.activeSelf) findAndFreezeSelectedObject();
+      if (_canCutPaste && _rc.activeSelf) findAndFreezeSelectedObject();
     }
 
 #if UNITY_EDITOR
@@ -138,6 +149,22 @@ namespace Enter
 
       // Spawn in at new location
       enableRCBox(targetPosition);
+    }
+
+    private void delete()
+    {
+      // Prevent deleting nothing
+      if (TileToDeleteInfo.isInvalid)
+      {
+        Debug.Log("Nothing to delete.");
+        return;
+      }
+
+      // Flood-delete tiles (todo)
+      TileToDeleteInfo.tilemap.SetTile(TileToDeleteInfo.indices, null);
+      TileToDeleteInfo.isInvalid = true;
+
+      disableRCBox();
     }
 
     private void cut()
@@ -199,21 +226,6 @@ namespace Enter
       disableRCBox();
     }
 
-    private void delete()
-    {
-      // Prevent deleting nothing
-      if (SelectedObject == null)
-      {
-        Debug.Log("Nothing to delete.");
-        return;
-      }
-
-      SelectedObject.SetActive(false);
-      SelectedObject = null;
-
-      disableRCBox();
-    }
-
     private Vector3 getRCBoxPosition()
     {
       if (_canRCAnywhere) 
@@ -230,7 +242,8 @@ namespace Enter
       _rc.transform.position = targetPosition;
 
       // Find and freeze currently selected object
-      findAndFreezeSelectedObject();
+      if (_canCutPaste) findAndFreezeSelectedObject();
+      if (_canDelete)   findTargetToDelete();
 
       // Create shockwave
       ShockwaveManager.Instance.SpawnAtPos(targetPosition);
@@ -247,6 +260,11 @@ namespace Enter
       {
         SelectedObject.GetComponent<Rigidbody2D>().constraints = SelectedObjectInitialConstraints;
         SelectedObject = null;
+      }
+
+      if (!TileToDeleteInfo.isInvalid)
+      {
+        TileToDeleteInfo.isInvalid = true;
       }
     }
 
@@ -273,6 +291,35 @@ namespace Enter
       }
     }
 
+    private void findTargetToDelete()
+    {
+      if (!TileToDeleteInfo.isInvalid) return;
+
+      TileInfo             found = getTileAtOffset(new Vector2(-0.5f, +0.5f));
+      if (found.isInvalid) found = getTileAtOffset(new Vector2(+0.5f, +0.5f));
+      if (found.isInvalid) found = getTileAtOffset(new Vector2(-0.5f, -0.5f));
+      if (found.isInvalid) found = getTileAtOffset(new Vector2(+0.5f, -0.5f));
+        
+      if (!found.isInvalid) TileToDeleteInfo = found;
+    }
+
+    private TileInfo getTileAtOffset(Vector2 offset)
+    {
+      TileInfo tileInfo = new TileInfo();
+
+      Vector2 searchLocation = (Vector2) _rc.transform.position + offset;
+      Collider2D collider = Physics2D.OverlapPoint(searchLocation, LayerManager.Instance.CorruptedLayer);
+
+      if (!collider) return tileInfo;
+
+      tileInfo.isInvalid = false;
+      tileInfo.tilemap   = collider.GetComponent<Tilemap>();
+      tileInfo.indices   = tileInfo.tilemap.layoutGrid.WorldToCell(searchLocation);
+      tileInfo.tileBase  = tileInfo.tilemap.GetTile(tileInfo.indices);
+
+      return tileInfo;
+    }
+
     private void updateRCBoxSprite()
     {
       bool isOnRCBox = !PauseManager.Instance.IsPaused &&
@@ -284,10 +331,11 @@ namespace Enter
 
       CursorManager.Instance.HoveringEntities.Remove(gameObject);
 
+      // Can delete
       if (_canDelete)
       {
         // Nothing to delete
-        if (SelectedObject == null)
+        if (TileToDeleteInfo.isInvalid)
         {
           RCSprite = _rcSpriteD3;
           return;

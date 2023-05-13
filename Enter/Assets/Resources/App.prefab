@@ -399,6 +399,11 @@ MonoBehaviour:
   _minRCInterval: 0.1
   SelectedObject: {fileID: 0}
   CutObject: {fileID: 0}
+  TileToDeleteInfo:
+    isInvalid: 0
+    tileBase: {fileID: 0}
+    tilemap: {fileID: 0}
+    indices: {x: 0, y: 0, z: 0}
 --- !u!1 &972218654827469861
 GameObject:
   m_ObjectHideFlags: 0
@@ -3030,6 +3035,9 @@ MonoBehaviour:
   _conveyorBeamLayer:
     serializedVersion: 2
     m_Bits: 32768
+  _corruptedLayer:
+    serializedVersion: 2
+    m_Bits: 262144
 --- !u!1 &8199610026743193735
 GameObject:
   m_ObjectHideFlags: 0

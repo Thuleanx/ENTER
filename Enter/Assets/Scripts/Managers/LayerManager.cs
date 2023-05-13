@@ -17,6 +17,8 @@ namespace Enter
     [SerializeField] private LayerMask _conveyorBoxLayer;
     [SerializeField] private LayerMask _conveyorBeamLayer;
 
+    [SerializeField] private LayerMask _corruptedLayer;
+
     public LayerMask PlayerLayer       => _playerLayer;
     public LayerMask StaticGroundLayer => _groundLayer;
     public LayerMask MovingGroundLayer => _physicsBoxLayer | _conveyorBoxLayer;
@@ -33,6 +35,8 @@ namespace Enter
     public LayerMask ConveyorBeamLayer => _conveyorBeamLayer;
 
     public LayerMask BlockLaserLayer   => AllGroundLayer;
+
+    public LayerMask CorruptedLayer    => _corruptedLayer;
 
     void Awake() { Instance = this; }
 
