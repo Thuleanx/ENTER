@@ -10,7 +10,7 @@ namespace Enter
   [System.Serializable]
   public struct TileInfo
   {
-    public bool       isInvalid;
+    public bool       valid;
     public TileBase   tileBase;
     public Tilemap    tilemap;
     public Vector3Int indices;
@@ -154,7 +154,7 @@ namespace Enter
     private void delete()
     {
       // Prevent deleting nothing
-      if (TileToDeleteInfo.isInvalid)
+      if (!TileToDeleteInfo.valid)
       {
         Debug.Log("Nothing to delete.");
         return;
@@ -162,7 +162,7 @@ namespace Enter
 
       // Flood-delete tiles (todo)
       TileToDeleteInfo.tilemap.SetTile(TileToDeleteInfo.indices, null);
-      TileToDeleteInfo.isInvalid = true;
+      TileToDeleteInfo.valid = false;
 
       disableRCBox();
     }
@@ -262,10 +262,7 @@ namespace Enter
         SelectedObject = null;
       }
 
-      if (!TileToDeleteInfo.isInvalid)
-      {
-        TileToDeleteInfo.isInvalid = true;
-      }
+      if (TileToDeleteInfo.valid) TileToDeleteInfo.valid = false;
     }
 
     private void findAndFreezeSelectedObject()
@@ -293,14 +290,14 @@ namespace Enter
 
     private void findTargetToDelete()
     {
-      if (!TileToDeleteInfo.isInvalid) return;
+      if (TileToDeleteInfo.valid) return;
 
-      TileInfo             found = getTileAtOffset(new Vector2(-0.5f, +0.5f));
-      if (found.isInvalid) found = getTileAtOffset(new Vector2(+0.5f, +0.5f));
-      if (found.isInvalid) found = getTileAtOffset(new Vector2(-0.5f, -0.5f));
-      if (found.isInvalid) found = getTileAtOffset(new Vector2(+0.5f, -0.5f));
+      TileInfo          found = getTileAtOffset(new Vector2(-0.5f, +0.5f));
+      if (!found.valid) found = getTileAtOffset(new Vector2(+0.5f, +0.5f));
+      if (!found.valid) found = getTileAtOffset(new Vector2(-0.5f, -0.5f));
+      if (!found.valid) found = getTileAtOffset(new Vector2(+0.5f, -0.5f));
         
-      if (!found.isInvalid) TileToDeleteInfo = found;
+      if (found.valid) TileToDeleteInfo = found;
     }
 
     private TileInfo getTileAtOffset(Vector2 offset)
@@ -312,10 +309,10 @@ namespace Enter
 
       if (!collider) return tileInfo;
 
-      tileInfo.isInvalid = false;
-      tileInfo.tilemap   = collider.GetComponent<Tilemap>();
-      tileInfo.indices   = tileInfo.tilemap.layoutGrid.WorldToCell(searchLocation);
-      tileInfo.tileBase  = tileInfo.tilemap.GetTile(tileInfo.indices);
+      tileInfo.valid    = true;
+      tileInfo.tilemap  = collider.GetComponent<Tilemap>();
+      tileInfo.indices  = tileInfo.tilemap.layoutGrid.WorldToCell(searchLocation);
+      tileInfo.tileBase = tileInfo.tilemap.GetTile(tileInfo.indices);
 
       return tileInfo;
     }
@@ -335,7 +332,7 @@ namespace Enter
       if (_canDelete)
       {
         // Nothing to delete
-        if (TileToDeleteInfo.isInvalid)
+        if (!TileToDeleteInfo.valid)
         {
           RCSprite = _rcSpriteD3;
           return;
