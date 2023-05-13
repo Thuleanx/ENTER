@@ -152,9 +152,9 @@ namespace Enter
       get { return (Grounded && _co.CarryingRigidbody) ? _co.CarryingRigidbody.velocity : Vector2.zero; }
     }
 
-    public Vector2 VelocityOnGround {
+    private Vector2 _velocityOnGround {
       get { return _rb.velocity - _velocityOfGround; }
-      private set { _rb.velocity = value + _velocityOfGround; }
+      set { _rb.velocity = value + _velocityOfGround; }
     }
 
     #endregion
@@ -288,10 +288,10 @@ namespace Enter
     {
       // Handles horizontal motion
 
-      float currentVx = VelocityOnGround.x;
+      float currentVx = _velocityOnGround.x;
       float desiredVx = _in.Move.x * _horizontalSpeed;
 
-      _horizontalSpeedBuffer.Push(Mathf.Abs(VelocityOnGround.x));
+      _horizontalSpeedBuffer.Push(Mathf.Abs(_velocityOnGround.x));
       
       // Allows instant momentum flipping while on the ground
       if (Grounded && !Mathf.Approximately(0, desiredVx)) {
@@ -304,7 +304,7 @@ namespace Enter
       acceleration *= Grounded ? 1 : _midairHorizontalAccelerationMultiplier;
       float amountAccelerated = Mathf.Sign(desiredVx - currentVx) * acceleration * Time.fixedDeltaTime;
       float actualVelocityX = Math.Approach(currentVx, desiredVx, amountAccelerated);
-      VelocityOnGround = new Vector2(actualVelocityX, VelocityOnGround.y);
+      _velocityOnGround = new Vector2(actualVelocityX, _velocityOnGround.y);
     }
 
     private void handleJump()
@@ -399,9 +399,9 @@ namespace Enter
     private void handleMovementAnimation()
     {
       // Running/jumping
-      float Vx = VelocityOnGround.x / _horizontalSpeed;
-      float Vy = VelocityOnGround.y / _jumpSpeed;
-      bool idle = Mathf.Abs(VelocityOnGround.x) < _eps;
+      float Vx = _velocityOnGround.x / _horizontalSpeed;
+      float Vy = _velocityOnGround.y / _jumpSpeed;
+      bool idle = Mathf.Abs(_velocityOnGround.x) < _eps;
 
       _sr.flipX = idle ? _sr.flipX : Vx < 0;
 
