@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 9c17efadf4c414849be542251a59b688
+guid: 117d9b103321648b496432c011c9b66a
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -105,7 +105,133 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: RCAreaTiles_0
+      name: WireTiles_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b86bfbc90e4146cc806bb9d96718a65
+      internalID: 285059245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WireTiles_1
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 06d79bcd7fb1a457ca40bb6afb951c4e
+      internalID: 297349732
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WireTiles_2
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 327ba0508163a46249a94637b829ea9f
+      internalID: -991086064
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WireTiles_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5404268bbc74b4fae8f80ca90e70a764
+      internalID: 854632892
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WireTiles_4
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b42444d0bdf5e4e519dfe950ddd45e32
+      internalID: -2092589492
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WireTiles_5
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d52ec3c2e8a1a43118aa1410a3cbe000
+      internalID: 542016504
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WireTiles_6
       rect:
         serializedVersion: 2
         x: 0
@@ -119,14 +245,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 408d8f2c501e448e6b35a709d63f3e4b
-      internalID: -2046333406
+      spriteID: 2544551d50ed34383958c8156246534d
+      internalID: -1600891498
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: RCAreaTiles_1
+      name: WireTiles_7
       rect:
         serializedVersion: 2
         x: 16
@@ -140,14 +266,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0e07230af013e4dc090295e0aa0095a1
-      internalID: 2078980925
+      spriteID: ae517e0982d094f24b590ede0d9655a8
+      internalID: -24355154
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: RCAreaTiles_2
+      name: WireTiles_8
       rect:
         serializedVersion: 2
         x: 32
@@ -161,14 +287,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b19874143db974229af37e93761a3778
-      internalID: 1439035222
+      spriteID: 7a1ae66f3684e4f54b92f00d88fb326f
+      internalID: -1603081708
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: RCAreaTiles_3
+      name: WireTiles_9
       rect:
         serializedVersion: 2
         x: 0
@@ -182,29 +308,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c794f9639d6b04d2fb3a9deaaaec017c
-      internalID: 209442940
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: RCAreaTiles_4
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: de225f000fb254d3ea1b2c007dd6cf9e
-      internalID: -1615705896
+      spriteID: cb5f9d45d21254fefa555c5e0c62a5a1
+      internalID: -1649815334
       vertices: []
       indices: 
       edges: []
@@ -220,11 +325,16 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      RCAreaTiles_4: -1615705896
-      RCAreaTiles_1: 2078980925
-      RCAreaTiles_0: -2046333406
-      RCAreaTiles_2: 1439035222
-      RCAreaTiles_3: 209442940
+      WireTiles_1: 297349732
+      WireTiles_0: 285059245
+      WireTiles_4: -2092589492
+      WireTiles_8: -1603081708
+      WireTiles_9: -1649815334
+      WireTiles_7: -24355154
+      WireTiles_6: -1600891498
+      WireTiles_5: 542016504
+      WireTiles_3: 854632892
+      WireTiles_2: -991086064
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
