@@ -19321,35 +19321,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_CompositePaths.m_Paths.Array.data[0].Array.data[0].x
-      value: -21.00001
-      objectReference: {fileID: 0}
-    - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
-      propertyPath: m_CompositePaths.m_Paths.Array.data[0].Array.data[0].y
-      value: -13.999974
-      objectReference: {fileID: 0}
-    - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
-      propertyPath: m_CompositePaths.m_Paths.Array.data[0].Array.data[1].x
-      value: 21
-      objectReference: {fileID: 0}
-    - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
-      propertyPath: m_CompositePaths.m_Paths.Array.data[0].Array.data[1].y
-      value: -13.999971
-      objectReference: {fileID: 0}
-    - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
-      propertyPath: m_CompositePaths.m_Paths.Array.data[0].Array.data[2].x
       value: 20.999975
       objectReference: {fileID: 0}
     - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
-      propertyPath: m_CompositePaths.m_Paths.Array.data[0].Array.data[2].y
+      propertyPath: m_CompositePaths.m_Paths.Array.data[0].Array.data[0].y
+      value: -14.00001
+      objectReference: {fileID: 0}
+    - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
+      propertyPath: m_CompositePaths.m_Paths.Array.data[0].Array.data[1].x
+      value: 20.999975
+      objectReference: {fileID: 0}
+    - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
+      propertyPath: m_CompositePaths.m_Paths.Array.data[0].Array.data[1].y
       value: -8.99999
       objectReference: {fileID: 0}
     - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
-      propertyPath: m_CompositePaths.m_Paths.Array.data[0].Array.data[3].x
+      propertyPath: m_CompositePaths.m_Paths.Array.data[0].Array.data[2].x
       value: -21.00001
       objectReference: {fileID: 0}
     - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
-      propertyPath: m_CompositePaths.m_Paths.Array.data[0].Array.data[3].y
+      propertyPath: m_CompositePaths.m_Paths.Array.data[0].Array.data[2].y
       value: -9.000026
+      objectReference: {fileID: 0}
+    - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
+      propertyPath: m_CompositePaths.m_Paths.Array.data[0].Array.data[3].x
+      value: -20.999975
+      objectReference: {fileID: 0}
+    - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
+      propertyPath: m_CompositePaths.m_Paths.Array.data[0].Array.data[3].y
+      value: -14.00001
       objectReference: {fileID: 0}
     - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_CompositePaths.m_Paths.Array.data[0].Array.data[4].x
@@ -20029,7 +20029,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[0].Array.size
-      value: 13
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[1].Array.size
@@ -20061,67 +20061,67 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[0].Array.data[0].X
-      value: -210000100
+      value: 210000041
       objectReference: {fileID: 0}
     - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[0].Array.data[0].Y
-      value: -89999959
+      value: -89999900
       objectReference: {fileID: 0}
     - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[0].Array.data[1].X
-      value: -210000100
-      objectReference: {fileID: 0}
-    - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
-      propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[0].Array.data[1].Y
-      value: -140000041
-      objectReference: {fileID: 0}
-    - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
-      propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[0].Array.data[2].X
       value: -210000041
       objectReference: {fileID: 0}
     - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
+      propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[0].Array.data[1].Y
+      value: -89999900
+      objectReference: {fileID: 0}
+    - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
+      propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[0].Array.data[2].X
+      value: -210000100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[0].Array.data[2].Y
-      value: -140000100
+      value: -89999959
       objectReference: {fileID: 0}
     - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[0].Array.data[3].X
-      value: 200000041
+      value: -210000100
       objectReference: {fileID: 0}
     - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[0].Array.data[3].Y
-      value: -140000100
-      objectReference: {fileID: 0}
-    - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
-      propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[0].Array.data[4].X
-      value: 200000100
-      objectReference: {fileID: 0}
-    - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
-      propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[0].Array.data[4].Y
       value: -140000041
       objectReference: {fileID: 0}
     - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
+      propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[0].Array.data[4].X
+      value: -210000041
+      objectReference: {fileID: 0}
+    - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
+      propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[0].Array.data[4].Y
+      value: -140000100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[0].Array.data[5].X
-      value: 200000100
+      value: 210000041
       objectReference: {fileID: 0}
     - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[0].Array.data[5].Y
-      value: -140000000
+      value: -140000100
       objectReference: {fileID: 0}
     - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[0].Array.data[6].X
-      value: 210000000
+      value: 210000100
       objectReference: {fileID: 0}
     - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[0].Array.data[6].Y
-      value: -140000000
+      value: -140000041
       objectReference: {fileID: 0}
     - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[0].Array.data[7].X
-      value: 210000000
+      value: 210000100
       objectReference: {fileID: 0}
     - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[0].Array.data[7].Y
-      value: -130000100
+      value: -89999959
       objectReference: {fileID: 0}
     - target: {fileID: 5170594659893880955, guid: 00f68fe1b04fc3a44ad2b23eeb0c9fd6, type: 3}
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[0].Array.data[8].X
@@ -23296,6 +23296,8 @@ RectTransform:
   m_Children:
   - {fileID: 2094179049}
   - {fileID: 1021197707}
+  - {fileID: 1400690708}
+  - {fileID: 1414367679}
   m_Father: {fileID: 144703300}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -23508,92 +23510,20 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "using UnityEngine; \r\nusing System;\r\nusing System.Collections;\r\nusing
-    System.Collections.Generic;\r\nusing Cinemachine;\r\nusing DG.Tweening;\r\nusing
-    Enter.Utils;\r\n\r\nnamespace Enter {\r\n    public class BeginningSequence :
-    MonoBehaviour {\r\n        [SerializeField] float _linesPerMinute = 30;\r\n       
-    [SerializeField, Range(0, 10)] float _scrollDelay = 2;\r\n        [SerializeField]
-    float _delayScaleBetweenSpawn;\r\n        [SerializeField] CinemachineVirtualCamera
-    _fallingCamera;\r\n        [SerializeField] GameObject _corruptedBox;\r\n       
-    [SerializeField] GameObject _environment;\r\n        [SerializeField] Transform
-    _virusPosition;\r\n\r\n        List<Typewriter> _sequenceTexts;\r\n\r\n       
-    void Awake() {\r\n            _sequenceTexts = new List<Typewriter>(GetComponentsInChildren<Typewriter>());\r\n       
-    }\r\n\r\n        void Start() {\r\n        }\r\n\r\n        public void RunSequence()
-    {\r\n            StartCoroutine(_RunSequence());\r\n        }\r\n\r\n       
-    IEnumerator _RunSequence() {\r\n            InputManager.Instance.OverrideInput
-    = true;\r\n\r\n            if (_sequenceTexts != null) {\r\n                //
-    we wait a frame so that the typewriters can erase all their texts\r\n\t\t\t\tyield
-    return null;\r\n\r\n                Coroutine typewriting = StartCoroutine(_Typewrite());\r\n\r\n               
-    yield return new WaitForSecondsRealtime(_scrollDelay);\r\n\r\n               
-    // spawn some squares\r\n                List<GameObject> corruptedBoxes = new
-    List<GameObject>();\r\n                int numCorruptedBoxes = 100;\r\n\r\n               
-    Ease easingForWait = Ease.OutExpo;\r\n\r\n                int skip = 0;\r\n\r\n               
-    RectTransform rectTransform = GetComponent<RectTransform>();\r\n               
-    float lastHeight = rectTransform.rect.height;\r\n\r\n                for (int
-    i = 0; i < numCorruptedBoxes; i++) {\r\n\r\n                    float screenX
-    = UnityEngine.Random.Range(0.0f,1.0f);\r\n                    float screenY =
-    UnityEngine.Random.Range(0.0f, i>3 ? 1.0f : .5f);\r\n\r\n                   
-    Vector2 pos = new Vector2(screenX, screenY);\r\n                    pos = Camera.main.ViewportToWorldPoint(pos);\r\n\r\n                   
-    Vector2 size = new Vector2(\r\n                        UnityEngine.Random.Range(0.05f,0.2f),\r\n                       
-    UnityEngine.Random.Range(0.05f,0.2f)\r\n                    );\r\n                   
-    size = Camera.main.ViewportToWorldPoint(size) - Camera.main.ViewportToWorldPoint(Vector2.zero);\r\n\r\n                   
-    GameObject corruptedBox = BubbleManager.Instance.Borrow(gameObject.scene, _corruptedBox,
-    pos);\r\n                    SpriteRenderer renderer = corruptedBox.GetComponentInChildren<SpriteRenderer>();\r\n                   
-    renderer.size = size;\r\n                    corruptedBoxes.Add(corruptedBox);\r\n\r\n\r\n                   
-    corruptedBox.transform.localScale = Vector2.one * 1.5f;\r\n                   
-    corruptedBox.transform.DOScale(Vector2.one, 0.2f).SetEase(Ease.InCirc);\r\n\r\n                   
-    float wait = DOVirtual.EasedValue(4f * _delayScaleBetweenSpawn, \r\n                           
-    0f, ((float)i) / numCorruptedBoxes, easingForWait);\r\n                    if
-    (i>0) wait = Mathf.Min(wait, 2f/i);\r\n\r\n                    renderer.transform.DOShakePosition(
-    50, 0.2f).Play();\r\n\r\n                    if (skip == 0) {\r\n                       
-    skip += (i+4)/5;\r\n\r\n                        Timer waiting = wait;\r\n                       
-    while (waiting) {\r\n                            float deltaHeight = rectTransform.rect.height
-    - lastHeight;\r\n                            if (deltaHeight > 0.1f) {\r\n                               
-    foreach (GameObject box in corruptedBoxes) \r\n                                   
-    box.transform.position += deltaHeight * Vector3.up;\r\n                               
-    lastHeight = rectTransform.rect.height;\r\n                            }\r\n                           
-    yield return null;\r\n                        }\r\n\r\n                    }
-    else skip--;\r\n                }\r\n\r\n                float convergenceDuration
-    = 3.0f;\r\n                DOTween.KillAll();\r\n                StopCoroutine(typewriting);\r\n               
-    // fade all texts\r\n                GetComponent<CanvasGroup>()?.DOFade(0, 1);\r\n\r\n               
-    Tween moveDown = _environment.transform.DOMoveY(_virusPosition.transform.position.y,
-    2);\r\n\r\n                foreach (GameObject corruptedBox in corruptedBoxes)
-    \r\n                    corruptedBox.transform.localScale = Vector2.one;\r\n\r\n               
-    // make the boxes approach 0\r\n                foreach (GameObject corruptedBox
-    in corruptedBoxes) {\r\n                    float distanceToVirus = UnityEngine.Random.Range(0.0f,
-    3.0f);\r\n\r\n                    Vector2 interpolatedPoint = (transform.position
-    - _virusPosition.transform.position).normalized * distanceToVirus;\r\n                   
-    interpolatedPoint = interpolatedPoint + (Vector2) _virusPosition.transform.position;\r\n\r\n                   
-    float actualConvergenceDuration = UnityEngine.Random.Range(0.8f * convergenceDuration,
-    1.25f * convergenceDuration);\r\n\r\n                    float delay = actualConvergenceDuration
-    * 0.3f;\r\n\r\n                    corruptedBox.GetComponentInChildren<SpriteRenderer>().transform.DOShakePosition(
-    50, 1f, 10, 90, false ).Play().SetDelay(delay);\r\n                    corruptedBox.transform.DOMove(
-    interpolatedPoint, actualConvergenceDuration ).SetEase(Ease.InElastic);\r\n               
-    }\r\n\r\n                yield return new WaitForSecondsRealtime(convergenceDuration
-    * 1.25f);\r\n\r\n                // all boxes circles around virus position and
-    moves with it\r\n\r\n                List<Vector2> displacementFromVirus = new
-    List<Vector2>();\r\n\r\n                foreach (GameObject corruptedBox in corruptedBoxes)
-    \r\n                    displacementFromVirus.Add(corruptedBox.transform.position
-    - _virusPosition.transform.position);\r\n\r\n                float movingDuration
-    = 2;\r\n                float screenEdge = Camera.main.ViewportToWorldPoint(new
-    Vector2(1.0f, 0.0f)).x;\r\n\r\n                while (moveDown.IsPlaying())\r\n                   
-    yield return null;\r\n\r\n                Tween tween = _virusPosition.transform.DOMoveX(screenEdge
-    + 50, movingDuration).SetEase(Ease.OutCirc).Play().SetDelay(2.0f);\r\n               
-    while (tween.IsPlaying()) {\r\n                    for (int i = 0; i < corruptedBoxes.Count;
-    i++) {\r\n                        GameObject corruptedBox = corruptedBoxes[i];\r\n                       
-    corruptedBox.transform.position = (Vector2) _virusPosition.transform.position
-    + displacementFromVirus[i];\r\n                    }\r\n                    yield
-    return null;\r\n                }\r\n\r\n                // we have player walks
-    in\r\n                InputManager.Instance.OverriddenInputData.Move = Vector2.right;\r\n               
-    // right to the very right edge of the screen lol.\r\n\r\n                while
-    (true) {\r\n                /* while (PlayerManager.Player.transform.position.x
-    < -15) { */\r\n                    yield return null;\r\n                }\r\n           
-    }\r\n\r\n            InputManager.Instance.OverrideInput = false;\r\n       
-    }\r\n\r\n        void OnDisable() {\r\n            InputManager.Instance.OverrideInput
-    = false;\r\n        }\r\n\r\n        IEnumerator _Typewrite() {\r\n           
-    if (_sequenceTexts != null) {\r\n                foreach (Typewriter typewriter
-    in _sequenceTexts)\r\n                    yield return typewriter.WaitForTypeWrite(_linesPerMinute);\r\n           
-    }\r\n        }\r\n    }\r\n}\r\n"
+  m_text: "includelib kernel32.lib\t\t; Windows kernel interface\r\nGetStdHandle\tproto\t\t;
+    Function to retrieve I/O handle\r\nWriteConsoleA\tproto\t\t; Function that writes
+    to command window\r\nConsole\t\tequ\t-11\t; Device code for console text output.\r\nExitProcess\tproto\r\n\r\n\t.code\r\nmainCRTStartup\tproc\r\n\r\n\tsub\tRSP,40\t\t;
+    Reserve \"shadow space\" on stack.\r\n\r\n;\tObtain \"handle\" for console display
+    monitor I/O streams\r\n\r\n\tmov\tRCX,Console\t; Console standard output handle\r\n\tcall\tGetStdHandle\t;
+    Returns handle in register RAX\r\n\tmov\tstdout,RAX\t; Save handle for text display.\r\n\r\n;\tDisplay
+    the \"Hello World\" message.\r\n\r\n\tmov\tRCX,stdout\t; Handle to standard output
+    device \r\n\tlea\tRDX,hwm\t\t; Pointer to message (byte array).\r\n\tmov\tR8,lengthof
+    hwm ; Number of characters to display\r\n\tlea\tR9,nbwr\t\t; Number of bytes
+    actually written.\r\n\tcall\tWriteConsoleA\t; Write text string to window.\r\n\r\n\tadd\tRSP,40\t\t;
+    Replace \"shadow space\" on stack\r\n\tmov\tRCX,0\t\t; Set exit status code to
+    zero.\r\n\tcall\tExitProcess\t; Return control to Windows.\r\n\r\nmainCRTStartup\tendp\r\n\r\n\t.data\r\nhwm\tbyte\t\"Hello
+    World\"\r\nstdout\tqword\t?\t\t; Handle to standard output device\r\nnbwr\tqword\t?\t\t;
+    Number of bytes actually written\r\n\r\n\tend"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8d68277bad61c7b46bd7e03ebc534c3c, type: 2}
   m_sharedMaterial: {fileID: 2779201154810601168, guid: 8d68277bad61c7b46bd7e03ebc534c3c, type: 2}
@@ -23759,6 +23689,406 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2022af163a5d474094071b939412d23, type: 3}
+--- !u!1 &1400690707
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1400690708}
+  - component: {fileID: 1400690712}
+  - component: {fileID: 1400690711}
+  - component: {fileID: 1400690710}
+  - component: {fileID: 1400690709}
+  m_Layer: 5
+  m_Name: Text (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1400690708
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1400690707}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 699807661}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 20, y: 0}
+  m_SizeDelta: {x: 38, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1400690709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1400690707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff3d7f86a23296146aa77f4ce11cdb4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1400690710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1400690707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 2
+--- !u!114 &1400690711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1400690707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: "\tincludelib kernel32.lib\t; Windows kernel interface\r\nGetStdHandle\tproto\t\t;
+    Function to retrieve I/O handles\r\nReadConsoleA\tproto\t\t; Function that reads
+    from command window\r\nKeyboard\tequ\t-10\t; Device code for console text input.\r\nMaxBuf\t\tequ\t20\t;
+    Maximum input buffer size\r\nExitProcess\tproto\r\nv_asc\t\tproto\t\t; Function
+    writes ASCII string.\r\nv_asc1\t\tproto\t\t; Function writes one ASCII character.\r\nv_opn\t\tproto\t\t;
+    Function opens display stream.\r\nv_bin1\t\tproto\t\t; Display byte in binary\r\nv_hex1\t\tproto\t\t;
+    Display byte in hexadecimal\r\nv_dig1\t\tproto\t\t; Display byte in selected
+    base (2-10)\r\n\r\n;\tMacro \"msgOut msg\" calls subroutine to display a string.\r\n;\t\tmsg:\tLabel
+    of byte array containing message. \r\n\r\nmsgOut\tmacro\tmsg\t\t; One argument:
+    acw\r\n\tlea\tRDX,msg\t\t; Pointer to message to display\r\n\tmov\tR8,lengthof
+    msg\t; Number of characters to display\r\n\tcall\tv_asc\t\t; Write text string
+    to command window.\r\n\tendm\r\n\r\n;\tMacro \"disp sub,tail\" calls a subroutine,
+    then displays a character.\r\n;\t\tsub:\tSubroutine to be called \r\n;\t\ttail:\tSeparation
+    character to be output\r\n\r\ndisp\tmacro\tsub,tail\r\n\tcall\tsub\t\t; Call
+    specified subroutine\r\n\tmsgOut\ttail\t\t; Output separation string\r\n\tendm\r\n\r\n;\tMacro
+    \"dispbs base,tail\" calls v_dig1, then displays a character string.\r\n;\t\tbase:\tBase
+    (2 - 10) in which to display number\r\n;\t\ttail:\tSeparation character to be
+    output\r\n\r\ndispbs\tmacro\tbase,tail\r\n\tmov\tR11,base\t; Load base for display.\r\n\tcall\tv_dig1\t\t;
+    Display number in base [R11]\r\n\tmsgOut\ttail\t\t; Output separation string\r\n\tendm\r\n\r\n\t.code\r\n\r\n;\tMain
+    program that reads text message from user through command\r\n;\twindow keyin
+    and displays it in same command window.\r\n;\t\t1. Multiple lines are input until
+    only \"Enter\" key pushed.\r\n;\t\t2. Each character input will be echoed on
+    a separate line.\r\n\r\nmainCRTStartup\tproc\r\n\r\n\tsub\tRSP,40\t\t; Reserve
+    \"shadow space\" on stack.\r\n\r\n;\tObtain \"handles\" for console Input streams\r\n\r\n\tcall\tv_opn\t\t;
+    Open text display stream.\r\n\tmov\tRCX,Keyboard\t; Console standard input handle\r\n\tcall\tGetStdHandle\t;
+    Returns handle in register RAX\r\n\tmov\t[stdin],RAX\t; Save handle for keyboard
+    input.\r\n\r\n;\tDisplay the prompt message.\r\n\r\nnxtlin:\tmsgOut\tpmsg\t\t;
+    Write text string to command box.\r\n\r\n;\tRead input line from user keyboard.\r\n\r\n\tmov
+    \tRCX,stdin\t; Handle to standard input device \r\n\tmov\tR8,MaxBuf\t; Maximum
+    length to receive\r\n\tlea\tRDX,keymsg\t; Memory address to receive input\r\n\tlea\tR9,nbrd\t\t;
+    Number of bytes actually read.\r\n\tcall\tReadConsoleA\t; Read text string from
+    command box.\r\n\r\n;\tEcho line just input back to the user one character at
+    a time.\r\n\r\n\tlea\tR12,keymsg\t; Memory buffer containing input\r\n\tmov\tR13,nbrd\t;
+    Number of characters actually read\r\ninloop: disp\tv_bin1,tab\t; Display byte
+    as 8 bits.\r\n\tdisp\tv_hex1,tab\t; Display byte as 2 hex digits.\r\n\tdispbs\t10,tab\t\t;
+    Display byte in decimal.\r\n\tdisp\tv_asc1,newln\t; Display byte as ASCII character.\r\n\tinc\tR12\t\t;
+    Set pointer to next character.\r\n\tdec\tR13\t\t; Decrement number of bytes remaining.\r\n\tjg\tinloop\t\t;
+    Continue loop until message complete.\r\n\r\n;\tGo get another line, but exit
+    if only \"Enter\" key was input.\r\n\r\n\tmov\tR8,nbrd\t\t; Length (bytes) of
+    input message\r\n\tcmp\tR8,2\t\t; Test if only CR and LF characters.\r\n\tjg\tnxtlin\t\t;
+    Loop back around to get another input.\r\n\r\n\tadd\tRSP,40\t\t; Replace \"shadow
+    space\" on stack\r\n\tmov\tRCX,0\t\t; Set exit status code to zero.\r\n\tcall\tExitProcess\t;
+    Return control to Windows.\r\n\r\nmainCRTStartup\tendp\r\n\r\n\t.data\r\npmsg\tbyte\t\"Please
+    enter text message: \"\r\nkeymsg\tbyte\tMaxBuf DUP (?)\t; Memory buffer for keyboard
+    input\r\nnewln\tbyte\t0DH,0AH\t\t; Carriage return and line feed\r\ntab\tbyte\t09H\t\t;
+    Horizontal tab character\r\nstdin\tqword\t?\t\t; Handle to standard input device\r\nnbrd\tqword\t?\t\t;
+    Number of bytes actually read\r\n\r\n\tend"
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8d68277bad61c7b46bd7e03ebc534c3c, type: 2}
+  m_sharedMaterial: {fileID: 2779201154810601168, guid: 8d68277bad61c7b46bd7e03ebc534c3c, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 1
+  m_fontSizeBase: 1
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1400690712
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1400690707}
+  m_CullTransparentMesh: 1
+--- !u!1 &1414367678
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1414367679}
+  - component: {fileID: 1414367683}
+  - component: {fileID: 1414367682}
+  - component: {fileID: 1414367681}
+  - component: {fileID: 1414367680}
+  m_Layer: 5
+  m_Name: Text (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1414367679
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414367678}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 699807661}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 20, y: 0}
+  m_SizeDelta: {x: 38, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1414367680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414367678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff3d7f86a23296146aa77f4ce11cdb4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1414367681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414367678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 2
+--- !u!114 &1414367682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414367678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: ";\tSubroutines to display one or more characters on the console.\r\n;\t\tv_opn:
+    Opens the standard display monitor \r\n;\t\tv_asc: Displays string of characters
+    in memory buffer \r\n;\t\tv_asc1: Displays one characters in memory buffer \r\n\r\n\tincludelib
+    kernel32.lib\t; Windows kernel interface\r\nGetStdHandle\tproto\t\t; Command
+    to retrieve I/O handle\r\nWriteConsoleA\tproto\t\t; Command to write to command
+    window\r\nConsole\t\tequ\t-11\t; Command code for monitor handle.\r\n\t\t.code\r\n\r\n;\tSubroutine
+    v_opn will open the standard display monitor.\r\n;\t\tRegisters preserved: RBX,RBP,RDI,RSI,RSP,R12-R15
+    \r\n\r\nv_opn\tproc\r\n\tmov\tRCX,Console\t; Console standard display monitor
+    handle\r\n\tsub\tRSP,40\t\t; Reserve \"shadow\" and 16 byte align.\r\n\tcall\tGetStdHandle\t;
+    Get console display handle\r\n\tadd\tRSP,40\t\t; Reset stack to return address.\r\n\tmov\tstdout,RAX\t;
+    Save handle of display monitor stream.\r\n\tret\t\t\t; Return to the calling
+    program.\r\nv_opn endp\r\n\r\n;\tSubroutine v_asc will display characters in
+    memory buffer.\r\n;\t\tRDX: Points to first character in memory\r\n;\t\tR8: 
+    Number of bytes to display\r\n;\t\tRSP: 16-byte aligned before CALL\r\n;\t\tRegisters
+    preserved: RBX,RBP,RDI,RSI,RSP,R12-R15 \r\n\r\nv_asc proc\r\n\tlea\tR9,nbwr\t\t;
+    Returned with count of bytes written.\r\n\tmov\tRCX,stdout\t; I/O handle for
+    display monitor.\r\n\tsub\tRSP,40\t\t; Reserve \"shadow\" and 16 byte align.\r\n\tcall\tWriteConsoleA\t;
+    Ask Windows to write to monitor.\r\n\tadd\tRSP,40\t\t; Reset stack to return
+    address.\r\n\tret\t\t\t; Return to the calling program.\r\nv_asc endp\r\n\r\n;\tSubroutine
+    v_asc1 will display 1 character in memory buffer.\r\n;\t\tR12: Points to the
+    one character in memory\r\n;\t\tRSP: 16-byte aligned before CALL\r\n;\t\tRegisters
+    preserved: RBX,RBP,RDI,RSI,RSP,R12-R15 \r\n\r\nv_asc1 proc\r\n\tmov\tR8,1\t\t;
+    Number of bytes requested to write.\r\n\tlea\tR9,nbwr\t\t; Returned with count
+    of bytes written.\r\n\tmov\tRDX,R12\t\t; Memory address of buffer to write.\r\n\tmov\tRCX,stdout\t;
+    I/O handle for display monitor.\r\n\tsub\tRSP,40\t\t; Reserve \"shadow\" and
+    16 byte align.\r\n\tcall\tWriteConsoleA\t; Ask Windows to write to monitor.\r\n\tadd\tRSP,40\t\t;
+    Reset stack to return address.\r\n\tret\t\t\t; Return to the calling program.\r\nv_asc1
+    endp\r\n\r\n\t.data\r\nstdout\tqword\t?\t\t; Handle to standard output device\r\nnbwr\tqword\t?\t\t;
+    Number of bytes written\r\n\tend"
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8d68277bad61c7b46bd7e03ebc534c3c, type: 2}
+  m_sharedMaterial: {fileID: 2779201154810601168, guid: 8d68277bad61c7b46bd7e03ebc534c3c, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 1
+  m_fontSizeBase: 1
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1414367683
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414367678}
+  m_CullTransparentMesh: 1
 --- !u!1 &1560212738
 GameObject:
   m_ObjectHideFlags: 0

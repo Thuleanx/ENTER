@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.01.00">
+	<object class="AudioFile" id="{b9575661-76b6-4552-8198-55ccd122499f}">
+		<property name="assetPath">
+			<value>Enter_Boss_Fight.mp3</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>100.8065306122449</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{0f06291e-7d80-418d-84e4-5aed3834d365}</destination>
+		</relationship>
+	</object>
+</objects>
