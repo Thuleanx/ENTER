@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Assertions;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
@@ -53,6 +54,12 @@ namespace Enter
     private bool _canDelete     => SceneTransitioner.Instance.CurrSpawnPoint.CanDelete;
 
     public Sprite RCSprite { set { _rcSpriteRenderer.sprite = value; } }
+
+    [SerializeField] public UnityEvent<Vector2> OnRightClick;
+    [SerializeField] public UnityEvent<Vector2> OnLeftClick;
+    [SerializeField] public UnityEvent<Vector2> OnCut;
+    [SerializeField] public UnityEvent<Vector2> OnPaste;
+    [SerializeField] public UnityEvent<Vector2> OnDelete;
     
     #region ================== Methods
 
@@ -195,6 +202,7 @@ namespace Enter
     private void leftClick()
     {
       bool isOnRCBox = Physics2D.OverlapPoint((Vector2) _in.MouseWorld, LayerManager.Instance.RCBoxLayer);
+      OnLeftClick?.Invoke(_in.MouseWorld);
 
       if      (!isOnRCBox) disableRCBox();
       else if (_canDelete) delete();
@@ -210,6 +218,7 @@ namespace Enter
       // Do nothing if attempting to spawn at same approximate location
       Vector2 targetPosition = decideRCBoxSpawnPosition();
       if (_rc.activeSelf && targetPosition == (Vector2) _rc.transform.position) return;
+      OnRightClick?.Invoke(_in.MouseWorld);
 
       // If the RCBox is already present, make it disappear
       if (_rc.activeSelf) disableRCBox();
@@ -228,6 +237,8 @@ namespace Enter
         Debug.Log("Nothing to delete.");
         return;
       }
+
+      OnDelete?.Invoke(_in.MouseWorld);
 
       // Flood-delete tiles (todo)
       recursivelyDeleteTiles(TileInfoForDelete.tilemap, TileInfoForDelete.indices);
@@ -278,6 +289,7 @@ namespace Enter
         return;
       }
 
+      OnCut?.Invoke(_in.MouseWorld);
       CutObject = SelectedObject;
       CutObjectInitialConstraints = SelectedObjectInitialConstraints;
       SelectedObject = null;
@@ -317,6 +329,7 @@ namespace Enter
       CutObject.GetComponent<Rigidbody2D>().constraints = CutObjectInitialConstraints;
       CutObject.SetActive(true);
       CutObject = null;
+      OnPaste.Invoke(_in.MouseWorld);
 
       disableRCBox();
     }
