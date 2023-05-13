@@ -34,24 +34,21 @@ namespace Enter
     private float initialFrontOffset;
     private float initialMidOffset;
     private float initialBackOffset;
-
-    // ... Which is why an initial offset of half the max height is needed
-    private float initialCameraOffset;
     
     private float x1;
     private float x2;
     private float x3;
-    private float h = 720;
+    private float h = 720; // seems sus
 
-    [SerializeField] private float aMax = 150; // World space units of highest camera altitude, found via playtesting and might change later
-    [SerializeField] private float aMin = 0;  // World space units of lowest camera altitude
-    
-    [field:SerializeField] private float a => _camera.transform.position.y - initialCameraOffset;
+    [SerializeField] private float aMax; // World space units of highest camera altitude, found via playtesting and might change later
+    [SerializeField] private float aMin; // World space units of lowest camera altitude
+    private float aRange => aMax - aMin;
 
-    [field:SerializeField] private float x3Offset => -((a - aMin) / aMax) * (x3 - h);
-    [field:SerializeField] private float x2Offset => -((a - aMin) / aMax) * (x2 - h);
-    [field:SerializeField] private float x1Offset => -((a - aMin) / aMax) * (x1 - h);
+    [field:SerializeField] private float a => _camera.transform.position.y - aMax / 2;
 
+    [field:SerializeField] private float x3Offset => -((a - aMin) / aRange) * (x3 - h);
+    [field:SerializeField] private float x2Offset => -((a - aMin) / aRange) * (x2 - h);
+    [field:SerializeField] private float x1Offset => -((a - aMin) / aRange) * (x1 - h);
 
     #region ================== Methods
 
@@ -79,7 +76,6 @@ namespace Enter
       x1 = initialFrontTopOffset - initialFrontOffset;
       x2 = initialMidTopOffset - initialMidOffset;
       x3 = initialBackTopOffset - initialBackOffset;
-      initialCameraOffset = aMax / 2; // set the initial offset of the backgrounds to half the max height
     }
 
     void LateUpdate()
