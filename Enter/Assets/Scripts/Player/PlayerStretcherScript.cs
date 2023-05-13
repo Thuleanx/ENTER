@@ -30,8 +30,15 @@ namespace Enter
     private InputData _in;
     private bool _isCrouching;
     private bool _isLanding;
+    private PlayerScript _playerScript;
+
 
     #region ================== Methods
+
+    void Awake()
+    {
+      _playerScript = GetComponent<PlayerScript>();
+    }
 
     void Start()
     {
