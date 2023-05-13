@@ -60,9 +60,10 @@ namespace Enter
 
     void LateUpdate()
     {
-      float yVelocityLerpPoint = (PlayerManager.Rigidbody.velocity.y > 0) ?
-        PlayerManager.Rigidbody.velocity.y / PlayerManager.MaxJumpSpeed :
-        PlayerManager.Rigidbody.velocity.y / PlayerManager.MaxFallSpeed;
+      float velocity = PlayerManager.PlayerScript.VelocityOnGround.y;
+      float yVelocityLerpPoint = (velocity > 0) ?
+        velocity / PlayerManager.MaxJumpSpeed :
+        velocity / PlayerManager.MaxFallSpeed;
 
       _targetStretchScale = Vector3.Lerp(_initialScale, _maxJumpStretch, yVelocityLerpPoint);
 
