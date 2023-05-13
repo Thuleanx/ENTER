@@ -164,6 +164,7 @@ namespace Enter
     #region ================== Accessors
 
     public bool Grounded => _co.OnGround;
+    public bool Teetering => _co.Teetering;
     
     public Rigidbody2D           Rigidbody2D           => _rb;
     public BoxCollider2D         BoxCollider2D         => _bc;
@@ -408,6 +409,7 @@ namespace Enter
       _an.SetFloat("Vx", Vx);
       _an.SetFloat("Vy", Vy);
       _an.SetBool("Grounded", Grounded);
+      _an.SetBool("Teetering", Teetering);
 
       // Landing effects
       if (_co.OnGround)
