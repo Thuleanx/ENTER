@@ -210,17 +210,17 @@ namespace Enter
 
     private bool colliderIsRCBox(Collider2D collider)
     {
-      return LayerManager.Instance.IsInLayerMask(LayerManager.Instance.RCBoxLayer, collider.gameObject);
+      return LayerManager.IsInLayerMask(LayerManager.Instance.RCBoxLayer, collider.gameObject);
     }
 
     private bool colliderIsConveyorBeam(Collider2D collider)
     {
-      return LayerManager.Instance.IsInLayerMask(LayerManager.Instance.ConveyorBeamLayer, collider.gameObject);
+      return LayerManager.IsInLayerMask(LayerManager.Instance.ConveyorBeamLayer, collider.gameObject);
     }
 
     private bool colliderIsConveyorBox(Collider2D collider)
     {
-      return LayerManager.Instance.IsInLayerMask(LayerManager.Instance.ConveyorBoxLayer, collider.gameObject);
+      return LayerManager.IsInLayerMask(LayerManager.Instance.ConveyorBoxLayer, collider.gameObject);
     }
 
     private bool collisionIsDownstream(Collision2D collision)

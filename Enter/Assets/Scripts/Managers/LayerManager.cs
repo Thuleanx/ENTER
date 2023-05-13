@@ -40,7 +40,7 @@ namespace Enter
 
     void Awake() { Instance = this; }
 
-    public bool IsInLayerMask(LayerMask layer, GameObject obj) 
+    public static bool IsInLayerMask(LayerMask layer, GameObject obj) 
     {
       return (layer & (1 << obj.layer)) != 0;
     }

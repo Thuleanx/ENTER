@@ -52,7 +52,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 69d1a2be6c844e5448919f9353357352, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -183,6 +183,7 @@ MonoBehaviour:
   _conveyorBoxSpriteObj: {fileID: 1904356369597916463}
   _physicsBoxSpriteObj: {fileID: 8789469577638716346}
   _isPhysicsBox: 0
+  clickableEmissionColor: {r: 0.66383487, g: 3.6226418, b: 0.1896671, a: 1}
 --- !u!114 &839876110194616111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,7 +253,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 69d1a2be6c844e5448919f9353357352, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
