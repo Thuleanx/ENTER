@@ -26,7 +26,7 @@ namespace Enter
 
     [Header("Ground Raycast Position Tweaks")]
     [SerializeField] private float _groundRayDistance = 0.0625f;
-    [SerializeField, Min(2)] private int _numGroundRays = 2;
+    [SerializeField, Min(2)] private int _numGroundRays = 3;
 
     [Header("Overhead Raycast Position Tweaks")]
     [SerializeField] private float _overheadRayDistance = 0.5f;
@@ -43,6 +43,7 @@ namespace Enter
     [field: SerializeField] public bool Crushed { get; set; } // Public set so that PlayerScript can consume it
 
     [field: SerializeField] public bool OnGround { get; private set; }
+    [field: SerializeField] public bool Teetering { get; private set; } // TODO better name?
     [field: SerializeField] public bool OnRCBox  { get; private set; }
 
     [field: SerializeField] public Collider2D AgainstCeiling   { get; private set; }
@@ -168,6 +169,7 @@ namespace Enter
       bool allGroundOrRC = true; // Starts true due to "and" logic
       bool anyHit        = false;
       bool anyRCHit      = false;
+      int totalHit       = 0;
 
       for (int i = 0; i < _numGroundRays; i++)
       {    
@@ -180,11 +182,13 @@ namespace Enter
         allGroundOrRC = allGroundOrRC && (staticHit || rcBoxHit);
         anyHit   = anyHit || staticHit || movingHit || rcBoxHit;
         anyRCHit = anyRCHit || rcBoxHit;
+        totalHit += ((staticHit || movingHit || rcBoxHit) ? 1 : 0);
       }
 
       OnGround = anyHit;
       OnRCBox  = anyRCHit;
       CarryingRigidbody = allGroundOrRC ? nonMovingRb : (movingRb == null ? nonMovingRb : movingRb);
+      Teetering = (totalHit == 1);
     }
 
     private Vector2 getGroundPoint(int i)

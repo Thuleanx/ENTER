@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 795c24fc152c15d479af409aebc29c7e, type: 3}
   m_Name: GroundEdgeSiblingRuleTiles
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: -1584371543, guid: 353c503c08a7248cab5de7165f9b027a, type: 3}
+  m_DefaultSprite: {fileID: -415993162, guid: 353c503c08a7248cab5de7165f9b027a, type: 3}
   m_DefaultGameObject: {fileID: 0}
   m_DefaultColliderType: 1
   m_TilingRules:
@@ -33,7 +33,7 @@ MonoBehaviour:
     - {x: 1, y: 0, z: 0}
     - {x: 1, y: -1, z: 0}
     - {x: 0, y: -1, z: 0}
-    m_RuleTransform: 0
+    m_RuleTransform: 2
   - m_Id: 1
     m_Sprites:
     - {fileID: 1287082432, guid: 353c503c08a7248cab5de7165f9b027a, type: 3}

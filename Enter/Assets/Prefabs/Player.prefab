@@ -58735,12 +58735,13 @@ MonoBehaviour:
   _radius: 0.4
   _crushCheckDistance: 0.15
   _groundRayDistance: 0.0625
-  _numGroundRays: 2
+  _numGroundRays: 3
   _overheadRayDistance: 0.5
   _outerFrac: 1.02
   _innerFrac: 0.25
   <Crushed>k__BackingField: 0
   <OnGround>k__BackingField: 0
+  <Teetering>k__BackingField: 0
   <OnRCBox>k__BackingField: 0
   <AgainstCeiling>k__BackingField: {fileID: 0}
   <AgainstGround>k__BackingField: {fileID: 0}
