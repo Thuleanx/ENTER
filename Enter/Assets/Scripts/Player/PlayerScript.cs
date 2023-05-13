@@ -27,6 +27,8 @@ namespace Enter
 
     #region ================== Variables
 
+    [SerializeField] private bool InvincibleInfiniteJumpMode = false;
+
     #region ====== Horizontal Movement
 
     [Header("Horizontal Movement")]
@@ -221,7 +223,7 @@ namespace Enter
 
     public void Die()
     {
-      if (_isDead) return;
+      if (_isDead || InvincibleInfiniteJumpMode) return;
       
       DeathCount++;
 
@@ -323,7 +325,7 @@ namespace Enter
       // WARN: This actually is called twice every time you press jump, due to the fact that 
       // the character technically won't leave the ground on the next fixed update due to 
       // our raycast down distance. 
-      if (_in.Jump && (Grounded || Time.time - _coyoteTime < _lastGroundedTime))
+      if (_in.Jump && (InvincibleInfiniteJumpMode || Grounded || Time.time - _coyoteTime < _lastGroundedTime))
       {
         // Instant diagonal jumping
         float jumpVx = _rb.velocity.x;
@@ -339,11 +341,12 @@ namespace Enter
         _lastGroundedTime = -Mathf.Infinity;
         _lastJumpedTime = Time.time;
 
-        if (isRealJump) {
-            // certain code are only run once per jump
-            // if we don't do this, and this jump event playoneshot a sound effect
-            // you'll hear two. Same with particle effects.
-            OnJump?.Invoke();
+        if (isRealJump)
+        {
+          // certain code are only run once per jump
+          // if we don't do this, and this jump event playoneshot a sound effect
+          // you'll hear two. Same with particle effects.
+          OnJump?.Invoke();
         }
       }
     }

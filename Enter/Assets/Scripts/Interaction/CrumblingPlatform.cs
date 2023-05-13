@@ -51,6 +51,7 @@ namespace Enter
     private Vector2 _topRight_global => transform.TransformPoint(_topRight_local);
 
     [SerializeField] private UnityEvent OnCrumble;
+    [SerializeField] private UnityEvent OnCrumbleStart;
 
     bool crumbling;
 
@@ -112,6 +113,8 @@ namespace Enter
     private IEnumerator _crumble()
     {
       float originalYPos = _sr.transform.position.y;
+
+      OnCrumbleStart.Invoke();
 
       // shake the sprite a little --- over the pre-crumbling duration
       // we shake inversely proportionally to scale so both x and y shakes the same amount
