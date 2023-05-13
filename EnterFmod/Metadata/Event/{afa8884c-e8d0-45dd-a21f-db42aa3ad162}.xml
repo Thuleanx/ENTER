@@ -5,10 +5,10 @@
 			<value>laser</value>
 		</property>
 		<property name="outputFormat">
-			<value>1</value>
+			<value>2</value>
 		</property>
 		<relationship name="folder">
-			<destination>{ec31757d-ef6e-4d37-9d75-1f0785cd0442}</destination>
+			<destination>{00af418f-0e0f-44c4-9a5f-f4c5c8a79e71}</destination>
 		</relationship>
 		<relationship name="mixer">
 			<destination>{99b31b99-2494-4934-8e66-51f8112d34c2}</destination>
@@ -35,6 +35,9 @@
 		<relationship name="parameters">
 			<destination>{f10e175e-83b9-424a-8b87-08152c40cf78}</destination>
 		</relationship>
+		<relationship name="banks">
+			<destination>{8f4d33b6-d95e-4815-88e7-b29ca9a72e8d}</destination>
+		</relationship>
 	</object>
 	<object class="EventMixer" id="{99b31b99-2494-4934-8e66-51f8112d34c2}">
 		<relationship name="masterBus">
@@ -57,7 +60,11 @@
 			<destination>{bb528b1c-e6bc-4683-9d76-69eb113147cc}</destination>
 		</relationship>
 	</object>
-	<object class="EventAutomatableProperties" id="{af48709a-c6a7-4b00-867d-f1d4b70c7340}" />
+	<object class="EventAutomatableProperties" id="{af48709a-c6a7-4b00-867d-f1d4b70c7340}">
+		<property name="maxVoices">
+			<value>9</value>
+		</property>
+	</object>
 	<object class="MarkerTrack" id="{9c744ec7-1f5d-4763-8e15-579a5cd43d5a}" />
 	<object class="MarkerTrack" id="{b36855b6-b57a-46a0-9fba-a5a5c01978ce}" />
 	<object class="GroupTrack" id="{da30fcab-a46d-4e9e-9d1f-1c1bf877229f}">
@@ -194,6 +201,7 @@
 	<object class="MixerBusEffectChain" id="{4384b01c-f91a-4672-8d46-dfdba2e10a0a}">
 		<relationship name="effects">
 			<destination>{5a18379a-8141-4a22-ab72-0b4e84a040a9}</destination>
+			<destination>{587e2079-2a6f-4380-9c96-9779a70af2d2}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{638c2949-d978-46f2-b048-368cf3397f01}" />
@@ -227,5 +235,13 @@
 		</relationship>
 	</object>
 	<object class="MixerBusFader" id="{5a18379a-8141-4a22-ab72-0b4e84a040a9}" />
+	<object class="SpatialiserEffect" id="{587e2079-2a6f-4380-9c96-9779a70af2d2}">
+		<property name="minimumDistance">
+			<value>1.20000005</value>
+		</property>
+		<property name="maximumDistance">
+			<value>35</value>
+		</property>
+	</object>
 	<object class="MixerBusFader" id="{095b80d3-343f-4159-982b-2eda0f8d7512}" />
 </objects>

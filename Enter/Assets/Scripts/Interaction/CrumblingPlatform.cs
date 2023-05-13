@@ -1,6 +1,7 @@
 using DG.Tweening;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Assertions;
 using System.Collections;
 using System.Collections.Generic;
@@ -48,6 +49,8 @@ namespace Enter
     private Vector2 _topRight_local  => (Vector2.up + Vector2.right) / 2.0f ;
     private Vector2 _topLeft_global  => transform.TransformPoint(_topLeft_local);
     private Vector2 _topRight_global => transform.TransformPoint(_topRight_local);
+
+    [SerializeField] private UnityEvent OnCrumble;
 
     bool crumbling;
 
@@ -136,6 +139,7 @@ namespace Enter
 
       // Feel free to play with the easing functions of the following two tweens
       // falling down to specified Y position. Here, it's -1 from the original position
+      OnCrumble?.Invoke();
       Tween fallingPlatform = _sr.transform.DOMoveY(originalYPos - 1, _crumblingDuration);
       fallingPlatform.SetEase(Ease.OutCubic).Play();
 

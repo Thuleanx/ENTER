@@ -15,11 +15,14 @@ namespace Enter {
         [SerializeField] GameObject _corruptedBox;
         [SerializeField] GameObject _environment;
         [SerializeField] Transform _virusPosition;
+        [SerializeField] List<CanvasGroup> _backgroundCanvases;
 
         List<Typewriter> _sequenceTexts;
 
         void Awake() {
             _sequenceTexts = new List<Typewriter>(GetComponentsInChildren<Typewriter>());
+            foreach (var bg in _backgroundCanvases) 
+                bg.alpha = 0;
         }
 
         void Start() {
@@ -124,6 +127,13 @@ namespace Enter {
                 }
 
                 yield return new WaitForSecondsRealtime(convergenceDuration * 1.25f);
+
+                foreach (var bg in _backgroundCanvases) {
+                    bg.DOFade(1, 2).SetDelay(2);
+                }
+                if (ColorUtility.TryParseHtmlString("#77A52C", out Color backgroundColor)) {
+                    Camera.main.DOColor(backgroundColor, 2).SetDelay(2);
+                }
 
                 // all boxes circles around virus position and moves with it
 

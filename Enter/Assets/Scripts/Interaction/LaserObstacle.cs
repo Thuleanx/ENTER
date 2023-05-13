@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Assertions;
 using NaughtyAttributes;
+using FMODUnity;
 
 namespace Enter
 {
@@ -41,6 +42,8 @@ namespace Enter
 
     private const float _maxRaycastDistance = 100;
     [SerializeField] private LayerMask _gizmosBlockLaserLayer;
+
+    [SerializeField] private StudioEventEmitter _laserSFX;
 
     #region ================== Methods
 
@@ -123,6 +126,8 @@ namespace Enter
 
     private void turnOnLaser()
     {
+      _laserSFX?.Play();
+      _laserSFX?.SetParameter("laser_off", 0);
       _currentlyOn = true;
       _lineRenderer.enabled = true;
       foreach (ParticleSystem attackParticleSystem in _attackParticles)
@@ -138,6 +143,7 @@ namespace Enter
 
     private void turnOffLaser()
     {
+      _laserSFX?.SetParameter("laser_off", 1);
       _currentlyOn = false;
       _lineRenderer.enabled = false;
       foreach (ParticleSystem attackParticleSystem in _attackParticles)
