@@ -1,9 +1,10 @@
+using Enter.Utils;
+using NaughtyAttributes;
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.Events;
-using Enter.Utils;
 
 namespace Enter
 {
@@ -116,6 +117,8 @@ namespace Enter
     [SerializeField, Tooltip("Amount of time between the player dying and respawning.")]
     private float _deathRespawnDelay = 0.5f;
     private float _deathEffectDelayTime = 0.4f;
+    
+    public int DeathCount { get; private set; } = 0;
 
     #endregion
     
@@ -178,20 +181,18 @@ namespace Enter
     void Awake()
     {
       // This prevents multiple copies of the player from existing at once
-      if (Instance) DestroyImmediate(this);
-	  else {
-		Instance = this;
+      if (Instance)
+      {
+        DestroyImmediate(this);
+        return;
+      }
 
-		_rb = GetComponent<Rigidbody2D>();
-		_bc = GetComponent<BoxCollider2D>();
-		_co = GetComponent<PlayerColliderScript>();
-		_ps = GetComponent<PlayerStretcherScript>();
-	  }
-    }
+      Instance = this;
 
-    void Start()
-    {
-      /* _in = InputManager.Instance.Data; */
+      _rb = GetComponent<Rigidbody2D>();
+      _bc = GetComponent<BoxCollider2D>();
+      _co = GetComponent<PlayerColliderScript>();
+      _ps = GetComponent<PlayerStretcherScript>();
     }
 
     void FixedUpdate()
@@ -211,19 +212,21 @@ namespace Enter
 
     void LateUpdate()
     {
-      // best practice to keep things updating animator states in LateUpdate
-      // this is right before things get rendered on screen, so there
-      // won't be one frame where your animation and actual input/physics are mismatched
+      // best practice is to keep things updating animator states in LateUpdate
+      // this is right before things get rendered on screen, so there won't be
+      // one frame where your animation and actual input/physics are mismatched
       handleMovementAnimation();
     }
 
     public void Die()
     {
-      if (!_isDead) {
-        OnDeath?.Invoke();
-        SetFieldsDead();
-        StartCoroutine(waitForRespawn());
-      }
+      if (_isDead) return;
+      
+      DeathCount++;
+
+      OnDeath?.Invoke();
+      SetFieldsDead();
+      StartCoroutine(waitForRespawn());
     }
 
     public void SetFieldsDead()

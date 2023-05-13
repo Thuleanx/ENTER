@@ -10,6 +10,5 @@ namespace Enter
 
       PlayerManager.PlayerScript.Die();
     }
-
   }
 }

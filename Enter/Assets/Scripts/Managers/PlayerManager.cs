@@ -24,6 +24,8 @@ namespace Enter
     public static float                 MaxJumpSpeed          => PlayerScript.Instance.MaxJumpSpeed;
     public static float                 MaxFallSpeed          => PlayerScript.Instance.MaxFallSpeed;
 
+    public static int DeathCount => PlayerScript.Instance.DeathCount;
+
     #endregion
 
     #region ================== Methods

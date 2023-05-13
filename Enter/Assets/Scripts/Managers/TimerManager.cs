@@ -33,7 +33,7 @@ namespace Enter
       float minutes = Mathf.FloorToInt(x / 60); 
       float seconds = Mathf.FloorToInt(x % 60);
       float milliseconds = (x % 1) * 1000;
-      _timerDisplay.text = string.Format("{0:00}:{1:00}:{2:000}", minutes, seconds, milliseconds);
+      _timerDisplay.text = string.Format("{0:00}:{1:00}:{2:000}\nDeaths: {3}", minutes, seconds, milliseconds, PlayerManager.DeathCount);
     }
   }
 }
