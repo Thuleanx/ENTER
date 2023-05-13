@@ -110,7 +110,7 @@ namespace Enter
 
     private void updateLayersVertical()
     {
-      Debug.Log("Camera y: " + _camera.transform.position.y);
+      // Debug.Log("Camera y: " + _camera.transform.position.y);
       frontTop.anchoredPosition = new Vector2(frontTop.anchoredPosition.x,  initialFrontTopOffset + x1Offset);
       midTop.anchoredPosition   = new Vector2(midTop.anchoredPosition.x,    initialMidTopOffset   + x2Offset);
       backTop.anchoredPosition  = new Vector2(backTop.anchoredPosition.x,   initialBackTopOffset  + x3Offset);
