@@ -49,9 +49,9 @@ namespace Enter
 
     private Vector2 _pasteTLOffset = new Vector2(-0.95f, 0.95f);
 
-    private bool _canCutPaste   => SceneTransitioner.Instance.CurrSpawnPoint.CanCutPaste;
-    private bool _canRCAnywhere => SceneTransitioner.Instance.CurrSpawnPoint.CanRCAnywhere;
-    private bool _canDelete     => SceneTransitioner.Instance.CurrSpawnPoint.CanDelete;
+    private bool _canCutPaste   => SceneTransitioner.Instance.CanCutPaste;
+    private bool _canRCAnywhere => SceneTransitioner.Instance.CanRCAnywhere;
+    private bool _canDelete     => SceneTransitioner.Instance.CanDelete;
 
     public Sprite RCSprite { set { _rcSpriteRenderer.sprite = value; } }
 

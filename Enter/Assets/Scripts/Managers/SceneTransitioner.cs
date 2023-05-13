@@ -33,6 +33,10 @@ namespace Enter
     public EntryPassage CurrEntryPassage  { get; private set; }
     public Transform    CurrRootTransform { get; private set; }
 
+    public bool CanCutPaste   { get; private set; }
+    public bool CanRCAnywhere { get; private set; }
+    public bool CanDelete     { get; private set; }
+
     [SerializeField]
     private ScreenWipe _screenWiper;
 
@@ -66,6 +70,7 @@ namespace Enter
     void Start()
     {
       setSceneFields(SceneManager.GetActiveScene());
+      updateRCBoxPermissions();
       _screenWiper.Unblock();
     }
 
@@ -140,6 +145,7 @@ namespace Enter
         yield return cameraTransition();
 
         // Do post-transition actions
+        updateRCBoxPermissions();
         OnTransitionAfter?.Invoke(PrevScene, CurrScene);
 
         // Unload PrevScene
@@ -177,11 +183,11 @@ namespace Enter
         Assert.AreNotEqual(PrevScene, CurrScene, "At this moment, both scenes should be different.");
 
         // Do post-reload actions
+        updateRCBoxPermissions();
         OnReloadAfter?.Invoke(PrevScene, CurrScene);
 
         PlayerManager.PlayerScript.SetFieldsAlive();
         yield return _screenWiper.Unblock();
-
       }
 
       STState = STState.Idle;
@@ -289,6 +295,13 @@ namespace Enter
       Assert.IsNotNull(CurrSpawnPoint,    "Scene's spawnPoint not found.");
       Assert.IsNotNull(CurrEntryPassage,  "Scene's entryPassage not found.");
       Assert.IsNotNull(CurrRootTransform, "Scene's root transform not found.");
+    }
+
+    private void updateRCBoxPermissions()
+    {
+      CanCutPaste   = CurrSpawnPoint.CanCutPaste;
+      CanRCAnywhere = CurrSpawnPoint.CanRCAnywhere;
+      CanDelete     = CurrSpawnPoint.CanDelete;
     }
 
     #endregion
