@@ -101,6 +101,7 @@ namespace Enter
       }
 
       if (_canCutPaste && _rc.activeSelf) findAndFreezeSelectedObject();
+      if (_canDelete   && _rc.activeSelf) findTileInfoForDelete();
     }
 
 #if UNITY_EDITOR
@@ -121,7 +122,7 @@ namespace Enter
     }
 #endif
 
-    // Used as an event in SceneTransitioner
+    // Used as an event in SceneTransitioner and by FinalLevel
     public void DespawnRCBox()
     {
       CutObject = null;
