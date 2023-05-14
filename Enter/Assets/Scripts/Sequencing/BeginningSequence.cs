@@ -1,4 +1,5 @@
 using UnityEngine; 
+using UnityEngine.Events;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,6 +19,8 @@ namespace Enter
     [SerializeField] GameObject _environment;
     [SerializeField] Transform _virusPosition;
     [SerializeField] List<CanvasGroup> _backgroundCanvases;
+    [SerializeField] UnityEvent OnBegin;
+    [SerializeField] UnityEvent OnVirusExit;
 
     List<Typewriter> _sequenceTexts;
 
@@ -44,7 +47,10 @@ namespace Enter
 
         Coroutine typewriting = StartCoroutine(_Typewrite());
 
+        OnBegin?.Invoke();
+
         yield return new WaitForSecondsRealtime(_scrollDelay);
+
 
         // Spawn some squares
         List<GameObject> corruptedBoxes = new List<GameObject>();
@@ -131,15 +137,7 @@ namespace Enter
 
         yield return new WaitForSecondsRealtime(convergenceDuration * 1.25f);
 
-        foreach (var bg in _backgroundCanvases)
-        {
-          bg.DOFade(1, 2).SetDelay(2);
-        }
 
-        if (ColorUtility.TryParseHtmlString("#77A52C", out Color backgroundColor))
-        {
-          Camera.main.DOColor(backgroundColor, 2).SetDelay(2);
-        }
 
         // All boxes circles around virus position and moves with it
 
@@ -163,6 +161,16 @@ namespace Enter
             corruptedBox.transform.position = (Vector2) _virusPosition.transform.position + displacementFromVirus[i];
           }
           yield return null;
+        }
+        OnVirusExit?.Invoke();
+        foreach (var bg in _backgroundCanvases)
+        {
+          bg.DOFade(1, 2);
+        }
+
+        if (ColorUtility.TryParseHtmlString("#77A52C", out Color backgroundColor))
+        {
+          Camera.main.DOColor(backgroundColor, 2);
         }
 
         // We have player walk in

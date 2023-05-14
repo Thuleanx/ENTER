@@ -126,6 +126,7 @@ MonoBehaviour:
   _settingsMenu: {fileID: 3458845116333275092}
   _mscVolumeText: {fileID: 1979214273019482544}
   _sfxVolumeText: {fileID: 5588450874011283914}
+  _maxUserVol: 10
 --- !u!1 &130282937763288940
 GameObject:
   m_ObjectHideFlags: 0
@@ -5538,7 +5539,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8757388040172265091}
-  - component: {fileID: 5765452537454279184}
+  - component: {fileID: 3751473601578038203}
   m_Layer: 0
   m_Name: Music
   m_TagString: Untagged
@@ -5561,7 +5562,7 @@ Transform:
   m_Father: {fileID: 972218654911644555}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5765452537454279184
+--- !u!114 &3751473601578038203
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5570,27 +5571,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 7528307931425025935}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Script: {fileID: 11500000, guid: 06aefdbbcd2262a419a4ac93c914a42d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CollisionTag: 
-  EventReference:
-    Guid:
-      Data1: -665091893
-      Data2: 1187651200
-      Data3: -730622529
-      Data4: -1879998601
-    Path: event:/Music/MainMusic
-  Event: 
-  PlayEvent: 1
-  StopEvent: 2
-  AllowFadeout: 1
-  TriggerOnce: 0
-  Preload: 0
-  Params: []
-  OverrideAttenuation: 0
-  OverrideMinDistance: 0
-  OverrideMaxDistance: 0
 --- !u!1 &7805763008862638639
 GameObject:
   m_ObjectHideFlags: 0
