@@ -44,6 +44,7 @@ namespace Enter
     [SerializeField] private LayerMask _gizmosBlockLaserLayer;
 
     [SerializeField] private StudioEventEmitter _laserSFX;
+    [SerializeField] private StudioEventEmitter _laserChargeSFX;
 
     #region ================== Methods
 
@@ -144,6 +145,7 @@ namespace Enter
     private void turnOffLaser()
     {
       _laserSFX?.SetParameter("laser_off", 1);
+      _laserChargeSFX?.Play();
       _currentlyOn = false;
       _lineRenderer.enabled = false;
       foreach (ParticleSystem attackParticleSystem in _attackParticles)
