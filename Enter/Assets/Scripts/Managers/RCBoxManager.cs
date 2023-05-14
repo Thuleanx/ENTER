@@ -394,7 +394,7 @@ namespace Enter
 
       if (collider != null)
       {
-        SelectedObject = collider.gameObject;
+        SelectedObject = collider.gameObject.GetComponentInParent<Rigidbody2D>().gameObject;
         SelectedObjectInitialConstraints = SelectedObject.GetComponent<Rigidbody2D>().constraints;
         SelectedObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
       }

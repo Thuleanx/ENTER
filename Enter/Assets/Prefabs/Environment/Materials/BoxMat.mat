@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: RCAreaWobble
-  m_Shader: {fileID: -6465566751694194690, guid: 87a9de2391e34054f8ccc313a27fe245, type: 3}
+  m_Name: BoxMat
+  m_Shader: {fileID: -6465566751694194690, guid: 141e00dd460485349867997ad4d33541, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -20,19 +20,11 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _Emission:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OutlineDirection:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OutlineTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_58bad178eb5f4967bd454826b9669436_Texture_1:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -49,13 +41,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
-    m_Floats:
-    - _Amplitude: 0.04
-    - _PPU: 16
-    - _SpaceFrequency: 1
-    - _TimeFrequency: 0.5
+    m_Floats: []
     m_Colors:
-    - _FillColor: {r: 2.0811713, g: 1.6397108, b: 0.18919739, a: 0.15686275}
-    - _Frequency: {r: 1, g: 1, b: 0, a: 0}
-    - _OutlineColor: {r: 2.6082377, g: 2.6082377, b: 0, a: 1}
+    - _GlowColor: {r: 0, g: 0, b: 0, a: 0}
+    - _Offset: {r: 0, g: 0, b: 0, a: 0}
+    - _Tiling: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
