@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.01.00">
+	<object class="ParameterPreset" id="{b5b5a626-c5b5-4594-a628-9ed4d7488ee7}">
+		<property name="name">
+			<value>distanceToClosestVirus</value>
+		</property>
+		<relationship name="folder">
+			<destination>{96891688-55c6-4ad1-aeb1-4c8f99b5fcef}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{29acdf17-88b9-40a3-bb8b-3a131351c589}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{29acdf17-88b9-40a3-bb8b-3a131351c589}">
+		<property name="maximum">
+			<value>5</value>
+		</property>
+		<property name="initialValue">
+			<value>2.5</value>
+		</property>
+	</object>
+</objects>
