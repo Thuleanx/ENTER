@@ -11,20 +11,21 @@ namespace Enter
   {
     public static PauseManager Instance;
 
-    [SerializeField] private GameObject _pauseMenuCanvas;
-    [SerializeField] private GameObject _settingsMenuCanvas;
+    [SerializeField] private GameObject _pauseMenuBackground;
+    [SerializeField] private GameObject _pauseMenu;
+    [SerializeField] private GameObject _settingsMenu;
     [SerializeField] private TextMeshProUGUI _mscVolumeText;
     [SerializeField] private TextMeshProUGUI _sfxVolumeText;
 
     private float _prevTimeScale = 1;
 
-    public bool IsPaused => _pauseMenuCanvas && _pauseMenuCanvas.activeSelf;
+    public bool IsPaused => _pauseMenu && _pauseMenu.activeSelf;
 
     FMOD.Studio.Bus Music;
 		FMOD.Studio.Bus SFX;
 		FMOD.Studio.Bus Master;
 		bool audioPrepped = false;
-    private int _maxUserVol = 10, _minUserVol = 0;
+    private int   _maxUserVol = 10, _minUserVol = 0;
     private float _maxTrueVol = 1f, _minTrueVol = 0f;
     private float volIncrement => (float) (_maxTrueVol - _minTrueVol) / (float) (_maxUserVol - _minUserVol);
 
@@ -33,9 +34,9 @@ namespace Enter
     void Awake()
     {
       Instance = this;
-      Assert.IsNotNull(_pauseMenuCanvas, "PauseManager must have a reference to its the pause menu's canvas.");
-      _pauseMenuCanvas.SetActive(false);
-      _settingsMenuCanvas.SetActive(false);
+      Assert.IsNotNull(_pauseMenu, "PauseManager must have a reference to its the pause menu's canvas.");
+      _pauseMenu.SetActive(false);
+      _settingsMenu.SetActive(false);
     }
 
     void InitAudio() {
@@ -57,8 +58,9 @@ namespace Enter
 
       if (SceneTransitioner.Instance && SceneTransitioner.Instance.STState != STState.Idle) return;
 
-      _pauseMenuCanvas.SetActive(true);
-      _settingsMenuCanvas.SetActive(false);
+      _pauseMenuBackground.SetActive(true);
+      _pauseMenu.SetActive(true);
+      _settingsMenu.SetActive(false);
       _prevTimeScale = Time.timeScale;
       Time.timeScale = 0;
       _mscVolumeText.text = TrueVolToUser(GetMusicVolume()).ToString();
@@ -69,20 +71,22 @@ namespace Enter
     {
       if (!IsPaused) return;
 
-      _pauseMenuCanvas.SetActive(false);
-      _settingsMenuCanvas.SetActive(false);
+      _pauseMenuBackground.SetActive(false);
+      _pauseMenu.SetActive(false);
+      _settingsMenu.SetActive(false);
       Time.timeScale = _prevTimeScale;
     }
 
      public void ShowSettings()
     {
-      _settingsMenuCanvas.SetActive(true);
-      _pauseMenuCanvas.SetActive(false);
+      _settingsMenu.SetActive(true);
+      _pauseMenu.SetActive(false);
     }
 
-    public void HideSettings() {
-      _settingsMenuCanvas.SetActive(false);
-      _pauseMenuCanvas.SetActive(true);
+    public void HideSettings()
+    {
+      _settingsMenu.SetActive(false);
+      _pauseMenu.SetActive(true);
     }
 
     public void RestartLevel()
@@ -107,11 +111,13 @@ namespace Enter
 
     #region ================== Volume
 
-    private int TrueVolToUser(float newTrueVol) {
+    private int TrueVolToUser(float newTrueVol)
+    {
       return ((int) (((newTrueVol - _minTrueVol) / volIncrement) + _minUserVol + .5f));
     }
 
-    public void MusicVolumeUp() {
+    public void MusicVolumeUp()
+    {
       float currTrueVol = GetMusicVolume();
       float newTrueVol = currTrueVol + volIncrement;
       newTrueVol = Mathf.Clamp(newTrueVol, _minTrueVol, _maxTrueVol);
@@ -119,7 +125,8 @@ namespace Enter
       SetMusicVolume(newTrueVol);
     }
 
-    public void MusicVolumeDown() {
+    public void MusicVolumeDown()
+    {
       float currTrueVol = GetMusicVolume();
       float newTrueVol = currTrueVol - volIncrement;
       newTrueVol = Mathf.Clamp(newTrueVol, _minTrueVol, _maxTrueVol);
@@ -127,7 +134,8 @@ namespace Enter
       SetMusicVolume(newTrueVol);
     }
 
-    public void SFXVolumeUp() {
+    public void SFXVolumeUp()
+    {
       float currTrueVol = GetSFXVolume();
       float newTrueVol = currTrueVol + volIncrement;
       newTrueVol = Mathf.Clamp(newTrueVol, _minTrueVol, _maxTrueVol);
@@ -135,7 +143,8 @@ namespace Enter
       SetSFXVolume(newTrueVol);
     }
 
-    public void SFXVolumeDown() {
+    public void SFXVolumeDown()
+    {
       float currTrueVol = GetSFXVolume();
       float newTrueVol = currTrueVol - volIncrement;
       newTrueVol = Mathf.Clamp(newTrueVol, _minTrueVol, _maxTrueVol);
@@ -143,45 +152,56 @@ namespace Enter
       SetSFXVolume(newTrueVol);
     }
 
-    public float GetMusicVolume() {
+    public float GetMusicVolume()
+    {
 			if (!audioPrepped) InitAudio();
 			float amt;
-			if (Music.getVolume(out amt) != FMOD.RESULT.OK) {
+			if (Music.getVolume(out amt) != FMOD.RESULT.OK)
+      {
 				Debug.LogError("Cannot get volume for bus //Master//Music");
 				return 0;
 			}
 			return amt;
 		}
 
-		public float GetMasterVolume() {
+		public float GetMasterVolume()
+    {
 			if (!audioPrepped) InitAudio();
 			float amt;
-			if (Master.getVolume(out amt) != FMOD.RESULT.OK) {
+			if (Master.getVolume(out amt) != FMOD.RESULT.OK)
+      {
 				Debug.LogError("Cannot get volume for bus //Master");
 				return 0;
 			}
 			return amt;
 		}
 
-		public float GetSFXVolume() {
+		public float GetSFXVolume()
+    {
 			if (!audioPrepped) InitAudio();
 			float amt;
-			if (SFX.getVolume(out amt) != FMOD.RESULT.OK) {
+			if (SFX.getVolume(out amt) != FMOD.RESULT.OK)
+      {
 				Debug.LogError("Cannot get volume for bus //Master//SFX");
 				return 0;
 			}
 			return amt;
 		}
 
-		public void SetMusicVolume(float amt) {
+		public void SetMusicVolume(float amt)
+    {
 			if (!audioPrepped) InitAudio();
 			Music.setVolume(amt);
 		}
-		public void SetSFXVolume(float amt) {
+
+		public void SetSFXVolume(float amt)
+    {
 			if (!audioPrepped) InitAudio();
 			SFX.setVolume(amt);
 		}
-		public void SetMasterVolume(float amt) {
+
+		public void SetMasterVolume(float amt)
+    {
 			if (!audioPrepped) InitAudio();
 			Master.setVolume(amt);
 		}
