@@ -41,6 +41,7 @@ namespace Enter
     private ScreenWipe _screenWiper;
 
     private bool        _firstLoadComplete;
+    private Camera      _invincibleCamera;
     private ExitPassage _tempExitPassage;
     private Vector2     _tempPreviousRootPosition;
 
@@ -135,6 +136,7 @@ namespace Enter
         // Set PrevScene
         PrevScene = SceneManager.GetActiveScene();
         Assert.AreEqual(PrevScene, CurrScene, "At this moment, both scenes should be equal.");
+        setInvincibleCamera(PrevScene);
 
         // Do pre-transition actions
         OnTransitionBefore?.Invoke(PrevScene);
@@ -148,7 +150,7 @@ namespace Enter
         Assert.AreNotEqual(PrevScene, CurrScene, "At this moment, both scenes should be different.");
 
         // Wait for camera to move smoothly
-        yield return cameraTransition();
+        yield return cameraTransition(PrevScene, CurrScene);
 
         // Do post-transition actions
         UpdateRCBoxPermissionsFromCurrSpawnPoint();
@@ -174,6 +176,7 @@ namespace Enter
         // Set PrevScene
         PrevScene = SceneManager.GetActiveScene();
         Assert.AreEqual(PrevScene, CurrScene, "At this moment, both scenes should be equal.");
+        setInvincibleCamera(PrevScene);
 
         // Do pre-reload actions
         PauseManager.Instance.Unpause();
@@ -188,6 +191,8 @@ namespace Enter
         onLoaded?.Invoke();
         Assert.AreNotEqual(PrevScene, CurrScene, "At this moment, both scenes should be different.");
 
+        // Handle camera existence
+
         // Do post-reload actions
         UpdateRCBoxPermissionsFromCurrSpawnPoint();
         OnReloadAfter?.Invoke(PrevScene, CurrScene);
@@ -199,39 +204,33 @@ namespace Enter
       STState = STState.Idle;
     }
 
-    private IEnumerator cameraTransition()
+    private IEnumerator cameraTransition(Scene prevScene, Scene currScene)
     {
-      // Disable PrevScene's camera, so that CurrScene's camera becomes the one in use
-      foreach (Camera x in FindObjectsOfType<Camera>())
-        if (x.gameObject.scene == PrevScene) x.gameObject.SetActive(false);
+      // Min priority of prevScene's virtual camera
+      CinemachineVirtualCamera prevSceneVC = findHighestPriorityVC(prevScene);
+      Assert.IsNotNull(prevSceneVC, "Previous scene's virtual camera not found");
+      prevSceneVC.Priority = 0;
 
-      // Get CurrScene's camera (the only remaining one)
-      Camera camera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
-
-      // Max priority of PrevScene's virtual camera, so that the camera snaps there
-      // Important: you can't just set the camera's position, or the virtual camera will slap you
-      CinemachineVirtualCamera _prevSceneVC = findHighestPriorityVC(PrevScene);
-      Assert.IsNotNull(_prevSceneVC, "Previous scene's virtual camera not found");
-      _prevSceneVC.Priority = int.MaxValue;
-
-      // Must wait one frame for the cinemachine camera to adjust its internal position
-      // it's important that the cinemachine brain's update method is set to LateUpdate. FixedUpdate does not 
-      // work, due to us freezing timescale
-      yield return null;
-
-      // Min priority of PrevScene's virtual camera
-      _prevSceneVC.Priority = 0;
-
-      // Wait until camera has moved to the highest-priority virtual camera in CurrScene
-      CinemachineVirtualCamera _currSceneVC = findHighestPriorityVC(CurrScene);
-      int temp = _currSceneVC.Priority;
-      _currSceneVC.Priority = int.MaxValue;
-
+      // Wait until camera has moved to the highest-priority virtual camera in currScene
+      CinemachineVirtualCamera currSceneVC = findHighestPriorityVC(currScene);
+      int temp = currSceneVC.Priority;
+      currSceneVC.Priority = int.MaxValue;
       yield return null; // Must wait one frame for the cinemachine camera to adjust its internal position
-
-      while (Vector2.Distance(camera.transform.position, _currSceneVC.State.CorrectedPosition) > _eps)
+      while (Vector2.Distance(_invincibleCamera.transform.position, currSceneVC.State.CorrectedPosition) > _eps)
         yield return null;
-      _currSceneVC.Priority = temp;
+      currSceneVC.Priority = temp;
+    }
+
+    private void setInvincibleCamera(Scene scene)
+    {
+      if (_invincibleCamera != null) return;
+
+      // Make scene's camera invincible if there isn't already one
+      Camera camera = findCameraInScene(scene);
+      Assert.IsNotNull(camera, "Previous scene's camera not found");
+      camera.transform.SetParent(null);
+      DontDestroyOnLoad(camera.gameObject);
+      _invincibleCamera = camera;
     }
 
     private T findInAnyScene<T>() where T : MonoBehaviour
@@ -241,9 +240,19 @@ namespace Enter
 
     private T findInScene<T>(Scene scene) where T : MonoBehaviour
     {
-      // Assumes only one spawn point per scene
+      // Assumes only one per scene
       foreach (T x in FindObjectsOfType<T>())
         if (x.gameObject.scene == scene)
+          return x;
+
+      return null;
+    }
+
+    private Camera findCameraInScene(Scene scene)
+    {
+      // Assumes the main camera is tagged
+      foreach (Camera x in FindObjectsOfType<Camera>())
+        if (x.gameObject.scene == scene && x.tag == "MainCamera")
           return x;
 
       return null;
@@ -264,31 +273,46 @@ namespace Enter
     {
       // Hopefully no physics frame happens between scene load and this function. Else Unity documentation lied.
 
-      // Check for weird state
-      if (STState == STState.Idle) 
-      {
-        if (_firstLoadComplete)
-        {
-          throw new Exception("Scene loaded, but SceneTransitioner is idle, and this is not the first load.");
-        }
-        Debug.Log("Scene loaded, but SceneTransitioner is idle. This must be the first load.");
-        _firstLoadComplete = true;
-      }
-
       // Set fields obtained from new scene
       setSceneFields(newScene);
-        
-      // Align next scene
-      if (STState == STState.Transitioning)
+
+      // Disable newScene's camera if invincible one exists
+      if (_invincibleCamera != null)
       {
-        CurrRootTransform.position += _tempExitPassage.transform.position - CurrEntryPassage.transform.position;
+        Camera cameraToDisable = findCameraInScene(newScene);
+        Assert.IsNotNull(cameraToDisable, "New scene's camera not found");
+        cameraToDisable.gameObject.SetActive(false);
       }
-      else if (STState == STState.Reloading)
+      else
       {
-        CurrRootTransform.position = _tempPreviousRootPosition;
+        Assert.IsFalse(_firstLoadComplete); // Must be first load if invincible camera isn't in
       }
-      
-      // Fixme: is this the right place to put this?
+
+      // Align new scene's root, while checking for weird state / first load
+      switch (STState)
+      {
+        case STState.Idle:
+        {
+          if (_firstLoadComplete)
+            throw new Exception("Scene loaded, but SceneTransitioner is idle, and this is not the first load.");
+
+          Debug.Log("Scene loaded, but SceneTransitioner is idle. This must be the first load.");
+          _firstLoadComplete = true;
+          break;
+        }
+        case STState.Transitioning:
+        {
+          CurrRootTransform.position += _tempExitPassage.transform.position - CurrEntryPassage.transform.position;
+          break;
+        }
+        case STState.Reloading:
+        {
+          CurrRootTransform.position = _tempPreviousRootPosition;
+          break;
+        }
+      }
+
+      // Invoke events after scene load
       OnSceneLoad?.Invoke(newScene);
     }
 
