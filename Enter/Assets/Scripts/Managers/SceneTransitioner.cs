@@ -114,6 +114,12 @@ namespace Enter
       StartCoroutine(reloadHelper());
     }
 
+    public void UpdateCurrSpawnPoint(SpawnPoint x)
+    {
+      CurrSpawnPoint = x;
+      UpdateRCBoxPermissionsFromCurrSpawnPoint();
+    }
+
     public void UpdateRCBoxPermissionsFromCurrSpawnPoint()
     {
       CanCutPaste   = CurrSpawnPoint.CanCutPaste;

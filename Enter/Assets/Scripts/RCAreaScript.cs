@@ -84,7 +84,7 @@ namespace Enter
       // Unity weirdly gives us back vertices with (x,y) values slightly off to where they actually should be. 
       // For integer points, this is really bad, because you can imagine if we just shift the points by a little, our answer is now different.
       // Therefore, as a preprocessing step we are rounding the x and y coordinates of each point if they are too close to an integer point
-      float EPS = 0.01f;
+      float EPS = 0.1f;
       Func<Vector2, Vector2> round = (p) =>
       {
         if (Mathf.Abs(p.x - Mathf.Round(p.x)) < EPS) p.x = Mathf.Round(p.x);
