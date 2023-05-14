@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: 1339512068740558784}
   - component: {fileID: 87559767386798918}
   - component: {fileID: 6502886145927221206}
+  - component: {fileID: 393516039730397568}
   m_Layer: 0
   m_Name: BGSky
   m_TagString: Untagged
@@ -190,6 +191,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8b67db8a50ce884f80debe1484ea8f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!225 &393516039730397568
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 667803515275950215}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &810912136548712967
 GameObject:
   m_ObjectHideFlags: 0
@@ -431,6 +444,7 @@ GameObject:
   - component: {fileID: 5682551683742523546}
   - component: {fileID: 2747807578897873536}
   - component: {fileID: 1617141937264184802}
+  - component: {fileID: 1320400418366644295}
   m_Layer: 0
   m_Name: BGFront
   m_TagString: Untagged
@@ -533,6 +547,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8b67db8a50ce884f80debe1484ea8f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!225 &1320400418366644295
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5230742703897667323}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &5895566316552593742
 GameObject:
   m_ObjectHideFlags: 0
@@ -622,6 +648,7 @@ GameObject:
   - component: {fileID: 2273651491457080336}
   - component: {fileID: 1390417978592219229}
   - component: {fileID: 1566846989567244082}
+  - component: {fileID: 4191967736319875797}
   m_Layer: 0
   m_Name: BGBack
   m_TagString: Untagged
@@ -724,6 +751,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8b67db8a50ce884f80debe1484ea8f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!225 &4191967736319875797
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6209730284940023612}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &6349838559478716338
 GameObject:
   m_ObjectHideFlags: 0
@@ -945,6 +984,7 @@ GameObject:
   - component: {fileID: 4063079026975475447}
   - component: {fileID: 8359387702746620196}
   - component: {fileID: 5625231225438659573}
+  - component: {fileID: 4636306945237601645}
   m_Layer: 0
   m_Name: BGMid
   m_TagString: Untagged
@@ -1047,3 +1087,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8b67db8a50ce884f80debe1484ea8f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!225 &4636306945237601645
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9080796648479739761}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0

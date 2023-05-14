@@ -13,19 +13,30 @@ namespace Enter
 
     [SerializeField] private TextMeshProUGUI _timerDisplay;
 
-    private float _startTime;
+    private float currentTime;
+    public bool Paused = true;
 
     void Awake()
     {
       Instance = this;
       Assert.IsNotNull(_timerDisplay, "TimerManager must have a reference to its the timer's canvas.");
+      currentTime = 0;
+    }
 
-      _startTime = Time.time;
+    void Start() {
+        // at first, no need to display the time.
+        _timerDisplay.gameObject.SetActive(false);
+    }
+
+    void Update() {
+        if (!Paused && !_timerDisplay.gameObject.activeSelf)
+            _timerDisplay.gameObject.SetActive(true);
     }
 
     void LateUpdate()
     {
-      setDisplayRunTime(Time.time - _startTime);
+        if (!Paused) currentTime += Time.deltaTime;
+        setDisplayRunTime(currentTime);
     }
 
     private void setDisplayRunTime(float x)
