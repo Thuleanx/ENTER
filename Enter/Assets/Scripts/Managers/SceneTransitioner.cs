@@ -33,9 +33,9 @@ namespace Enter
     public EntryPassage CurrEntryPassage  { get; private set; }
     public Transform    CurrRootTransform { get; private set; }
 
-    public bool CanCutPaste   { get; private set; }
-    public bool CanRCAnywhere { get; private set; }
-    public bool CanDelete     { get; private set; }
+    public bool CanCutPaste   { get; set; }
+    public bool CanRCAnywhere { get; set; }
+    public bool CanDelete     { get; set; }
 
     [SerializeField]
     private ScreenWipe _screenWiper;
@@ -70,7 +70,7 @@ namespace Enter
     void Start()
     {
       setSceneFields(SceneManager.GetActiveScene());
-      updateRCBoxPermissions();
+      UpdateRCBoxPermissionsFromCurrSpawnPoint();
       _screenWiper.Unblock();
     }
 
@@ -113,6 +113,12 @@ namespace Enter
       StartCoroutine(reloadHelper());
     }
 
+    public void UpdateRCBoxPermissionsFromCurrSpawnPoint()
+    {
+      CanCutPaste   = CurrSpawnPoint.CanCutPaste;
+      CanRCAnywhere = CurrSpawnPoint.CanRCAnywhere;
+      CanDelete     = CurrSpawnPoint.CanDelete;
+    }
     #endregion
 
     #region ================== Helpers
@@ -145,7 +151,7 @@ namespace Enter
         yield return cameraTransition();
 
         // Do post-transition actions
-        updateRCBoxPermissions();
+        UpdateRCBoxPermissionsFromCurrSpawnPoint();
         OnTransitionAfter?.Invoke(PrevScene, CurrScene);
 
         // Unload PrevScene
@@ -183,7 +189,7 @@ namespace Enter
         Assert.AreNotEqual(PrevScene, CurrScene, "At this moment, both scenes should be different.");
 
         // Do post-reload actions
-        updateRCBoxPermissions();
+        UpdateRCBoxPermissionsFromCurrSpawnPoint();
         OnReloadAfter?.Invoke(PrevScene, CurrScene);
 
         PlayerManager.PlayerScript.SetFieldsAlive();
@@ -295,13 +301,6 @@ namespace Enter
       Assert.IsNotNull(CurrSpawnPoint,    "Scene's spawnPoint not found.");
       Assert.IsNotNull(CurrEntryPassage,  "Scene's entryPassage not found.");
       Assert.IsNotNull(CurrRootTransform, "Scene's root transform not found.");
-    }
-
-    private void updateRCBoxPermissions()
-    {
-      CanCutPaste   = CurrSpawnPoint.CanCutPaste;
-      CanRCAnywhere = CurrSpawnPoint.CanRCAnywhere;
-      CanDelete     = CurrSpawnPoint.CanDelete;
     }
 
     #endregion
