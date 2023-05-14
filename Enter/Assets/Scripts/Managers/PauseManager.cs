@@ -23,34 +23,39 @@ public class PauseManager : MonoBehaviour
 
     bool audioPrepped = false;
 
-    struct Bus {
-        public int current { get; private set; }
-        FMOD.Studio.Bus bus;
+    struct Bus
+    {
+      public int current { get; private set; }
+      FMOD.Studio.Bus bus;
 
-        public Bus(string busName) {
-            current = 10;
-            bus = FMODUnity.RuntimeManager.GetBus(busName);
+      public Bus(string busName)
+      {
+        current = 10;
+        bus = FMODUnity.RuntimeManager.GetBus(busName);
+      }
+      
+      public float getVolume()
+      {
+        float amt;
+        if (bus.getVolume(out amt) != FMOD.RESULT.OK)
+        {
+            Debug.LogError("Cannot get volume for bus //Master//Music");
+            return 0;
         }
-        
-        public float getVolume() {
-            float amt;
-            if (bus.getVolume(out amt) != FMOD.RESULT.OK)
-            {
-                Debug.LogError("Cannot get volume for bus //Master//Music");
-                return 0;
-            }
-            return amt;
-        }
+        return amt;
+      }
 
-        void setVolume(float db) {
-            bus.setVolume(db);
-        }
+      void setVolume(float db)
+      {
+        bus.setVolume(db);
+      }
 
-        public void setVolume(int value, float minDb, float maxDb, int maxVal) {
-            current = Mathf.Clamp(value, 0, maxVal);
-            float amt = Mathf.Lerp(minDb, maxDb, ((float) value) / maxVal);
-            setVolume(amt);
-        }
+      public void setVolume(int value, float minDb, float maxDb, int maxVal)
+      {
+        current = Mathf.Clamp(value, 0, maxVal);
+        float amt = Mathf.Lerp(minDb, maxDb, ((float) value) / maxVal);
+        setVolume(amt);
+      }
     };
 
     [SerializeField] private int   _maxUserVol = 10;
@@ -66,113 +71,119 @@ public class PauseManager : MonoBehaviour
 
     void Awake()
     {
-        Instance = this;
-        Assert.IsNotNull(_pauseMenu, "PauseManager must have a reference to its the pause menu's canvas.");
-        _pauseMenu.SetActive(false);
-        _settingsMenu.SetActive(false);
+      Instance = this;
+      Assert.IsNotNull(_pauseMenu, "PauseManager must have a reference to its the pause menu's canvas.");
+      _pauseMenu.SetActive(false);
+      _settingsMenu.SetActive(false);
     }
 
-    void InitAudio() {
-        _musicBus = new Bus("bus:/Master/Music");
-        _sfxBus = new Bus("bus:/Master/SFX");
-        audioPrepped = true;
-        UpdateVolumeText();
+    void InitAudio()
+    {
+      _musicBus = new Bus("bus:/Master/Music");
+      _sfxBus = new Bus("bus:/Master/SFX");
+      audioPrepped = true;
+      UpdateVolumeText();
     }
 
     public void TogglePause()
     {
-        if (IsPaused) Unpause();
-        else          Pause();
+      if (IsPaused) Unpause();
+      else          Pause();
     }
 
     public void Pause()
     {
-        if (IsPaused) return;
+      if (IsPaused) return;
 
-        if (SceneTransitioner.Instance && SceneTransitioner.Instance.STState != STState.Idle) return;
+      if (SceneTransitioner.Instance && SceneTransitioner.Instance.STState != STState.Idle) return;
 
-        _pauseMenuBackground.SetActive(true);
-        _pauseMenu.SetActive(true);
-        _settingsMenu.SetActive(false);
-        _prevTimeScale = Time.timeScale;
-        Time.timeScale = 0;
+      Vector2 temp = Camera.main.transform.position; // Note we ignore the Z value
+      _pauseMenuBackground.transform.position = temp;
+      _pauseMenuBackground.SetActive(true);
+      _pauseMenu.SetActive(true);
+      _settingsMenu.SetActive(false);
+      _prevTimeScale = Time.timeScale;
+      Time.timeScale = 0;
     }
 
     public void Unpause()
     {
-        if (!IsPaused) return;
+      if (!IsPaused) return;
 
-        _pauseMenuBackground.SetActive(false);
-        _pauseMenu.SetActive(false);
-        _settingsMenu.SetActive(false);
-        Time.timeScale = _prevTimeScale;
+      _pauseMenuBackground.SetActive(false);
+      _pauseMenu.SetActive(false);
+      _settingsMenu.SetActive(false);
+      Time.timeScale = _prevTimeScale;
     }
 
     public void ShowSettings()
     {
-        if (!audioPrepped) InitAudio();
-        _settingsMenu.SetActive(true);
-        _pauseMenu.SetActive(false);
+      if (!audioPrepped) InitAudio();
+      _settingsMenu.SetActive(true);
+      _pauseMenu.SetActive(false);
     }
 
     public void HideSettings()
     {
-        _settingsMenu.SetActive(false);
-        _pauseMenu.SetActive(true);
+      _settingsMenu.SetActive(false);
+      _pauseMenu.SetActive(true);
     }
 
     public void RestartLevel()
     {
-        SceneTransitioner.Instance.Reload();
+      SceneTransitioner.Instance.Reload();
     }
 
     public void QuitGame()
     {
-        Debug.Log("QuitGame");
+      Debug.Log("QuitGame");
+      Application.Quit();
     }
 
     public void CursorHover()
     {
-        CursorManager.Instance.HoveringEntities.Add(gameObject);;
+      CursorManager.Instance.HoveringEntities.Add(gameObject);;
     }
 
     public void CursorNormal()
     {
-        CursorManager.Instance.HoveringEntities.Remove(gameObject);
+      CursorManager.Instance.HoveringEntities.Remove(gameObject);
     }
 
     #region ================== Volume
 
-    void UpdateVolumeText() {
-        _mscVolumeText.text = _musicBus.current.ToString();
-        _sfxVolumeText.text = _sfxBus.current.ToString();
+    void UpdateVolumeText()
+    {
+      _mscVolumeText.text = _musicBus.current.ToString();
+      _sfxVolumeText.text = _sfxBus.current.ToString();
     }
 
-    public void MusicVolumeUp() {
-        if (!audioPrepped) InitAudio();
-        _musicBus.setVolume(_musicBus.current + 1, _minTrueVol, _maxTrueVol, _maxUserVol);
-        UpdateVolumeText();
+    public void MusicVolumeUp()
+    {
+      if (!audioPrepped) InitAudio();
+      _musicBus.setVolume(_musicBus.current + 1, _minTrueVol, _maxTrueVol, _maxUserVol);
+      UpdateVolumeText();
     }
 
     public void MusicVolumeDown()
     {
-        if (!audioPrepped) InitAudio();
-        _musicBus.setVolume(_musicBus.current - 1, _minTrueVol, _maxTrueVol, _maxUserVol);
-        UpdateVolumeText();
+      if (!audioPrepped) InitAudio();
+      _musicBus.setVolume(_musicBus.current - 1, _minTrueVol, _maxTrueVol, _maxUserVol);
+      UpdateVolumeText();
     }
 
     public void SFXVolumeUp()
     {
-        if (!audioPrepped) InitAudio();
-        _sfxBus.setVolume(_sfxBus.current + 1, _minTrueVol, _maxTrueVol, _maxUserVol);
-        UpdateVolumeText();
+      if (!audioPrepped) InitAudio();
+      _sfxBus.setVolume(_sfxBus.current + 1, _minTrueVol, _maxTrueVol, _maxUserVol);
+      UpdateVolumeText();
     }
 
     public void SFXVolumeDown()
     {
-        if (!audioPrepped) InitAudio();
-        _sfxBus.setVolume(_sfxBus.current - 1, _minTrueVol, _maxTrueVol, _maxUserVol);
-        UpdateVolumeText();
+      if (!audioPrepped) InitAudio();
+      _sfxBus.setVolume(_sfxBus.current - 1, _minTrueVol, _maxTrueVol, _maxUserVol);
+      UpdateVolumeText();
     }
 
     #endregion
