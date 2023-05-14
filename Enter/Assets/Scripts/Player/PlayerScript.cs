@@ -335,7 +335,7 @@ namespace Enter
         // since this jump code gets triggered twice, we want to capture
         // just the first time and only emit OnJump once. If you're on the ground
         // and jumping, supposely your velocity is negative or 0, hence this check.
-        bool isRealJump = _rb.velocity.y <= 0.01f;
+        bool isRealJump = _velocityOnGround.y <= 0.01f;
 
         _rb.velocity = new Vector2(jumpVx, _jumpSpeed);
         _lastGroundedTime = -Mathf.Infinity;
@@ -417,7 +417,7 @@ namespace Enter
       // Landing effects
       if (_co.OnGround)
       {
-        if (Time.time - _lastGroundedTime > _minTimeBetweenLandingEffects && Time.time - _lastJumpedTime > _minTimeLandAfterJump)
+        if (Time.time - _lastGroundedTime > _minTimeBetweenLandingEffects && Time.time - _lastJumpedTime > _minTimeLandAfterJump && _velocityOnGround.y <= 0.01)
         {
           _onLandEvents?.Invoke();
           _ps.PlayLandingSquash();
