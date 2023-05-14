@@ -242,6 +242,7 @@ namespace Enter
       OnDelete?.Invoke(_in.MouseWorld);
 
       // Flood-delete tiles (todo)
+      TileInfoForDelete.tilemap.GetComponentInParent<FinalVirus>()?.TriggerDeleteEffect();
       recursivelyDeleteTiles(TileInfoForDelete.tilemap, TileInfoForDelete.indices);
       TileInfoForDelete.valid = false;
 
