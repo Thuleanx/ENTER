@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 namespace Enter 
 {
+  // [ExecuteAlways]
   public class Parallax : MonoBehaviour
   {
     public static Parallax Instance;
@@ -42,9 +43,10 @@ namespace Enter
 
     [SerializeField] private float aMax; // World space units of highest camera altitude, found via playtesting and might change later
     [SerializeField] private float aMin; // World space units of lowest camera altitude
+    [SerializeField] public float AInitial; // For adjusting :)
     private float aRange => aMax - aMin;
 
-    [field:SerializeField] private float a => _camera.transform.position.y - aMax / 2;
+    [field:SerializeField] private float a => _camera.transform.position.y - aMax / 2 + AInitial;
 
     [field:SerializeField] private float x3Offset => -((a - aMin) / aRange) * (x3 - h);
     [field:SerializeField] private float x2Offset => -((a - aMin) / aRange) * (x2 - h);
@@ -58,24 +60,22 @@ namespace Enter
       {
         Destroy(gameObject);
         return;
-      } 
+      }
 
       Instance = this;
       transform.SetParent(null);
       DontDestroyOnLoad(gameObject);
-    }
 
-    private void Start()
-    {
       initialFrontTopOffset = frontTop.anchoredPosition.y;
-      initialMidTopOffset   = midTop.anchoredPosition.y;
-      initialBackTopOffset  = backTop.anchoredPosition.y;
-      initialFrontOffset    = front.anchoredPosition.y;
-      initialMidOffset      = mid.anchoredPosition.y;
-      initialBackOffset     = back.anchoredPosition.y;
+      initialMidTopOffset   =   midTop.anchoredPosition.y;
+      initialBackTopOffset  =  backTop.anchoredPosition.y;
+      initialFrontOffset    =    front.anchoredPosition.y;
+      initialMidOffset      =      mid.anchoredPosition.y;
+      initialBackOffset     =     back.anchoredPosition.y;
+
       x1 = initialFrontTopOffset - initialFrontOffset;
-      x2 = initialMidTopOffset - initialMidOffset;
-      x3 = initialBackTopOffset - initialBackOffset;
+      x2 = initialMidTopOffset   - initialMidOffset;
+      x3 = initialBackTopOffset  - initialBackOffset;
     }
 
     void LateUpdate()
