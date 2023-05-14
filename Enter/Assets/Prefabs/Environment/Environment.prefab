@@ -1238,6 +1238,10 @@ PrefabInstance:
       propertyPath: m_PlaneDistance
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: 1721200892584004454, guid: 7979faa13db46764d910bf363038f964, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9ccc64bbd3a060b4697037cbf50cb21e, type: 3}
     - target: {fileID: 2175097700438106534, guid: 7979faa13db46764d910bf363038f964, type: 3}
       propertyPath: m_Camera
       value: 
@@ -1245,6 +1249,10 @@ PrefabInstance:
     - target: {fileID: 2175097700438106534, guid: 7979faa13db46764d910bf363038f964, type: 3}
       propertyPath: m_PlaneDistance
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 2513248675721202945, guid: 7979faa13db46764d910bf363038f964, type: 3}
+      propertyPath: m_Camera
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3070621407416022979, guid: 7979faa13db46764d910bf363038f964, type: 3}
       propertyPath: m_Camera
@@ -1310,6 +1318,10 @@ PrefabInstance:
       propertyPath: m_PlaneDistance
       value: 13
       objectReference: {fileID: 0}
+    - target: {fileID: 8543260149327557336, guid: 7979faa13db46764d910bf363038f964, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d3eebe379926a4247b2179774c2cf503, type: 3}
     - target: {fileID: 9118600486396723726, guid: 7979faa13db46764d910bf363038f964, type: 3}
       propertyPath: m_Camera
       value: 
