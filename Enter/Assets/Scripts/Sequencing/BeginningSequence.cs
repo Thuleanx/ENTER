@@ -137,8 +137,6 @@ namespace Enter
 
         yield return new WaitForSecondsRealtime(convergenceDuration * 1.25f);
 
-
-
         // All boxes circles around virus position and moves with it
 
         List<Vector2> displacementFromVirus = new List<Vector2>();

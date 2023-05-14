@@ -95,13 +95,13 @@ namespace Enter
       Vector2 midOffset   = new Vector2(x / 500,  0);
       Vector2 frontOffset = new Vector2(x / 250,  0);
 
-      _bgImageBackTop.material.mainTextureOffset  = backOffset;
-      _bgImageMidTop.material.mainTextureOffset   = midOffset;
-      _bgImageFrontTop.material.mainTextureOffset = frontOffset;
+      _bgImageBackTop.material.SetVector("_Offset",  backOffset);
+      _bgImageMidTop.material.SetVector("_Offset",   midOffset);
+      _bgImageFrontTop.material.SetVector("_Offset", frontOffset);
 
-      _bgImageBack.material.mainTextureOffset  = backOffset;
-      _bgImageMid.material.mainTextureOffset   = midOffset;
-      _bgImageFront.material.mainTextureOffset = frontOffset;
+      _bgImageBack.material.SetVector("_Offset",  backOffset);
+      _bgImageMid.material.SetVector("_Offset",   midOffset);
+      _bgImageFront.material.SetVector("_Offset", frontOffset);
     }
 
     private void updateLayersVertical()

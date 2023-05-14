@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BG-back
+  m_Name: BG-front top
   m_Shader: {fileID: -6465566751694194690, guid: 141e00dd460485349867997ad4d33541, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -25,13 +25,13 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Emission:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 16bb75ab9abbd31458ecbdbda15c5f84, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0.039, y: 0}
+        m_Offset: {x: 0.156, y: 0}
     - _MaskTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -61,8 +61,8 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
-    - _GlowColor: {r: 0, g: 0, b: 0, a: 0}
-    - _Offset: {r: 0.3039414, g: 0, b: 0, a: 0}
+    - _GlowColor: {r: 1.4745098, g: 3.0117648, b: 0.1882353, a: 1}
+    - _Offset: {r: 1.215766, g: 0, b: 0, a: 0}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
     - _Tiling: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
