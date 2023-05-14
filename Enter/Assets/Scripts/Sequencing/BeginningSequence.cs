@@ -29,6 +29,7 @@ namespace Enter
       _sequenceTexts = new List<Typewriter>(GetComponentsInChildren<Typewriter>());
       foreach (var bg in _backgroundCanvases) 
         bg.alpha = 0;
+      InputManager.Instance.OverrideInput = true;
     }
 
     public void RunSequence()

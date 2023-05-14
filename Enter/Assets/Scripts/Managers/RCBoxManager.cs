@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
 using System.Collections;
 using System.Collections.Generic;
+using FMODUnity;
 
 namespace Enter
 {
@@ -60,6 +61,9 @@ namespace Enter
     [SerializeField] public UnityEvent<Vector2> OnCut;
     [SerializeField] public UnityEvent<Vector2> OnPaste;
     [SerializeField] public UnityEvent<Vector2> OnDelete;
+
+    [SerializeField] EventReference firstClickSFX;
+    bool hasDeleted, hasCut, hasPaste;
     
     #region ================== Methods
 
@@ -69,6 +73,8 @@ namespace Enter
       Assert.IsNotNull(_rc,               "RCBoxManager must have a reference to GameObject RCBox.");
       Assert.IsNotNull(_rcSpriteRenderer, "RCBoxManager must have a reference to RCBox's SpriteRenderer.");
       RCSprite = _rcSprite00;
+
+      hasDeleted = hasCut = hasPaste = false;
     }
 
     void LateUpdate()
@@ -238,6 +244,10 @@ namespace Enter
         Debug.Log("Nothing to delete.");
         return;
       }
+      if (!hasDeleted) {
+          FMODUnity.RuntimeManager.PlayOneShot(firstClickSFX);
+          hasDeleted = true;
+      }
 
       OnDelete?.Invoke(_in.MouseWorld);
 
@@ -291,6 +301,11 @@ namespace Enter
         return;
       }
 
+      if (!hasCut) {
+          FMODUnity.RuntimeManager.PlayOneShot(firstClickSFX);
+          hasCut = true;
+      }
+
       OnCut?.Invoke(_in.MouseWorld);
       CutObject = SelectedObject;
       CutObjectInitialConstraints = SelectedObjectInitialConstraints;
@@ -314,6 +329,11 @@ namespace Enter
       {
         Debug.Log("Something is in the way.");
         return;
+      }
+
+      if (!hasPaste) {
+          FMODUnity.RuntimeManager.PlayOneShot(firstClickSFX);
+          hasPaste = true;
       }
 
       // IMPORTANT: If cut object is box, toggle behaviour accordingly

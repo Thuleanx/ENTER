@@ -85,6 +85,9 @@ public class PauseManager : MonoBehaviour
       UpdateVolumeText();
     }
 
+    void Update() {
+    }
+
     public void TogglePause()
     {
       if (IsPaused) Unpause();
