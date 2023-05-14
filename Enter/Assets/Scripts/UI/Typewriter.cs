@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System.Collections;
 using TMPro;
 using NaughtyAttributes;
+using FMODUnity;
 
 namespace Enter
 {
@@ -16,6 +17,8 @@ namespace Enter
         string _finishedText;
 
         public int TextLength => _finishedText.Length;
+
+        [SerializeField] EventReference typeSFX;
 
         public void Awake() {
             textMesh = GetComponentInChildren<TMP_Text>();
@@ -43,6 +46,7 @@ namespace Enter
 
                         if (currentlyDisplayedLine > 0) currentDisplay += "\n";
                         currentDisplay += allLines[currentlyDisplayedLine];
+                        FMODUnity.RuntimeManager.PlayOneShot(typeSFX);
 
                         currentlyDisplayedLine++;
                     }

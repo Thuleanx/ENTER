@@ -23198,6 +23198,7 @@ GameObject:
   - component: {fileID: 699807665}
   - component: {fileID: 699807666}
   - component: {fileID: 699807667}
+  - component: {fileID: 699807668}
   m_Layer: 5
   m_Name: Enter Beginner Sequence
   m_TagString: Untagged
@@ -23308,6 +23309,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 699807668}
+        m_TargetAssemblyTypeName: FMODUnity.StudioEventEmitter, FMODUnity
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnVirusExit:
     m_PersistentCalls:
       m_Calls:
@@ -23385,6 +23398,36 @@ MonoBehaviour:
       Data4: -1879998601
     Path: event:/Music/MainMusic
   playOnStart: 0
+--- !u!114 &699807668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 699807660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 567985978
+      Data2: 1136347663
+      Data3: -1790991478
+      Data4: -1740401688
+    Path: event:/SFX/enterClicked
+  Event: 
+  PlayEvent: 0
+  StopEvent: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 0
+  OverrideMaxDistance: 0
 --- !u!1 &785022899
 GameObject:
   m_ObjectHideFlags: 0
@@ -23479,6 +23522,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff3d7f86a23296146aa77f4ce11cdb4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  typeSFX:
+    Guid:
+      Data1: 934762793
+      Data2: 1200014832
+      Data3: -818440534
+      Data4: -759489978
+    Path: event:/SFX/typewrite
 --- !u!114 &1021197709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23744,6 +23794,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff3d7f86a23296146aa77f4ce11cdb4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  typeSFX:
+    Guid:
+      Data1: 934762793
+      Data2: 1200014832
+      Data3: -818440534
+      Data4: -759489978
+    Path: event:/SFX/typewrite
 --- !u!114 &1400690710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23953,6 +24010,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff3d7f86a23296146aa77f4ce11cdb4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  typeSFX:
+    Guid:
+      Data1: 934762793
+      Data2: 1200014832
+      Data3: -818440534
+      Data4: -759489978
+    Path: event:/SFX/typewrite
 --- !u!114 &1414367681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24197,19 +24261,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1320470816948900106, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
       propertyPath: m_NormalizedViewPortRect.x
-      value: 0
+      value: 0.042857144
       objectReference: {fileID: 0}
     - target: {fileID: 1320470816948900106, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
       propertyPath: m_NormalizedViewPortRect.y
-      value: 0
+      value: 0.043147206
       objectReference: {fileID: 0}
     - target: {fileID: 1320470816948900106, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
       propertyPath: m_NormalizedViewPortRect.width
-      value: 1
+      value: 0.9142857
       objectReference: {fileID: 0}
     - target: {fileID: 1320470816948900106, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
       propertyPath: m_NormalizedViewPortRect.height
-      value: 1
+      value: 0.9137056
       objectReference: {fileID: 0}
     - target: {fileID: 1320470816948900341, guid: 901c994e23e4e4f8ebf09cfbb9027429, type: 3}
       propertyPath: m_LocalPosition.y
