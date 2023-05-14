@@ -2818,6 +2818,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _timerDisplay: {fileID: 4552635206085696438}
+  Paused: 1
 --- !u!1 &3378051906742362954
 GameObject:
   m_ObjectHideFlags: 0
@@ -5158,7 +5159,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1610660307882552364}
         m_TargetAssemblyTypeName: Enter.PauseManager, Assembly-CSharp
-        m_MethodName: MusicVolumeDown
+        m_MethodName: MusicVolumeUp
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
