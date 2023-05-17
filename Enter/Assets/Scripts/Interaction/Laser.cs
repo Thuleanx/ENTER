@@ -9,7 +9,7 @@ using FMODUnity;
 namespace Enter
 {
   [RequireComponent(typeof(LineRenderer))]
-  public class LaserObstacle : MonoBehaviour
+  public class Laser : MonoBehaviour
   {
     [SerializeField, Tooltip("Duration in seconds for 'on' phase of laser cycle.")]
     private float _onDuration;
@@ -51,7 +51,7 @@ namespace Enter
     void Awake()
     {
       _lineRenderer = GetComponent<LineRenderer>();
-      Assert.IsNotNull(_lineRenderer, "LaserObstacle must have a reference to its LineRenderer.");
+      Assert.IsNotNull(_lineRenderer, "Laser must have a reference to its LineRenderer.");
     }
 
     void OnEnable()
