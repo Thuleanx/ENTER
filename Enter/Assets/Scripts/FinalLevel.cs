@@ -16,7 +16,7 @@ namespace Enter
   {
     public static FinalLevel Instance;
 
-    private static int _checkpoint = 2;
+    private static int _checkpoint = 3;
     public static int Checkpoint
     {
       get
@@ -33,8 +33,8 @@ namespace Enter
     [SerializeField] private List<SpawnPoint> _checkpoints = new List<SpawnPoint>();
 
     [SerializeField] private GameObject _rcAreaGameObject;
-    [SerializeField] private GameObject _extraVirusGameObject;
-    [SerializeField] private GameObject _extraGroundGameObject;
+    [SerializeField] private GameObject _roundOneGameObject;
+    [SerializeField] private GameObject _roundTwoGameObject;
 
     [SerializeField] private SpriteRenderer _bigWallSpriteRenderer;
     [SerializeField] private Color _yellowColor;
@@ -118,28 +118,32 @@ namespace Enter
       enableAppropriateSpawnPoints(Checkpoint);
       SceneTransitioner.Instance.UpdateCurrSpawnPoint(_checkpoints[Checkpoint]);
 
+      _rcAreaGameObject.SetActive(false);
+      _roundOneGameObject.SetActive(false);
+      _roundTwoGameObject.SetActive(false);
+
       switch (Checkpoint)
       {
         case 0:
         {
           _rcAreaGameObject.SetActive(true);
-          _extraVirusGameObject.SetActive(false);
-          _extraGroundGameObject.SetActive(false);
           break;
         }
         case 1:
         {
           _rcAreaGameObject.SetActive(true);
-          _extraVirusGameObject.SetActive(false);
-          _extraGroundGameObject.SetActive(false);
           break;
         }
         case 2:
         {
           StartCoroutine(pulseYellow());
-          _rcAreaGameObject.SetActive(false);
-          _extraVirusGameObject.SetActive(true);
-          _extraGroundGameObject.SetActive(true);
+          _roundOneGameObject.SetActive(true);
+          break;
+        }
+        case 3:
+        {
+          _roundOneGameObject.SetActive(true);
+          _roundTwoGameObject.SetActive(true);
           break;
         }
       }

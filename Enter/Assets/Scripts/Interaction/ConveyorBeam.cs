@@ -50,6 +50,7 @@ namespace Enter
     private float _spacing => _spawnFlush ? 2 : _beltSpeed * _spawnWaitTime;
 
     private bool _isSpawning = true;
+    private HashSet<ConveyorBox> _conveyorBoxes = new HashSet<ConveyorBox>();
 
     #region ================== Accessors
 
@@ -78,16 +79,18 @@ namespace Enter
 
     void OnEnable()
     {
-      SceneTransitioner.Instance.OnSceneLoad.AddListener(doStartupThings);
-      SceneTransitioner.Instance.OnTransitionBefore.AddListener(doCleanupThings);
-      SceneTransitioner.Instance.OnReloadBefore.AddListener(doCleanupThings);
+      DoStartupThings(SceneManager.GetActiveScene());
+      SceneTransitioner.Instance.OnSceneLoad.AddListener(DoStartupThings);
+      SceneTransitioner.Instance.OnTransitionBefore.AddListener(DoCleanupThings);
+      SceneTransitioner.Instance.OnReloadBefore.AddListener(DoCleanupThings);
     }
 
     void OnDisable()
     {
-      SceneTransitioner.Instance.OnSceneLoad.RemoveListener(doStartupThings);
-      SceneTransitioner.Instance.OnTransitionBefore.RemoveListener(doCleanupThings);
-      SceneTransitioner.Instance.OnReloadBefore.RemoveListener(doCleanupThings);
+      DoCleanupThings(SceneManager.GetActiveScene());
+      SceneTransitioner.Instance.OnSceneLoad.RemoveListener(DoStartupThings);
+      SceneTransitioner.Instance.OnTransitionBefore.RemoveListener(DoCleanupThings);
+      SceneTransitioner.Instance.OnReloadBefore.RemoveListener(DoCleanupThings);
     }
 
     void LateUpdate()
@@ -112,27 +115,30 @@ namespace Enter
     }
 #endif
 
-    public void OnBoxExit()
+    public void OnBoxExit(ConveyorBox cb)
     {
       if (_isSpawning && _spawnFlush) spawnBoxAt(transform.position);
+      if (cb.CurrentConveyorBeam == this) _conveyorBoxes.Remove(cb);
     }
 
-    #endregion
-    
-    #region ================== Helpers
-
-    private void doStartupThings(Scene scene)
+    public void DoStartupThings(Scene scene)
     {
       if (scene != gameObject.scene) return;
       if (_prewarm) prewarm();
       StartCoroutine(spawnBoxes());
     }
 
-    private void doCleanupThings(Scene scene)
+    public void DoCleanupThings(Scene scene)
     {
       if (scene != gameObject.scene) return;
       StopAllCoroutines();
+      foreach (ConveyorBox cb in _conveyorBoxes) cb.gameObject.SetActive(false);
     }
+
+    #endregion
+    
+    #region ================== Helpers
+
 
     private void prewarm()
     {
@@ -182,14 +188,17 @@ namespace Enter
       // IMPORTANT: Toggle behaviour accordingly
       obj.GetComponent<Box>().IsPhysicsBox = false;
 
+      ConveyorBox cb = obj.GetComponent<ConveyorBox>();
+      cb.CurrentConveyorBeam = this;
+      _conveyorBoxes.Add(cb);
+
+      // Handle flush-spawning
       if (_spawnFlush)
       {
-        ConveyorBox currentConveyorBox = obj.GetComponent<ConveyorBox>();
+        if (_previousFlushConveyorBox != null) _previousFlushConveyorBox.UpstreamConveyorBox = cb;
 
-        if (_previousFlushConveyorBox != null) _previousFlushConveyorBox.UpstreamConveyorBox = currentConveyorBox;
-
-        currentConveyorBox.DownstreamConveyorBox = _previousFlushConveyorBox;
-        _previousFlushConveyorBox = currentConveyorBox;
+        cb.DownstreamConveyorBox = _previousFlushConveyorBox;
+        _previousFlushConveyorBox = cb;
       }
     }
 

@@ -54,7 +54,7 @@ namespace Enter
       Assert.IsNotNull(_lineRenderer, "LaserObstacle must have a reference to its LineRenderer.");
     }
 
-    void Start()
+    void OnEnable()
     {
       if (_permanentlyOn)
       {
@@ -63,6 +63,11 @@ namespace Enter
       }
 
       StartCoroutine(laserToggler());
+    }
+
+    void OnDisable()
+    {
+      StopAllCoroutines();
     }
 
     void Update()

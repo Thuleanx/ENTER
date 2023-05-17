@@ -113,11 +113,12 @@ namespace Enter
 
     void OnTriggerEnter2D(Collider2D otherCollider)
     {
+      if (CurrentConveyorBeam != null) return;
+
       if (!gameObject.activeInHierarchy || !this.enabled) return;
 
       if (colliderIsConveyorBeam(otherCollider))
       {
-        _rb.gravityScale = 0;
         CurrentConveyorBeam = otherCollider.GetComponent<ConveyorBeam>();
         Assert.IsNotNull(CurrentConveyorBeam, "ConveyorBox must have a reference to its current ConveyorBeam.");
       }
@@ -131,7 +132,7 @@ namespace Enter
       {
         // Fix weird, rare bug where CurrentConveyorBeam is null at this point
         if (CurrentConveyorBeam == null) return;
-        
+
         // Set position to be in line with beam by using projection
         Vector2 offsetFromBeamObject  = _rb.position - (Vector2) CurrentConveyorBeam.transform.position;
         Vector2 beamObjectUpDirection = CurrentConveyorBeam.transform.up;
@@ -151,7 +152,8 @@ namespace Enter
           UpstreamConveyorBox = null;
         }
 
-        CurrentConveyorBeam.OnBoxExit();
+        // Fix weird, rare bug where CurrentConveyorBeam is null at this point
+        if (CurrentConveyorBeam != null) CurrentConveyorBeam.OnBoxExit(this);
 
         // This must be last, because onDisable sets stuff to null
         gameObject.SetActive(false);

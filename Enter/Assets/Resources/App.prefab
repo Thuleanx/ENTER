@@ -2312,7 +2312,6 @@ GameObject:
   - component: {fileID: 8982606953700473377}
   - component: {fileID: 7141284671922568723}
   - component: {fileID: 2809117518986629186}
-  - component: {fileID: 2602932388822184166}
   m_Layer: 0
   m_Name: RestartLevelButton
   m_TagString: Untagged
@@ -2492,26 +2491,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
---- !u!95 &2602932388822184166
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2921489235976310208}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 408865f716916476e89661f05a0db8f1, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2963044295992882438
 GameObject:
   m_ObjectHideFlags: 0
@@ -5696,7 +5675,6 @@ GameObject:
   - component: {fileID: 5041617245449918581}
   - component: {fileID: 8469813024844360116}
   - component: {fileID: 8556316623063267635}
-  - component: {fileID: 6419781853443229486}
   m_Layer: 0
   m_Name: ResumeButton
   m_TagString: Untagged
@@ -5876,26 +5854,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
---- !u!95 &6419781853443229486
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8199610026743193735}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 408865f716916476e89661f05a0db8f1, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8228083583534609129
 GameObject:
   m_ObjectHideFlags: 0
